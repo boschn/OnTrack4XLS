@@ -1,0 +1,7 @@
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\obj\Debug\OnTrack.Addin.UIFormWorkDataAreas.resources
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\obj\Debug\OnTrack.Addin.UIWizardMQFFeed.resources
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\obj\Debug\OnTrack.Addin.UIFormReplication.resources
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\obj\Debug\OnTrack.Addin.OnTrackRibbon.resources
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\obj\Debug\OnTrack.Addin.UIFormWorkXConfig.resources
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\obj\Debug\OnTrack.Addin.Resources.resources
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\obj\Debug\OnTrack4XLS.vbproj.GenerateResource.Cache
