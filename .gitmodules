@@ -1,0 +1,8 @@
+[submodule "otdbAddin"]
+	path = otdbAddin
+	url = C:/vol/projekte/GIT/OTDBAddinCommon
+	branch = master
+[submodule "otdbbackend"]
+	path = otdbbackend
+	url = C:/vol/projekte/GIT/OTDBBackEnd
+	branch = master
