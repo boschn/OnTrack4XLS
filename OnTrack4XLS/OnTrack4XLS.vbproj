@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <!--
+    This section defines project-level properties.
+
+    AssemblyName
+      Name of the output assembly.
+    Configuration
+      Specifies a default value for debug.
+    OutputType
+      Must be "Library" for VSTO.
+    Platform
+      Specifies what CPU the output of this project can run on.
+    NoStandardLibraries
+      Set to "false" for VSTO.
+    RootNamespace
+      In C#, this specifies the namespace given to new files. In VB, all objects are
+      wrapped in this namespace at runtime.
+  -->
+  <PropertyGroup>
+    <ProjectTypeGuids>{BAA0C2D2-18E2-41B9-852F-F413020CAA33};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7389B3B2-F8FF-4A94-8F50-0DAA8CF26623}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>OnTrack.Addin</RootNamespace>
+    <AssemblyName>OnTrack4XLS</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <DefineConstants>VSTO40</DefineConstants>
+    <StartupObject>
+    </StartupObject>
+    <IsWebBootstrapper>False</IsWebBootstrapper>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <VSTO_TrustAssembliesLocation>true</VSTO_TrustAssembliesLocation>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <PublishUrl>C:\vol\projekte\OnTrack\OnTrack Database Tooling\OnTrack Addin 4 XLS\publish\</PublishUrl>
+    <InstallUrl />
+    <TargetCulture>en</TargetCulture>
+    <ApplicationVersion>1.0.0.5</ApplicationVersion>
+    <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>days</UpdateIntervalUnits>
+    <ProductName>OnTrackTooling for XLS</ProductName>
+    <PublisherName>sfk engineering services UG</PublisherName>
+    <SupportUrl />
+    <FriendlyName>OnTrackTooling for XLS</FriendlyName>
+    <OfficeApplicationDescription>OnTrack Database Adapter for Microsoft Excel</OfficeApplicationDescription>
+    <LoadBehavior>3</LoadBehavior>
+  </PropertyGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Office.PIARedist.2007">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Office 2007 Primary Interop Assemblies</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.VSTORuntime.4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Visual Studio 2010 Tools for Office Runtime %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <PropertyGroup>
+    <!--
+      OfficeApplication
+        Add-in host application
+    -->
+    <OfficeApplication>Excel</OfficeApplication>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>Off</OptionInfer>
+  </PropertyGroup>
+  <!--
+    This section defines properties that are set when the "Debug" configuration is selected.
+
+    DebugSymbols
+      If "true", create symbols (.pdb). If "false", do not create symbols.
+    DefineConstants
+      Constants defined for the preprocessor.
+    EnableUnmanagedDebugging
+      If "true", starting the debugger will attach both managed and unmanaged debuggers.
+    Optimize
+      If "true", optimize the build output. If "false", do not optimize.
+    OutputPath
+      Output path of project relative to the project file.
+    WarningLevel
+      Warning level for the compiler.
+  -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DefineConstants>VSTO40, ExcelVersion = "14"</DefineConstants>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>OnTrack4XLS.xml</DocumentationFile>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <WarningLevel>0</WarningLevel>
+  </PropertyGroup>
+  <!--
+    This section defines properties that are set when the "Release" configuration is selected.
+
+    DebugSymbols
+      If "true", create symbols (.pdb). If "false", do not create symbols.
+    DefineConstants
+      Constants defined for the preprocessor.
+    EnableUnmanagedDebugging
+      If "true", starting the debugger will attach both managed and unmanaged debuggers.
+    Optimize
+      If "true", optimize the build output. If "false", do not optimize.
+    OutputPath
+      Output path of project relative to the project file.
+    WarningLevel
+      Warning level for the compiler.
+  -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>OnTrack4XLS.xml</DocumentationFile>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <WarningLevel>0</WarningLevel>
+  </PropertyGroup>
+  <!--
+    This section specifies references for the project.
+  -->
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Office.Tools, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Office.Tools.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Smo, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SqlEnum, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Tools.Applications.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Office, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Telerik.WinControls, Version=2013.3.1016.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2013.3.1016.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.TelerikMetroBlue, Version=2013.3.1016.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2013.3.1016.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikCommon, Version=2013.3.1016.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Tools.Excel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Tools.Common.v4.0.Utilities, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <!-- Visual Basic supports importing namespaces (equivalent to "using" statements in C#). -->
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="OnTrack" />
+    <Import Include="System" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Text" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="Office = Microsoft.Office.Core" />
+    <Import Include="Excel = Microsoft.Office.Interop.Excel" />
+    <Import Include="Microsoft.Office.Tools.Excel" />
+  </ItemGroup>
+  <!--
+    This section defines the user source files that are part of the project.
+     
+    A "Compile" element specifies a source file to compile.
+    An "EmbeddedResource" element specifies an .resx file for embedded resources.
+    A "None" element specifies a file that is not to be passed to the compiler (for instance, 
+    a text file or XML file).
+    The "AppDesigner" element specifies the directory where the application properties files
+    can be found.
+  -->
+  <ItemGroup>
+    <AppDesigner Include="My Project\" />
+    <Compile Include="modSettings.vb" />
+    <Compile Include="UIFormWorkDataAreas.Designer.vb">
+      <DependentUpon>UIFormWorkDataAreas.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UIFormWorkDataAreas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="legacyClasses.vb" />
+    <Compile Include="modDoc9.vb" />
+    <Compile Include="modGlobals.vb" />
+    <Compile Include="modMQF.vb" />
+    <Compile Include="modParameterXLS.vb" />
+    <Compile Include="modXLSXChangeMgr.vb" />
+    <Compile Include="modXLSHelper.vb" />
+    <Compile Include="UIWizardMQFFeed.Designer.vb">
+      <DependentUpon>UIWizardMQFFeed.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UIWizardMQFFeed.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIMQFDataModel.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UIFormReplication.Designer.vb">
+      <DependentUpon>UIFormReplication.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UIFormReplication.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIRibbon.Designer.vb">
+      <DependentUpon>UIRibbon.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UIRibbon.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Settings.vb" />
+    <Compile Include="ThisAddIn.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UIFormWorkXConfig.Designer.vb">
+      <DependentUpon>UIFormWorkXConfig.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UIFormWorkXConfig.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <EmbeddedResource Include="UIFormWorkDataAreas.resx">
+      <DependentUpon>UIFormWorkDataAreas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIWizardMQFFeed.resx">
+      <DependentUpon>UIWizardMQFFeed.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIFormReplication.resx">
+      <DependentUpon>UIFormReplication.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIRibbon.resx">
+      <DependentUpon>UIRibbon.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIFormWorkXConfig.resx">
+      <DependentUpon>UIFormWorkXConfig.vb</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="OnTrackTool_TemporaryKey.pfx" />
+    <None Include="Resources\otdbconfig.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ThisAddIn.Designer.xml">
+      <DependentUpon>ThisAddIn.vb</DependentUpon>
+    </None>
+    <Compile Include="ThisAddIn.Designer.vb">
+      <DependentUpon>ThisAddIn.Designer.xml</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\Actions-appointment-new-icon.png" />
+    <Content Include="Images\Actions-bookmark-new-icon.png" />
+    <Content Include="Images\Actions-configure-toolbars-icon.png" />
+    <Content Include="Images\Actions-document-decrypt-icon.png" />
+    <Content Include="Images\Actions-document-encrypt-icon.png" />
+    <Content Include="Images\Actions-games-solve-icon.png" />
+    <Content Include="Images\Actions-system-run-icon.png" />
+    <Content Include="Images\Actions-view-calendar-tasks-icon.png" />
+    <Content Include="Images\Actions-view-list-details-icon.png" />
+    <Content Include="Images\Actions-view-list-tree-icon.png" />
+    <Content Include="Images\add.png" />
+    <Content Include="Images\app.png" />
+    <Content Include="Images\applications.png" />
+    <Content Include="Images\ball_blue.png" />
+    <Content Include="Images\ball_green.png" />
+    <Content Include="Images\ball_red.png" />
+    <Content Include="Images\box.png" />
+    <Content Include="Images\bt_add.png" />
+    <Content Include="Images\bt_apply.png" />
+    <Content Include="Images\bt_backward.png" />
+    <Content Include="Images\bt_delete.png" />
+    <Content Include="Images\bt_eject.png" />
+    <Content Include="Images\bt_forward.png" />
+    <Content Include="Images\bt_pause.png" />
+    <Content Include="Images\bt_play.png" />
+    <Content Include="Images\bt_skip_backward.png" />
+    <Content Include="Images\bt_skip_forward.png" />
+    <Content Include="Images\bt_stop.png" />
+    <Content Include="Images\calculator.png" />
+    <Content Include="Images\calendar.png" />
+    <Content Include="Images\chart.png" />
+    <Content Include="Images\computer.png" />
+    <Content Include="Images\computer_group.png" />
+    <Content Include="Images\connect-icon.png" />
+    <Content Include="Images\contact.png" />
+    <Content Include="Images\copy.png" />
+    <Content Include="Images\cut.png" />
+    <Content Include="Images\data.png" />
+    <Content Include="Images\diagnostic.png" />
+    <Content Include="Images\disconnect-icon.png" />
+    <Content Include="Images\edit.png" />
+    <Content Include="Images\Excel-icon.png" />
+    <Content Include="Images\fasttrack.png" />
+    <Content Include="Images\favorits.png" />
+    <Content Include="Images\files.png" />
+    <Content Include="Images\find.png" />
+    <Content Include="Images\folder.png" />
+    <Content Include="Images\format_painter.png" />
+    <Content Include="Images\go-next.png" />
+    <Content Include="Images\go-previous.png" />
+    <Content Include="Images\help.png" />
+    <Content Include="Images\home.png" />
+    <Content Include="Images\image.png" />
+    <Content Include="Images\Magic-Excel-icon.png" />
+    <Content Include="Images\mail.png" />
+    <Content Include="Images\Microsoft-Office-Excel-icon.png" />
+    <Content Include="Images\Microsoft-Office-Project-icon.png" />
+    <Content Include="Images\notes.png" />
+    <Content Include="Images\Office-Apps-Excel-alt-1-Metro-icon.png" />
+    <Content Include="Images\Office-Apps-Excel-Metro-icon.png" />
+    <Content Include="Images\Office-Apps-Project-alt-1-Metro-icon.png" />
+    <Content Include="Images\Office-Apps-Project-Metro-icon.png" />
+    <Content Include="Images\OnTrackLarge.ico" />
+    <Content Include="Images\OnTrackSmall.ico" />
+    <Content Include="Images\OnTrackSmall.png" />
+    <Content Include="Images\options.png" />
+    <Content Include="Images\Other-excel-icon.png" />
+    <Content Include="Images\paste.png" />
+    <Content Include="Images\personal.png" />
+    <Content Include="Images\picture.png" />
+    <Content Include="Images\print.png" />
+    <Content Include="Images\Project-icon.png" />
+    <Content Include="Images\quit.png" />
+    <Content Include="Images\race-track-icon.png" />
+    <Content Include="Images\railway_tracks_icon.jpg" />
+    <Content Include="Images\redo.png" />
+    <Content Include="Images\save.png" />
+    <Content Include="Images\settings.png" />
+    <Content Include="Images\time.png" />
+    <Content Include="Images\undo.png" />
+    <Content Include="Images\user-login-icon.png" />
+    <Content Include="Images\user.png" />
+    <Content Include="Images\video.png" />
+    <None Include="Resources\Actions-system-run-icon32x32.png" />
+    <None Include="Resources\Actions-system-run-icon-64x64.jpg" />
+    <None Include="Resources\Actions-system-run-icon.png" />
+    <None Include="Resources\bt_add1.png" />
+    <None Include="Resources\setting_config.jpg" />
+    <None Include="Resources\box.png" />
+    <None Include="Resources\Actions-configure-toolbars-icon.png" />
+    <None Include="Resources\excel-replication-outbound_small.png" />
+    <None Include="Resources\excel-replication-inbound_small.png" />
+    <None Include="Resources\excel-replication_full_small.png" />
+    <None Include="Resources\excel-replication-outbound.png" />
+    <None Include="Resources\save.png" />
+    <None Include="Resources\excel-replication.png" />
+    <None Include="Resources\options.png" />
+    <None Include="Resources\bt_play.png" />
+    <None Include="Resources\files.png" />
+    <None Include="Resources\bt_add.png" />
+    <None Include="Resources\MessageQueueTube.png" />
+    <None Include="Resources\MarketSectorIcons_01_Red.png" />
+    <None Include="Resources\fasttrack.png" />
+    <None Include="Resources\bt_apply.png" />
+    <None Include="Resources\OnTrackLarge.png" />
+    <None Include="Resources\railway_tracks_icon.jpg" />
+    <None Include="Resources\connect-icon.png" />
+    <None Include="Resources\disconnect-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="RefEdit\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="otdbAddIn\otAddInCommon.vbproj">
+      <Project>{e5c80542-6d68-4520-8c16-bb033af5c470}</Project>
+      <Name>otAddInCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="otdbBackEnd\otdbBackEnd.vbproj">
+      <Project>{1d7701a8-4d3f-4fcb-875e-9feaaeb05732}</Project>
+      <Name>otdbBackEnd</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>OnTrackTool_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>6464D04BF76ADD45F95D0FBFFD7CE83FA58C7E25</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <!-- Include the build rules for a Visual Basic project. -->
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- Include additional build rules for an Office application add-in. -->
+  <Import Project="$(VSToolsPath)\OfficeTools\Microsoft.VisualStudio.Tools.Office.targets" Condition="'$(VSToolsPath)' != ''" />
+  <!-- This section defines VSTO properties that describe the host-changeable project properties. -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
+        <ProjectProperties HostName="Excel" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Excel" Language="vb" TemplatesPath="VSTOTemplates" DebugInfoExeName="#Software\Microsoft\Office\15.0\Excel\InstallRoot\Path#excel.exe" DebugInfoCommandLine="/x " AddItemTemplatesGuid="{DCFE8D25-4715-4C33-9EAB-A34A9EBC9544}" />
+        <Host Name="Excel" PublishedHash="69C324AB27932AA2FBF2B7EA72250886FF164DE6" IconIndex="0">
+          <HostItem Name="ThisAddIn" Code="ThisAddIn.vb" CanonicalName="AddIn" PublishedHash="AF7A27BBB4A20AB1408AA3DB712F0E38E43ED45C" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.vb" />
+        </Host>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

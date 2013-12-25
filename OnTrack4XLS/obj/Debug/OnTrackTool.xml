@@ -1,0 +1,80 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+OnTrackTool
+</name>
+</assembly>
+<members>
+<member name="P:OnTrackTool.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:OnTrackTool.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:OnTrackTool.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member><member name="P:OnTrackTool.clsOTDBDataObject.isInitialized">
+	<summary>
+ Gets or sets the PS is initialized.
+ </summary>
+	<value>The PS is initialized.</value>
+</member><member name="P:OnTrackTool.clsOTDBDataObject.IsDeleted">
+	<summary>
+ Gets or sets the isDeleted.
+ </summary>
+	<value>The isDeleted.</value>
+</member><member name="P:OnTrackTool.clsOTDBDataObject.isChanged">
+	<summary>
+ Gets or sets the PS is changed.
+ </summary>
+	<value>The PS is changed.</value>
+</member><member name="P:OnTrackTool.clsOTDBDataObject.isLoaded">
+	<summary>
+ Gets or sets the PS is loaded.
+ </summary>
+	<value>The PS is loaded.</value>
+</member><member name="P:OnTrackTool.clsOTDBDataObject.isCreated">
+	<summary>
+ Gets or sets the PS is created.
+ </summary>
+	<value>The PS is created.</value>
+</member><member name="P:OnTrackTool.clsOTDBDataObject.Record">
+	<summary>
+ Gets or sets the OTDB record.
+ </summary>
+	<value>The OTDB record.</value>
+</member><member name="P:OnTrackTool.clsOTDBDataObject.Tablename">
+	<summary>
+ Gets or sets the tablename.
+ </summary>
+	<value>The tablename.</value>
+</member><member name="M:OnTrackTool.ThisAddIn.#ctor(Microsoft.Office.Tools.Excel.ApplicationFactory,System.IServiceProvider)">
+</member><member name="M:OnTrackTool.ThisAddIn.Initialize">
+</member><member name="M:OnTrackTool.ThisAddIn.FinishInitialization">
+</member><member name="M:OnTrackTool.ThisAddIn.InitializeDataBindings">
+</member><member name="M:OnTrackTool.ThisAddIn.InitializeCachedData">
+</member><member name="M:OnTrackTool.ThisAddIn.InitializeData">
+</member><member name="M:OnTrackTool.ThisAddIn.BindToData">
+</member><member name="M:OnTrackTool.ThisAddIn.StartCaching(System.String)">
+</member><member name="M:OnTrackTool.ThisAddIn.StopCaching(System.String)">
+</member><member name="M:OnTrackTool.ThisAddIn.IsCached(System.String)">
+</member><member name="M:OnTrackTool.ThisAddIn.BeginInitialization">
+</member><member name="M:OnTrackTool.ThisAddIn.EndInitialization">
+</member><member name="M:OnTrackTool.ThisAddIn.InitializeControls">
+</member><member name="M:OnTrackTool.ThisAddIn.InitializeComponents">
+</member><member name="M:OnTrackTool.ThisAddIn.NeedsFill(System.String)">
+</member><member name="M:OnTrackTool.ThisAddIn.OnShutdown">
+</member><member name="T:OnTrackTool.ThisAddIn">
+</member><member name="M:OnTrackTool.Globals.#ctor">
+</member><member name="T:OnTrackTool.Globals">
+</member><member name="M:OnTrackTool.ThisRibbonCollection.#ctor(Microsoft.Office.Tools.Ribbon.RibbonFactory)">
+</member><member name="T:OnTrackTool.ThisRibbonCollection">
+</member>
+</members>
+</doc>

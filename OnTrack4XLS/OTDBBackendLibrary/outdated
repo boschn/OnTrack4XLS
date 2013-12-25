@@ -1,0 +1,450 @@
+﻿Imports ADODB
+Imports ADOX
+
+
+Module outdated
+    '********
+    '******** getOTDBConnection : returns the ADODB Connection for the On Track Database
+    '********
+    '********
+
+    Private Function createConnection(Optional ByVal FORCE As Boolean = False, _
+    Optional ByVal access As otAccessRight = otAccessRight.otReadOnly, _
+    Optional ByVal OTDBUsername As String = "", _
+    Optional ByVal OTDBPassword As String = "", _
+    Optional ByVal exclusive As Boolean = False, _
+    Optional ByVal notInitialize As Boolean = False) As clsADODBConnection
+
+        Dim path As String
+        Dim Name As String
+        Dim connectionstring As String
+        Dim Value As String
+        Dim databasetype As OnTrackDatabaseServer
+        Dim dbuser As String
+        Dim dbpassword As String
+        Dim anUser As clsOTDBDefUser
+        Dim oldAccess As otAccessRight
+
+        If _OTDBConnection Is Nothing Then
+            _OTDBConnection = New clsADODBConnection
+        End If
+
+        ' return if connection is there
+        If Not _OTDBConnection.ADODBConnection Is Nothing And Not FORCE Then
+            ' stay in the connection if we donot need another state
+            If _OTDBConnection.ADODBConnection.State = ObjectStateEnum.adStateOpen And _
+                ((access = _OTDBConnection.Access) _
+                Or (access = otAccessRight.otReadOnly And (_OTDBConnection.Access = otAccessRight.otReadUpdateData _
+                Or _OTDBConnection.Access = otAccessRight.otAlterSchema)) _
+                Or (access = otAccessRight.otReadUpdateData And _OTDBConnection.Access = otAccessRight.otAlterSchema)) Then
+                createConnection = _OTDBConnection.ADODBConnection
+                ' initialize the parameter values of the OTDB
+                Call initializeOTDB(ADODBConnection:=_OTDBConnection.ADODBConnection, FORCE:=False)
+                Return _OTDBConnection.ADODBConnection
+                Exit Function
+            ElseIf _OTDBConnection.ADODBConnection.State <> ObjectStateEnum.adStateClosed Then
+                _OTDBConnection.ADODBConnection.Close()
+            Else
+                'Set otdb_connection = Nothing
+                ' reset
+                System.Diagnostics.Debug.WriteLine("reseting")
+            End If
+        End If
+
+        ' reset
+        If Not _OTDBConnection Is Nothing Then
+            oldAccess = _OTDBConnection.Access
+        End If
+
+
+        _OTDBConnection = New clsADODBConnection
+        ' default password
+        _OTDBConnection.Dbpassword = OTDBConst_ConfigDBPassword
+
+        '*** read config File
+
+#If ExcelVersion <> "" Then
+        'If OTDB.getOTDBConfigFromFile(Application.ActiveWorkbook.path, OTDBConst_ConfigFileName) Then
+        'End If
+
+#ElseIf ProjectVersion <> "" Then
+        If OTDB.getOTDBConfigFromFile(Application.ActiveProject.path, OTDBConst_ConfigFileName) Then
+        End If
+#Else
+        Dim uri As System.Uri
+        uri = New System.Uri(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)
+
+        addConfigFilePath(System.IO.Path.GetDirectoryName(uri.LocalPath))
+        If OTDB.getConfigFromFile("", OTDBConst_ConfigFileName) Then
+        End If
+
+#End If
+
+        '*** check the local parameters
+        '***
+
+        Value = getParameterByName(Name:="parameter_otdb_databasetype", silent:=True)
+        If Value = "" Then
+            Value = getPropertyByName("parameter_otdb_databasetype", silent:=True)
+        End If
+        If Value <> "" Then
+            Select Case LCase(Value)
+                Case "access"
+                    _OTDBConnection.Databasetype = OnTrackDatabaseServer.otAccess
+                Case "sqlserver"
+                    _OTDBConnection.Databasetype = OnTrackDatabaseServer.otSQLServer
+                Case Else
+                    Call OTDBErrorHandler(SHOWMSGBOX:=True, ARG1:=Value, SUBNAME:="OTDB.getOTDBConnection", _
+                                          message:=" OnTrack database has not a valid databasetype (should be access or sqlserver)", _
+                                          break:=False, NoOTDBAvailable:=True)
+                    createConnection = Nothing
+                    Exit Function
+            End Select
+        ElseIf _OTDBConnection.Databasetype <> 0 Then
+            ' we have a type from ini file
+        Else
+            Call OTDBErrorHandler(SHOWMSGBOX:=True, ARG1:=Value, SUBNAME:="OTDB.getOTDBConnection", _
+                                  message:=" OnTrack database has not a valid databasetype (should be access or sqlserver) in ini file " _
+                                  & OTDBConst_ConfigFileName, break:=False, NoOTDBAvailable:=True)
+            createConnection = Nothing
+            Exit Function
+        End If
+
+        ' get the path
+        path = getParameterByName("parameter_otdb_dbpath", silent:=True)
+        If path = "" Then
+            path = getPropertyByName("parameter_otdb_dbpath", silent:=True)
+        End If
+        If path <> "" Then
+            _OTDBConnection.Path = path
+        End If
+        ' check
+        If _OTDBConnection.Path <> "" Then
+            If Mid(_OTDBConnection.Path, Len(OTDB._OTDBConnection.Path), 1) <> "\" Then OTDB._OTDBConnection.Path = OTDB._OTDBConnection.Path & "\"
+        End If
+
+        ' get the Database Name if we have it
+        Name = getParameterByName("parameter_otdb_dbname", silent:=True)
+        If Name = "" Then
+            Name = getPropertyByName("parameter_otdb_dbname", silent:=True)
+        End If
+        If Name <> "" Then
+            _OTDBConnection.Name = Name
+        End If
+
+        ' get the Database user if we have it
+        dbuser = getParameterByName("parameter_otdb_dbuser", silent:=True)
+        If dbuser = "" Then
+            dbuser = getPropertyByName("parameter_otdb_dbuser", silent:=True)
+        End If
+        If dbuser <> "" Then
+            _OTDBConnection.Dbuser = dbuser
+        End If
+
+        ' get the Database password if we have it
+        dbpassword = getParameterByName(Name:="parameter_otdb_dbpassword", silent:=True)
+        If dbpassword = "" Then
+            dbpassword = getPropertyByName("parameter_otdb_dbpassword", silent:=True)
+        End If
+        If dbpassword <> "" Then
+            _OTDBConnection.Dbpassword = dbpassword
+        End If
+
+        ' get the connection string
+        connectionstring = getParameterByName("parameter_otdb_connection", silent:=True)
+        If connectionstring = "" Then
+            connectionstring = getPropertyByName("parameter_otdb_connection", silent:=True)
+        End If
+        If connectionstring <> "" Then
+            _OTDBConnection.Connectionstring = connectionstring
+        End If
+
+        '** default
+        '** we have no connection string than build one
+        If _OTDBConnection.Connectionstring = "" Then
+            ' build the connectionstring for access
+            If _OTDBConnection.Databasetype = OnTrackDatabaseServer.otAccess Then
+                If File.Exists(_OTDBConnection.Path & _OTDBConnection.Name) Then
+                    _OTDBConnection.Connectionstring = "Provider=Microsoft.ACE.OLEDB.12.0;" & _
+                    "Data Source=" & _OTDBConnection.Path & _OTDBConnection.Name & ";"
+
+                Else
+                    Call OTDBErrorHandler(SHOWMSGBOX:=True, ARG1:=_OTDBConnection.Path & _OTDBConnection.Name, SUBNAME:="OTDB.getOTDBConnection", _
+                                          message:=" OnTrack database " & _OTDBConnection.Name & " doesnot exist at given location " & _OTDBConnection.Path, _
+                                          break:=False, NoOTDBAvailable:=True)
+                    createConnection = Nothing
+                    Exit Function
+                End If
+                ' build the connectionstring for SQLServer
+            ElseIf _OTDBConnection.Databasetype = OnTrackDatabaseServer.otSQLServer Then
+                Call OTDBErrorHandler(SHOWMSGBOX:=True, ARG1:=_OTDBConnection.Connectionstring, SUBNAME:="OTDB.getOTDBConnection", _
+                                      message:=" OnTrack database for SQL Server ist not implemented yet.", _
+                                      break:=False, NoOTDBAvailable:=True)
+                createConnection = Nothing
+                Exit Function
+            Else
+                Call OTDBErrorHandler(SHOWMSGBOX:=True, ARG1:=_OTDBConnection.Connectionstring, SUBNAME:="OTDB.getOTDBConnection", _
+                                      message:=" OnTrack database " & _OTDBConnection.Name & " has not a valid database type.", _
+                                      break:=False, NoOTDBAvailable:=True)
+                createConnection = Nothing
+                Exit Function
+            End If
+        End If
+
+
+        ' open the connection
+        OTDB._OTDBConnection.ADODBConnection = New ADODB.Connection
+
+        Try
+
+            ' set dbpassword
+
+            _OTDBConnection.ADODBConnection.ConnectionString = _OTDBConnection.Connectionstring
+            _OTDBConnection.ADODBConnection.CommandTimeout = 30
+
+            '***** check the user rights
+            '*****
+            ' open
+            _OTDBConnection.ADODBConnection.Mode = ConnectModeEnum.adModeRead
+            _OTDBConnection.Access = otAccessRight.otReadOnly
+            _OTDBConnection.ADODBConnection.Open()
+
+            If _OTDBConnection.ADODBConnection.State = ObjectStateEnum.adStateOpen Then
+
+                If (Not _OTDBConnection.User.IsLoaded And Not _OTDBConnection.User.IsCreated) _
+                Or FORCE Or _OTDBConnection.User.isAnonymous Then
+                    ' get User
+                    anUser = Nothing
+                    If OTDBUsername <> "" And OTDBConst_DefaultRight <> access Then
+                        anUser = getDefUser(OTDBUsername, ADODBConnection:=_OTDBConnection.ADODBConnection)
+                    ElseIf OTDBUsername = "" And OTDBConst_DefaultRight = access Then
+                        anUser = New clsOTDBDefUser
+                        anUser = anUser.getAnonymous
+                        If anUser Is Nothing And Not anUser.IsLoaded Then
+                        Else
+                            OTDBUsername = anUser.username
+                        End If
+                    End If
+                    ' Login
+                    If anUser Is Nothing Then
+                        LoginWindow.connection = _OTDBConnection.ADODBConnection
+                        LoginWindow.accessright = access
+                        LoginWindow.showForm()
+                        If Not LoginWindow.Verify Then
+                            Call OTDBErrorHandler(SHOWMSGBOX:=True, _
+                                                  message:=" Access to OnTrack Database is prohibited - User has no rights", _
+                                                  NoOTDBAvailable:=True, break:=False)
+                            _OTDBConnection.ADODBConnection.Close()
+                            _OTDBConnection.ADODBConnection = Nothing
+                            Exit Function
+                        Else
+                            OTDBUsername = LoginWindow.USERNAME
+                        End If
+                        anUser = getDefUser(OTDBUsername, ADODBConnection:=_OTDBConnection.ADODBConnection)
+                    End If
+                    ' set user
+                    If anUser Is Nothing Then
+                        Call OTDBErrorHandler(SHOWMSGBOX:=True, _
+                                              message:=" Access to OnTrack Database is prohibited - User not found", _
+                                              NoOTDBAvailable:=True, break:=False)
+                        _OTDBConnection.ADODBConnection.Close()
+                        _OTDBConnection.ADODBConnection = Nothing
+                        Exit Function
+                    Else
+                        _OTDBConnection.User = anUser
+                    End If
+                Else
+                    anUser = _OTDBConnection.User
+                End If
+
+                '* exclude user
+                If anUser.hasNoRights Then
+                    Call OTDBErrorHandler(SHOWMSGBOX:=True, _
+                                          message:=" Access to OnTrack Database is prohibited - User has no rights", _
+                                          break:=False, NoOTDBAvailable:=True)
+                    _OTDBConnection.ADODBConnection.Close()
+                    _OTDBConnection.ADODBConnection = Nothing
+                    Exit Function
+                    '* check on the rights
+                ElseIf Not anUser.hasAlterSchemaRights And access = otAccessRight.otAlterSchema Then
+                    Call OTDBErrorHandler(SHOWMSGBOX:=True, _
+                                          message:=" Access to OnTrack Database is prohibited - User has no alter schema rights", _
+                                          break:=False, NoOTDBAvailable:=True)
+                    _OTDBConnection.ADODBConnection.Close()
+                    _OTDBConnection.ADODBConnection = Nothing
+                    Exit Function
+                ElseIf Not anUser.hasUpdateRights And access = otAccessRight.otReadUpdateData Then
+                    Call OTDBErrorHandler(SHOWMSGBOX:=True, _
+                                          message:=" Access to OnTrack Database is prohibited - User has no update rights", _
+                                          break:=False, NoOTDBAvailable:=True)
+                    _OTDBConnection.ADODBConnection.Close()
+                    _OTDBConnection.ADODBConnection = Nothing
+                    Exit Function
+                ElseIf Not anUser.hasReadRights And access = otAccessRight.otReadOnly Then
+                    Call OTDBErrorHandler(SHOWMSGBOX:=True, _
+                                          message:=" Access to OnTrack Database is prohibited - User has no read rights", _
+                                          break:=False, NoOTDBAvailable:=True)
+                    _OTDBConnection.ADODBConnection.Close()
+                    _OTDBConnection.ADODBConnection = Nothing
+                    Exit Function
+                End If
+                ' set the rights only upgrade to new rights if higher
+                If oldAccess = otAccessRight.otProhibited Or _
+                (oldAccess = otAccessRight.otReadOnly _
+                And (access = otAccessRight.otReadUpdateData Or access = otAccessRight.otAlterSchema)) Or _
+                (oldAccess = otAccessRight.otReadUpdateData And access = otAccessRight.otAlterSchema) Then
+                    _OTDBConnection.Access = access
+                Else
+                    _OTDBConnection.Access = oldAccess
+                End If
+                '_OTDBConnection.access = access
+                ' close the connection again
+                _OTDBConnection.ADODBConnection.Close()
+            Else
+                Call OTDBErrorHandler(SHOWMSGBOX:=True, _
+                                      message:=" Access to OnTrack Database is not available !", break:=False, _
+                                      NoOTDBAvailable:=True)
+                _OTDBConnection.ADODBConnection.Close()
+                _OTDBConnection.ADODBConnection = Nothing
+                Exit Function
+            End If
+
+            '** REOPEN !
+            '** correct modes
+            If _OTDBConnection.Access = otAccessRight.otReadOnly And Not exclusive Then
+                _OTDBConnection.ADODBConnection.Mode = ConnectModeEnum.adModeRead
+            ElseIf (_OTDBConnection.Access = otAccessRight.otReadUpdateData Or _OTDBConnection.Access = otAccessRight.otReadUpdateData Or _OTDBConnection.Access = otAccessRight.otAlterSchema) And Not exclusive Then
+                _OTDBConnection.ADODBConnection.Mode = ConnectModeEnum.adModeReadWrite
+            ElseIf exclusive Then
+                _OTDBConnection.ADODBConnection.Mode = ConnectModeEnum.adModeShareExclusive
+            Else
+                Call OTDBErrorHandler(SHOWMSGBOX:=True, message:=" Access to OnTrack Database is prohibited ", NoOTDBAvailable:=True)
+                createConnection = Nothing
+                Exit Function
+            End If
+
+            ' open
+            _OTDBConnection.ADODBConnection.Open()
+
+            If _OTDBConnection.ADODBConnection.State = ObjectStateEnum.adStateOpen Then
+                'Application.StatusBar = "successfully opened OnTrack database on " & _OTDBConnection.path & _OTDBConnection.Name
+
+                ' initialize the parameter values of the OTDB
+                If Not notInitialize Then
+                    Call initializeOTDB(ADODBConnection:=_OTDBConnection.ADODBConnection)
+                End If
+
+                _OTDBConnection.RaiseOnConnected()
+                Return _OTDBConnection
+
+                Exit Function
+            End If
+
+            ' login if necessary
+
+
+            ' Handle the error
+        Catch ex As Exception
+            Call OTDBErrorHandler(SHOWMSGBOX:=True, SUBNAME:="OTDB.getOTDBConnection", EXCEPTION:=ex, _
+                ARG1:=_OTDBConnection.Connectionstring, NoOTDBAvailable:=True, break:=False)
+
+            Return Nothing
+            Exit Function
+        End Try
+
+
+    End Function
+    '*********
+    '********* cvt2ColumnData returns a object in the Datatype of the column
+    '*********
+
+    Public Function cvt2ColumnData(ByVal tablename As String, _
+                                    ByVal ColumnName As String, _
+                                    ByVal aVAlue As Object, _
+                                    Optional abostrophNecessary As Boolean = False) As Object
+
+        Dim DBColumn As New ADOX.Column
+        Dim DBTable As New ADOX.Table
+        Dim catalog As New ADOX.Catalog
+        Dim otdbcn As ADODB.Connection
+        Dim rst As ADODB.Recordset
+        Dim result As Object
+
+
+        otdbcn = OTDB.Connection().ADODBConnection
+        If otdbcn Is Nothing Then
+            cvt2ColumnData = DBNull.Value
+            Exit Function
+        End If
+
+        Try
+            catalog = OTDB.GetADOXCatalog()
+            DBTable = catalog.Tables(tablename)
+            DBColumn = DBTable.Columns(ColumnName)
+            abostrophNecessary = False
+            '*
+            If DBColumn.Type = ADOX.DataTypeEnum.adInteger Then
+                If IsNothing(aVAlue) Or aVAlue = "-" Then
+                    result = 0
+                ElseIf IsNumeric(aVAlue) Then
+                    result = CInt(aVAlue)
+                Else
+                    System.Diagnostics.Debug.WriteLine("OTDB data " & aVAlue & " is not convertable to Integer")
+                    result = DBNull.Value
+                End If
+
+            ElseIf DBColumn.Type = ADOX.DataTypeEnum.adChar Or DBColumn.Type = ADOX.DataTypeEnum.adVarChar Or _
+            DBColumn.Type = ADOX.DataTypeEnum.adVarWChar Or DBColumn.Type = ADOX.DataTypeEnum.adLongVarChar Or _
+            DBColumn.Type = ADOX.DataTypeEnum.adLongVarWChar Then
+                abostrophNecessary = True
+                If IsNothing(aVAlue) Or aVAlue = "-" Or DBNull.Value.Equals(aVAlue) Then
+                    result = ""
+                Else
+                    result = CStr(aVAlue)
+                End If
+            ElseIf DBColumn.Type = ADOX.DataTypeEnum.adDate Then
+                If IsNothing(aVAlue) Or aVAlue = "-" Then
+                    result = OTDBConst_NullDate
+                ElseIf IsDate(aVAlue) Then
+                    result = CDate(aVAlue)
+                Else
+                    System.Diagnostics.Debug.WriteLine("OTDB data " & aVAlue & " is not convertable to Date")
+                    result = OTDBConst_NullDate
+                End If
+            ElseIf DBColumn.Type = ADOX.DataTypeEnum.adDouble Or DBColumn.Type = ADOX.DataTypeEnum.adDecimal Then
+                If IsNothing(aVAlue) Or aVAlue = "-" Then
+                    result = 0
+                ElseIf IsNumeric(aVAlue) Then
+                    result = CDbl(aVAlue)
+                Else
+                    System.Diagnostics.Debug.WriteLine("OTDB data " & aVAlue & " is not convertable to Double")
+                    result = DBNull.Value
+                End If
+            ElseIf DBColumn.Type = ADOX.DataTypeEnum.adBoolean Then
+                If IsNothing(aVAlue) Or aVAlue = "-" Then
+                    result = False
+                Else
+                    result = True
+                End If
+
+            End If
+
+            ' return
+            cvt2ColumnData = result
+
+            Exit Function
+
+            '* Handle the error
+            '*
+        Catch ex As Exception
+            Call OTDBErrorHandler(SHOWMSGBOX:=True, SUBNAME:="OTDB.cvt2ColumnData", TABLENAME:=tablename, ENTRYNAME:=ColumnName, ARG1:=aVAlue, _
+                                  EXCEPTION:=ex)
+
+            cvt2ColumnData = Nothing
+            Exit Function
+        End Try
+
+    End Function
+
+
+End Module
