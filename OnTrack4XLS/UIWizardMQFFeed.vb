@@ -14,7 +14,7 @@ Public Class UIWizardMQFFeed
     Private _MQFWorkbookName As String = ""
     Private _MQFObject As New clsOTDBMessageQueue
     Private _MQFWorkbook As Excel.Workbook
-    Private WithEvents _errorlog As ErrorLog 'get reference for event handling of new errors
+    Private WithEvents _errorlog As MessageLog 'get reference for event handling of new errors
     Private WithEvents _preprocessWorker As BackgroundWorker
 
     Friend WithEvents MQFDataSet As System.Data.DataSet
@@ -75,7 +75,7 @@ Public Class UIWizardMQFFeed
         , workbookListContextMenuStrip.Click
 
         'Dim _MQFWorkbook As Excel.Workbook
-        Dim lastError As CoreError
+        Dim lastError As SessionLogMessage
 
         If Not isConnected Then
             Dim aCon As Database.ormConnection = ot.CurrentConnection(otAccessRight.ReadUpdateData)

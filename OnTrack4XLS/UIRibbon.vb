@@ -5,7 +5,7 @@ Imports System.Windows.Forms
 
 Public Class OnTrackRibbon
 
-    Private WithEvents _errorlog As ErrorLog  ' for the Error Log events
+    Private WithEvents _errorlog As MessageLog  ' for the Error Log events
     Private WithEvents _logForm As UIFormMessageLog
     Private WithEvents otdbsession As Session
     Private WithEvents _logFormThread As Threading.Thread
@@ -43,7 +43,7 @@ Public Class OnTrackRibbon
         Globals.ThisAddIn.SetCurrentHost()
         If Me.ConnectToggleButton.Label = "Connect" Then
             If otdbsession.StartUp(AccessRequest:=otAccessRight.ReadUpdateData) Then
-                Globals.ThisAddIn.Application.StatusBar = Date.Now.ToLocalTime & " INFORMATION: user '" & Globals.ThisAddIn._OTDBSession.OTdbUser.Username & _
+                Globals.ThisAddIn.Application.StatusBar = Date.Now.ToLocalTime & " INFORMATION: user '" & Globals.ThisAddIn._OTDBSession.Username & _
                     "' successfully connected to OnTrack " & ot.CurrentConnection.DBName & " on " & ot.CurrentConnection.PathOrAddress
             Else
                 Me.ConnectToggleButton.Checked = False
@@ -156,7 +156,7 @@ Public Class OnTrackRibbon
     Private Sub WorkspaceCombo_TextChanged(sender As Object, e As RibbonControlEventArgs) Handles WorkspaceCombo.TextChanged
         If Globals.thisaddin._OTDBSession.IsRunning Then
             Dim aDefaultWS As New Workspace
-            If aDefaultWS.LoadBy(workspaceID:=Me.WorkspaceCombo.Text) Then
+            If aDefaultWS.Inject(workspaceID:=Me.WorkspaceCombo.Text) Then
                 ot.CurrentSession.CurrentWorkspaceID = Me.WorkspaceCombo.Text
                 WorkspaceCombo.ScreenTip = aDefaultWS.description
                 Globals.ThisAddIn.Application.StatusBar = "default workspaceID for this workbook set to '" & aDefaultWS.ID & "' <" & aDefaultWS.description & "> "

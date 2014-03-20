@@ -34,7 +34,7 @@ Public Class UIFormReplication
 
     Private _replicationType As ReplicationType
 
-    Private WithEvents _errorlog As ErrorLog 'get reference for event handling of new errors
+    Private WithEvents _errorlog As MessageLog 'get reference for event handling of new errors
 
 
     Friend WithEvents MQFDataSet As System.Data.DataSet

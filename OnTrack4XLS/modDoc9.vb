@@ -700,7 +700,7 @@ Module modDoc9
         Dim aXChangeConfig As New clsOTDBXChangeConfig
 
         If Not aXChangeConfig.create(MySettings.Default.DefaultDoc9ConfigNameDynamic) Then
-            aXChangeConfig.LoadBy(MySettings.Default.DefaultDoc9ConfigNameDynamic)
+            aXChangeConfig.Inject(MySettings.Default.DefaultDoc9ConfigNameDynamic)
             aXChangeConfig.delete()
 
         End If
@@ -727,7 +727,7 @@ Module modDoc9
         Dim aXChangeConfig As New clsOTDBXChangeConfig
 
         If Not aXChangeConfig.Create(MySettings.Default.DefaultExpediterConfigNameDynamic) Then
-            aXChangeConfig.LoadBy(MySettings.Default.DefaultExpediterConfigNameDynamic)
+            aXChangeConfig.Inject(MySettings.Default.DefaultExpediterConfigNameDynamic)
             aXChangeConfig.Delete()
 
         End If
@@ -1349,7 +1349,7 @@ Module modDoc9
             Exit Function
         Else
             ' get this BOM -> Delete
-            If aOTDBBOM.loadBy(aBOD.partno) Then
+            If aOTDBBOM.Inject(aBOD.partno) Then
                 Call aOTDBBOM.delete()    ' delete the BOM ?!
             Else
                 Call aOTDBBOM.create(pnid:=aBOD.partno)

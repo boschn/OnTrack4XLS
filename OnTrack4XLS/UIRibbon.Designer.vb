@@ -166,7 +166,7 @@
         '
         Me.MQFAdminButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge
         Me.MQFAdminButton.Image = Global.OnTrack.Addin.My.Resources.Resources.MessageQueueTube
-        Me.MQFAdminButton.Label = "XChange"
+        Me.MQFAdminButton.Label = constModuleXCHANGE
         Me.MQFAdminButton.Name = "MQFAdminButton"
         Me.MQFAdminButton.OfficeImageId = "AccessRelinkLists"
         Me.MQFAdminButton.ScreenTip = "Call the MQF Administrator Tool"

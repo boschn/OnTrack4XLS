@@ -473,7 +473,7 @@ Implements INotifyPropertyChanged
             'load
             If sXConfig Is Nothing And sXConfigName <> "" Then
                 sXConfig = New XConfig
-                If sXConfig.LoadBy(sXConfigName) Then
+                If sXConfig.Inject(sXConfigName) Then
                     Return sXConfig
                 End If
             ElseIf Not sXConfig Is Nothing AndAlso (sXConfig.IsLoaded Or sXConfig.IsCreated) Then
@@ -1220,7 +1220,7 @@ Module XLSXChangeMgr
         End If
 
         '*** Patch
-        aXChangeConfig.LoadBy(configname:=dataarea.XConfigName)
+        aXChangeConfig.Inject(configname:=dataarea.XConfigName)
 
 
         '** datarange
@@ -1681,7 +1681,7 @@ Module XLSXChangeMgr
         '*** save the Attributes
         Dim aXBag As New ExcelXBag(dataarea.XConfig)
         Dim aXEnvelope As XEnvelope = aXBag.AddEnvelope(1) ' only one Envelope -> reuse
-        Dim aMsgLog As New clsOTDBMessagelog
+        Dim aMsgLog As New ObjectLog
         Dim anAttributesList As List(Of XConfigAttributeEntry) = dataarea.XConfig.Attributes
         '** put the level in the mapping
         Dim anAttributeLevel As XConfigAttributeEntry = dataarea.XConfig.AttributeByID(ID:="OTLIV4")

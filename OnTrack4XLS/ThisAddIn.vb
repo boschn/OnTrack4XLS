@@ -96,19 +96,13 @@ Public Class ThisAddIn
 
 
         Dim value As String
-
         Dim found As Boolean
+
+        '** do we have a config set name ?! retrieve and use .. but set it in the end
         Dim useConfigSetName As String = GetXlsParameterByName(name:=ConstCPNUseConfigSetName, silent:=True, found:=found)
         If useConfigSetName Is Nothing OrElse useConfigSetName = "" Then
             useConfigSetName = GetHostProperty(ConstCPNUseConfigSetName, silent:=True, found:=found)
         End If
-
-        If useConfigSetName IsNot Nothing Then
-            ot.CurrentConfigSetName = useConfigSetName
-        Else
-            useConfigSetName = ot.CurrentConfigSetName
-        End If
-
 
         '* read the configs from file ConstCPNConfigFileName
         value = GetXlsParameterByName(name:=ConstCPNConfigFileName, silent:=True, found:=found)
@@ -259,7 +253,7 @@ Public Class ThisAddIn
                                           break:=False, noOtdbAvailable:=True)
             End Select
         End If
-        ' get the driver name
+        ' get the UseLogAgent
         value = GetXlsParameterByName(name:=constCPNUseLogAgent, silent:=True)
         If Not value Is Nothing Then
             SetConfigProperty(name:=constCPNUseLogAgent, weight:=30, value:=CBool(value), configsetname:=useConfigSetName)
@@ -269,7 +263,11 @@ Public Class ThisAddIn
             SetConfigProperty(name:=constCPNUseLogAgent, weight:=20, value:=CBool(value), configsetname:=useConfigSetName)
         End If
 
-
+        '****
+        '**** Finally set the Configset Name after we have created everthing - mus texist
+        If useConfigSetName IsNot Nothing Then
+            ot.CurrentConfigSetName = useConfigSetName
+        End If
 
         Return True
 

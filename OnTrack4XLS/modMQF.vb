@@ -472,64 +472,64 @@ error_handler:
     '********** createXChangeConfigFromIDs: creates a config from an array with IDs, ordinal will be the columns
     '**********
     Public Sub createXlsDoc9MQFConfig()
-        Dim anObjectName As String
-        Dim aNewConfig As New clsOTDBXChangeConfig
-        Dim aColl As Collection
-        Dim aSchemaDefTable As New ObjectDefinition
-        Dim m As Object
-        Dim IDs As Object
-        Dim cmds As Object
-        Dim flag As Boolean
-        Dim aFieldDef As New ObjectEntryDefinition
-        Dim i As Long
+        'Dim anObjectName As String
+        'Dim aNewConfig As New clsOTDBXChangeConfig
+        'Dim aColl As Collection
+        'Dim aSchemaDefTable As New ObjectDefinition
+        'Dim m As Object
+        'Dim IDs As Object
+        'Dim cmds As Object
+        'Dim flag As Boolean
+        'Dim aFieldDef As IObjectEntryDefinition
+        'Dim i As Long
 
-        '*** load the table definition
-        'If Not aSchemaDefTable.loadBy(Tablename) Then
-        '    Call OTDBErrorHandler(arg1:=Tablename, Tablename:=Tablename, message:=" Could not load SchemaTableDefinition")
-        '    Set createXChangeConfigFromIDs = Nothing
-        '    Exit Function
-        'End If
-        'anObjectName = Tablename
-        'If aNewConfig.loadBy(ConfigName) Then
-        '    aNewConfig.delete
-        'End If
+        ''*** load the table definition
+        ''If Not aSchemaDefTable.Inject(Tablename) Then
+        ''    Call OTDBErrorHandler(arg1:=Tablename, Tablename:=Tablename, message:=" Could not load SchemaTableDefinition")
+        ''    Set createXChangeConfigFromIDs = Nothing
+        ''    Exit Function
+        ''End If
+        ''anObjectName = Tablename
+        ''If aNewConfig.Inject(ConfigName) Then
+        ''    aNewConfig.delete
+        ''End If
 
-        '**
-        '** CREATE MQF METHODS
-        aNewConfig.Create("mqf_methods")
-        Call aNewConfig.AddObjectByName("tblDeliverableTargets")
-        Call aNewConfig.AddObjectByName("tblDeliverables")
-        IDs = New String() {"uid", "c10", "c6", "t2"}
-        cmds = New Integer() {otXChangeCommandType.Read, otXChangeCommandType.Read, otXChangeCommandType.Read, otXChangeCommandType.Update}
+        ''**
+        ''** CREATE MQF METHODS
+        'aNewConfig.Create("mqf_methods")
+        'Call aNewConfig.AddObjectByName("tblDeliverableTargets")
+        'Call aNewConfig.AddObjectByName("tblDeliverables")
+        'IDs = New String() {"uid", "c10", "c6", "t2"}
+        'cmds = New Integer() {otXChangeCommandType.Read, otXChangeCommandType.Read, otXChangeCommandType.Read, otXChangeCommandType.Update}
 
-        i = 0
+        'i = 0
 
-        For i = LBound(IDs) To UBound(IDs)
-            ' load ID
-            If Not modHelperVBA.IsEmpty(IDs(i)) Then
-                flag = False
-                ' look into objects first
-                For Each m In aNewConfig.ObjectsByOrderNo
-                    If aFieldDef.LoadByID(IDs(i), m.OBJECTNAME) Then
-                        Call aNewConfig.AddAttributeByField(objectentry:=aFieldDef, ordinal:=i, xcmd:=cmds(i))
-                        flag = True
-                        Exit For
-                    End If
-                Next m
-                ' if not found look elsewhere -> but take all IDs and aliases !
-                If flag = False Then
-                    aColl = aFieldDef.AllByID(IDs(i))
-                    For Each m In aColl
-                        aFieldDef = m
-                        'Call aNewConfig.addObjectByName(aFieldDef.tablename, xcmd:=xcmd) -> by AttributesField
-                        Call aNewConfig.AddAttributeByField(objectentry:=aFieldDef, ordinal:=i, xcmd:=cmds(i))
-                    Next m
-                End If
-            End If
-        Next i
+        'For i = LBound(IDs) To UBound(IDs)
+        '    ' load ID
+        '    If Not modHelperVBA.IsEmpty(IDs(i)) Then
+        '        flag = False
+        '        ' look into objects first
+        '        For Each m In aNewConfig.ObjectsByOrderNo
+        '            If aFieldDef.LoadByID(IDs(i), m.OBJECTNAME) Then
+        '                Call aNewConfig.AddAttributeByField(objectentry:=aFieldDef, ordinal:=i, xcmd:=cmds(i))
+        '                flag = True
+        '                Exit For
+        '            End If
+        '        Next m
+        '        ' if not found look elsewhere -> but take all IDs and aliases !
+        '        If flag = False Then
+        '            aColl = aFieldDef.AllByID(IDs(i))
+        '            For Each m In aColl
+        '                aFieldDef = m
+        '                'Call aNewConfig.addObjectByName(aFieldDef.tablename, xcmd:=xcmd) -> by AttributesField
+        '                Call aNewConfig.AddAttributeByField(objectentry:=aFieldDef, ordinal:=i, xcmd:=cmds(i))
+        '            Next m
+        '        End If
+        '    End If
+        'Next i
 
-        Call aNewConfig.Persist()
-        'Set createXlsDoc9MQFConfig = aNewConfig
+        'Call aNewConfig.Persist()
+        ''Set createXlsDoc9MQFConfig = aNewConfig
     End Sub
 
     '**********
@@ -1493,7 +1493,7 @@ handleerror:
         Dim aConfigmember As New clsOTDBXChangeMember
         Dim aMQFRowEntry As New clsOTDBMessageQueueEntry
         Dim aMQFMember As New clsOTDBMessageQueueMember
-        Dim aStatus As New clsOTDBDefStatusItem
+        Dim aStatus As New StatusItem
         'Dim aProgressBar As clsUIProgressBarForm
         Dim maximum As Long
         Dim progress As Long
@@ -1519,10 +1519,10 @@ handleerror:
             If aVAlue = "" Then
                 aVAlue = MQFWorkbook.Name & " " & CStr(Now)
                 If Not MQFObject.Create(aVAlue) Then
-                    MQFObject.loadBy(aVAlue)
+                    MQFObject.Inject(aVAlue)
                 End If
             Else
-                If Not MQFObject.loadBy(TAG:=aVAlue) Then
+                If Not MQFObject.Inject(TAG:=aVAlue) Then
                     Call MQFObject.Create(TAG:=aVAlue)
                 End If
             End If
@@ -1588,7 +1588,7 @@ handleerror:
         ' load the config if a name is given
         aVAlue = GetXlsParameterByName(name:="parameter_mqf_xchangeconfigname", workbook:=MQFWorkbook, silent:=True)
         If aVAlue <> "" Then
-            If MQFObject.XCHANGECONFIG.LoadBy(configname:=aVAlue) Then
+            If MQFObject.XCHANGECONFIG.Inject(configname:=aVAlue) Then
             Else
                 MQFObject.XCHANGECONFIG = New clsOTDBXChangeConfig
                 MQFObject.XCHANGECONFIG.Create(MQFObject.TAG)
@@ -2247,7 +2247,7 @@ handleerror:
                         If aMapping.ContainsKey(key:=aConfigmember.ordinal.Value) Then
                             anUID = aMapping.Item(key:=aConfigmember.ordinal.Value)
                             aDeliverable = New Deliverables.Deliverable
-                            If aDeliverable.LoadBy(uid:=anUID) Then
+                            If aDeliverable.Inject(uid:=anUID) Then
                                 '** revision ?!
                                 aConfigmember = MQFObject.XCHANGECONFIG.AttributeByID(ID:="c16")
                                 If Not aConfigmember Is Nothing Then
@@ -2385,7 +2385,7 @@ handleerror:
                         If aMapping.ContainsKey(key:=aConfigmember.ordinal.Value) Then
                             anUID = aMapping.Item(key:=aConfigmember.ordinal.Value)
                             aDeliverable = New Deliverables.Deliverable
-                            If aDeliverable.LoadBy(uid:=anUID) Then
+                            If aDeliverable.Inject(uid:=anUID) Then
                                 If Not aDeliverable.IsDeleted Then
                                     '*** set the workspaceID
                                     aValue = MQFObject.XCHANGECONFIG.GetMemberValue(ID:="WS", mapping:=aMapping)
@@ -2426,7 +2426,7 @@ handleerror:
                         If aMapping.ContainsKey(key:=aConfigmember.ordinal.Value) Then
                             anUID = aMapping.Item(key:=aConfigmember.ordinal.Value)
                             aDeliverable = New Deliverables.Deliverable
-                            If aDeliverable.LoadBy(uid:=anUID) Then
+                            If aDeliverable.Inject(uid:=anUID) Then
                                 aDeliverable.Delete()
 
                             End If

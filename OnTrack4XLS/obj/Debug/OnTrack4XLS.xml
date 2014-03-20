@@ -1,0 +1,462 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+OnTrack4XLS
+</name>
+</assembly>
+<members>
+<member name="P:OnTrack.Addin.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.Actions_configure_toolbars_icon">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.Actions_system_run_icon">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.Actions_system_run_icon_64x64">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.Actions_system_run_icon32x32">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.box">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.bt_add">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.bt_add1">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.bt_apply">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.bt_play">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.connect_icon">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.disconnect_icon">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.excel_replication">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.excel_replication_full_small">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.excel_replication_inbound_small">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.excel_replication_outbound">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.excel_replication_outbound_small">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.fasttrack">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.files">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.MarketSectorIcons_01_Red">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.MessageQueueTube">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.OnTrackLarge">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.options">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.railway_tracks_icon">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.save">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.setting_config">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="T:OnTrack.Addin.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member><member name="M:OnTrack.Addin.ThisAddIn.ThisAddIn_Startup">
+	<summary>
+ Start up this ADDIN for Excel
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.ThisAddIn.SetConfigProperties(System.Boolean)">
+	<summary>
+ retrieve the Config parameters of OnTrack and write it to the PropertyBag
+ </summary>
+	<returns>true if successfull</returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.modParameterXLS.GetXlsParameterRangeByName(System.String,Microsoft.Office.Interop.Excel.Workbook@,System.Boolean,System.Boolean@)">
+	<summary>
+ retrieves a named Range Area by name from a workbook or the current workbook
+ or nothing if not found
+ </summary>
+	<param name="name"></param>
+	<param name="workbook"></param>
+	<param name="silent"></param>
+	<param name="found"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.modParameterXLS.GetXlsParameterByName(System.String,Microsoft.Office.Interop.Excel.Workbook@,System.Boolean@,System.Boolean)">
+	<summary>
+ returns Parameter by Name in the order XLS, Workbook, Worksheet as Object (value)
+ </summary>
+	<param name="name"></param>
+	<param name="workbook"></param>
+	<param name="found"></param>
+	<param name="silent"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.modParameterXLS.SetXlsParameterValueByName(System.String,System.Object@,Microsoft.Office.Interop.Excel.Workbook@,System.Boolean,System.String)">
+	<summary>
+ sets the Value of a Parameter on the parameter sheet by the Name supplied
+ </summary>
+	<param name="name"></param>
+	<param name="value"></param>
+	<param name="workbook"></param>
+	<param name="silent"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.SetProgress(System.Int32,System.String)">
+	<summary>
+ Set the Progress
+ </summary>
+	<param name="percentage"></param>
+	<param name="text"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.SetAfterWork">
+	<summary>
+ AfterWork (Preprocess) CleanUp
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.ProgressofPreprocess(System.Object,System.ComponentModel.ProgressChangedEventArgs)">
+	<summary>
+ Progress EventHandler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.EndOfPreprocess(System.Object,System.ComponentModel.RunWorkerCompletedEventArgs)">
+	<summary>
+  End of the Preprocess Eventhandler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.RunPreprocess(System.Object,System.ComponentModel.DoWorkEventArgs)">
+	<summary>
+ Run Preprocess
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.ThisAddIn.#ctor(Microsoft.Office.Tools.Excel.ApplicationFactory,System.IServiceProvider)">
+</member><member name="M:OnTrack.Addin.ThisAddIn.Initialize">
+</member><member name="M:OnTrack.Addin.ThisAddIn.FinishInitialization">
+</member><member name="M:OnTrack.Addin.ThisAddIn.InitializeDataBindings">
+</member><member name="M:OnTrack.Addin.ThisAddIn.InitializeCachedData">
+</member><member name="M:OnTrack.Addin.ThisAddIn.InitializeData">
+</member><member name="M:OnTrack.Addin.ThisAddIn.BindToData">
+</member><member name="M:OnTrack.Addin.ThisAddIn.StartCaching(System.String)">
+</member><member name="M:OnTrack.Addin.ThisAddIn.StopCaching(System.String)">
+</member><member name="M:OnTrack.Addin.ThisAddIn.IsCached(System.String)">
+</member><member name="M:OnTrack.Addin.ThisAddIn.BeginInitialization">
+</member><member name="M:OnTrack.Addin.ThisAddIn.EndInitialization">
+</member><member name="M:OnTrack.Addin.ThisAddIn.InitializeControls">
+</member><member name="M:OnTrack.Addin.ThisAddIn.InitializeComponents">
+</member><member name="M:OnTrack.Addin.ThisAddIn.NeedsFill(System.String)">
+</member><member name="M:OnTrack.Addin.ThisAddIn.OnShutdown">
+</member><member name="T:OnTrack.Addin.ThisAddIn">
+</member><member name="M:OnTrack.Addin.Globals.#ctor">
+</member><member name="T:OnTrack.Addin.Globals">
+</member><member name="M:OnTrack.Addin.ThisRibbonCollection.#ctor(Microsoft.Office.Tools.Ribbon.RibbonFactory)">
+</member><member name="T:OnTrack.Addin.ThisRibbonCollection">
+</member><member name="M:OnTrack.Addin.UIFormReplication.ReplicationMenuItem_Click(System.Object,System.EventArgs)">
+	<summary>
+ ReplicationMenuItem
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIFormReplication.RunReplication(System.Object,System.ComponentModel.DoWorkEventArgs)">
+	<summary>
+ RunFullReplication
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIFormReplication.SetProgress(System.Int32,System.String)">
+	<summary>
+ Set the Progress
+ </summary>
+	<param name="percentage"></param>
+	<param name="text"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIFormReplication.SetAfterWork">
+	<summary>
+ AfterWork (Preprocess) CleanUp
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIFormReplication.ReplicationProgress(System.Object,System.ComponentModel.ProgressChangedEventArgs)">
+	<summary>
+ Progress EventHandler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIFormReplication.EndOfReplication(System.Object,System.ComponentModel.RunWorkerCompletedEventArgs)">
+	<summary>
+  End of the Preprocess Eventhandler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIFormReplication.OutboundToggleButton_ToggleStateChanged(System.Object,Telerik.WinControls.UI.StateChangedEventArgs)">
+	<summary>
+	</summary>
+	<param name="sender"></param>
+	<param name="args"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIFormReplication.InboundToggleButton_ToggleStateChanged(System.Object,Telerik.WinControls.UI.StateChangedEventArgs)">
+	<summary>
+	</summary>
+	<param name="sender"></param>
+	<param name="args"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIFormReplication.ToggleInOutButton_ToggleStateChanged(System.Object,Telerik.WinControls.UI.StateChangedEventArgs)">
+	<summary>
+	</summary>
+	<param name="sender"></param>
+	<param name="args"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIFormReplication.WorkspaceDropDownList_SelectedIndexChanged(System.Object,System.EventArgs)">
+	<summary>
+	</summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIFormReplication.Validate">
+	<summary>
+ validate Entry
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIFormReplication.CancelButton_Click(System.Object,System.EventArgs)">
+	<summary>
+	</summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIFormReplication.AddConfig_Click(System.Object,System.EventArgs)">
+	<summary>
+	</summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIFormReplication.DataAreaComboBox_SelectedIndexChanged(System.Object,System.EventArgs)">
+	<summary>
+	</summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.modSettings.GetHostProperty(System.String,Microsoft.Office.Interop.Excel.Workbook@,System.Boolean@,System.Boolean)">
+	<summary>
+ retrieves an Office Document Property
+ </summary>
+	<param name="name"></param>
+	<param name="host"></param>
+	<param name="found"></param>
+	<param name="silent"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.modSettings.SetHostProperty(System.String,System.Object,Microsoft.Office.Interop.Excel.Workbook@,System.Boolean)">
+	<summary>
+ Sets a Office Document Property
+ </summary>
+	<param name="name"></param>
+	<param name="value"></param>
+	<param name="host"></param>
+	<param name="silent"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Addin.XLSDataArea.WorkbookName">
+	<summary>
+ Gets or sets the PS workbook.
+ </summary>
+	<value>The PS workbook.</value>
+</member><member name="P:OnTrack.Addin.XLSDataArea.PrefixReferences">
+	<summary>
+ Gets or sets the prefix references.
+ </summary>
+	<value>The prefix references.</value>
+</member><member name="P:OnTrack.Addin.XLSDataArea.XConfigName">
+	<summary>
+ Gets or sets the name of the PSX config.
+ </summary>
+	<value>The name of the PSX config.</value>
+</member><member name="P:OnTrack.Addin.XLSDataArea.ExtendDynamic">
+	<summary>
+ Gets or sets the PS extend dynamic.
+ </summary>
+	<value>The PS extend dynamic.</value>
+</member><member name="P:OnTrack.Addin.XLSDataArea.XConfig">
+	<summary>
+ Gets or sets the name of the PSX config.
+ </summary>
+	<value>The name of the PSX config.</value>
+</member><member name="P:OnTrack.Addin.XLSDataArea.SelectionID">
+	<summary>
+ Gets or sets the PS selection ID.
+ </summary>
+	<value>The PS selection ID.</value>
+</member><member name="P:OnTrack.Addin.XLSDataArea.HeaderIDRange">
+	<summary>
+ Gets or sets the PS header ID.
+ </summary>
+	<value>The PS header ID.</value>
+</member><member name="P:OnTrack.Addin.XLSDataArea.HeaderIDAddress">
+	<summary>
+ Gets or sets the PS header ID.
+ </summary>
+	<value>The PS header ID.</value>
+</member><member name="P:OnTrack.Addin.XLSDataArea.Name">
+	<summary>
+ Gets the name of the PS.
+ </summary>
+	<value>The name of the PS.</value>
+</member><member name="P:OnTrack.Addin.XLSDataArea.DataRange">
+	<summary>
+ Gets or sets the PS data range.
+ </summary>
+	<value>The PS data range.</value>
+</member><member name="P:OnTrack.Addin.XLSDataArea.DataRangeAddress">
+	<summary>
+ Gets or sets the PS header ID.
+ </summary>
+	<value>The PS header ID.</value>
+</member><member name="P:OnTrack.Addin.XLSDataArea.KeyIDs">
+	<summary>
+ Gets or sets the PS key I ds.
+ </summary>
+	<value>The PS key I ds.</value>
+</member><member name="P:OnTrack.Addin.XLSDataArea.KeyIDString">
+	<summary>
+ Gets or sets the PS key ID string.
+ </summary>
+	<value>The PS key ID string.</value>
+</member><member name="P:OnTrack.Addin.XLSDataArea.StatusID">
+	<summary>
+ Gets or sets the PS status ID.
+ </summary>
+	<value>The PS status ID.</value>
+</member><member name="P:OnTrack.Addin.XLSDataArea.TransactionLogID">
+	<summary>
+ Gets or sets the PS transaction log ID.
+ </summary>
+	<value>The PS transaction log ID.</value>
+</member><member name="P:OnTrack.Addin.XLSDataArea.TimestampID">
+	<summary>
+ Gets or sets the PS timestamp ID.
+ </summary>
+	<value>The PS timestamp ID.</value>
+</member><member name="P:OnTrack.Addin.XLSDataArea.TransactionID">
+	<summary>
+ Gets or sets the PS transaction ID.
+ </summary>
+	<value>The PS transaction ID.</value>
+</member><member name="M:OnTrack.Addin.ExcelXBag.#ctor(OnTrack.XChange.XConfig)">
+	<summary>
+ Constructor
+ </summary>
+	<param name="xConfig"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.ExcelXBag.Convert2Hostvalue(System.Object,OnTrack.XChange.ConvertRequestEventArgs)">
+	<summary>
+ Converts to Hostvalue
+ </summary>
+	<param name="sender"></param>
+	<param name="args"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.ExcelXBag.Convert2DBvalue(System.Object,OnTrack.XChange.ConvertRequestEventArgs)">
+	<summary>
+ Converts to Hostvalue
+ </summary>
+	<param name="sender"></param>
+	<param name="args"></param>
+	<remarks></remarks>
+</member><member name="T:OnTrack.Addin.ExcelXBag">
+	<summary>
+ defines a XBag as Excel Converter function
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.XLSXChangeMgr.ReplicateOld(OnTrack.Addin.XLSDataArea,OnTrack.otXChangeCommandType,System.Boolean,System.Boolean,System.String,System.ComponentModel.BackgroundWorker@)">
+	<summary>
+ replicates with the excel data area
+ </summary>
+	<param name="dataarea"></param>
+	<param name="xcmd"></param>
+	<param name="fullReplication"></param>
+	<param name="silent"></param>
+	<param name="workspaceID"></param>
+	<param name="workerthread"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.XLSXChangeMgr.Replicate(OnTrack.Addin.XLSDataArea,OnTrack.otXChangeCommandType,System.Boolean,System.Boolean,System.String,System.ComponentModel.BackgroundWorker@)">
+	<summary>
+ replicates with the excel data area
+ </summary>
+	<param name="dataarea"></param>
+	<param name="xcmd"></param>
+	<param name="fullReplication"></param>
+	<param name="silent"></param>
+	<param name="workspaceID"></param>
+	<param name="workerthread"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member>
+</members>
+</doc>

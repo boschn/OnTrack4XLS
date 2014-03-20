@@ -527,6 +527,7 @@ errorhandle:
     '************
     Function NameExistsinApplication(ByVal aName As String) As Boolean
         Try
+
             If Not Globals.ThisAddIn.Application.Names.Item(aName) Is Nothing Then
                 Return True
             End If

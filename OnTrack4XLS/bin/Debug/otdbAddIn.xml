@@ -6,53 +6,7 @@ otdbAddIn
 </name>
 </assembly>
 <members>
-<member name="M:OnTrack.AddIn.OnTrack.UI.UITelerikMessageBox.#ctor">
-	<summary>
-	</summary>
-	<remarks></remarks>
-</member><member name="P:OnTrack.AddIn.OnTrack.UI.UITelerikMessageBox.Type">
-	<summary>
- Gets or sets the type.
- </summary>
-	<value>The type.</value>
-</member><member name="P:OnTrack.AddIn.OnTrack.UI.UITelerikMessageBox.Title">
-	<summary>
- Gets or sets the title.
- </summary>
-	<value>The title.</value>
-</member><member name="M:OnTrack.AddIn.OnTrack.UI.UITelerikMessageBox.CloseOTDBForm">
-	<summary>
- Close the Form
- </summary>
-	<remarks></remarks>
-	<returns></returns>
-</member><member name="M:OnTrack.AddIn.OnTrack.UI.UITelerikMessageBox.RefreshOTDBForm">
-	<summary>
- Refresh the Form
- </summary>
-	<remarks></remarks>
-	<returns></returns>
-</member><member name="P:OnTrack.AddIn.OnTrack.UI.UITelerikMessageBox.Message">
-	<summary>
- Gets or sets the message.
- </summary>
-	<value>The message.</value>
-</member><member name="P:OnTrack.AddIn.OnTrack.UI.UITelerikMessageBox.Buttons">
-	<summary>
- Gets or sets the buttons.
- </summary>
-	<value>The buttons.</value>
-</member><member name="P:OnTrack.AddIn.OnTrack.UI.UITelerikMessageBox.Result">
-	<summary>
- Gets or sets the answer.
- </summary>
-	<value>The answer.</value>
-</member><member name="P:OnTrack.AddIn.UIFormMessageLog.Session">
-	<summary>
- Gets or sets the session.
- </summary>
-	<value>The session.</value>
-</member><member name="F:OnTrack.AddIn.UIAboutBox.components">
+<member name="F:OnTrack.AddIn.UIAboutBox.components">
 	<summary>
  Required designer variable.
  </summary>
@@ -65,133 +19,11 @@ otdbAddIn
  Required method for Designer support - do not modify
  the contents of this method with the code editor.
  </summary>
-</member><member name="M:OnTrack.AddIn.Doc9QuickNDirty.CreateDoc18WkPkXConfig(OnTrack.otXChangeCommandType)">
+</member><member name="P:OnTrack.AddIn.UIFormMessageLog.Session">
 	<summary>
- creates a special XConfig for Microsoft Project Doc18 with outline
+ Gets or sets the session.
  </summary>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.AddIn.Doc9QuickNDirty.CreateDoc18ERoadmapXConfig(OnTrack.otXChangeCommandType)">
-	<summary>
- creates a special XConfig for Microsoft Project Doc18 with outline
- </summary>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.AddIn.Doc9QuickNDirty.CreateDoc9XConfig(OnTrack.otXChangeCommandType)">
-	<summary>
-  Creates a special XConfig (Dynmaic) for the Doc9 by Hand and saves it
- </summary>
-	<param name="XCMD"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.AddIn.Doc9QuickNDirty.createExpediterXConfig(OnTrack.otXChangeCommandType)">
-	<summary>
- creates a special expediter config
- </summary>
-	<param name="XCMD"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="T:OnTrack.AddIn.UIFormSetting.ConfigSetModelConverter">
-	<summary>
- ModelConverter for the ConfigSet 
- </summary>
-	<remarks></remarks>
-</member><member name="P:OnTrack.AddIn.UIFormSetting.ConfigSetModel.Logagent">
-	<summary>
- Gets or sets the logagent.
- </summary>
-	<value>The logagent.</value>
-</member><member name="P:OnTrack.AddIn.UIFormSetting.ConfigSetModel.ConnectionString">
-	<summary>
- Gets or sets the connection string.
- </summary>
-	<value>The connection string.</value>
-</member><member name="P:OnTrack.AddIn.UIFormSetting.ConfigSetModel.DatabaseDriver">
-	<summary>
- Gets or sets the driver.
- </summary>
-	<value>The driver.</value>
-</member><member name="T:OnTrack.AddIn.UIFormSetting.ConfigSetModel">
-	<summary>
- ConfigSetModel for nested Properties per ConfigSetModel
- </summary>
-	<remarks></remarks>
-</member><member name="M:OnTrack.AddIn.UIFormSetting.RegisterSetHost(OnTrack.AddIn.UIFormSetting.SetHostProperty)">
-	<summary>
- Register the SetHostPropertyFunction
- </summary>
-	<param name="delegate"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.AddIn.UIFormSetting.OnChange(System.Object,Telerik.WinControls.UI.PropertyStoreItemValueChangedEventArgs)">
-	<summary>
- Change Handler for the Properties
- </summary>
-	<param name="sender"></param>
-	<param name="e"></param>
-	<remarks></remarks>
-</member><member name="M:OnTrack.AddIn.UIFormSetting.UpdatePropertyStore(Telerik.WinControls.UI.RadPropertyStore)">
-	<summary>
- creates the Property Store for the configuration ITems
- </summary>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.AddIn.UIFormSetting.CancelButton_Click(System.Object,System.EventArgs)">
-	<summary>
- Cancel Button Handler
- </summary>
-	<param name="sender"></param>
-	<param name="e"></param>
-	<remarks></remarks>
-</member><member name="M:OnTrack.AddIn.UIFormSetting.ButtonCreateSchema_Click(System.Object,System.EventArgs)">
-	<summary>
- Create Schema Handler
- </summary>
-	<param name="sender"></param>
-	<param name="e"></param>
-	<remarks></remarks>
-</member><member name="M:OnTrack.AddIn.UIFormSetting.UIFormSetting_Activated(System.Object,System.EventArgs)">
-	<summary>
- Onload of Form handler
- </summary>
-	<param name="sender"></param>
-	<param name="e"></param>
-	<remarks></remarks>
-</member><member name="M:OnTrack.AddIn.UIFormSetting.SaveInDocument_Click(System.Object,System.EventArgs)">
-	<summary>
- Event handler for save in Document
- </summary>
-	<param name="sender"></param>
-	<param name="e"></param>
-	<remarks></remarks>
-</member><member name="M:OnTrack.AddIn.UIFormSetting.SaveInSessionButton_Click(System.Object,System.EventArgs)">
-	<summary>
- handles the inSession save
- </summary>
-	<param name="sender"></param>
-	<param name="e"></param>
-	<remarks></remarks>
-</member><member name="M:OnTrack.AddIn.UIFormSetting.SaveInConfigFileButton_Click(System.Object,System.EventArgs)">
-	<summary>
- handles the InConfigFileSave
- </summary>
-	<param name="sender"></param>
-	<param name="e"></param>
-	<remarks></remarks>
-</member><member name="M:OnTrack.AddIn.UIFormSetting.UIFormSetting_Load(System.Object,System.EventArgs)">
-	<summary>
- handles the Form OnLoad Event
- </summary>
-	<param name="sender"></param>
-	<param name="e"></param>
-	<remarks></remarks>
-</member><member name="M:OnTrack.AddIn.UIFormSetting.SaveButton_Click_1(System.Object,System.EventArgs)">
-	<summary>
- handles the save Button Click Event
- </summary>
-	<param name="sender"></param>
-	<param name="e"></param>
-	<remarks></remarks>
+	<value>The session.</value>
 </member><member name="P:OnTrack.AddIn.My.Resources.Resources.ResourceManager">
 	<summary>
   Returns the cached ResourceManager instance used by this class.
@@ -305,6 +137,100 @@ otdbAddIn
 	<summary>
   A strongly-typed resource class, for looking up localized strings, etc.
 </summary>
+</member><member name="T:OnTrack.AddIn.UIFormSetting.ConfigSetModelConverter">
+	<summary>
+ ModelConverter for the ConfigSet 
+ </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.AddIn.UIFormSetting.ConfigSetModel.Logagent">
+	<summary>
+ Gets or sets the logagent.
+ </summary>
+	<value>The logagent.</value>
+</member><member name="P:OnTrack.AddIn.UIFormSetting.ConfigSetModel.ConnectionString">
+	<summary>
+ Gets or sets the connection string.
+ </summary>
+	<value>The connection string.</value>
+</member><member name="P:OnTrack.AddIn.UIFormSetting.ConfigSetModel.DatabaseDriver">
+	<summary>
+ Gets or sets the driver.
+ </summary>
+	<value>The driver.</value>
+</member><member name="T:OnTrack.AddIn.UIFormSetting.ConfigSetModel">
+	<summary>
+ ConfigSetModel for nested Properties per ConfigSetModel
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormSetting.RegisterSetHost(OnTrack.AddIn.UIFormSetting.SetHostProperty)">
+	<summary>
+ Register the SetHostPropertyFunction
+ </summary>
+	<param name="delegate"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormSetting.OnChange(System.Object,Telerik.WinControls.UI.PropertyStoreItemValueChangedEventArgs)">
+	<summary>
+ Change Handler for the Properties
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormSetting.UpdatePropertyStore(Telerik.WinControls.UI.RadPropertyStore)">
+	<summary>
+ creates the Property Store for the configuration ITems
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormSetting.CancelButton_Click(System.Object,System.EventArgs)">
+	<summary>
+ Cancel Button Handler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormSetting.ButtonCreateSchema_Click(System.Object,System.EventArgs)">
+	<summary>
+ Create Schema Handler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormSetting.UIFormSetting_Activated(System.Object,System.EventArgs)">
+	<summary>
+ Onload of Form handler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormSetting.SaveInDocument_Click(System.Object,System.EventArgs)">
+	<summary>
+ Event handler for save in Document
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormSetting.SaveInSessionButton_Click(System.Object,System.EventArgs)">
+	<summary>
+ handles the inSession save
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormSetting.SaveInConfigFileButton_Click(System.Object,System.EventArgs)">
+	<summary>
+ handles the InConfigFileSave
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormSetting.UIFormSetting_Load(System.Object,System.EventArgs)">
+	<summary>
+ handles the Form OnLoad Event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
 </member><member name="M:OnTrack.AddIn.UIFormBatchProcesses.Run(System.Object,System.ComponentModel.DoWorkEventArgs)">
 	<summary>
  Run Batch Processing
@@ -338,6 +264,47 @@ otdbAddIn
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.OnTrack.UI.UITelerikMessageBox.#ctor">
+	<summary>
+	</summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.AddIn.OnTrack.UI.UITelerikMessageBox.Type">
+	<summary>
+ Gets or sets the type.
+ </summary>
+	<value>The type.</value>
+</member><member name="P:OnTrack.AddIn.OnTrack.UI.UITelerikMessageBox.Title">
+	<summary>
+ Gets or sets the title.
+ </summary>
+	<value>The title.</value>
+</member><member name="M:OnTrack.AddIn.OnTrack.UI.UITelerikMessageBox.CloseOTDBForm">
+	<summary>
+ Close the Form
+ </summary>
+	<remarks></remarks>
+	<returns></returns>
+</member><member name="M:OnTrack.AddIn.OnTrack.UI.UITelerikMessageBox.RefreshOTDBForm">
+	<summary>
+ Refresh the Form
+ </summary>
+	<remarks></remarks>
+	<returns></returns>
+</member><member name="P:OnTrack.AddIn.OnTrack.UI.UITelerikMessageBox.Message">
+	<summary>
+ Gets or sets the message.
+ </summary>
+	<value>The message.</value>
+</member><member name="P:OnTrack.AddIn.OnTrack.UI.UITelerikMessageBox.Buttons">
+	<summary>
+ Gets or sets the buttons.
+ </summary>
+	<value>The buttons.</value>
+</member><member name="P:OnTrack.AddIn.OnTrack.UI.UITelerikMessageBox.Result">
+	<summary>
+ Gets or sets the answer.
+ </summary>
+	<value>The answer.</value>
 </member><member name="P:OnTrack.AddIn.UIFormLogin.UsernameEnabled">
 	<summary>
  Gets or sets the username enabled.
@@ -394,6 +361,39 @@ otdbAddIn
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormLogin.CbConfigSet_SelectedIndexChanged(System.Object,Telerik.WinControls.UI.Data.PositionChangedEventArgs)">
+	<summary>
+ handler for the change in the configset
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.Doc9QuickNDirty.CreateDoc18WkPkXConfig(OnTrack.otXChangeCommandType)">
+	<summary>
+ creates a special XConfig for Microsoft Project Doc18 with outline
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.Doc9QuickNDirty.CreateDoc18ERoadmapXConfig(OnTrack.otXChangeCommandType)">
+	<summary>
+ creates a special XConfig for Microsoft Project Doc18 with outline
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.Doc9QuickNDirty.CreateDoc9XConfig(OnTrack.otXChangeCommandType)">
+	<summary>
+  Creates a special XConfig (Dynmaic) for the Doc9 by Hand and saves it
+ </summary>
+	<param name="XCMD"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.Doc9QuickNDirty.createExpediterXConfig(OnTrack.otXChangeCommandType)">
+	<summary>
+ creates a special expediter config
+ </summary>
+	<param name="XCMD"></param>
+	<returns></returns>
 	<remarks></remarks>
 </member>
 </members>
