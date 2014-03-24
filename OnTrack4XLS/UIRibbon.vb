@@ -96,6 +96,7 @@ Public Class OnTrackRibbon
             For Each aDomain As Domain In aDomainList
                 Dim anItem As Microsoft.Office.Tools.Ribbon.RibbonDropDownItem = Me.Factory.CreateRibbonDropDownItem
                 anItem.Label = aDomain.ID
+                anItem.ScreenTip = aDomain.Description
                 Me.DomainCombo.Items.Add(anItem)
             Next
             DomainCombo.Enabled = True
