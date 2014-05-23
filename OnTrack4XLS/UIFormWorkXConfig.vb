@@ -8,7 +8,7 @@ Imports OnTrack.XChange
 
 Public Class UIFormWorkXConfig
 
-    Dim _XconfigList As List(Of XConfig)
+    Dim _XconfigList As List(Of XChangeConfiguration)
     Dim _XConfigDataTable As New DataTable
     Dim _XConfigObjectsDataTable As New DataTable
     Dim _xConfigAttributesDataTable As New DataTable
@@ -21,12 +21,12 @@ Public Class UIFormWorkXConfig
         If CurrentSession.RequireAccessRight(otAccessRight.[ReadOnly]) Then
 
             ' get the ConfigList
-            _XconfigList = XConfig.All
+            _XconfigList = XChangeConfiguration.All
             ' setup of the workspaceID table
             _XConfigDataTable.Columns.Add("Configname", GetType(String))
             _XConfigDataTable.Columns.Add("Description", GetType(String))
 
-            For Each aXconfig As XConfig In _XconfigList
+            For Each aXconfig As XChangeConfiguration In _XconfigList
                 _XConfigDataTable.Rows.Add(Trim(aXconfig.Configname), aXconfig.Description)
             Next
             Me.ListXConfigsGV.DataSource = _XConfigDataTable
@@ -49,12 +49,12 @@ Public Class UIFormWorkXConfig
     Public Sub LoadDataPanel(ByVal index As UShort)
 
         ' get the Config
-        Dim aXConfig As XConfig = _XconfigList.ElementAt(index)
+        Dim aXConfig As XChangeConfiguration = _XconfigList.ElementAt(index)
 
         Me.ConfigNameTb.Text = aXConfig.CONFIGNAME
         Me.DescriptionTB.Text = aXConfig.description
         Me.OutlineCombo.Text = aXConfig.outlineID
-        If aXConfig.AllowDynamicAttributes Then
+        If aXConfig.AllowDynamicEntries Then
             Me.DynamicIDButton.Text = "is dynamic"
             Me.DynamicIDButton.ToggleState = Enumerations.ToggleState.On
 
@@ -65,18 +65,18 @@ Public Class UIFormWorkXConfig
 
 
         ' fill the attributes
-        Dim attribColl As IEnumerable(Of XConfigAttributeEntry) = aXConfig.Attributes
+        Dim attribColl As IEnumerable(Of XChangeObjectEntry) = aXConfig.GetObjectEntries
         Dim xConfigAttributesDataTable As DataTable = New DataTable
         xConfigAttributesDataTable.Columns.Add("ID", GetType(String))
         xConfigAttributesDataTable.Columns.Add("fieldname", GetType(String))
-        xConfigAttributesDataTable.Columns.Add("Type", GetType(otFieldDataType))
+        xConfigAttributesDataTable.Columns.Add("Type", GetType(otDataType))
         xConfigAttributesDataTable.Columns.Add("ordinal", GetType(Long))
         xConfigAttributesDataTable.Columns.Add("Title", GetType(String))
         xConfigAttributesDataTable.Columns.Add("Aliases", GetType(String))
 
-        For Each attrib As XConfigAttributeEntry In attribColl
-            xConfigAttributesDataTable.Rows.Add(attrib.ID, _
-                                                 attrib.Entryname, _
+        For Each attrib As XChangeObjectEntry In attribColl
+            xConfigAttributesDataTable.Rows.Add(attrib.XID, _
+                                                 attrib.ObjectEntryname, _
                                                  attrib.ObjectEntryDefinition.Datatype, _
                                                  attrib.ordinal.Value, _
                                                  attrib.ObjectEntryDefinition.Title, _
@@ -88,12 +88,12 @@ Public Class UIFormWorkXConfig
         Me.XConfigIDsGView.MasterTemplate.AutoSizeColumnsMode = GridViewAutoSizeColumnsMode.Fill
 
         ' fill the objects
-        Dim ObjectsColl As List(Of XConfigObjectEntry) = aXConfig.Objects
+        Dim ObjectsColl As List(Of XChangeObject) = aXConfig.[XChangeobjects].ToList
         Dim xConfigObjectsDataTable = New DataTable
         xConfigObjectsDataTable.Columns.Add("Order", GetType(UShort))
         xConfigObjectsDataTable.Columns.Add("Object name", GetType(String))
 
-        For Each [object] As XConfigObjectEntry In ObjectsColl
+        For Each [object] As XChangeObject In ObjectsColl
             xConfigObjectsDataTable.Rows.Add([object].Orderno, _
                                               [object].Objectname)
         Next
@@ -123,17 +123,17 @@ Public Class UIFormWorkXConfig
     Private Sub XConfig1MenuItem_Click(sender As Object, e As EventArgs) Handles CreateDoc9ConfigMenuItem.Click
 
         'Create the special IDs
-        If modDoc9.createDoc9XConfig(otXChangeCommandType.Read) Then
-            Me.StatusLabel.Text = MySettings.Default.DefaultDoc9ConfigNameDynamic & " successfully created"
+        If modQuicknDirty.CreateConfigDocXCONFIG(otXChangeCommandType.Read) Then
+            Me.StatusLabel.Text = MySettings.Default.DefaultXConfigName & " successfully created"
         End If
     End Sub
 
-    Private Sub CreateExpediterMenuItem_Click(sender As Object, e As EventArgs) Handles CreateExpediterConfigMenuItem.Click
+    Private Sub CreateExpediterMenuItem_Click(sender As Object, e As EventArgs)
 
         'Create the special IDs
-        If modDoc9.createExpediterXConfig(otXChangeCommandType.Read) Then
-            Me.StatusLabel.Text = MySettings.Default.DefaultExpediterConfigNameDynamic & " successfully created"
-        End If
+        'If modDoc9.createExpediterXConfig(otXChangeCommandType.Read) Then
+        '    Me.StatusLabel.Text = MySettings.Default.DefaultExpediterConfigNameDynamic & " successfully created"
+        'End If
     End Sub
 
     Private Sub XConfigIDsGView_Click(sender As Object, e As EventArgs) Handles XConfigIDsGView.Click

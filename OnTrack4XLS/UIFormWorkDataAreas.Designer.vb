@@ -51,9 +51,7 @@ Partial Class UIFormWorkDataAreas
         '
         'RadStatusStrip1
         '
-        Me.RadStatusStrip1.AutoSize = True
         Me.RadStatusStrip1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadLabelElement1, Me.CancelButton, Me.SaveButton})
-        Me.RadStatusStrip1.LayoutStyle = Telerik.WinControls.UI.RadStatusBarLayoutStyle.Stack
         Me.RadStatusStrip1.Location = New System.Drawing.Point(0, 375)
         Me.RadStatusStrip1.Name = "RadStatusStrip1"
         Me.RadStatusStrip1.Size = New System.Drawing.Size(485, 29)
@@ -126,9 +124,7 @@ Partial Class UIFormWorkDataAreas
         '
         'DataAreaListControl
         '
-        Me.DataAreaListControl.CaseSensitiveSort = True
         Me.DataAreaListControl.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataAreaListControl.ItemHeight = 18
         Me.DataAreaListControl.Location = New System.Drawing.Point(0, 0)
         Me.DataAreaListControl.Name = "DataAreaListControl"
         Me.DataAreaListControl.Size = New System.Drawing.Size(139, 339)
@@ -178,7 +174,7 @@ Partial Class UIFormWorkDataAreas
         'AddDataAreaButton
         '
         Me.AddDataAreaButton.DisplayStyle = Telerik.WinControls.DisplayStyle.Image
-        Me.AddDataAreaButton.Image = Global.OnTrack.Addin.My.Resources.Resources.bt_add
+        Me.AddDataAreaButton.Image = Global.OnTrack.Addin.My.Resources.Resources.plus
         Me.AddDataAreaButton.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.AddDataAreaButton.Location = New System.Drawing.Point(3, 0)
         Me.AddDataAreaButton.Name = "AddDataAreaButton"
@@ -186,7 +182,7 @@ Partial Class UIFormWorkDataAreas
         Me.AddDataAreaButton.TabIndex = 0
         Me.AddDataAreaButton.ThemeName = "TelerikMetroBlue"
         '
-        'WorkDataAreasForm
+        'UIFormWorkDataAreas
         '
         Me.AcceptButton = Me.SaveButton
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -196,7 +192,7 @@ Partial Class UIFormWorkDataAreas
         Me.Controls.Add(Me.RadSplitContainer1)
         Me.Controls.Add(Me.RadStatusStrip1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Name = "WorkDataAreasForm"
+        Me.Name = "UIFormWorkDataAreas"
         '
         '
         '

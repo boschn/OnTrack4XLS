@@ -8,8 +8,8 @@
     <Setting Name="Property_XChange_DataArea" Type="System.String" Scope="Application">
       <Value Profile="(Default)">OTDB_XCHANGE_DATAAREA</Value>
     </Setting>
-    <Setting Name="DefaultDoc9ConfigNameDynamic" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Doc9Dynamic</Value>
+    <Setting Name="DefaultXConfigName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">DefaultDynamic</Value>
     </Setting>
     <Setting Name="parameter_otdb_drivername" Type="System.String" Scope="Application">
       <Value Profile="(Default)">oledb</Value>

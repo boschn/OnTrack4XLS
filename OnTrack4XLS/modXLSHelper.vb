@@ -444,20 +444,14 @@ errorhandle:
 
     Function NameExistsinWorkbook(ByVal aWorkbook As Workbook, ByVal aName As String) As Boolean
         Try
-            If Not aWorkbook.Names.Item(aName) Is Nothing Then
-                Return True
-            End If
-            Return False
-        Catch ex As System.Runtime.InteropServices.COMException
             For Each name As Microsoft.Office.Interop.Excel.Name In aWorkbook.Names
-
                 If LCase(name.Name) = LCase(aName) Then
                     Return True
                 End If
-
             Next
             Return False
-
+        Catch ex As System.Runtime.InteropServices.COMException
+            Return False
         End Try
         Return False
     End Function
@@ -484,19 +478,15 @@ errorhandle:
     '************
     Function NameInWorkbook(ByVal aWorkbook As Workbook, ByVal aName As String) As Microsoft.Office.Interop.Excel.Name
         Try
-            If Not aWorkbook.Names.Item(aName) Is Nothing Then
-                Return aWorkbook.Names.Item(aName)
-            End If
-
-            Return Nothing
-        Catch ex As Exception
             For Each name As Microsoft.Office.Interop.Excel.Name In aWorkbook.Names
-
                 If LCase(name.Name) = LCase(aName) Then
                     Return name
                 End If
-                Return Nothing
             Next
+
+            Return Nothing
+        Catch ex As Exception
+           
         End Try
         Return Nothing
     End Function
@@ -527,16 +517,14 @@ errorhandle:
     '************
     Function NameExistsinApplication(ByVal aName As String) As Boolean
         Try
-
-            If Not Globals.ThisAddIn.Application.Names.Item(aName) Is Nothing Then
-                Return True
-            End If
-        Catch ex As System.Runtime.InteropServices.COMException
             For Each name As Microsoft.Office.Interop.Excel.Name In Globals.ThisAddIn.Application.Names
                 If LCase(name.Name) = LCase(aName) Then
                     Return True
                 End If
             Next
+            Return False
+           
+        Catch ex As System.Runtime.InteropServices.COMException
             Return False
         End Try
 
@@ -548,17 +536,16 @@ errorhandle:
     Function NameExistsinWorksheet(ByVal aWorksheet As Worksheet, ByVal aName As String) As Boolean
        
         Try
-            If Not aWorksheet.Names.Item(aName) Is Nothing Then
-                Return True
-            End If
-            Return False
-
-        Catch ex As System.Runtime.InteropServices.COMException
             For Each name As String In aWorksheet.Names
                 If LCase(name) = LCase(aName) Then
                     Return True
                 End If
             Next
+
+            Return False
+
+        Catch ex As System.Runtime.InteropServices.COMException
+            
 
             Return False
         End Try
@@ -569,16 +556,13 @@ errorhandle:
     '************
     Function NameinWorksheet(ByVal aWorksheet As Worksheet, ByVal aName As String) As Microsoft.Office.Interop.Excel.Name
         Try
-            If Not aWorksheet.Names.Item(aName) Is Nothing Then
-                Return aWorksheet.Names.Item(aName)
-            End If
-            Return aWorksheet.Names.Item(aName)
-        Catch ex As System.Runtime.InteropServices.COMException
             For Each name As Microsoft.Office.Interop.Excel.Name In aWorksheet.Names
                 If LCase(name.Name) = LCase(aName) Then
                     Return name
                 End If
             Next
+            Return Nothing
+        Catch ex As System.Runtime.InteropServices.COMException
             Return Nothing
         End Try
 

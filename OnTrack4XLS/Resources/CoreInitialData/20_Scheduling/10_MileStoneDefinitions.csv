@@ -1,0 +1,21 @@
+# Customizaton for MILESTONE DEFINITION
+#
+# --- BOMBARDIER TRANSPORTATION FUNCTIONAL DESIGN BASELINE ---
+#
+# Exchange IDs
+#
+#MILESTONEDEFINITION;ID;BPD1;id of the milestone;;;;;
+#MILESTONEDEFINITION;OBJECTIDS;BPD10;Object ids to be attached to;;;;;
+#MILESTONEDEFINITION;DESC;BPD2;description of the milestone;;;;;
+#MILESTONEDEFINITION;TYPEID;BPD3;type of the milestone;;;;;
+#MILESTONEDEFINITION;DATATYPE;BPD4;datatype of the milestone;;;;;
+#MILESTONEDEFINITION;STATUS;BPD5;status item type of the milestone;;;;;
+#MILESTONEDEFINITION;ISFORECAST;BPD6;set if milestone is a forecast;;;;;
+#MILESTONEDEFINITION;REFID;BPD7;set if milestone is a reference;;;;;
+#MILESTONEDEFINITION;ORDINAL;BPD8;ordinal of the object entry;;;;;
+#MILESTONEDEFINITION;TITLE;BPD9;Title of the milestone;;;;;
+#MILESTONEDEFINITION;DOMAINID;DM1;domain identifier;;;;;
+#MILESTONEDEFINITION;OBJECTIDS;BPD10;List of Objects to attach to
+BPD1;DM1;BPD9;BPD2;BPD3;BPD4;BPD5;BPD6;BPD8;BPD10;
+BP9;@;FC Approval Date;FC Approval Date;Date;6;;True;90;|DELIVERABLE|;
+BP10;@;Actual Approval Date;Actual Approval Date;Date;6;;False;100;|DELIVERABLE|;

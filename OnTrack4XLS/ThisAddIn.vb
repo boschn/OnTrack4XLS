@@ -69,8 +69,8 @@ Public Class ThisAddIn
         ApplicationName = My.Application.Info.AssemblyName & ConstDelimiter & My.Application.Info.Version.ToString
         _OTDBSession = CurrentSession
         '** register the UI
-        OTDBUI.RegisterNativeUI(OTDBUI.LoginFormName, GetType(UIFormLogin))
-        OTDBUI.RegisterNativeUI(OTDBUI.MessageboxFormName, GetType(OnTrack.UI.UITelerikMessageBox))
+        UserInterface.RegisterNativeUI(UserInterface.LoginFormName, GetType(UIFormLogin))
+        UserInterface.RegisterNativeUI(UserInterface.MessageboxFormName, GetType(OnTrack.UI.UITelerikMessageBox))
         ' check the Tooling PATH
         For Each tooling As Object In Application.AddIns
             If tooling.Name Like ConstDefaultToolingNamePattern And tooling.Installed Then

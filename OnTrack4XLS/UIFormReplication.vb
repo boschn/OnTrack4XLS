@@ -5,6 +5,8 @@ Imports System.Data
 
 Imports OnTrack
 Imports OnTrack.XChange
+Imports OnTrack.Database
+Imports OnTrack.Commons
 
 Public Class UIFormReplication
 
@@ -34,7 +36,7 @@ Public Class UIFormReplication
 
     Private _replicationType As ReplicationType
 
-    Private WithEvents _errorlog As MessageLog 'get reference for event handling of new errors
+    Private WithEvents _errorlog As SessionMessageLog 'get reference for event handling of new errors
 
 
     Friend WithEvents MQFDataSet As System.Data.DataSet
@@ -54,9 +56,8 @@ Public Class UIFormReplication
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        If CurrentSession.RequireAccessRight(AccessRequest:=otAccessRight.[ReadOnly]) Then
-
-
+        If Not ot.RequireAccess(accessRequest:=otAccessRight.[ReadOnly]) Then
+            Me.StatusLabel.Text = "no access to database"
         End If
 
         '** fill the workspaceID List
@@ -70,15 +71,15 @@ Public Class UIFormReplication
         _workspaceTable.Columns.Add("has Actuals", GetType(Boolean))
         For Each aWorkspace In _workspaceList
             If Not aWorkspace.IsDeleted Then
-                _workspaceTable.Rows.Add(Trim(aWorkspace.ID), aWorkspace.description, aWorkspace.isBasespace, aWorkspace.hasActuals)
+                _workspaceTable.Rows.Add(Trim(aWorkspace.ID), aWorkspace.Description, aWorkspace.IsBasespace, aWorkspace.HasActuals)
             End If
         Next
         Me.WorkspaceDropDownList.DataSource = _workspaceTable
 
         '** fill the workspaceID List
 
-        'Dim aXConfig As New clsOTDBXChangeConfig
-        'Dim aXConfigList As New List(Of clsOTDBXChangeConfig)
+        'Dim aXConfig As New XChangeConfiguration
+        'Dim aXConfigList As New List(Of XChangeConfiguration)
         'aXConfigList = aXConfig.AllByList
         ' setup of the workspaceID table
         XLSXChangeMgr.AttachWorkbook(Globals.ThisAddIn.Application.ActiveWorkbook)
@@ -411,7 +412,7 @@ Public Class UIFormReplication
         Else
             FormClosingArgs.Cancel = True
         End If
-       
+
 
     End Sub
 
@@ -422,8 +423,8 @@ Public Class UIFormReplication
     ''' <param name="e"></param>
     ''' <remarks></remarks>
     Private Sub AddConfig_Click(sender As Object, e As EventArgs)
-        Dim aXconfig As clsOTDBXChangeConfig = modDoc9.getXlsDoc9Xconfig
-        Dim aRange As Microsoft.Office.Interop.Excel.Range = modDoc9.getdbDoc9Range()
+        Dim aXconfig As XChangeConfiguration = modQuicknDirty.getXlsDoc9Xconfig
+        Dim aRange As Microsoft.Office.Interop.Excel.Range = modQuicknDirty.GetdbDoc9Range()
 
         'Me.ConfigDropDownList.Text = aXconfig.CONFIGNAME
 
@@ -431,8 +432,8 @@ Public Class UIFormReplication
         _dataarea = New XLSDataArea("doc9", aXconfig)
         _dataarea.DataRange = aRange
         _dataarea.SelectionID = "X2"
-        _dataarea.HeaderIDRange = getXLSParameterRangeByName( _
-                            NAME:="doc9_headerid", WORKBOOK:=Globals.ThisAddIn.Application.ActiveWorkbook)
+        _dataarea.HeaderIDRange = GetXlsParameterRangeByName( _
+                            name:="doc9_headerid", workbook:=Globals.ThisAddIn.Application.ActiveWorkbook)
 
         'Me.RefEdit.Address = "'" & aRange.Parent.Name & "'!" & aRange.Address(External:=False)
 

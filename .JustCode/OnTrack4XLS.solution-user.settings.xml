@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<JustCodeSettings Version="0.0" Timestamp="edcf2339-e0b7-4908-9267-fe0f6f67e2e5">
+  <IgnoredErrorsAndWarningsSettings xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <IgnoredErrorsAndWarnings Version="2">
+      <FilePath>
+        <FileRelativePath>otdbAddin/otdbAddIn/UIFormDBExplorer.vb</FileRelativePath>
+        <ProjectRelativePath>otdbAddin/otdbAddIn/otAddInCommon.vbproj</ProjectRelativePath>
+        <IgnoredElement>
+          <TextualIdentifier>17312915329056053208</TextualIdentifier>
+        </IgnoredElement>
+        <IgnoredElement>
+          <TextualIdentifier>8936934412135513903</TextualIdentifier>
+        </IgnoredElement>
+      </FilePath>
+    </IgnoredErrorsAndWarnings>
+  </IgnoredErrorsAndWarningsSettings>
+</JustCodeSettings>

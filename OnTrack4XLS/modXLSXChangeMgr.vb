@@ -17,6 +17,7 @@ Imports System.ComponentModel
 Imports OnTrack
 Imports OnTrack.Database
 Imports OnTrack.XChange
+Imports OnTrack.Commons
 
 '*********
 '********* CLASS XLSOTDBDataAreaStore defines a Store of DataAreas per Workbook which is connected to the
@@ -116,7 +117,7 @@ Public Class XLSDataAreaStore
         Dim name, address, headerid, selectionID, xconfigname, prefixreference, transactionID, keyIDs, transactionLogID, statusID, timestampID, extendID As String
         Dim extend As Boolean
         Dim PropertyDefaultName As String = MySettings.Default.Property_XChange_DataArea
-        
+
         Dim MaxProperty As UShort = maxDataAreas()
         Dim aDataArea As XLSDataArea
         Dim Propertyname As String
@@ -195,9 +196,9 @@ Public Class XLSDataAreaStore
                     End If
 
                     aDataArea = New XLSDataArea(name)
-                        With aDataArea
+                    With aDataArea
                         .DataRangeAddress = address
-                            If headerid <> "" Then
+                        If headerid <> "" Then
                             .HeaderIDAddress = headerid
                         End If
                         .SelectionID = selectionID
@@ -207,20 +208,20 @@ Public Class XLSDataAreaStore
                         .StatusID = statusID
                         .TransactionLogID = transactionLogID
                         .KeyIDString = keyIDs
-                            If Trim(extendID).Length > 0 Then
+                        If Trim(extendID).Length > 0 Then
                             .ExtendDynamic = True
-                            Else
+                        Else
                             .ExtendDynamic = False
                         End If
 
                     End With
-                   
+
 
                     ' add to list
                     aList.Add(aDataArea)
 
                 Catch ex As Exception
-                    Call CoreMessageHandler(EXCEPTION:=ex, break:=False)
+                    Call CoreMessageHandler(exception:=ex, break:=False)
                 End Try
 
 
@@ -290,7 +291,7 @@ Public Class XLSDataAreaStore
                     ConstDelimiter & aDataArea.ExtendDynamic.ToString & _
                     ConstDelimiter
                     ' set it
-                    setHostProperty(Propertyname, PropertyString, workbook, silent:=True)
+                    SetHostProperty(Propertyname, PropertyString, workbook, silent:=True)
 
                     ' increase i
                     i += 1
@@ -310,7 +311,7 @@ Public Class XLSDataAreaStore
             End If
 
             Try
-                setHostProperty(Propertyname, "", workbook, silent:=True)
+                SetHostProperty(Propertyname, "", workbook, silent:=True)
 
             Catch ex As Exception
 
@@ -329,7 +330,7 @@ End Class
 '*********
 
 Public Class XLSDataArea
-Implements INotifyPropertyChanged
+    Implements INotifyPropertyChanged
 
 
     ' Declare the event 
@@ -360,7 +361,7 @@ Implements INotifyPropertyChanged
     Private sPrefixReferences As String
 
     ' Xconfig    
-    Private sXConfig As XConfig
+    Private sXConfig As XChangeConfiguration
     Private sXConfigName As String 'Name of the associated Xconfig
 
     ' Database Description
@@ -372,7 +373,7 @@ Implements INotifyPropertyChanged
     Public Sub New(name As String)
         sName = name
     End Sub
-    Public Sub New(name As String, [xConfig] As XConfig)
+    Public Sub New(name As String, [xConfig] As XChangeConfiguration)
         sName = name
         sXConfig = [xConfig]
     End Sub
@@ -381,7 +382,7 @@ Implements INotifyPropertyChanged
         sWorkbook = workbook
     End Sub
 
-    #Region "Properties"
+#Region "Properties"
     ''' <summary>
     ''' Gets or sets the PS workbook.
     ''' </summary>
@@ -468,21 +469,20 @@ Implements INotifyPropertyChanged
     <Category("Data Configuration")> _
     <Browsable(False)> _
     <Description("The associated XChange Configuration")> _
-    Public Property XConfig() As XConfig
+    Public Property XConfig() As XChangeConfiguration
         Get
             'load
             If sXConfig Is Nothing And sXConfigName <> "" Then
-                sXConfig = New XConfig
-                If sXConfig.Inject(sXConfigName) Then
-                    Return sXConfig
-                End If
+                sXConfig = XChangeConfiguration.Retrieve(sXConfigName)
+                Return sXConfig
+
             ElseIf Not sXConfig Is Nothing AndAlso (sXConfig.IsLoaded Or sXConfig.IsCreated) Then
                 Return Me.sXConfig
             Else
                 Return Nothing
             End If
         End Get
-        Set(value As XConfig)
+        Set(value As XChangeConfiguration)
             Me.sXConfig = value
             Me.sXConfigName = value.Configname
             ' Call OnPropertyChanged whenever the property is updated
@@ -539,8 +539,8 @@ Implements INotifyPropertyChanged
         End Get
         Set(value As String)
             Try
-                If Not getXLSParameterRangeByName(value, WORKBOOK:=sWorkbook, SILENT:=True) Is Nothing Then
-                    Me.HeaderIDRange = getXLSParameterRangeByName(value, WORKBOOK:=sWorkbook, SILENT:=True)
+                If Not GetXlsParameterRangeByName(value, workbook:=sWorkbook, silent:=True) Is Nothing Then
+                    Me.HeaderIDRange = GetXlsParameterRangeByName(value, workbook:=sWorkbook, silent:=True)
                     sHeaderIDAddress = value
                 ElseIf sWorkbook Is Nothing Then
                     Dim aSheet As Excel.Worksheet
@@ -566,7 +566,7 @@ Implements INotifyPropertyChanged
                 OnPropertyChanged("HeaderIDAddress")
 
             Catch ex As Exception
-                CoreMessageHandler(EXCEPTION:=ex, break:=False, SUBNAME:="XLSDataarea.HeaderIDAddress")
+                CoreMessageHandler(exception:=ex, break:=False, subname:="XLSDataarea.HeaderIDAddress")
             End Try
 
         End Set
@@ -625,8 +625,8 @@ Implements INotifyPropertyChanged
         End Get
         Set(value As String)
             Try
-                If Not getXLSParameterRangeByName(value, WORKBOOK:=sWorkbook, SILENT:=True) Is Nothing Then
-                    Me.DataRange = getXLSParameterRangeByName(value, WORKBOOK:=sWorkbook, SILENT:=True)
+                If Not GetXlsParameterRangeByName(value, workbook:=sWorkbook, silent:=True) Is Nothing Then
+                    Me.DataRange = GetXlsParameterRangeByName(value, workbook:=sWorkbook, silent:=True)
                     sDataRangeAddress = value
                 ElseIf sWorkbook Is Nothing Then
                     Dim aSheet As Excel.Worksheet
@@ -651,7 +651,7 @@ Implements INotifyPropertyChanged
                 ' Call OnPropertyChanged whenever the property is updated
                 OnPropertyChanged("DataRangeAddress")
             Catch ex As Exception
-                CoreMessageHandler(EXCEPTION:=ex, break:=False, SUBNAME:="XLSDataarea.DataRangeAddress")
+                CoreMessageHandler(exception:=ex, break:=False, subname:="XLSDataarea.DataRangeAddress")
             End Try
 
         End Set
@@ -766,7 +766,7 @@ Implements INotifyPropertyChanged
         End Set
     End Property
 
-    #End Region
+#End Region
 
     '****** getHeaderIDColumn returns the Column number of ther header id (overstepps "" etc)
     '******                           or zero (if not found)
@@ -841,14 +841,14 @@ Implements INotifyPropertyChanged
                                vbQuestion + vbYesNoCancel, "OTDB Tooling Message: ARE YOU SURE ?")
 
             If msgboxrsl <> vbYes Then
-                getSelectionAsRange = Nothing
+                GetSelectionAsRange = Nothing
                 Exit Function
             Else
                 selected = selectioncol.Cells
             End If
         End If
         '
-        getSelectionAsRange = selected
+        GetSelectionAsRange = selected
     End Function
 
     '****** AddHeaderIDRange2Config
@@ -856,15 +856,14 @@ Implements INotifyPropertyChanged
     Public Function AddHeaderIDs2XConfig(ByVal XCMD As otXChangeCommandType) As Boolean
         Dim aList As New List(Of String)
 
+        ''' collect all the cell values for the header ids in the header id range of excel
         For Each cell As Excel.Range In Me.HeaderIDRange.Cells
-            If Not Globals.ThisAddIn.Application.WorksheetFunction.IsError(cell) _
-            AndAlso Not cell.Value Is Nothing Then
-                aList.Add(cell.Value)
-            Else
-                aList.Add("")
+            If Not Globals.ThisAddIn.Application.WorksheetFunction.IsError(cell) AndAlso Not cell.Value Is Nothing Then
+                aList.Add(cell.Value.ToString.ToUpper)
             End If
         Next
 
+        ''' add these to the headerids
         If aList.Count > 0 Then
             Return Me.AddHeaderIDs2XConfig(aList, XCMD)
         End If
@@ -873,7 +872,7 @@ Implements INotifyPropertyChanged
     End Function
 
     Private Function AddHeaderIDs2XConfig(ByRef headerids As List(Of String), ByVal XCMD As otXChangeCommandType) As Boolean
-        Dim aXConfig As XConfig = Me.XConfig
+        Dim aXConfig As XChangeConfiguration = Me.XConfig
         Dim isReadonly As Boolean = False
         Dim i As Long = 1
 
@@ -881,7 +880,7 @@ Implements INotifyPropertyChanged
         If aXConfig Is Nothing OrElse Not (aXConfig.IsLoaded Or aXConfig.IsCreated) Then
 
             Call CoreMessageHandler(message:="couldnot load default XConfig " & XConfigName, _
-                                    SUBNAME:="AddHeaderIDs2XConfig")
+                                    subname:="AddHeaderIDs2XConfig")
             Return False
 
         End If
@@ -893,18 +892,7 @@ Implements INotifyPropertyChanged
             '*** HACK 
             '***
             If Trim(id) <> "" Then
-
-                '*** HACK -> this means there is a Doc9 ?!
-                'If LCase(id) = "uid" Then
-                'isReadonly = True
-                'Else
-                'isReadonly = False
-                'End If
-
-                'If isReadOnly Then Debug.Assert False
-
-                Call aXConfig.AddAttributeByID(id:=Trim(id), ordinal:=i, xcmd:=XCMD, readonly:=isReadonly)
-
+                Call aXConfig.AddEntryByXID(Xid:=Trim(id), ordinal:=i, xcmd:=XCMD, readonly:=isReadonly, isXChanged:=True)
             End If
             i += 1
         Next
@@ -933,7 +921,7 @@ Public Class ExcelXBag
     ''' </summary>
     ''' <param name="xConfig"></param>
     ''' <remarks></remarks>
-    Public Sub New(xConfig As XConfig)
+    Public Sub New(xConfig As XChangeConfiguration)
         MyBase.New(xConfig)
     End Sub
 
@@ -956,7 +944,7 @@ Public Class ExcelXBag
                 ' HACK ! Here we should define which IDs/Slot react with which value
                 Select Case args.Datatype
 
-                    Case otFieldDataType.Bool
+                    Case otDataType.Bool
                         If args.Dbvalue = True Then
                             args.Hostvalue = args.Dbvalue
                             args.ConvertSucceeded = True
@@ -989,7 +977,7 @@ Public Class ExcelXBag
                     ' HACK ! Here we should define which IDs/Slot react with which value
                     Select Case args.Datatype
 
-                        Case otFieldDataType.Bool
+                        Case otDataType.Bool
                             If args.Dbvalue = True Then
                                 args.Hostvalue = args.Dbvalue
                                 args.ConvertSucceeded = True
@@ -1027,28 +1015,28 @@ Public Class ExcelXBag
                 args.DbValueisNull = True
                 ' HACK ! Here we should define which IDs/Slot react with which value
                 Select Case args.Datatype
-                    Case otFieldDataType.Date, otFieldDataType.Timestamp
-                        args.Dbvalue = ConstNullDate
+                    Case otDataType.Date, otDataType.Timestamp
+                        args.Dbvalue = Nothing
                         args.ConvertSucceeded = True
                         Return
-                    Case otFieldDataType.Time
-                        args.Dbvalue = ConstNullTime
+                    Case otDataType.Time
+                        args.Dbvalue = Nothing
                         args.ConvertSucceeded = True
                         Return
-                    Case otFieldDataType.Long
-                        args.Dbvalue = CLng(0)
+                    Case otDataType.Long
+                        args.Dbvalue = Nothing
                         args.ConvertSucceeded = True
                         Return
-                    Case otFieldDataType.Numeric
-                        args.Dbvalue = CDbl(0)
+                    Case otDataType.Numeric
+                        args.Dbvalue = Nothing
                         args.ConvertSucceeded = True
                         Return
-                    Case otFieldDataType.Bool
-                        args.Dbvalue = False
+                    Case otDataType.Bool
+                        args.Dbvalue = Nothing
                         args.ConvertSucceeded = True
                         Return
-                    Case otFieldDataType.Text, otFieldDataType.Memo, otFieldDataType.List
-                        args.Dbvalue = ""
+                    Case otDataType.Text, otDataType.Memo, otDataType.List
+                        args.Dbvalue = Nothing
                         args.ConvertSucceeded = True
                         Return
                     Case Else
@@ -1161,7 +1149,7 @@ Module XLSXChangeMgr
         Dim aSelection As Excel.Range
         Dim aValue, aNewValue As Object
 
-        Dim aXChangeConfig As New clsOTDBXChangeConfig
+        Dim aXChangeConfig As New XChangeConfiguration
         Dim progress As Long = 0
         Dim maximum As ULong = 0
         Dim column As UShort
@@ -1220,7 +1208,7 @@ Module XLSXChangeMgr
         End If
 
         '*** Patch
-        aXChangeConfig.Inject(configname:=dataarea.XConfigName)
+        aXChangeConfig = XChangeConfiguration.Retrieve(configname:=dataarea.XConfigName)
 
 
         '** datarange
@@ -1254,7 +1242,7 @@ Module XLSXChangeMgr
         '*** 
 
         '*** get the dynamic  IDs from the header area
-        If dataarea.XConfig.AllowDynamicAttributes Then
+        If dataarea.XConfig.AllowDynamicEntries Then
             If Not dataarea.AddHeaderIDs2XConfig(XCMD:=xcmd) Then
                 Call CoreMessageHandler(message:="header id range with address " & dataarea.HeaderIDAddress _
                                         & " couldnot be added to xconfig with name '" & dataarea.XConfigName & "'", _
@@ -1299,8 +1287,8 @@ Module XLSXChangeMgr
         '*** save the Attributes
         Dim aXBag As New ExcelXBag(dataarea.XConfig)
         Dim aXEnvelope As XEnvelope
-        Dim anAttribute As XConfigAttributeEntry
-        Dim anAttributesList As List(Of XConfigAttributeEntry) = dataarea.XConfig.Attributes
+        Dim anAttribute As XChangeObjectEntry
+        Dim anAttributesList As List(Of XChangeObjectEntry) = dataarea.XConfig.GetObjectEntries
 
         '*** operate on the outline -> makes only sense on a Read !
         '***
@@ -1339,12 +1327,12 @@ Module XLSXChangeMgr
                 End If
 
                 '** put the level in the mapping
-                anAttribute = dataarea.XConfig.AttributeByID(ID:="OTLIV4")
+                anAttribute = dataarea.XConfig.GetEntryByXID(XID:="OTLIV4")
                 If anAttribute IsNot Nothing Then
-                    If aMapping.ContainsKey(anAttribute.ordinal.Value) Then
-                        Call aMapping.Remove(key:=anAttribute.ordinal.Value)
+                    If aMapping.ContainsKey(anAttribute.Ordinal.Value) Then
+                        Call aMapping.Remove(key:=anAttribute.Ordinal.Value)
                     End If
-                    Call aMapping.Add(key:=anAttribute.ordinal.Value, value:=item.Level)
+                    Call aMapping.Add(key:=anAttribute.Ordinal.Value, value:=item.Level)
                 End If
                 '**
                 '** put keys in map
@@ -1353,35 +1341,35 @@ Module XLSXChangeMgr
                 ' reset the map
                 aXEnvelope = aXBag.AddEnvelope(key:=progress)
                 For Each key As XOutlineItem.OTLineKey In item.keys
-                    anAttribute = dataarea.XConfig.AttributeByID(ID:=key.ID)
+                    anAttribute = dataarea.XConfig.GetEntryByXID(XID:=key.ID)
                     If Not anAttribute Is Nothing Then
-                        If aMapping.ContainsKey(anAttribute.ordinal.Value) Then
-                            Call aMapping.Remove(key:=anAttribute.ordinal.Value)
+                        If aMapping.ContainsKey(anAttribute.Ordinal.Value) Then
+                            Call aMapping.Remove(key:=anAttribute.Ordinal.Value)
                         End If
-                        Call aMapping.Add(key:=anAttribute.ordinal.Value, value:=key.Value)
+                        Call aMapping.Add(key:=anAttribute.Ordinal.Value, value:=key.Value)
                         '** add to XMAP
 
                     End If
                     ' fill the XMap
-                    aXEnvelope.AddSlotByID(id:=key.ID, value:=key.Value)
+                    aXEnvelope.AddSlotByXID(xid:=key.ID, value:=key.Value)
                 Next
                 '*** run XCHANGE
-                flag = aXChangeConfig.RunXChange(aMapping)
+                'flag = aXChangeConfig.RunXChange(aMapping)
                 flag = True
 
                 If flag Then
                     '*** OUTPUT
                     For Each anAttribute In anAttributesList
 
-                        If aMapping.ContainsKey(anAttribute.ordinal.Value) Then
-                            aNewValue = aMapping.Item(anAttribute.ordinal.Value)
+                        If aMapping.ContainsKey(anAttribute.Ordinal.Value) Then
+                            aNewValue = aMapping.Item(anAttribute.Ordinal.Value)
                             If (anAttribute.IsCreated Or anAttribute.IsLoaded) _
                             And anAttribute.IsXChanged And Not anAttribute.IsReadOnly Then
                                 ' current value of cell
-                                column = anAttribute.ordinal.Value
+                                column = anAttribute.Ordinal.Value
                                 aValue = aRow.Cells(1, column).Value
 
-                                If aMapping.ContainsKey(anAttribute.ordinal.Value) Then
+                                If aMapping.ContainsKey(anAttribute.Ordinal.Value) Then
 
                                     'If aXChangeMember.ordinal.value = 55 Then Debug.Assert False
                                     If aRow.Cells(1, column).HasFormula Or _
@@ -1390,14 +1378,14 @@ Module XLSXChangeMgr
                                         '* change dependent on type
                                         If aNewValue Is Nothing Then
                                             aRow.Cells(1, column).value = "-"
-                                        ElseIf (anAttribute.ObjectEntryDefinition.Datatype = otFieldDataType.Date Or _
-                                        anAttribute.ObjectEntryDefinition.Datatype = otFieldDataType.Timestamp) And _
+                                        ElseIf (anAttribute.ObjectEntryDefinition.Datatype = otDataType.Date Or _
+                                        anAttribute.ObjectEntryDefinition.Datatype = otDataType.Timestamp) And _
                                         IsDate(aNewValue) Then
                                             aRow.Cells(1, column).value = CDate(aNewValue)
-                                        ElseIf anAttribute.ObjectEntryDefinition.Datatype = otFieldDataType.Long And _
+                                        ElseIf anAttribute.ObjectEntryDefinition.Datatype = otDataType.Long And _
                                         IsNumeric(aNewValue) Then
                                             aRow.Cells(1, column).value = CLng(aNewValue)
-                                        ElseIf anAttribute.ObjectEntryDefinition.Datatype = otFieldDataType.Numeric And _
+                                        ElseIf anAttribute.ObjectEntryDefinition.Datatype = otDataType.Numeric And _
                                         IsNumeric(aNewValue) Then
                                             aRow.Cells(1, column).value = CDbl(aNewValue)
                                         Else
@@ -1438,14 +1426,14 @@ Module XLSXChangeMgr
 
                         If (anAttribute.IsCreated Or anAttribute.IsLoaded) And anAttribute.IsXChanged Then
                             ' current value of cell
-                            column = anAttribute.ordinal.Value
+                            column = anAttribute.Ordinal.Value
                             aValue = aRow.Cells(1, column).Value
-                            If aMapping.ContainsKey(anAttribute.ordinal.Value) Then
-                                Call aMapping.Remove(key:=anAttribute.ordinal.Value)
+                            If aMapping.ContainsKey(anAttribute.Ordinal.Value) Then
+                                Call aMapping.Remove(key:=anAttribute.Ordinal.Value)
                             End If
-                            Call aMapping.Add(key:=anAttribute.ordinal.Value, value:=aValue)
+                            Call aMapping.Add(key:=anAttribute.Ordinal.Value, value:=aValue)
                             '** add to XMAP
-                            aXEnvelope.SetSlotValue(anAttribute.ordinal.Value, value:=aValue, isHostValue:=True)
+                            aXEnvelope.SetSlotValue(anAttribute.Ordinal.Value, value:=aValue, isHostValue:=True)
                         End If
 
                     Next
@@ -1478,22 +1466,22 @@ Module XLSXChangeMgr
                 End If
 
                 '*** run XCHANGE
-                flag = aXChangeConfig.RunXChange(aMapping)
+                'flag = aXChangeConfig.RunXChange(aMapping)
 
                 If flag Then
                     '*** OUTPUT
                     For Each anAttribute In anAttributesList
 
                         If Not anAttribute Is Nothing Then
-                            If aMapping.ContainsKey(anAttribute.ordinal.Value) Then
-                                aNewValue = aMapping.Item(anAttribute.ordinal.Value)
+                            If aMapping.ContainsKey(anAttribute.Ordinal.Value) Then
+                                aNewValue = aMapping.Item(anAttribute.Ordinal.Value)
                                 If (anAttribute.IsCreated Or anAttribute.IsLoaded) _
                                 And anAttribute.IsXChanged And Not anAttribute.IsReadOnly Then
                                     ' current value of cell
-                                    column = anAttribute.ordinal.Value
+                                    column = anAttribute.Ordinal.Value
                                     aValue = aRow.Cells(1, column).Value
 
-                                    If aMapping.ContainsKey(anAttribute.ordinal.Value) Then
+                                    If aMapping.ContainsKey(anAttribute.Ordinal.Value) Then
 
                                         'If aXChangeMember.ordinal.value = 55 Then Debug.Assert False
                                         If aRow.Cells(1, column).HasFormula Or _
@@ -1555,7 +1543,9 @@ Module XLSXChangeMgr
         Dim column As UShort
         Dim flag As Boolean
 
+        Try
 
+       
 
 
         If xcmd = otXChangeCommandType.Read Then
@@ -1609,7 +1599,7 @@ Module XLSXChangeMgr
 
         '** datarange
         If dataarea.DataRange Is Nothing Then
-            If dataarea.DataRangeAddress <> "" Then
+            If dataarea.DataRangeAddress IsNot Nothing AndAlso dataarea.DataRangeAddress <> "" Then
                 Try
                     dataarea.DataRange = Globals.ThisAddIn.Application.Range(dataarea.DataRangeAddress)
                 Catch ex As Exception
@@ -1617,11 +1607,16 @@ Module XLSXChangeMgr
                                             messagetype:=otCoreMessageType.ApplicationError, subname:="XLSXchangeMGr.replicate")
                     Return False
                 End Try
-
+            Else
+                Call CoreMessageHandler(message:="data range in dataarea " & dataarea.Name & "' has no address ", _
+                                           messagetype:=otCoreMessageType.ApplicationError, subname:="XLSXchangeMGr.replicate")
+                Return False
             End If
         End If
 
+
         '** headerids
+        'System.Diagnostics.Debug.WriteLine(Globals.ThisAddIn.Application.Range(dataarea.DataRangeAddress).Address.ToString)
         If dataarea.HeaderIDRange Is Nothing Then
             If dataarea.HeaderIDAddress <> " then" Then
                 Try
@@ -1638,7 +1633,7 @@ Module XLSXChangeMgr
         '*** 
 
         '*** get the dynamic  IDs from the header area
-        If dataarea.XConfig.AllowDynamicAttributes Then
+        If dataarea.XConfig.AllowDynamicEntries Then
             If Not dataarea.AddHeaderIDs2XConfig(XCMD:=xcmd) Then
                 Call CoreMessageHandler(message:="header id range with address " & dataarea.HeaderIDAddress _
                                         & " couldnot be added to xconfig with name '" & dataarea.XConfigName & "'", _
@@ -1675,16 +1670,21 @@ Module XLSXChangeMgr
                                                             dataarea.DataRange.Worksheet.Cells(dataarea.DataRange.Rows.Count, CInt(keyordinals(0).Value)))
         End If
 
+        If aSelection Is Nothing Then
+            Call CoreMessageHandler(message:="No selection could be found", messagetype:=otCoreMessageType.ApplicationError, subname:="XLSXChangeMgr.replicate")
+            Return False
+        End If
+
         Globals.ThisAddIn.Application.ScreenUpdating = False
         Globals.ThisAddIn.Application.EnableEvents = False
 
         '*** save the Attributes
         Dim aXBag As New ExcelXBag(dataarea.XConfig)
         Dim aXEnvelope As XEnvelope = aXBag.AddEnvelope(1) ' only one Envelope -> reuse
-        Dim aMsgLog As New ObjectLog
-        Dim anAttributesList As List(Of XConfigAttributeEntry) = dataarea.XConfig.Attributes
+        Dim aMsgLog As New ObjectMessageLog(Nothing)
+        Dim anEntryList As List(Of XChangeObjectEntry) = dataarea.XConfig.GetObjectEntries
         '** put the level in the mapping
-        Dim anAttributeLevel As XConfigAttributeEntry = dataarea.XConfig.AttributeByID(ID:="OTLIV4")
+        Dim anAttributeLevel As XChangeObjectEntry = dataarea.XConfig.GetEntryByXID(XID:="OTLIV4")
         '*** operate on the outline -> makes only sense on a Read !
         '***
         '***
@@ -1729,17 +1729,22 @@ Module XLSXChangeMgr
                 aXEnvelope.Clear()
                 ' add the Level Attribute
                 If anAttributeLevel IsNot Nothing Then
-                    aXEnvelope.AddSlotbyAttribute(configmember:=anAttributeLevel, value:=item.Level, isHostValue:=True)
+                    aXEnvelope.AddSlotbyXEntry(entry:=anAttributeLevel, value:=item.Level, isHostValue:=True)
                 End If
 
                 '** add the ordinals to the envelope
                 For Each key As XOutlineItem.OTLineKey In item.keys
-                    aXEnvelope.AddSlotByID(id:=key.ID, value:=key.Value, isHostValue:=True)
+                    aXEnvelope.AddSlotByXID(xid:=key.ID, value:=key.Value, isHostValue:=True)
                 Next
 
                 '*** run XCHANGE
                 'flag = aXEnvelope.RunXChange(msglog:=aMsgLog)
-                flag = True
+                If aXEnvelope.RunXPreCheck(msglog:=aMsgLog) Then
+                    flag = aXEnvelope.RunXChange(msglog:=aMsgLog)
+                Else
+                    flag = False
+                End If
+
                 If flag Then
                     '*** OUTPUT
                     For Each aSlot As XSlot In aXEnvelope
@@ -1749,8 +1754,7 @@ Module XLSXChangeMgr
                             If column > 0 Then
                                 aValue = aRow.Cells(1, column).Value
 
-                                If aRow.Cells(1, column).HasFormula Or _
-                                (Not IsNull(aNewValue) And CStr(aNewValue) <> CStr(aValue)) Then
+                                If aRow.Cells(1, column).HasFormula OrElse (Not IsNull(aNewValue) AndAlso CStr(aNewValue) <> CStr(aValue)) Then
                                     'update
                                     aRow.Cells(1, column).Value = aNewValue
                                     'Call copyDoc9Format(formatChange, aRow.Cells(1, col), True)
@@ -1770,6 +1774,12 @@ Module XLSXChangeMgr
             '**** in selection
             maximum = aSelection.Rows.Count
 
+            ''' hack
+            ''' 
+            For Each aXObject As XChangeObject In dataarea.XConfig.XChangeobjects.ToList
+                aXObject.XChangeCmd = xcmd
+            Next
+
             For Each aCell As Excel.Range In aSelection.Rows
                 Dim aRow As Excel.Range = aCell.EntireRow
                 '** progress
@@ -1783,10 +1793,10 @@ Module XLSXChangeMgr
 
                 '** Add Values only if not Read -> updated
                 If (xcmd <> otXChangeCommandType.Read) Then
-                    For Each anAttribute As XConfigAttributeEntry In anAttributesList
-                        If anAttribute.IsXChanged Then
-                            aValue = aRow.Cells(1, anAttribute.ordinal.Value).Value
-                            aXEnvelope.AddSlotByID(id:=anAttribute.ID, value:=aValue, isHostValue:=True)
+                    For Each anEntry As XChangeObjectEntry In anEntryList
+                        If anEntry.IsXChanged Then
+                            aValue = aRow.Cells(1, anEntry.Ordinal.Value).Value
+                            aXEnvelope.AddSlotByXID(xid:=anEntry.XID, value:=aValue, isHostValue:=True)
                         End If
 
                     Next
@@ -1802,21 +1812,26 @@ Module XLSXChangeMgr
                         End If
                     Next
                 End If
+
+
                 '*** run XCHANGE
-                flag = aXEnvelope.RunXChange(msglog:=aMsgLog)
+                If aXEnvelope.RunXPreCheck(msglog:=aMsgLog) Then
+                    flag = aXEnvelope.RunXChange(msglog:=aMsgLog)
+                Else
+                    flag = False
+
+                End If
+
 
                 If flag Then
                     '*** OUTPUT
                     For Each aSlot As XSlot In aXEnvelope
-
                         If aSlot.IsXChanged And Not aSlot.IsEmpty Then
                             aNewValue = aSlot.HostValue
-                            column = aSlot.ordinal.Value
+                            column = aSlot.Ordinal.Value
                             aValue = aRow.Cells(1, column).Value
                             'If aXChangeMember.ordinal.value = 55 Then Debug.Assert False
-                            If aRow.Cells(1, column).HasFormula Or _
-                            (Not IsNull(aNewValue) And CStr(aNewValue) <> CStr(aValue)) Then
-
+                            If aRow.Cells(1, column).HasFormula OrElse (Not IsNull(aNewValue) And CStr(aNewValue) <> CStr(aValue)) Then
                                 ' update
                                 aRow.Cells(1, column).Value = aNewValue
                                 'Call copyDoc9Format(formatChange, aRow.Cells(1, col), True)
@@ -1841,6 +1856,12 @@ Module XLSXChangeMgr
 
         Globals.ThisAddIn.Application.EnableEvents = True
         Globals.ThisAddIn.Application.ScreenUpdating = True
-        Return True
+            Return True
+        Catch ex As Exception
+            CoreMessageHandler(showmsgbox:=True, exception:=ex, subname:="XLSXChangeMgr.Replicate")
+            Globals.ThisAddIn.Application.EnableEvents = True
+            Globals.ThisAddIn.Application.ScreenUpdating = True
+            Return False
+        End Try
     End Function
 End Module

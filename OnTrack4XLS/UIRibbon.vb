@@ -1,11 +1,12 @@
 ﻿Imports Microsoft.Office.Tools.Ribbon
-Imports OnTrack
-Imports OnTrack.AddIn
+Imports OnTrack.Database
+Imports OnTrack.Addin
 Imports System.Windows.Forms
+Imports OnTrack.Commons
 
 Public Class OnTrackRibbon
 
-    Private WithEvents _errorlog As MessageLog  ' for the Error Log events
+    Private WithEvents _errorlog As SessionMessageLog  ' for the Error Log events
     Private WithEvents _logForm As UIFormMessageLog
     Private WithEvents otdbsession As Session
     Private WithEvents _logFormThread As Threading.Thread
@@ -32,7 +33,7 @@ Public Class OnTrackRibbon
         End If
     End Sub
 
-    Private Sub OnErrorLog(sender As Object, args As otErrorEventArgs) Handles _errorlog.onErrorRaised
+    Private Sub OnErrorLog(sender As Object, args As ormErrorEventArgs) Handles _errorlog.onErrorRaised
         ' show on bar
         If args.Error.messagetype = otCoreMessageType.ApplicationInfo Then
             Globals.ThisAddIn.Application.StatusBar = Date.Now.ToLocalTime & " INFORMATION: " & args.Error.Message
@@ -110,7 +111,7 @@ Public Class OnTrackRibbon
         End If
     End Sub
     Private Sub WorkspaceCombo_load()
-        If Globals.thisaddin._OTDBSession.IsRunning Then
+        If Globals.ThisAddIn._OTDBSession.IsRunning Then
             Me.WorkspaceCombo.Items.Clear()
             For Each aWorkspace As Workspace In Workspace.All
                 Dim anItem As Microsoft.Office.Tools.Ribbon.RibbonDropDownItem = Me.Factory.CreateRibbonDropDownItem
@@ -155,12 +156,12 @@ Public Class OnTrackRibbon
     End Sub
 
     Private Sub WorkspaceCombo_TextChanged(sender As Object, e As RibbonControlEventArgs) Handles WorkspaceCombo.TextChanged
-        If Globals.thisaddin._OTDBSession.IsRunning Then
-            Dim aDefaultWS As New Workspace
-            If aDefaultWS.Inject(workspaceID:=Me.WorkspaceCombo.Text) Then
+        If Globals.ThisAddIn._OTDBSession.IsRunning Then
+            Dim aDefaultWS As Workspace = Workspace.Retrieve(id:=Me.WorkspaceCombo.Text)
+            If aDefaultWS IsNot Nothing Then
                 ot.CurrentSession.CurrentWorkspaceID = Me.WorkspaceCombo.Text
-                WorkspaceCombo.ScreenTip = aDefaultWS.description
-                Globals.ThisAddIn.Application.StatusBar = "default workspaceID for this workbook set to '" & aDefaultWS.ID & "' <" & aDefaultWS.description & "> "
+                WorkspaceCombo.ScreenTip = aDefaultWS.Description
+                Globals.ThisAddIn.Application.StatusBar = "default workspaceID for this workbook set to '" & aDefaultWS.ID & "' <" & aDefaultWS.Description & "> "
             Else
                 WorkspaceCombo.Text = ot.CurrentSession.CurrentWorkspaceID
                 Globals.ThisAddIn.Application.StatusBar = "workspaceID was not found in On Track"
@@ -189,7 +190,7 @@ Public Class OnTrackRibbon
     Private Sub LogButton_Click(sender As Object, e As RibbonControlEventArgs) Handles LogButton.Click
         If _logForm Is Nothing OrElse _logForm.IsDisposed Then
             _logForm = New UIFormMessageLog
-            _logForm.Session = Globals.thisaddin._OTDBSession
+            _logForm.Session = Globals.ThisAddIn._OTDBSession
         End If
         If Me.LogButton.Checked = True Then
             _logFormThread = New Threading.Thread(AddressOf _logForm.ShowDialog)
@@ -202,7 +203,7 @@ Public Class OnTrackRibbon
         End If
     End Sub
 
-   
+
     Private Sub UnToggleLog(sender As Object, e As EventArgs) Handles _logForm.FormClosed
         Me.LogButton.Checked = False
     End Sub
@@ -212,7 +213,10 @@ Public Class OnTrackRibbon
         Call _BatchForm.Show()
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As RibbonControlEventArgs)
 
+    Private Sub ObjectExplorerButton_Click(sender As Object, e As RibbonControlEventArgs) Handles ObjectExplorerButton.Click
+        Globals.ThisAddIn.SetCurrentHost()
+        Dim aForm As New UIFormDBExplorer
+        Call aForm.Show()
     End Sub
 End Class

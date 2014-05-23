@@ -19,11 +19,29 @@ otdbAddIn
  Required method for Designer support - do not modify
  the contents of this method with the code editor.
  </summary>
+</member><member name="M:OnTrack.AddIn.Doc9QuickNDirty.CreateDoc18WkPkXConfig(OnTrack.XChange.otXChangeCommandType)">
+	<summary>
+ creates a special XConfig for Microsoft Project Doc18 with outline
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.Doc9QuickNDirty.CreateDoc9XConfig(OnTrack.XChange.otXChangeCommandType)">
+	<summary>
+  Creates a special XConfig (Dynmaic) for the Doc9 by Hand and saves it
+ </summary>
+	<param name="XCMD"></param>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="P:OnTrack.AddIn.UIFormMessageLog.Session">
 	<summary>
  Gets or sets the session.
  </summary>
 	<value>The session.</value>
+</member><member name="T:OnTrack.AddIn.UIFormMessageLog">
+	<summary>
+ UserInterface Form for MessageLog
+ </summary>
+	<remarks></remarks>
 </member><member name="P:OnTrack.AddIn.My.Resources.Resources.ResourceManager">
 	<summary>
   Returns the cached ResourceManager instance used by this class.
@@ -32,6 +50,10 @@ otdbAddIn
 	<summary>
   Overrides the current thread's CurrentUICulture property for all
   resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources._3x3_grid">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member><member name="P:OnTrack.AddIn.My.Resources.Resources.Actions_configure_toolbars_icon">
 	<summary>
@@ -46,6 +68,10 @@ otdbAddIn
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member><member name="P:OnTrack.AddIn.My.Resources.Resources.Actions_system_run_icon32x32">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources.align_just">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
@@ -69,11 +95,35 @@ otdbAddIn
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources.business">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources.business_contact">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources.cert">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources.checkbox_unchecked">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:OnTrack.AddIn.My.Resources.Resources.connect_icon">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources.db">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:OnTrack.AddIn.My.Resources.Resources.disconnect_icon">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources.doc_lines">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
@@ -105,11 +155,27 @@ otdbAddIn
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources.library">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources.list_bullets">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:OnTrack.AddIn.My.Resources.Resources.MarketSectorIcons_01_Red">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources.memory_module">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:OnTrack.AddIn.My.Resources.Resources.MessageQueueTube">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources.minus">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
@@ -121,6 +187,22 @@ otdbAddIn
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources.pin_sq_down">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources.playback_reload">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources.plus">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources.rail_metro_24_2x">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:OnTrack.AddIn.My.Resources.Resources.railway_tracks_icon">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
@@ -129,7 +211,23 @@ otdbAddIn
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources.school">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:OnTrack.AddIn.My.Resources.Resources.setting_config">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources.table">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources.twitter_2">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources.wrench_plus">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
@@ -137,6 +235,134 @@ otdbAddIn
 	<summary>
   A strongly-typed resource class, for looking up localized strings, etc.
 </summary>
+</member><member name="P:OnTrack.UI.UIControlDataGridView.Status">
+	<summary>
+ Gets or sets the status.
+ </summary>
+	<value>The status.</value>
+</member><member name="P:OnTrack.UI.UIControlDataGridView.Modeltable">
+	<summary>
+ Gets or sets the modeltable.
+ </summary>
+	<value>The modeltable.</value>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.OnRowAdding(System.Object,Telerik.WinControls.UI.GridViewRowCancelEventArgs)">
+	<summary>
+ Event On Row Adding
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.OnRowAdded(System.Object,Telerik.WinControls.UI.GridViewRowEventArgs)">
+	<summary>
+ Event On Row Adding
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.OnCellChanged(System.Object,Telerik.WinControls.UI.CurrentCellChangedEventArgs)">
+	<summary>
+ Event On Cell Changed from current to new cell
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.UIControlDataGridView_OnCellValidating(System.Object,Telerik.WinControls.UI.CellValidatingEventArgs)">
+	<summary>
+ Event On Cell Validating
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.UIControlDataGridView_OnCellValidated(System.Object,Telerik.WinControls.UI.CellValidatedEventArgs)">
+	<summary>
+ Event On Control validated (post validation)
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.UIControlDataGridView_OnRowValidating(System.Object,Telerik.WinControls.UI.RowValidatingEventArgs)">
+	<summary>
+ Event On Control validated
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.UIControlDataGridView_OnRowValidated(System.Object,Telerik.WinControls.UI.RowValidatedEventArgs)">
+	<summary>
+ Event On row validated (post validation)
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.OnRowChanged(System.Object,Telerik.WinControls.UI.CurrentRowChangedEventArgs)">
+	<summary>
+ Event On Row position changed
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.OnDefaultValueNeeded(System.Object,Telerik.WinControls.UI.GridViewRowEventArgs)">
+	<summary>
+ Event On default values for a new row
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.AddStatusMessage(System.String)">
+	<summary>
+ Add a Message to the connected status message
+ </summary>
+	<param name="message"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.OnMessageFromTable(System.Object,OnTrack.UI.ormModelTable.EventArgs)">
+	<summary>
+ Event handler for operation messages
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.OnInitialize(System.Object,System.EventArgs)">
+	<summary>
+ Handles the Initialize Event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.UIControlDataGridView_OnContextMenuOpening(System.Object,Telerik.WinControls.UI.ContextMenuOpeningEventArgs)">
+	<summary>
+ Handles the OnContextMenuOpening Event to add or delete context sensitive Events
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.SaveUILayout(System.Object,System.EventArgs)">
+	<summary>
+ Save the Layout Status
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.LoadUILayout(System.Object,System.EventArgs)">
+	<summary>
+ Save the Layout Status
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.OnDatabindingComplete(System.Object,Telerik.WinControls.UI.GridViewBindingCompleteEventArgs)">
+	<summary>
+ Handles the DataBinding Complete Event to setup different Models
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.UIControlDataGridView_ValueChanging(System.Object,Telerik.WinControls.UI.GridViewCellCancelEventArgs)">
+	<summary>
+ event handler to check on Right to Change Object
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
 </member><member name="T:OnTrack.AddIn.UIFormSetting.ConfigSetModelConverter">
 	<summary>
  ModelConverter for the ConfigSet 
@@ -231,6 +457,13 @@ otdbAddIn
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormSetting.CreateData_Click(System.Object,System.EventArgs)">
+	<summary>
+ Click the button
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
 </member><member name="M:OnTrack.AddIn.UIFormBatchProcesses.Run(System.Object,System.ComponentModel.DoWorkEventArgs)">
 	<summary>
  Run Batch Processing
@@ -305,6 +538,72 @@ otdbAddIn
  Gets or sets the answer.
  </summary>
 	<value>The answer.</value>
+</member><member name="P:OnTrack.AddIn.UIFormDBExplorer.ObjectStructureItem.Members">
+	<summary>
+ Gets or sets the members.
+ </summary>
+	<value>The members.</value>
+</member><member name="P:OnTrack.AddIn.UIFormDBExplorer.ObjectStructureItem.Description">
+	<summary>
+ Gets or sets the description.
+ </summary>
+	<value>The description.</value>
+</member><member name="P:OnTrack.AddIn.UIFormDBExplorer.ObjectStructureItem.Nodetype">
+	<summary>
+ Gets or sets the nodetype.
+ </summary>
+	<value>The nodetype.</value>
+</member><member name="P:OnTrack.AddIn.UIFormDBExplorer.ObjectStructureItem.ID">
+	<summary>
+ Gets or sets the ID.
+ </summary>
+	<value>The ID.</value>
+</member><member name="P:OnTrack.AddIn.UIFormDBExplorer.ObjectStructureItem.DataItem">
+	<summary>
+ Gets or sets the data item.
+ </summary>
+	<value>The data item.</value>
+</member><member name="T:OnTrack.AddIn.UIFormDBExplorer.ObjectStructureItem">
+	<summary>
+ ModelClass for the TreeView
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormDBExplorer.#ctor">
+	<summary>
+ Constructor
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormDBExplorer.BuildTree">
+	<summary>
+ Build the Object Tree
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormDBExplorer.OnLoad(System.Object,System.EventArgs)">
+	<summary>
+ OnLoad Event Handler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormDBExplorer.ObjecTree_ScreenTipNeeded(System.Object,Telerik.WinControls.ScreenTipNeededEventArgs)">
+	<summary>
+ Handler for Screen Tip
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormDBExplorer.ObjectTree_NodeFormatting(System.Object,Telerik.WinControls.UI.TreeNodeFormattingEventArgs)">
+	<summary>
+ NodeFormatting
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="T:OnTrack.AddIn.UIFormDBExplorer">
+	<summary>
+ Object Explorer - explors the Object Data and Structure and its setting in the OnTrack Enviormennt
+ </summary>
+	<remarks></remarks>
 </member><member name="P:OnTrack.AddIn.UIFormLogin.UsernameEnabled">
 	<summary>
  Gets or sets the username enabled.
@@ -369,31 +668,10 @@ otdbAddIn
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
-</member><member name="M:OnTrack.AddIn.Doc9QuickNDirty.CreateDoc18WkPkXConfig(OnTrack.otXChangeCommandType)">
+</member><member name="T:OnTrack.AddIn.UIFormWorkXConfig">
 	<summary>
- creates a special XConfig for Microsoft Project Doc18 with outline
+ Form Class to work with XConfigs
  </summary>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.AddIn.Doc9QuickNDirty.CreateDoc18ERoadmapXConfig(OnTrack.otXChangeCommandType)">
-	<summary>
- creates a special XConfig for Microsoft Project Doc18 with outline
- </summary>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.AddIn.Doc9QuickNDirty.CreateDoc9XConfig(OnTrack.otXChangeCommandType)">
-	<summary>
-  Creates a special XConfig (Dynmaic) for the Doc9 by Hand and saves it
- </summary>
-	<param name="XCMD"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.AddIn.Doc9QuickNDirty.createExpediterXConfig(OnTrack.otXChangeCommandType)">
-	<summary>
- creates a special expediter config
- </summary>
-	<param name="XCMD"></param>
-	<returns></returns>
 	<remarks></remarks>
 </member>
 </members>

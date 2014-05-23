@@ -29,11 +29,12 @@ Partial Class UIWizardMQFFeed
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.workbookListContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.RadWizard = New Telerik.WinControls.UI.RadWizard()
+        Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
+        Me.MQFWizard = New Telerik.WinControls.UI.RadWizard()
         Me.WizardCompletionPage1 = New Telerik.WinControls.UI.WizardCompletionPage()
         Me.Panel3 = New System.Windows.Forms.Panel()
-        Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.SelectPanel = New System.Windows.Forms.Panel()
+        Me.PBDocument = New System.Windows.Forms.PictureBox()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.MQFSelectedTextbox = New Telerik.WinControls.UI.RadTextBox()
         Me.WelcomeStatusStrip = New Telerik.WinControls.UI.RadStatusStrip()
@@ -42,39 +43,51 @@ Partial Class UIWizardMQFFeed
         Me.WorkbookList = New Telerik.WinControls.UI.RadListControl()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.RadTextBox1 = New Telerik.WinControls.UI.RadTextBox()
-        Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.PreprocessStatusStrip = New Telerik.WinControls.UI.RadStatusStrip()
-        Me.PreprocessStatusLabel = New Telerik.WinControls.UI.RadLabelElement()
+        Me.ProcessPanel = New System.Windows.Forms.Panel()
+        Me.ProcessStatusStrip = New Telerik.WinControls.UI.RadStatusStrip()
+        Me.ProcessStatusLabel = New Telerik.WinControls.UI.RadLabelElement()
         Me.PreprocessProgressBar = New Telerik.WinControls.UI.RadProgressBarElement()
         Me.OfficeShape1 = New Telerik.WinControls.UI.OfficeShape()
         Me.ProcessCommandPanel = New Telerik.WinControls.UI.RadPanel()
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.ProcessButton = New Telerik.WinControls.UI.RadButton()
+        Me.PreProcessSetting_Button = New Telerik.WinControls.UI.RadButton()
         Me.PreProcessButton = New Telerik.WinControls.UI.RadButton()
-        Me.PreProcessRadViewGrid = New Telerik.WinControls.UI.RadGridView()
-        Me.Panel4 = New System.Windows.Forms.Panel()
-        Me.Panel5 = New System.Windows.Forms.Panel()
+        Me.MQFViewGrid = New Telerik.WinControls.UI.RadGridView()
+        Me.ProgressPictureBox = New System.Windows.Forms.PictureBox()
+        Me.UpdateXLSPanel = New System.Windows.Forms.Panel()
+        Me.UpdateXLSCommandPanel = New Telerik.WinControls.UI.RadPanel()
+        Me.UpdateXLSButton = New Telerik.WinControls.UI.RadButton()
         Me.WizardWelcomePage1 = New Telerik.WinControls.UI.WizardWelcomePage()
         Me.WizardPage1 = New Telerik.WinControls.UI.WizardPage()
-        Me.WizardPage2 = New Telerik.WinControls.UI.WizardPage()
         Me.WizardPage3 = New Telerik.WinControls.UI.WizardPage()
+        Me.RadTextBox2 = New Telerik.WinControls.UI.RadTextBox()
         Me.workbookListContextMenuStrip.SuspendLayout()
-        CType(Me.RadWizard, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadWizard.SuspendLayout()
-        Me.Panel1.SuspendLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MQFWizard, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.MQFWizard.SuspendLayout()
+        Me.Panel3.SuspendLayout()
+        Me.SelectPanel.SuspendLayout()
+        CType(Me.PBDocument, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MQFSelectedTextbox, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.WelcomeStatusStrip, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.OpenWorkbookButton, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.WorkbookList, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadTextBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Panel2.SuspendLayout()
-        CType(Me.PreprocessStatusStrip, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ProcessPanel.SuspendLayout()
+        CType(Me.ProcessStatusStrip, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ProcessCommandPanel, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ProcessCommandPanel.SuspendLayout()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ProcessButton, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PreProcessSetting_Button, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PreProcessButton, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PreProcessRadViewGrid, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PreProcessRadViewGrid.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MQFViewGrid, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MQFViewGrid.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.MQFViewGrid.SuspendLayout()
+        CType(Me.ProgressPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.UpdateXLSPanel.SuspendLayout()
+        CType(Me.UpdateXLSCommandPanel, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.UpdateXLSCommandPanel.SuspendLayout()
+        CType(Me.UpdateXLSButton, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadTextBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -107,40 +120,37 @@ Partial Class UIWizardMQFFeed
         Me.ToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
         Me.ToolStripMenuItem.Text = "Add Workbook"
         '
-        'RadWizard
+        'MQFWizard
         '
-        Me.RadWizard.CompletionImage = Global.OnTrack.Addin.My.Resources.Resources.fasttrack
-        Me.RadWizard.CompletionPage = Me.WizardCompletionPage1
-        Me.RadWizard.Controls.Add(Me.Panel1)
-        Me.RadWizard.Controls.Add(Me.Panel2)
-        Me.RadWizard.Controls.Add(Me.Panel3)
-        Me.RadWizard.Controls.Add(Me.Panel4)
-        Me.RadWizard.Controls.Add(Me.Panel5)
-        Me.RadWizard.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadWizard.EnableKeyMap = True
-        Me.RadWizard.Location = New System.Drawing.Point(0, 0)
-        Me.RadWizard.Mode = Telerik.WinControls.UI.WizardMode.Wizard97
-        Me.RadWizard.Name = "RadWizard"
-        Me.RadWizard.PageHeaderIcon = CType(resources.GetObject("RadWizard.PageHeaderIcon"), System.Drawing.Image)
-        Me.RadWizard.Pages.Add(Me.WizardWelcomePage1)
-        Me.RadWizard.Pages.Add(Me.WizardPage1)
-        Me.RadWizard.Pages.Add(Me.WizardPage2)
-        Me.RadWizard.Pages.Add(Me.WizardPage3)
-        Me.RadWizard.Pages.Add(Me.WizardCompletionPage1)
-        Me.RadWizard.Size = New System.Drawing.Size(709, 473)
-        Me.RadWizard.TabIndex = 0
-        Me.RadWizard.Text = "RadWizard1"
-        Me.RadWizard.ThemeName = "TelerikMetroBlue"
-        Me.RadWizard.WelcomeImage = CType(resources.GetObject("RadWizard.WelcomeImage"), System.Drawing.Image)
-        Me.RadWizard.WelcomePage = Me.WizardWelcomePage1
+        Me.MQFWizard.CompletionImage = Global.OnTrack.Addin.My.Resources.Resources.fasttrack
+        Me.MQFWizard.CompletionPage = Me.WizardCompletionPage1
+        Me.MQFWizard.Controls.Add(Me.SelectPanel)
+        Me.MQFWizard.Controls.Add(Me.ProcessPanel)
+        Me.MQFWizard.Controls.Add(Me.Panel3)
+        Me.MQFWizard.Controls.Add(Me.UpdateXLSPanel)
+        Me.MQFWizard.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.MQFWizard.EnableKeyMap = True
+        Me.MQFWizard.Location = New System.Drawing.Point(0, 0)
+        Me.MQFWizard.Name = "MQFWizard"
+        Me.MQFWizard.PageHeaderIcon = CType(resources.GetObject("MQFWizard.PageHeaderIcon"), System.Drawing.Image)
+        Me.MQFWizard.Pages.Add(Me.WizardWelcomePage1)
+        Me.MQFWizard.Pages.Add(Me.WizardPage1)
+        Me.MQFWizard.Pages.Add(Me.WizardPage3)
+        Me.MQFWizard.Pages.Add(Me.WizardCompletionPage1)
+        Me.MQFWizard.Size = New System.Drawing.Size(709, 473)
+        Me.MQFWizard.TabIndex = 0
+        Me.MQFWizard.Text = "MQFWizard"
+        Me.MQFWizard.ThemeName = "TelerikMetroBlue"
+        Me.MQFWizard.WelcomeImage = CType(resources.GetObject("MQFWizard.WelcomeImage"), System.Drawing.Image)
+        Me.MQFWizard.WelcomePage = Me.WizardWelcomePage1
         '
         'WizardCompletionPage1
         '
         Me.WizardCompletionPage1.CompletionImage = CType(resources.GetObject("WizardCompletionPage1.CompletionImage"), System.Drawing.Image)
         Me.WizardCompletionPage1.ContentArea = Me.Panel3
         Me.WizardCompletionPage1.Header = ""
-        Me.WizardCompletionPage1.Icon = CType(resources.GetObject("WizardCompletionPage1.Icon"), System.Drawing.Image)
-        Me.WizardCompletionPage1.Image = Global.OnTrack.Addin.My.Resources.Resources.MessageQueueTube
+        Me.WizardCompletionPage1.Icon = Nothing
+        Me.WizardCompletionPage1.Image = Nothing
         Me.WizardCompletionPage1.ImageAlignment = System.Drawing.ContentAlignment.MiddleRight
         Me.WizardCompletionPage1.Name = "WizardCompletionPage1"
         Me.WizardCompletionPage1.Title = "Finished"
@@ -149,36 +159,37 @@ Partial Class UIWizardMQFFeed
         'Panel3
         '
         Me.Panel3.BackColor = System.Drawing.Color.White
+        Me.Panel3.Controls.Add(Me.RadTextBox2)
         Me.Panel3.Location = New System.Drawing.Point(130, 69)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(381, 265)
+        Me.Panel3.Size = New System.Drawing.Size(579, 356)
         Me.Panel3.TabIndex = 2
         '
-        'Panel1
+        'SelectPanel
         '
-        Me.Panel1.BackColor = System.Drawing.Color.White
-        Me.Panel1.Controls.Add(Me.PictureBox1)
-        Me.Panel1.Controls.Add(Me.TextBox2)
-        Me.Panel1.Controls.Add(Me.MQFSelectedTextbox)
-        Me.Panel1.Controls.Add(Me.WelcomeStatusStrip)
-        Me.Panel1.Controls.Add(Me.OpenWorkbookButton)
-        Me.Panel1.Controls.Add(Me.WorkbookList)
-        Me.Panel1.Controls.Add(Me.TextBox1)
-        Me.Panel1.Controls.Add(Me.RadTextBox1)
-        Me.Panel1.Location = New System.Drawing.Point(112, 94)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(597, 331)
-        Me.Panel1.TabIndex = 0
+        Me.SelectPanel.BackColor = System.Drawing.Color.White
+        Me.SelectPanel.Controls.Add(Me.PBDocument)
+        Me.SelectPanel.Controls.Add(Me.TextBox2)
+        Me.SelectPanel.Controls.Add(Me.MQFSelectedTextbox)
+        Me.SelectPanel.Controls.Add(Me.WelcomeStatusStrip)
+        Me.SelectPanel.Controls.Add(Me.OpenWorkbookButton)
+        Me.SelectPanel.Controls.Add(Me.WorkbookList)
+        Me.SelectPanel.Controls.Add(Me.TextBox1)
+        Me.SelectPanel.Controls.Add(Me.RadTextBox1)
+        Me.SelectPanel.Location = New System.Drawing.Point(112, 94)
+        Me.SelectPanel.Name = "SelectPanel"
+        Me.SelectPanel.Size = New System.Drawing.Size(597, 331)
+        Me.SelectPanel.TabIndex = 0
         '
-        'PictureBox1
+        'PBDocument
         '
-        Me.PictureBox1.Image = Global.OnTrack.Addin.My.Resources.Resources.files
-        Me.PictureBox1.Location = New System.Drawing.Point(3, 234)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(48, 48)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-        Me.PictureBox1.TabIndex = 5
-        Me.PictureBox1.TabStop = False
+        Me.PBDocument.Image = Global.OnTrack.Addin.My.Resources.Resources.doc_lines
+        Me.PBDocument.Location = New System.Drawing.Point(3, 234)
+        Me.PBDocument.Name = "PBDocument"
+        Me.PBDocument.Size = New System.Drawing.Size(48, 48)
+        Me.PBDocument.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.PBDocument.TabIndex = 5
+        Me.PBDocument.TabStop = False
         '
         'TextBox2
         '
@@ -212,9 +223,7 @@ Partial Class UIWizardMQFFeed
         '
         'WelcomeStatusStrip
         '
-        Me.WelcomeStatusStrip.AutoSize = True
         Me.WelcomeStatusStrip.Items.AddRange(New Telerik.WinControls.RadItem() {Me.WelcomeStatusLabel})
-        Me.WelcomeStatusStrip.LayoutStyle = Telerik.WinControls.UI.RadStatusBarLayoutStyle.Stack
         Me.WelcomeStatusStrip.Location = New System.Drawing.Point(0, 306)
         Me.WelcomeStatusStrip.Name = "WelcomeStatusStrip"
         Me.WelcomeStatusStrip.Size = New System.Drawing.Size(597, 25)
@@ -238,7 +247,7 @@ Partial Class UIWizardMQFFeed
         Me.OpenWorkbookButton.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.OpenWorkbookButton.DisplayStyle = Telerik.WinControls.DisplayStyle.Image
         Me.OpenWorkbookButton.EnableKeyMap = True
-        Me.OpenWorkbookButton.Image = Global.OnTrack.Addin.My.Resources.Resources.bt_add
+        Me.OpenWorkbookButton.Image = Global.OnTrack.Addin.My.Resources.Resources.plus
         Me.OpenWorkbookButton.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.OpenWorkbookButton.Location = New System.Drawing.Point(529, 93)
         Me.OpenWorkbookButton.Name = "OpenWorkbookButton"
@@ -252,9 +261,7 @@ Partial Class UIWizardMQFFeed
         Me.WorkbookList.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.WorkbookList.AutoScroll = True
-        Me.WorkbookList.CaseSensitiveSort = True
         Me.WorkbookList.ContextMenuStrip = Me.workbookListContextMenuStrip
-        Me.WorkbookList.ItemHeight = 18
         Me.WorkbookList.Location = New System.Drawing.Point(30, 93)
         Me.WorkbookList.Name = "WorkbookList"
         Me.WorkbookList.Size = New System.Drawing.Size(487, 124)
@@ -295,36 +302,34 @@ Partial Class UIWizardMQFFeed
         CType(Me.RadTextBox1.GetChildAt(0), Telerik.WinControls.UI.RadTextBoxElement).Text = "Welcome to the Message Queue File Wizard"
         CType(Me.RadTextBox1.GetChildAt(0), Telerik.WinControls.UI.RadTextBoxElement).Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         '
-        'Panel2
+        'ProcessPanel
         '
-        Me.Panel2.BackColor = System.Drawing.Color.White
-        Me.Panel2.Controls.Add(Me.PreprocessStatusStrip)
-        Me.Panel2.Controls.Add(Me.ProcessCommandPanel)
-        Me.Panel2.Controls.Add(Me.PreProcessRadViewGrid)
-        Me.Panel2.Location = New System.Drawing.Point(0, 94)
-        Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(709, 331)
-        Me.Panel2.TabIndex = 1
+        Me.ProcessPanel.BackColor = System.Drawing.Color.White
+        Me.ProcessPanel.Controls.Add(Me.ProcessStatusStrip)
+        Me.ProcessPanel.Controls.Add(Me.ProcessCommandPanel)
+        Me.ProcessPanel.Controls.Add(Me.MQFViewGrid)
+        Me.ProcessPanel.Location = New System.Drawing.Point(0, 94)
+        Me.ProcessPanel.Name = "ProcessPanel"
+        Me.ProcessPanel.Size = New System.Drawing.Size(709, 331)
+        Me.ProcessPanel.TabIndex = 1
         '
-        'PreprocessStatusStrip
+        'ProcessStatusStrip
         '
-        Me.PreprocessStatusStrip.AutoSize = True
-        Me.PreprocessStatusStrip.Items.AddRange(New Telerik.WinControls.RadItem() {Me.PreprocessStatusLabel, Me.PreprocessProgressBar})
-        Me.PreprocessStatusStrip.LayoutStyle = Telerik.WinControls.UI.RadStatusBarLayoutStyle.Stack
-        Me.PreprocessStatusStrip.Location = New System.Drawing.Point(0, 330)
-        Me.PreprocessStatusStrip.Name = "PreprocessStatusStrip"
-        Me.PreprocessStatusStrip.Size = New System.Drawing.Size(709, 1)
-        Me.PreprocessStatusStrip.TabIndex = 2
-        Me.PreprocessStatusStrip.Text = "RadStatusStrip2"
-        Me.PreprocessStatusStrip.ThemeName = "TelerikMetroBlue"
+        Me.ProcessStatusStrip.Items.AddRange(New Telerik.WinControls.RadItem() {Me.ProcessStatusLabel, Me.PreprocessProgressBar})
+        Me.ProcessStatusStrip.Location = New System.Drawing.Point(0, 304)
+        Me.ProcessStatusStrip.Name = "ProcessStatusStrip"
+        Me.ProcessStatusStrip.Size = New System.Drawing.Size(709, 27)
+        Me.ProcessStatusStrip.TabIndex = 2
+        Me.ProcessStatusStrip.Text = "RadStatusStrip2"
+        Me.ProcessStatusStrip.ThemeName = "TelerikMetroBlue"
         '
-        'PreprocessStatusLabel
+        'ProcessStatusLabel
         '
-        Me.PreprocessStatusLabel.Name = "PreprocessStatusLabel"
-        Me.PreprocessStatusStrip.SetSpring(Me.PreprocessStatusLabel, True)
-        Me.PreprocessStatusLabel.Text = ""
-        Me.PreprocessStatusLabel.TextWrap = True
-        Me.PreprocessStatusLabel.Visibility = Telerik.WinControls.ElementVisibility.Visible
+        Me.ProcessStatusLabel.Name = "ProcessStatusLabel"
+        Me.ProcessStatusStrip.SetSpring(Me.ProcessStatusLabel, True)
+        Me.ProcessStatusLabel.Text = ""
+        Me.ProcessStatusLabel.TextWrap = True
+        Me.ProcessStatusLabel.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'PreprocessProgressBar
         '
@@ -343,7 +348,7 @@ Partial Class UIWizardMQFFeed
         Me.PreprocessProgressBar.Shape = Me.OfficeShape1
         Me.PreprocessProgressBar.ShowProgressIndicators = True
         Me.PreprocessProgressBar.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias
-        Me.PreprocessStatusStrip.SetSpring(Me.PreprocessProgressBar, False)
+        Me.ProcessStatusStrip.SetSpring(Me.PreprocessProgressBar, False)
         Me.PreprocessProgressBar.StepWidth = 14
         Me.PreprocessProgressBar.SweepAngle = 90
         Me.PreprocessProgressBar.Visibility = Telerik.WinControls.ElementVisibility.Visible
@@ -354,30 +359,44 @@ Partial Class UIWizardMQFFeed
         '
         'ProcessCommandPanel
         '
-        Me.ProcessCommandPanel.Controls.Add(Me.RadButton1)
+        Me.ProcessCommandPanel.Controls.Add(Me.ProcessButton)
+        Me.ProcessCommandPanel.Controls.Add(Me.PreProcessSetting_Button)
         Me.ProcessCommandPanel.Controls.Add(Me.PreProcessButton)
         Me.ProcessCommandPanel.Dock = System.Windows.Forms.DockStyle.Top
         Me.ProcessCommandPanel.Location = New System.Drawing.Point(0, 0)
         Me.ProcessCommandPanel.Name = "ProcessCommandPanel"
-        Me.ProcessCommandPanel.Size = New System.Drawing.Size(709, 72)
+        Me.ProcessCommandPanel.Size = New System.Drawing.Size(709, 71)
         Me.ProcessCommandPanel.TabIndex = 1
         Me.ProcessCommandPanel.ThemeName = "TelerikMetroBlue"
         '
-        'RadButton1
+        'ProcessButton
         '
-        Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RadButton1.Image = Global.OnTrack.Addin.My.Resources.Resources.options
-        Me.RadButton1.Location = New System.Drawing.Point(630, 3)
-        Me.RadButton1.Name = "RadButton1"
-        Me.RadButton1.Size = New System.Drawing.Size(67, 66)
-        Me.RadButton1.TabIndex = 2
-        Me.RadButton1.ThemeName = "TelerikMetroBlue"
+        Me.ProcessButton.DisplayStyle = Telerik.WinControls.DisplayStyle.Image
+        Me.ProcessButton.Image = Global.OnTrack.Addin.My.Resources.Resources.mono_cog_48_48
+        Me.ProcessButton.Location = New System.Drawing.Point(70, 4)
+        Me.ProcessButton.Name = "ProcessButton"
+        Me.ProcessButton.Size = New System.Drawing.Size(52, 52)
+        Me.ProcessButton.TabIndex = 3
+        Me.ProcessButton.ThemeName = "TelerikMetroBlue"
+        '
+        'PreProcessSetting_Button
+        '
+        Me.PreProcessSetting_Button.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PreProcessSetting_Button.Image = CType(resources.GetObject("PreProcessSetting_Button.Image"), System.Drawing.Image)
+        Me.PreProcessSetting_Button.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.PreProcessSetting_Button.Location = New System.Drawing.Point(637, 3)
+        Me.PreProcessSetting_Button.Name = "PreProcessSetting_Button"
+        Me.PreProcessSetting_Button.Size = New System.Drawing.Size(60, 52)
+        Me.PreProcessSetting_Button.TabIndex = 2
+        Me.PreProcessSetting_Button.ThemeName = "TelerikMetroBlue"
         '
         'PreProcessButton
         '
         Me.PreProcessButton.AutoSize = True
+        Me.PreProcessButton.BackColor = System.Drawing.Color.Transparent
+        Me.PreProcessButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.PreProcessButton.DisplayStyle = Telerik.WinControls.DisplayStyle.Image
-        Me.PreProcessButton.Image = Global.OnTrack.Addin.My.Resources.Resources.bt_play
+        Me.PreProcessButton.Image = Global.OnTrack.Addin.My.Resources.Resources.mono_lightbulb_48_48
         Me.PreProcessButton.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.PreProcessButton.Location = New System.Drawing.Point(12, 3)
         Me.PreProcessButton.Name = "PreProcessButton"
@@ -387,39 +406,86 @@ Partial Class UIWizardMQFFeed
         Me.PreProcessButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         Me.PreProcessButton.ThemeName = "TelerikMetroBlue"
         '
-        'PreProcessRadViewGrid
+        'MQFViewGrid
         '
-        Me.PreProcessRadViewGrid.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PreProcessRadViewGrid.Location = New System.Drawing.Point(0, 0)
-        Me.PreProcessRadViewGrid.Name = "PreProcessRadViewGrid"
-        Me.PreProcessRadViewGrid.Size = New System.Drawing.Size(709, 331)
-        Me.PreProcessRadViewGrid.TabIndex = 0
-        Me.PreProcessRadViewGrid.Text = "preprocessed Messages "
-        Me.PreProcessRadViewGrid.ThemeName = "TelerikMetroBlue"
+        Me.MQFViewGrid.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.MQFViewGrid.AutoScroll = True
+        Me.MQFViewGrid.Controls.Add(Me.ProgressPictureBox)
+        Me.MQFViewGrid.EnableFastScrolling = True
+        Me.MQFViewGrid.Location = New System.Drawing.Point(0, 77)
         '
-        'Panel4
+        'MQFViewGrid
         '
-        Me.Panel4.BackColor = System.Drawing.Color.White
-        Me.Panel4.Location = New System.Drawing.Point(0, 94)
-        Me.Panel4.Name = "Panel4"
-        Me.Panel4.Size = New System.Drawing.Size(709, 331)
-        Me.Panel4.TabIndex = 3
+        Me.MQFViewGrid.MasterTemplate.AllowAddNewRow = False
+        Me.MQFViewGrid.MasterTemplate.AllowDeleteRow = False
+        Me.MQFViewGrid.MasterTemplate.AllowDragToGroup = False
+        Me.MQFViewGrid.MasterTemplate.AllowEditRow = False
+        Me.MQFViewGrid.MasterTemplate.EnableAlternatingRowColor = True
+        Me.MQFViewGrid.MasterTemplate.EnableFiltering = True
+        Me.MQFViewGrid.MasterTemplate.EnableGrouping = False
+        Me.MQFViewGrid.MasterTemplate.MultiSelect = True
+        Me.MQFViewGrid.MasterTemplate.ShowFilteringRow = False
+        Me.MQFViewGrid.Name = "MQFViewGrid"
+        Me.MQFViewGrid.ShowGroupPanel = False
+        Me.MQFViewGrid.ShowNoDataText = False
+        Me.MQFViewGrid.Size = New System.Drawing.Size(709, 221)
+        Me.MQFViewGrid.TabIndex = 0
+        Me.MQFViewGrid.Text = "preprocessed Messages "
+        Me.MQFViewGrid.ThemeName = "TelerikMetroBlue"
+        Me.MQFViewGrid.Visible = False
         '
-        'Panel5
+        'ProgressPictureBox
         '
-        Me.Panel5.BackColor = System.Drawing.Color.White
-        Me.Panel5.Location = New System.Drawing.Point(0, 94)
-        Me.Panel5.Name = "Panel5"
-        Me.Panel5.Size = New System.Drawing.Size(511, 240)
-        Me.Panel5.TabIndex = 4
+        Me.ProgressPictureBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.ProgressPictureBox.Image = Global.OnTrack.Addin.My.Resources.Resources.progress_radar
+        Me.ProgressPictureBox.Location = New System.Drawing.Point(0, 0)
+        Me.ProgressPictureBox.Name = "ProgressPictureBox"
+        Me.ProgressPictureBox.Size = New System.Drawing.Size(709, 221)
+        Me.ProgressPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.ProgressPictureBox.TabIndex = 0
+        Me.ProgressPictureBox.TabStop = False
+        '
+        'UpdateXLSPanel
+        '
+        Me.UpdateXLSPanel.BackColor = System.Drawing.Color.White
+        Me.UpdateXLSPanel.Controls.Add(Me.UpdateXLSCommandPanel)
+        Me.UpdateXLSPanel.Location = New System.Drawing.Point(0, 94)
+        Me.UpdateXLSPanel.Name = "UpdateXLSPanel"
+        Me.UpdateXLSPanel.Size = New System.Drawing.Size(709, 331)
+        Me.UpdateXLSPanel.TabIndex = 4
+        '
+        'UpdateXLSCommandPanel
+        '
+        Me.UpdateXLSCommandPanel.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.UpdateXLSCommandPanel.Controls.Add(Me.UpdateXLSButton)
+        Me.UpdateXLSCommandPanel.Location = New System.Drawing.Point(3, 3)
+        Me.UpdateXLSCommandPanel.Name = "UpdateXLSCommandPanel"
+        Me.UpdateXLSCommandPanel.Size = New System.Drawing.Size(703, 61)
+        Me.UpdateXLSCommandPanel.TabIndex = 5
+        Me.UpdateXLSCommandPanel.ThemeName = "TelerikMetroBlue"
+        '
+        'UpdateXLSButton
+        '
+        Me.UpdateXLSButton.DisplayStyle = Telerik.WinControls.DisplayStyle.Image
+        Me.UpdateXLSButton.Image = Global.OnTrack.Addin.My.Resources.Resources.mono_doc_edit_48_48
+        Me.UpdateXLSButton.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.UpdateXLSButton.Location = New System.Drawing.Point(9, 3)
+        Me.UpdateXLSButton.Name = "UpdateXLSButton"
+        Me.UpdateXLSButton.Size = New System.Drawing.Size(54, 54)
+        Me.UpdateXLSButton.TabIndex = 0
+        Me.UpdateXLSButton.Text = "UpdateXLSButton"
+        Me.UpdateXLSButton.ThemeName = "TelerikMetroBlue"
         '
         'WizardWelcomePage1
         '
-        Me.WizardWelcomePage1.ContentArea = Me.Panel1
+        Me.WizardWelcomePage1.ContentArea = Me.SelectPanel
         Me.WizardWelcomePage1.CustomizePageHeader = True
         Me.WizardWelcomePage1.Header = "Provide what to feed to the database"
-        Me.WizardWelcomePage1.Icon = CType(resources.GetObject("WizardWelcomePage1.Icon"), System.Drawing.Image)
-        Me.WizardWelcomePage1.Image = CType(resources.GetObject("WizardWelcomePage1.Image"), System.Drawing.Image)
+        Me.WizardWelcomePage1.Icon = Nothing
+        Me.WizardWelcomePage1.Image = Nothing
         Me.WizardWelcomePage1.Name = "WizardWelcomePage1"
         Me.WizardWelcomePage1.Text = ""
         Me.WizardWelcomePage1.Title = "Select the message queue files"
@@ -429,37 +495,39 @@ Partial Class UIWizardMQFFeed
         '
         'WizardPage1
         '
-        Me.WizardPage1.ContentArea = Me.Panel2
-        Me.WizardPage1.Header = "Preprocess the data to be fed to the database"
+        Me.WizardPage1.ContentArea = Me.ProcessPanel
+        Me.WizardPage1.Header = "feed data to the OnTrack Database"
         Me.WizardPage1.Icon = CType(resources.GetObject("WizardPage1.Icon"), System.Drawing.Image)
         Me.WizardPage1.Name = "WizardPage1"
-        Me.WizardPage1.Title = "Preprocess"
+        Me.WizardPage1.Title = "Process"
         Me.WizardPage1.Visibility = Telerik.WinControls.ElementVisibility.Visible
-        '
-        'WizardPage2
-        '
-        Me.WizardPage2.ContentArea = Me.Panel4
-        Me.WizardPage2.Header = "process the fed data to the database"
-        Me.WizardPage2.Name = "WizardPage2"
-        Me.WizardPage2.Title = "Process"
-        Me.WizardPage2.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'WizardPage3
         '
-        Me.WizardPage3.ContentArea = Me.Panel5
+        Me.WizardPage3.ContentArea = Me.UpdateXLSPanel
         Me.WizardPage3.Header = "update the excel data in the loaded excel replicas"
         Me.WizardPage3.Name = "WizardPage3"
         Me.WizardPage3.Title = "Update Excel"
         Me.WizardPage3.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
-        'MQFFeedWizard
+        'RadTextBox2
+        '
+        Me.RadTextBox2.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
+        Me.RadTextBox2.Location = New System.Drawing.Point(33, 44)
+        Me.RadTextBox2.Name = "RadTextBox2"
+        Me.RadTextBox2.Size = New System.Drawing.Size(523, 28)
+        Me.RadTextBox2.TabIndex = 0
+        Me.RadTextBox2.Text = "Message Queue File was imported into the OnTrack Database"
+        Me.RadTextBox2.ThemeName = "TelerikMetroBlue"
+        '
+        'UIWizardMQFFeed
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(709, 473)
-        Me.Controls.Add(Me.RadWizard)
+        Me.Controls.Add(Me.MQFWizard)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Name = "MQFFeedWizard"
+        Me.Name = "UIWizardMQFFeed"
         '
         '
         '
@@ -468,41 +536,49 @@ Partial Class UIWizardMQFFeed
         Me.Text = "OnTrack Message Queue File Wizard"
         Me.ThemeName = "TelerikMetroBlue"
         Me.workbookListContextMenuStrip.ResumeLayout(False)
-        CType(Me.RadWizard, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadWizard.ResumeLayout(False)
-        Me.Panel1.ResumeLayout(False)
-        Me.Panel1.PerformLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MQFWizard, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.MQFWizard.ResumeLayout(False)
+        Me.Panel3.ResumeLayout(False)
+        Me.Panel3.PerformLayout()
+        Me.SelectPanel.ResumeLayout(False)
+        Me.SelectPanel.PerformLayout()
+        CType(Me.PBDocument, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MQFSelectedTextbox, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.WelcomeStatusStrip, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.OpenWorkbookButton, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.WorkbookList, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadTextBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Panel2.ResumeLayout(False)
-        Me.Panel2.PerformLayout()
-        CType(Me.PreprocessStatusStrip, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ProcessPanel.ResumeLayout(False)
+        Me.ProcessPanel.PerformLayout()
+        CType(Me.ProcessStatusStrip, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ProcessCommandPanel, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ProcessCommandPanel.ResumeLayout(False)
         Me.ProcessCommandPanel.PerformLayout()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ProcessButton, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PreProcessSetting_Button, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PreProcessButton, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PreProcessRadViewGrid.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PreProcessRadViewGrid, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MQFViewGrid.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MQFViewGrid, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.MQFViewGrid.ResumeLayout(False)
+        CType(Me.ProgressPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.UpdateXLSPanel.ResumeLayout(False)
+        CType(Me.UpdateXLSCommandPanel, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.UpdateXLSCommandPanel.ResumeLayout(False)
+        CType(Me.UpdateXLSButton, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadTextBox2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents RadWizard As Telerik.WinControls.UI.RadWizard
+    Friend WithEvents MQFWizard As Telerik.WinControls.UI.RadWizard
     Friend WithEvents WizardCompletionPage1 As Telerik.WinControls.UI.WizardCompletionPage
     Friend WithEvents Panel3 As System.Windows.Forms.Panel
-    Friend WithEvents Panel1 As System.Windows.Forms.Panel
-    Friend WithEvents Panel2 As System.Windows.Forms.Panel
+    Friend WithEvents SelectPanel As System.Windows.Forms.Panel
+    Friend WithEvents ProcessPanel As System.Windows.Forms.Panel
     Friend WithEvents WizardWelcomePage1 As Telerik.WinControls.UI.WizardWelcomePage
     Friend WithEvents WizardPage1 As Telerik.WinControls.UI.WizardPage
     Friend WithEvents TelerikMetroBlueTheme1 As Telerik.WinControls.Themes.TelerikMetroBlueTheme
-    Friend WithEvents Panel4 As System.Windows.Forms.Panel
-    Friend WithEvents Panel5 As System.Windows.Forms.Panel
-    Friend WithEvents WizardPage2 As Telerik.WinControls.UI.WizardPage
+    Friend WithEvents UpdateXLSPanel As System.Windows.Forms.Panel
     Friend WithEvents WizardPage3 As Telerik.WinControls.UI.WizardPage
     Friend WithEvents WorkbookList As Telerik.WinControls.UI.RadListControl
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
@@ -514,17 +590,23 @@ Partial Class UIWizardMQFFeed
     Friend WithEvents OpenWorkbookButton As Telerik.WinControls.UI.RadButton
     Friend WithEvents WelcomeStatusStrip As Telerik.WinControls.UI.RadStatusStrip
     Friend WithEvents WelcomeStatusLabel As Telerik.WinControls.UI.RadLabelElement
-    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
+    Friend WithEvents PBDocument As System.Windows.Forms.PictureBox
     Friend WithEvents TextBox2 As System.Windows.Forms.TextBox
     Friend WithEvents MQFSelectedTextbox As Telerik.WinControls.UI.RadTextBox
-    Friend WithEvents PreProcessRadViewGrid As Telerik.WinControls.UI.RadGridView
-    Friend WithEvents PreprocessStatusStrip As Telerik.WinControls.UI.RadStatusStrip
+    Friend WithEvents MQFViewGrid As Telerik.WinControls.UI.RadGridView
+    Friend WithEvents ProcessStatusStrip As Telerik.WinControls.UI.RadStatusStrip
     Friend WithEvents ProcessCommandPanel As Telerik.WinControls.UI.RadPanel
     Friend WithEvents PreProcessButton As Telerik.WinControls.UI.RadButton
-    Friend WithEvents RadButton1 As Telerik.WinControls.UI.RadButton
-    Friend WithEvents PreprocessStatusLabel As Telerik.WinControls.UI.RadLabelElement
+    Friend WithEvents PreProcessSetting_Button As Telerik.WinControls.UI.RadButton
+    Friend WithEvents ProcessStatusLabel As Telerik.WinControls.UI.RadLabelElement
     Friend WithEvents PreprocessProgressBar As Telerik.WinControls.UI.RadProgressBarElement
     Friend WithEvents OfficeShape1 As Telerik.WinControls.UI.OfficeShape
+    Friend WithEvents ProgressPictureBox As System.Windows.Forms.PictureBox
+    Friend WithEvents ProcessButton As Telerik.WinControls.UI.RadButton
+    Friend WithEvents UpdateXLSCommandPanel As Telerik.WinControls.UI.RadPanel
+    Friend WithEvents UpdateXLSButton As Telerik.WinControls.UI.RadButton
+    Friend WithEvents RadThemeManager1 As Telerik.WinControls.RadThemeManager
+    Friend WithEvents RadTextBox2 As Telerik.WinControls.UI.RadTextBox
 
 End Class
 

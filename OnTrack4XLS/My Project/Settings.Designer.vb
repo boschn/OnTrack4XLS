@@ -73,10 +73,10 @@ Partial Friend NotInheritable Class MySettings
     
     <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     Global.System.Configuration.DefaultSettingValueAttribute("Doc9Dynamic")>  _
-    Public ReadOnly Property DefaultDoc9ConfigNameDynamic() As String
+     Global.System.Configuration.DefaultSettingValueAttribute("DefaultDynamic")>  _
+    Public ReadOnly Property DefaultXConfigName() As String
         Get
-            Return CType(Me("DefaultDoc9ConfigNameDynamic"),String)
+            Return CType(Me("DefaultXConfigName"),String)
         End Get
     End Property
     

@@ -255,9 +255,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="legacyClasses.vb" />
-    <Compile Include="modDoc9.vb" />
+    <Compile Include="modQuicknDirty.vb" />
     <Compile Include="modGlobals.vb" />
-    <Compile Include="modMQF.vb" />
+    <Compile Include="modXLSMessageQueueFile.vb" />
     <Compile Include="modParameterXLS.vb" />
     <Compile Include="modXLSXChangeMgr.vb" />
     <Compile Include="modXLSHelper.vb" />
@@ -309,6 +309,39 @@
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="OnTrackTool_TemporaryKey.pfx" />
+    <None Include="Resources\CoreInitialData\05_Core\05_ObjectCompoundEntries.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\CoreInitialData\05_Core\06_DomainSettings_TCMS.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\CoreInitialData\05_Core\15_ObjectMessageTypes.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\CoreInitialData\05_Core\10_StatusItems.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\CoreInitialData\10_Commons\Sites.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\CoreInitialData\15_Properties\10_PropertySet.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\CoreInitialData\15_Properties\20_Property.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\CoreInitialData\20_Scheduling\10_MileStoneDefinitions.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\CoreInitialData\20_Scheduling\20_ScheduleDefinition.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\CoreInitialData\20_Scheduling\30_ScheduleMilestoneDefinitions.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\CoreInitialData\30_Deliverables\DeliverableTypes.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\otdbconfig.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -424,6 +457,34 @@
     <Content Include="Images\user-login-icon.png" />
     <Content Include="Images\user.png" />
     <Content Include="Images\video.png" />
+    <None Include="Resources\super_mono_3d_part2_11.png" />
+    <None Include="Resources\mono_magic_wand_32_32.png" />
+    <None Include="Resources\mono_lightbulb_48_48.png" />
+    <None Include="Resources\mono_cog_48_48.png" />
+    <None Include="Resources\mono_doc_edit_32_32.png" />
+    <None Include="Resources\mono_doc_edit_48_48.png" />
+    <Content Include="Resources\progress_radar.gif" />
+    <None Include="Resources\wrench_plus_2_32x32.png" />
+    <None Include="Resources\plus.png" />
+    <None Include="Resources\minus.png" />
+    <None Include="Resources\twitter_2.png" />
+    <None Include="Resources\table.png" />
+    <None Include="Resources\school.png" />
+    <None Include="Resources\rail_metro_24_2x.png" />
+    <None Include="Resources\playback_reload.png" />
+    <None Include="Resources\pin_sq_down.png" />
+    <None Include="Resources\memory_module.png" />
+    <None Include="Resources\list_bullets.png" />
+    <None Include="Resources\doc_lines.png" />
+    <None Include="Resources\db.png" />
+    <None Include="Resources\database.png" />
+    <None Include="Resources\checkbox_unchecked.png" />
+    <None Include="Resources\cert.png" />
+    <None Include="Resources\business_contact.png" />
+    <None Include="Resources\business.png" />
+    <None Include="Resources\align_just.png" />
+    <None Include="Resources\3x3_grid.png" />
+    <None Include="Resources\wrench_plus.png" />
     <None Include="Resources\Actions-system-run-icon32x32.png" />
     <None Include="Resources\Actions-system-run-icon-64x64.jpg" />
     <None Include="Resources\Actions-system-run-icon.png" />

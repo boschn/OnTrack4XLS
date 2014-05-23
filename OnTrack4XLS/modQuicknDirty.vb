@@ -101,7 +101,7 @@ Class clsBOM
 
 End Class
 
-Module modDoc9
+Module modQuicknDirty
 
     ' ***************************************************************************************************
     '   Module for doc9 db functions
@@ -228,7 +228,7 @@ Module modDoc9
         Dim dbRange As Range
         Dim selection, selectioncol, selected, selectfield As Range
         Dim uid_column As Long
-        Dim msgboxrs As clsCoreUIMessageBox.ResultType
+        Dim msgboxrs As CoreMessageBox.ResultType
 
         ' Get Selection
         dbRange = getdbDoc9Range()
@@ -271,16 +271,16 @@ Module modDoc9
         Next selectfield
         '* nothing selected
         If selected Is Nothing Then
-            With New clsCoreUIMessageBox
+            With New CoreMessageBox
                 .Title = "ARE YOU SURE ?"
                 .Message = "ATTENTION !" & vbLf & "No data rows have been selected in the SELECTION Column of the Database. Should ALL rows be written to the Message Queue File ?"
-                .buttons = clsCoreUIMessageBox.ButtonType.YesNo
+                .buttons = CoreMessageBox.ButtonType.YesNo
                 .Show()
                 msgboxrs = .result
             End With
 
 
-            If msgboxrs <> clsCoreUIMessageBox.ResultType.Yes Then
+            If msgboxrs <> CoreMessageBox.ResultType.Yes Then
                 getSelectionAsRange = Nothing
                 Exit Function
             Else
@@ -694,55 +694,38 @@ Module modDoc9
 
     End Sub
 
-    '***** createDoc9 Config 
-    '*****                      Creates a special XConfig (Dynmaic) for the Doc9 by Hand and saves it
-    Public Function createDoc9XConfig(Optional ByVal XCMD As otXChangeCommandType = otXChangeCommandType.Read) As Boolean
-        Dim aXChangeConfig As New clsOTDBXChangeConfig
+    ''' <summary>
+    ''' create a ConfigDocXConfig
+    ''' </summary>
+    ''' <param name="XCMD"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function CreateConfigDocXCONFIG(Optional ByVal XCMD As otXChangeCommandType = otXChangeCommandType.Read) As Boolean
+        Dim aXChangeConfig As XChangeConfiguration = XChangeConfiguration.Create(MySettings.Default.DefaultXConfigName)
 
-        If Not aXChangeConfig.create(MySettings.Default.DefaultDoc9ConfigNameDynamic) Then
-            aXChangeConfig.Inject(MySettings.Default.DefaultDoc9ConfigNameDynamic)
-            aXChangeConfig.delete()
-
+        If aXChangeConfig Is Nothing Then
+            aXChangeConfig = XChangeConfiguration.Retrieve(MySettings.Default.DefaultXConfigName)
+            If aXChangeConfig IsNot Nothing Then aXChangeConfig.Delete()
+            aXChangeConfig = XChangeConfiguration.Create(MySettings.Default.DefaultXConfigName)
         End If
 
-        Call aXChangeConfig.addObjectByName("tblschedules", XCMD:=XCMD)
-        Call aXChangeConfig.addObjectByName("tbldeliverabletargets", XCMD:=XCMD)
-        Call aXChangeConfig.addObjectByName("tbldeliverabletracks", XCMD:=XCMD)
-        Call aXChangeConfig.addObjectByName("tbldeliverables", XCMD:=XCMD)
-        Call aXChangeConfig.addObjectByName("tblparts", XCMD:=XCMD)
-        Call aXChangeConfig.AddObjectByName("tblconfigs", XCMD:=XCMD)
-        Call aXChangeConfig.AddObjectByName("ctblDeliverableObeyas", XCMD:=XCMD)
-        Call aXChangeConfig.AddObjectByName("ctblDeliverableExpeditingStatus", XCMD:=XCMD)
-        Call aXChangeConfig.AddObjectByName("tblDeliverableWorkstationCodes", XCMD:=XCMD)
-        Call aXChangeConfig.AddObjectByName("tblxoutlineitems", XCMD:=XCMD)
+        'Call aXChangeConfig.AddObjectByName(Scheduling.ScheduleEdition.ConstObjectID, xcmd:=XCMD)
+        'Call aXChangeConfig.AddObjectByName(Deliverables.Target.ConstObjectID, xcmd:=XCMD)
+        Call aXChangeConfig.AddObjectByName(Deliverables.Deliverable.ConstObjectID, xcmd:=XCMD)
+        'Call aXChangeConfig.AddObjectByName(XChange.XOutline.constobjectid, xcmd:=XCMD)
 
-        aXChangeConfig.AllowDynamicAttributes = True
+        aXChangeConfig.AllowDynamicEntries = True
+        aXChangeConfig.Description = "a dynamic xchange configuration for the config doc"
 
-        createDoc9XConfig = aXChangeConfig.Persist()
+        CreateConfigDocXCONFIG = aXChangeConfig.Persist()
     End Function
 
-    '***** createDoc9 Config 
-    '*****                      Creates a special XConfig (Dynmaic) for the Doc9 by Hand and saves it
-    Public Function createExpediterXConfig(Optional ByVal XCMD As otXChangeCommandType = otXChangeCommandType.Read) As Boolean
-        Dim aXChangeConfig As New clsOTDBXChangeConfig
 
-        If Not aXChangeConfig.Create(MySettings.Default.DefaultExpediterConfigNameDynamic) Then
-            aXChangeConfig.Inject(MySettings.Default.DefaultExpediterConfigNameDynamic)
-            aXChangeConfig.Delete()
-
-        End If
-
-        Call aXChangeConfig.AddObjectByName("ctblDeliverableExpeditingStatus", XCMD:=XCMD)
-
-        aXChangeConfig.AllowDynamicAttributes = True
-
-        Return aXChangeConfig.Persist()
-    End Function
-    Private GlobalDoc9XChangeConfig As clsOTDBXChangeConfig
+    Private GlobalDoc9XChangeConfig As XChangeConfiguration
 
     '***** getXlsDoc9XConfig: Returns the used Doc9/18 XChangeConfiguration
     '*****
-    Public Function getXlsDoc9Xconfig(Optional ByVal XCMD As otXChangeCommandType = 0) As clsOTDBXChangeConfig
+    Public Function getXlsDoc9Xconfig(Optional ByVal XCMD As otXChangeCommandType = 0) As XChangeConfiguration
         Dim headeridRange As Range
         Dim headerids As Object
         Dim IDs() As String
@@ -751,7 +734,7 @@ Module modDoc9
         Dim i As Integer
         Dim isReadOnly As Boolean
         Dim j As Integer
-        Dim aXChangeConfig As New clsOTDBXChangeConfig
+        Dim aXChangeConfig As New XChangeConfiguration
 
         ' do it only we we donot have to reset
         If Not GlobalDoc9XChangeConfig Is Nothing And XCMD = 0 Then
@@ -803,7 +786,7 @@ Module modDoc9
 
                     'If isReadOnly Then Debug.Assert False
 
-                    Call aXChangeConfig.AddAttributeByID(id:=IDs(j), ordinal:=i, _
+                    Call aXChangeConfig.AddEntryByXID(Xid:=IDs(j), ordinal:=i, _
                                                          xcmd:=XCMD, readonly:=isReadOnly)
 
                 End If
@@ -825,15 +808,15 @@ Module modDoc9
     '********                INPUTMAPPING
 
     Public Function updateRowXlsDoc9(ByRef INPUTMAPPING As Dictionary(Of Object, Object), _
-    ByRef INPUTXCHANGECONFIG As clsOTDBXChangeConfig, _
+    ByRef INPUTXCHANGECONFIG As XChangeConfiguration, _
     Optional ByVal workspaceID As String = "") _
     As Boolean
 
 
         'Dim aProgressBar As New clsUIProgressBarForm
-        Dim aXChangeConfig As New clsOTDBXChangeConfig
-        Dim aMQFXChangeMember As New clsOTDBXChangeMember
-        Dim aXChangeMember As New clsOTDBXChangeMember
+        Dim aXChangeConfig As New XChangeConfiguration
+        Dim aMQFXChangeMember As XChangeObjectEntry
+        Dim aXChangeMember As XChangeObjectEntry
         Dim m As Object
 
         Dim doc9DB As Range
@@ -880,7 +863,7 @@ Module modDoc9
             Exit Function
         End If
 
-        aVAlue = INPUTXCHANGECONFIG.getMemberValue("uid", MAPPING:=INPUTMAPPING)
+        'aVAlue = INPUTXCHANGECONFIG.getMemberValue("uid", MAPPING:=INPUTMAPPING)
         If IsNumeric(aVAlue) Then
             UID = CLng(aVAlue)
         Else
@@ -908,9 +891,9 @@ Module modDoc9
 
                 rowvaluechanged_flag = False
 
-                For Each m In INPUTXCHANGECONFIG.Attributes
+                For Each m In INPUTXCHANGECONFIG.GetObjectEntries
                     aMQFXChangeMember = m
-                    aXChangeMember = aXChangeConfig.AttributeByID(ID:=aMQFXChangeMember.ID, objectname:=aMQFXChangeMember.Objectname)
+                    aXChangeMember = TryCast(aXChangeConfig.GetEntryByXID(XID:=aMQFXChangeMember.XID, objectname:=aMQFXChangeMember.Objectname), XChangeObjectEntry)
 
                     If Not aXChangeMember Is Nothing Then
                         If aXChangeMember.IsCreated Or aXChangeMember.IsLoaded And aXChangeMember.ISXCHANGED Then
@@ -923,14 +906,14 @@ Module modDoc9
                                 If Not IsNull(aNewValue) And Not IsEmpty(aNewValue) And aNewValue <> aVAlue And aNewValue <> "" Then
                                     rowvaluechanged_flag = True
                                     '** convert
-                                    If (aXChangeMember.ObjectEntryDefinition.Datatype = otFieldDataType.[Date] Or _
-                                    aXChangeMember.ObjectEntryDefinition.Datatype = otFieldDataType.Timestamp) And _
+                                    If (aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.[Date] Or _
+                                    aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.Timestamp) And _
                                     IsDate(aNewValue) Then
                                         findrange.Cells(1, col).value = CDate(aNewValue)
-                                    ElseIf aXChangeMember.ObjectEntryDefinition.Datatype = otFieldDataType.[Long] And _
+                                    ElseIf aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.[Long] And _
                                     IsNumeric(aNewValue) Then
                                         findrange.Cells(1, col).value = CLng(aNewValue)
-                                    ElseIf aXChangeMember.ObjectEntryDefinition.Datatype = otFieldDataType.Numeric And _
+                                    ElseIf aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.Numeric And _
                                     IsNumeric(aNewValue) Then
                                         findrange.Cells(1, col).value = CDbl(aNewValue)
                                     ElseIf IsEmpty(aNewValue) Then
@@ -1029,8 +1012,8 @@ Module modDoc9
         Dim newBodMember As clsBOM
 
         'Dim aProgressBar As New clsUIProgressBarForm
-        Dim aXChangeConfig As New clsOTDBXChangeConfig
-        Dim aXChangeMember As New clsOTDBXChangeMember
+        Dim aXChangeConfig As New XChangeConfiguration
+        Dim aXChangeMember As XChangeObjectEntry
         Dim m As Object
         Dim aMapping As New Dictionary(Of Object, Object)
         Dim col As Integer
@@ -1167,7 +1150,7 @@ Module modDoc9
             Call aMapping.Add(key:=UIDCol, value:=UID)
 
             If (1 <> 1) Then
-                For Each m In aXChangeConfig.Attributes
+                For Each m In aXChangeConfig.GetObjectEntries
                     aXChangeMember = m
                     If Not aXChangeMember Is Nothing Then
                         If (aXChangeMember.IsCreated Or aXChangeMember.IsLoaded) And aXChangeMember.ISXCHANGED Then
@@ -1184,9 +1167,9 @@ Module modDoc9
             End If
 
             '*** run XCHANGE
-            flag = aXChangeConfig.runXChange(aMapping)
+            'flag = aXChangeConfig.runXChange(aMapping)
             '*** OUTPUT
-            For Each m In aXChangeConfig.Attributes
+            For Each m In aXChangeConfig.GetObjectEntries
                 aXChangeMember = m
                 If Not aXChangeMember Is Nothing Then
                     aNewValue = aMapping.Item(aXChangeMember.ordinal.Value)
@@ -1203,14 +1186,14 @@ Module modDoc9
                             (Not IsNull(aNewValue) And CStr(aNewValue) <> CStr(aVAlue)) Then
                                 rowvaluechanged_flag = True
                                 '* change dependent on type
-                                If (aXChangeMember.ObjectEntryDefinition.Datatype = otFieldDataType.[Date] Or _
-                                aXChangeMember.ObjectEntryDefinition.Datatype = otFieldDataType.Timestamp) And _
+                                If (aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.[Date] Or _
+                                aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.Timestamp) And _
                                 IsDate(aNewValue) Then
                                     row.Cells(1, col).value = CDate(aNewValue)
-                                ElseIf aXChangeMember.ObjectEntryDefinition.Datatype = otFieldDataType.[Long] And _
+                                ElseIf aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.[Long] And _
                                 IsNumeric(aNewValue) Then
                                     row.Cells(1, col).value = CLng(aNewValue)
-                                ElseIf aXChangeMember.ObjectEntryDefinition.Datatype = otFieldDataType.Numeric And _
+                                ElseIf aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.Numeric And _
                                 IsNumeric(aNewValue) Then
                                     row.Cells(1, col).value = CDbl(aNewValue)
                                 ElseIf IsEmpty(aNewValue) Then
@@ -1376,15 +1359,15 @@ Module modDoc9
     '********                INPUTMAPPING
 
     Public Function updateDoc9LineFromOTDB(ByRef INPUTMAPPING As Dictionary(Of Object, Object), _
-    ByRef INPUTXCHANGECONFIG As clsOTDBXChangeConfig, _
+    ByRef INPUTXCHANGECONFIG As XChangeConfiguration, _
     Optional ByVal workspaceID As String = "") _
     As Boolean
 
 
         'Dim aProgressBar As New clsUIProgressBarForm
-        Dim aXChangeConfig As New clsOTDBXChangeConfig
-        Dim aMQFXChangeMember As New clsOTDBXChangeMember
-        Dim aXChangeMember As New clsOTDBXChangeMember
+        Dim aXChangeConfig As New XChangeConfiguration
+        Dim aMQFXChangeMember As New XChangeObjectEntry
+        Dim aXChangeMember As New XChangeObjectEntry
         Dim m As Object
 
         Dim doc9DB As Range
@@ -1452,9 +1435,9 @@ Module modDoc9
 
                 rowvaluechanged_flag = False
 
-                For Each m In INPUTXCHANGECONFIG.Attributes
+                For Each m In INPUTXCHANGECONFIG.GetObjectEntries
                     aMQFXChangeMember = m
-                    aXChangeMember = aXChangeConfig.AttributeByID(ID:=aMQFXChangeMember.ID, objectname:=aMQFXChangeMember.Objectname)
+                    aXChangeMember = aXChangeConfig.GetEntryByXID(XID:=aMQFXChangeMember.XID, objectname:=aMQFXChangeMember.Objectname)
 
                     If Not aXChangeMember Is Nothing Then
                         If (aXChangeMember.IsCreated Or aXChangeMember.IsLoaded) _
@@ -1469,14 +1452,14 @@ Module modDoc9
                                 If Not IsNull(aNewValue) And Not IsEmpty(aNewValue) And aNewValue <> aVAlue And aNewValue <> "" Then
                                     rowvaluechanged_flag = True
                                     '** convert
-                                    If (aMQFXChangeMember.ObjectEntryDefinition.Datatype = otFieldDataType.[Date] Or _
-                                    aMQFXChangeMember.ObjectEntryDefinition.Datatype = otFieldDataType.Timestamp) And _
+                                    If (aMQFXChangeMember.ObjectEntryDefinition.Datatype = otDataType.[Date] Or _
+                                    aMQFXChangeMember.ObjectEntryDefinition.Datatype = otDataType.Timestamp) And _
                                     IsDate(aNewValue) Then
                                         findrange.Cells(1, col).value = CDate(aNewValue)
-                                    ElseIf aMQFXChangeMember.ObjectEntryDefinition.Datatype = otFieldDataType.[Long] And _
+                                    ElseIf aMQFXChangeMember.ObjectEntryDefinition.Datatype = otDataType.[Long] And _
                                     IsNumeric(aNewValue) Then
                                         findrange.Cells(1, col).value = CLng(aNewValue)
-                                    ElseIf aMQFXChangeMember.ObjectEntryDefinition.Datatype = otFieldDataType.Numeric And _
+                                    ElseIf aMQFXChangeMember.ObjectEntryDefinition.Datatype = otDataType.Numeric And _
                                     IsNumeric(aNewValue) Then
                                         findrange.Cells(1, col).value = CDbl(aNewValue)
                                     ElseIf IsEmpty(aNewValue) Then

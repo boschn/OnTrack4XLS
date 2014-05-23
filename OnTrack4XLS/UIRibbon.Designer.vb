@@ -49,8 +49,10 @@
         Me.AboutButton = Me.Factory.CreateRibbonButton
         Me.SettingButton = Me.Factory.CreateRibbonButton
         Me.LogButton = Me.Factory.CreateRibbonToggleButton
+        Me.ObjectExplorerButton = Me.Factory.CreateRibbonButton
         Me.SettingGroup = Me.Factory.CreateRibbonGroup
         Me.WorkspaceCombo = Me.Factory.CreateRibbonComboBox
+        Me.DomainCombo = Me.Factory.CreateRibbonComboBox
         Me.MQFGroup = Me.Factory.CreateRibbonGroup
         Me.DataAreaButton = Me.Factory.CreateRibbonButton
         Me.XConfigButton = Me.Factory.CreateRibbonButton
@@ -58,13 +60,12 @@
         Me.ReplicateButton = Me.Factory.CreateRibbonButton
         Me.OperationsGroup = Me.Factory.CreateRibbonGroup
         Me.BatchMenuButton = Me.Factory.CreateRibbonButton
-        Me.DomainCombo = Me.Factory.CreateRibbonComboBox
-        Me.OnTrackRibbonTab.SuspendLayout
-        Me.OnTrack.SuspendLayout
-        Me.Setting.SuspendLayout
-        Me.SettingGroup.SuspendLayout
-        Me.MQFGroup.SuspendLayout
-        Me.OperationsGroup.SuspendLayout
+        Me.OnTrackRibbonTab.SuspendLayout()
+        Me.OnTrack.SuspendLayout()
+        Me.Setting.SuspendLayout()
+        Me.SettingGroup.SuspendLayout()
+        Me.MQFGroup.SuspendLayout()
+        Me.OperationsGroup.SuspendLayout()
         '
         'OnTrackRibbonTab
         '
@@ -87,6 +88,7 @@
         Me.Setting.Items.Add(Me.AboutButton)
         Me.Setting.Items.Add(Me.SettingButton)
         Me.Setting.Items.Add(Me.LogButton)
+        Me.Setting.Items.Add(Me.ObjectExplorerButton)
         Me.Setting.Label = "OnTrack"
         Me.Setting.Name = "Setting"
         '
@@ -96,30 +98,40 @@
         Me.ConnectToggleButton.Image = Global.OnTrack.Addin.My.Resources.Resources.disconnect_icon
         Me.ConnectToggleButton.Label = "Connect"
         Me.ConnectToggleButton.Name = "ConnectToggleButton"
-        Me.ConnectToggleButton.ShowImage = true
+        Me.ConnectToggleButton.ShowImage = True
         '
         'AboutButton
         '
-        Me.AboutButton.Image = Global.OnTrack.Addin.My.Resources.Resources.fasttrack
+        Me.AboutButton.Image = Global.OnTrack.Addin.My.Resources.Resources.cert
         Me.AboutButton.Label = "About"
         Me.AboutButton.Name = "AboutButton"
-        Me.AboutButton.ShowImage = true
+        Me.AboutButton.ShowImage = True
         '
         'SettingButton
         '
-        Me.SettingButton.Image = Global.OnTrack.Addin.My.Resources.Resources.Actions_configure_toolbars_icon
+        Me.SettingButton.Image = Global.OnTrack.Addin.My.Resources.Resources.wrench_plus
         Me.SettingButton.Label = "Setting"
         Me.SettingButton.Name = "SettingButton"
         Me.SettingButton.ScreenTip = "OnTrack Property Setting"
-        Me.SettingButton.ShowImage = true
+        Me.SettingButton.ShowImage = True
         '
         'LogButton
         '
         Me.LogButton.Description = "Show Message Log Window"
-        Me.LogButton.Image = Global.OnTrack.Addin.My.Resources.Resources.setting_config
+        Me.LogButton.Image = Global.OnTrack.Addin.My.Resources.Resources.twitter_2
         Me.LogButton.Label = "MessageLog"
         Me.LogButton.Name = "LogButton"
-        Me.LogButton.ShowImage = true
+        Me.LogButton.ShowImage = True
+        '
+        'ObjectExplorerButton
+        '
+        Me.ObjectExplorerButton.Description = "Work with OnTrack Object Data"
+        Me.ObjectExplorerButton.Image = Global.OnTrack.Addin.My.Resources.Resources.rail_metro_24_2x
+        Me.ObjectExplorerButton.Label = "Explorer"
+        Me.ObjectExplorerButton.Name = "ObjectExplorerButton"
+        Me.ObjectExplorerButton.ScreenTip = "Work with OnTrack Object Data"
+        Me.ObjectExplorerButton.ShowImage = True
+        Me.ObjectExplorerButton.SuperTip = "Work with OnTrack Object Data "
         '
         'SettingGroup
         '
@@ -134,6 +146,12 @@
         Me.WorkspaceCombo.Name = "WorkspaceCombo"
         Me.WorkspaceCombo.ScreenTip = "Set the Default workspaceID for this Workbook"
         Me.WorkspaceCombo.Text = Nothing
+        '
+        'DomainCombo
+        '
+        Me.DomainCombo.Label = "Current Domain"
+        Me.DomainCombo.Name = "DomainCombo"
+        Me.DomainCombo.Text = Nothing
         '
         'MQFGroup
         '
@@ -151,7 +169,7 @@
         Me.DataAreaButton.Label = "DataArea"
         Me.DataAreaButton.Name = "DataAreaButton"
         Me.DataAreaButton.ScreenTip = "Work with DataAreas in this Workbook"
-        Me.DataAreaButton.ShowImage = true
+        Me.DataAreaButton.ShowImage = True
         '
         'XConfigButton
         '
@@ -160,17 +178,17 @@
         Me.XConfigButton.Label = "Config"
         Me.XConfigButton.Name = "XConfigButton"
         Me.XConfigButton.ScreenTip = "Work with XChange Configuration"
-        Me.XConfigButton.ShowImage = true
+        Me.XConfigButton.ShowImage = True
         '
         'MQFAdminButton
         '
         Me.MQFAdminButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge
         Me.MQFAdminButton.Image = Global.OnTrack.Addin.My.Resources.Resources.MessageQueueTube
-        Me.MQFAdminButton.Label = constModuleXCHANGE
+        Me.MQFAdminButton.Label = "MQF"
         Me.MQFAdminButton.Name = "MQFAdminButton"
         Me.MQFAdminButton.OfficeImageId = "AccessRelinkLists"
         Me.MQFAdminButton.ScreenTip = "Call the MQF Administrator Tool"
-        Me.MQFAdminButton.ShowImage = true
+        Me.MQFAdminButton.ShowImage = True
         '
         'ReplicateButton
         '
@@ -178,7 +196,7 @@
         Me.ReplicateButton.Image = Global.OnTrack.Addin.My.Resources.Resources.excel_replication
         Me.ReplicateButton.Label = "Replicate"
         Me.ReplicateButton.Name = "ReplicateButton"
-        Me.ReplicateButton.ShowImage = true
+        Me.ReplicateButton.ShowImage = True
         '
         'OperationsGroup
         '
@@ -192,13 +210,8 @@
         Me.BatchMenuButton.Name = "BatchMenuButton"
         Me.BatchMenuButton.OfficeImageId = "ClientQueriesMenu"
         Me.BatchMenuButton.ScreenTip = "Runs batch processed operations"
-        Me.BatchMenuButton.ShowImage = true
+        Me.BatchMenuButton.ShowImage = True
         Me.BatchMenuButton.SuperTip = "Runs batch processed operations "
-        '
-        'DomainCombo
-        '
-        Me.DomainCombo.Label = "Current Domain"
-        Me.DomainCombo.Name = "DomainCombo"
         '
         'OnTrackRibbon
         '
@@ -238,6 +251,7 @@ End Sub
     Friend WithEvents OperationsGroup As Microsoft.Office.Tools.Ribbon.RibbonGroup
     Friend WithEvents BatchMenuButton As Microsoft.Office.Tools.Ribbon.RibbonButton
     Friend WithEvents DomainCombo As Microsoft.Office.Tools.Ribbon.RibbonComboBox
+    Friend WithEvents ObjectExplorerButton As Microsoft.Office.Tools.Ribbon.RibbonButton
 End Class
 
 Partial Class ThisRibbonCollection

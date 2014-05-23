@@ -12,6 +12,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "otdbBackEnd", "otdbbackend\
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "otAddInCommon", "otdbAddin\otdbAddIn\otAddInCommon.vbproj", "{E5C80542-6D68-4520-8C16-BB033AF5C470}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LumenWorks.Framework.IO", "otdbbackend\FastCSV\LumenWorks.Framework.IO.csproj", "{E3B83D68-C90C-4874-8E5F-DEC8D038BC7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{E5C80542-6D68-4520-8C16-BB033AF5C470}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5C80542-6D68-4520-8C16-BB033AF5C470}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5C80542-6D68-4520-8C16-BB033AF5C470}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3B83D68-C90C-4874-8E5F-DEC8D038BC7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3B83D68-C90C-4874-8E5F-DEC8D038BC7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3B83D68-C90C-4874-8E5F-DEC8D038BC7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3B83D68-C90C-4874-8E5F-DEC8D038BC7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

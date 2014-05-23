@@ -74,7 +74,7 @@ Structure StatisticTuple
     Public department As String
     Public week As Integer
     Public year As Integer
-    Public carselection As clsCartypes
+    Public carselection As clsLEGACYCartypes
 
     ' Number of Approvals
     Public noApprovals As Long
@@ -125,7 +125,7 @@ Public Structure PairTuple
     Public department As Object    'Department Code
     Public assy As Object    ' Assembly
     Public Name As Object    ' Name
-    Public Cartypes As clsCartypes    ' Cartype
+    Public Cartypes As clsLEGACYCartypes    ' Cartype
     Public ifcUID As Long    ' Line Number in Interface DB
     Public ICD As String
     Public ICDVer As String
@@ -332,8 +332,8 @@ Module modGlobals
     '**********
     '********** publics for UFDoc9MQFAdmin
 
-    Public UFDoc9MQFADMIN_theMQFFormat As modMQF.MessageFormat
-    Public UFDoc9MQFADMIN_theMQFMessages() As modMQF.MQFMessage
+    Public UFDoc9MQFADMIN_theMQFFormat As modXLSMessageQueueFile.XLSMQFStructure
+    Public UFDoc9MQFADMIN_theMQFMessages() As modXLSMessageQueueFile.MQFMessage
     Public UFDoc9MQFADMIN_theMQFWorkbook As Excel.Workbook
 
 End Module

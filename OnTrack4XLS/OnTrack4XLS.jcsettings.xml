@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<JustCodeSettings Version="0.0" Timestamp="155fd203-d06a-42eb-baf3-2ffc97d59f6b">
+  <NamespaceContributionSettings xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <IgnoredFolders>
+      <Item>Resources/CoreInitialData/15_Properties</Item>
+      <Item>Resources/CoreInitialData/20_Scheduling</Item>
+    </IgnoredFolders>
+  </NamespaceContributionSettings>
+</JustCodeSettings>

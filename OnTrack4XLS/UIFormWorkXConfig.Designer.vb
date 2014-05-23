@@ -31,7 +31,6 @@ Partial Class UIFormWorkXConfig
         Me.CommandPanel = New Telerik.WinControls.UI.RadPanel()
         Me.SpecialsButton = New Telerik.WinControls.UI.RadDropDownButton()
         Me.CreateDoc9ConfigMenuItem = New Telerik.WinControls.UI.RadMenuItem()
-        Me.CreateExpediterConfigMenuItem = New Telerik.WinControls.UI.RadMenuItem()
         Me.AddButton = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
@@ -95,9 +94,7 @@ Partial Class UIFormWorkXConfig
         '
         'StatusStrip
         '
-        Me.StatusStrip.AutoSize = True
         Me.StatusStrip.Items.AddRange(New Telerik.WinControls.RadItem() {Me.StatusLabel, Me.CancelButton, Me.SaveButton})
-        Me.StatusStrip.LayoutStyle = Telerik.WinControls.UI.RadStatusBarLayoutStyle.Stack
         Me.StatusStrip.Location = New System.Drawing.Point(0, 453)
         Me.StatusStrip.Name = "StatusStrip"
         Me.StatusStrip.Size = New System.Drawing.Size(907, 29)
@@ -146,8 +143,8 @@ Partial Class UIFormWorkXConfig
         'SpecialsButton
         '
         Me.SpecialsButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.SpecialsButton.Image = Global.OnTrack.Addin.My.Resources.Resources.Actions_system_run_icon32x32
-        Me.SpecialsButton.Items.AddRange(New Telerik.WinControls.RadItem() {Me.CreateDoc9ConfigMenuItem, Me.CreateExpediterConfigMenuItem})
+        Me.SpecialsButton.Image = Global.OnTrack.AddIn.My.Resources.Resources.Actions_system_run_icon32x32
+        Me.SpecialsButton.Items.AddRange(New Telerik.WinControls.RadItem() {Me.CreateDoc9ConfigMenuItem})
         Me.SpecialsButton.Location = New System.Drawing.Point(797, 0)
         Me.SpecialsButton.Name = "SpecialsButton"
         Me.SpecialsButton.Size = New System.Drawing.Size(98, 46)
@@ -158,28 +155,19 @@ Partial Class UIFormWorkXConfig
         '
         'CreateDoc9ConfigMenuItem
         '
-        Me.CreateDoc9ConfigMenuItem.AccessibleDescription = "Create Doc9Config"
-        Me.CreateDoc9ConfigMenuItem.AccessibleName = "Create Doc9Config"
+        Me.CreateDoc9ConfigMenuItem.AccessibleDescription = "Create DocConfig"
+        Me.CreateDoc9ConfigMenuItem.AccessibleName = "Create DocConfig"
         Me.CreateDoc9ConfigMenuItem.DisplayStyle = Telerik.WinControls.DisplayStyle.Text
         Me.CreateDoc9ConfigMenuItem.KeyTip = "D"
         Me.CreateDoc9ConfigMenuItem.Name = "CreateDoc9ConfigMenuItem"
-        Me.CreateDoc9ConfigMenuItem.Text = "Create Doc9Config"
+        Me.CreateDoc9ConfigMenuItem.Text = "Create DocConfig"
         Me.CreateDoc9ConfigMenuItem.ToolTipText = "Create or Modify automatically the Config Setting " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "SMB Document 9"
         Me.CreateDoc9ConfigMenuItem.Visibility = Telerik.WinControls.ElementVisibility.Visible
-        '
-        'CreateExpediterConfigMenuItem
-        '
-        Me.CreateExpediterConfigMenuItem.AccessibleDescription = "Create Expediter Config"
-        Me.CreateExpediterConfigMenuItem.AccessibleName = "Create Expediter Config"
-        Me.CreateExpediterConfigMenuItem.Name = "CreateExpediterConfigMenuItem"
-        Me.CreateExpediterConfigMenuItem.Text = "Create Expediter Config"
-        Me.CreateExpediterConfigMenuItem.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        Me.CreateExpediterConfigMenuItem.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'AddButton
         '
         Me.AddButton.DisplayStyle = Telerik.WinControls.DisplayStyle.Image
-        Me.AddButton.Image = Global.OnTrack.Addin.My.Resources.Resources.bt_add
+        Me.AddButton.Image = Global.OnTrack.AddIn.My.Resources.Resources.plus
         Me.AddButton.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.AddButton.Location = New System.Drawing.Point(3, 3)
         Me.AddButton.Name = "AddButton"
@@ -488,7 +476,7 @@ Partial Class UIFormWorkXConfig
         Me.RadSplitContainer2.Text = "RadSplitContainer2"
         Me.RadSplitContainer2.ThemeName = "TelerikMetroBlue"
         '
-        'WorkXConfigForm
+        'UIFormWorkXConfig
         '
         Me.AcceptButton = Me.SaveButton
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -498,7 +486,7 @@ Partial Class UIFormWorkXConfig
         Me.Controls.Add(Me.CommandPanel)
         Me.Controls.Add(Me.StatusStrip)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Name = "WorkXConfigForm"
+        Me.Name = "UIFormWorkXConfig"
         '
         '
         '
@@ -508,7 +496,6 @@ Partial Class UIFormWorkXConfig
         CType(Me.StatusStrip, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CommandPanel, System.ComponentModel.ISupportInitialize).EndInit()
         Me.CommandPanel.ResumeLayout(False)
-        Me.CommandPanel.PerformLayout()
         CType(Me.SpecialsButton, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.AddButton, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -582,6 +569,5 @@ Partial Class UIFormWorkXConfig
     Friend WithEvents DynamicIDButton As Telerik.WinControls.UI.RadToggleButton
     Friend WithEvents RadLabel5 As Telerik.WinControls.UI.RadLabel
     Friend WithEvents OutlineCombo As Telerik.WinControls.UI.RadMultiColumnComboBox
-    Friend WithEvents CreateExpediterConfigMenuItem As Telerik.WinControls.UI.RadMenuItem
 End Class
 

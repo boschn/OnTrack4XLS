@@ -1,0 +1,66 @@
+﻿# Entries for Status ITEMS
+#
+# --- STANDARD ---
+#
+# Exchange IDs
+#
+#SI1	STATUSITEM	TYPEID	3	type id of the status
+#SI2	STATUSITEM	CODE	3	code id of the status
+#DM1	STATUSITEM	DOMAINID	3	domain identifier
+#SI3	STATUSITEM	TITLE	3	name of the status
+#SI4	STATUSITEM	DESC	10	description of the status
+#SI5	STATUSITEM	KPICODE	3	KPI code of the status
+#SI6	STATUSITEM	WEIGHT	1	weight of the status
+#SI11	STATUSITEM	ISSTART	9	set if the status is an start status
+#SI12	STATUSITEM	ISEND	9	set if the status is an intermediate status
+#SI13	STATUSITEM	ISIMED	9	set if the status is an end status
+#SI14	STATUSITEM	ABORT	9	set if the status is aborting the ongoing-operation
+#SI21	STATUSITEM	FGCOLOR	7	RGB foreground color code
+#SI22	STATUSITEM	BGCOLOR	7	RGB background color code
+#SI23	STATUSITEM	KPIFGCOLOR	7	RGB foreground kpi color code
+#SI24	STATUSITEM	KPIBGCOLOR	7	RGB background kpi color code
+#
+# HEADER
+#
+SI1;SI2;DM1;SI3;SI4;SI5;SI6;SI14;SI11;SI12;SI13;SI21;SI22;SI23;SI24
+#
+# XCHANGE ENVELOPE
+#
+XCHANGEENVELOPE;R1;@;"FAILED";"The xchange enveloped failed prechecking";"";90;True;False;False;False;15794175;2037680;15794175;2037680;
+XCHANGEENVELOPE;Y1;@;"WARNING";"The xchange enveloped precheck run issued warnings";"";50;False;False;False;False;15794175;2474495;15794175;2474495;
+XCHANGEENVELOPE;G1;@;"SUCCEEDED";"The xchange enveloped succeeded prechecking";"";10;False;False;False;False;15794175;5737262;15794175;5737262;
+XCHANGEENVELOPE;G2;@;"SUCCEEDED";"The xchange enveloped succeeded prechecking with additional information";"";20;False;False;False;False;15794175;5737262;15794175;5737262;
+#
+# ENTRYVALIDATOR
+#
+ENTRYVALIDATOR;R1;@;"FAILED";"entry validation failed";"";90;TRrue;False;False;False;15794175;2037680;15794175;2037680;
+ENTRYVALIDATOR;Y1;@;"WARNING";"entry validation succeeded with warnings";"";50;False;False;False;False;15794175;2474495;15794175;2474495;
+ENTRYVALIDATOR;G1;@;"SUCCEEDED";"entry validation succeeded";"";10;False;False;False;False;15794175;5737262;15794175;5737262;
+ENTRYVALIDATOR;G2;@;"SUCCEEDED";"entry validation succeeded - corrections were made";"";20;False;False;False;False;15794175;5737262;15794175;5737262;
+#
+# OBJECTVALIDATOR
+#
+OBJECTVALIDATOR;R1;@;"FAILED";"data object validation failed";"";90;TRrue;False;False;False;15794175;2037680;15794175;2037680;
+OBJECTVALIDATOR;Y1;@;"WARNING";"data object validation succeeded with warnings";"";50;False;False;False;False;15794175;2474495;15794175;2474495;
+OBJECTVALIDATOR;G1;@;"SUCCEEDED";"data object validation succeeded";"";10;False;False;False;False;15794175;5737262;15794175;5737262;
+OBJECTVALIDATOR;G2;@;"SUCCEEDED";"data object validation succeeded - corrections were made";"";20;False;False;False;False;15794175;5737262;15794175;5737262;
+
+#
+# SCHEDULE LIFECYCLE
+#
+SCHEDULINGLFCL;R1;@;"FAILED";"failed schedule lifecycle check - schedule is not alive";90;True;False;False;False;15794175;2037680;15794175;2037680;
+SCHEDULINGLFCL;Y1;@;"WARNING";"schedule lifecycle check has warnings but will go alive";"";50;False;False;False;False;15794175;2474495;15794175;2474495;
+SCHEDULINGLFCL;G1;@;"SUCCEEDED";"succeeded schedule lifecycle check - schedule is alive";"";10;False;False;False;False;15794175;5737262;15794175;5737262;
+SCHEDULINGLFCL;G2;@;"SUCCEEDED W/INFO";"succeeded schedule lifecycle check with additional information - schedule is alive";"";11;False;False;False;False;15794175;5737262;15794175;5737262;
+#
+# SCHEDULE PROCESS
+#
+SCHEDULINGPROC;R2;@;"OVERDUE";"current date is later than target date";90;True;False;False;False;15794175;2037680;15794175;2037680;
+SCHEDULINGPROC;Y1;@;"WARNING";"entry validation succeeded with warnings";"";50;False;False;False;False;15794175;2474495;15794175;2474495;
+SCHEDULINGPROC;G1;@;"SUCCEEDED";"succeeded schedule lifecycle check - schedule is alive";"";20;False;False;False;False;15794175;5737262;15794175;5737262;
+#
+# DELIVERABLE TRACKING
+#
+TRACKING;R1;@;"OVERDUE";"current date is later than target date";90;True;False;False;False;15794175;2037680;15794175;2037680;
+TRACKING;R2;@;"FAILED";"schedule is not alive or has error - unable to track";91;True;False;False;False;15794175;2037680;15794175;2037680;
+TRACKING;G1;@;"ONTRACK";"schedule is on track";"";20;False;False;False;False;15794175;5737262;15794175;5737262;

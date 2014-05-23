@@ -20,18 +20,15 @@ Imports System.ComponentModel
 
 Imports OnTrack.UI
 Imports OnTrack.XChange
+Imports OnTrack.Database
+Imports OnTrack.Commons
 
+''' <summary>
+''' Module for Excel message Queue File functions
+''' </summary>
+''' <remarks></remarks>
+Module modXLSMessageQueueFile
 
-Module modMQF
-
-    ' ***************************************************************************************************
-    '   Module for message Queue File functions
-    '
-    '   Author: B.Schneider
-    '   created: 2012-07-13
-    '
-    '   change-log:
-    ' ***************************************************************************************************
 
     ' const
     Public Const constMQFClearFieldChar As String = "-"
@@ -65,7 +62,7 @@ Module modMQF
     Public Const constMQFOperation_DELETE As String = "delete"
     Public Const constMQFOperation_FREEZE As String = "freeze"
     Public Const constMQFOperation_REVISION As String = "add-revision"
-   
+
 
     '****
     '**** Declare the config definition of the MQF
@@ -75,34 +72,38 @@ Module modMQF
 
         Public Name As String
         Public desc As String
-        Public FieldIDs As Object    'Array of Names
+        Public FieldIDs As String()    'Array of Names
         Public FieldROIDs As Object    'Array of Read-Only Names
         Public copyOldValues As Boolean
 
 
     End Structure
 
-    '****
-    '**** MessageQueue File Database Description
-    '****
-    Public Structure MQFDBDesc
+   
+    ''' <summary>
+    ''' structure for describing Excel Database MQF Columns
+    ''' </summary>
+    ''' <remarks></remarks>
+    Public Structure XLSMQFColumnDescription
 
         Public ID As String
-        Public TITLE As String
+        Public Title As String
         Public ColumnNo As Integer
         Public READ_ONLY As Boolean
-        Public Doc9Desc As xlsDBDesc
+        Public otdbDesc As xlsDBDesc
         Public mqfversion As String
-        Public OBJECTNAME As String
+        Public Objectname As String
     End Structure
 
-    '****
-    '**** MessageFormat of a MQF Message
-    '****
 
-    Public Structure MessageFormat
+    ''' <summary>
+    ''' structure for describing an MQF File
+    ''' </summary>
+    ''' <remarks></remarks>
 
-        Public desc() As MQFDBDesc
+    Public Structure XLSMQFStructure
+
+        Public desc() As XLSMQFColumnDescription
         Public UIDCol As Long
 
         Public ActionCol As Long
@@ -116,11 +117,11 @@ Module modMQF
         Public requestedbyDept As String
         Public requestedOn As Date
 
-        Public TITLE As String
+        Public Title As String
         Public Requestfor As String
 
         Public workspaceID As String
-        Public XCHANGECONFIG As clsOTDBXChangeConfig
+        Public XCHANGECONFIG As XChangeConfiguration
 
     End Structure
     '***
@@ -164,7 +165,7 @@ Module modMQF
         allfields = getDBDescIDs()
         If Not IsArrayInitialized(allfields) Then
             Call CoreMessageHandler(showmsgbox:=True, message:="Abort: Header Field Description / name headerids is not found ", _
-                                   subname:="modMQF.getMQFConfigFields", messagetype:=otCoreMessageType.ApplicationError, break:=False)
+                                   subname:="modXLSMessageQueueFile.getMQFConfigFields", messagetype:=otCoreMessageType.ApplicationError, break:=False)
 
             Exit Function
         End If
@@ -227,7 +228,7 @@ Module modMQF
         allfields = getDBDescIDs()
         If Not IsArrayInitialized(allfields) Then
             Call CoreMessageHandler(showmsgbox:=True, message:="Abort: Header Field Description / name headerids is not found ", _
-                                   subname:="modMQF.getMQFConfigROFields", messagetype:=otCoreMessageType.ApplicationError, break:=False)
+                                   subname:="modXLSMessageQueueFile.getMQFConfigROFields", messagetype:=otCoreMessageType.ApplicationError, break:=False)
 
         End If
 
@@ -282,10 +283,10 @@ Module modMQF
 
         Dim Value As Object
         Dim i As Integer
-        Dim aCartypes As New clsCartypes
+        Dim aCartypes As New clsLEGACYCartypes
         Dim found As Boolean
 
-        config_table = GetXlsParameterRangeByName("parameter_mqf_config_table")
+        config_table = GetXlsParameterRangeByName("otdb_parameter_mqf_config_table")
 
         found = False
 
@@ -330,7 +331,7 @@ Module modMQF
         Dim col As Integer
 
 
-        DTable = GetXlsParameterRangeByName("parameter_mqf_structure_db_description_table")
+        DTable = GetXlsParameterRangeByName("otdb_parameter_mqf_structure_db_description_table")
 
         found = False
         i = -1
@@ -380,7 +381,7 @@ Module modMQF
         Dim col As Integer
 
 
-        DTable = GetXlsParameterRangeByName("parameter_mqf_structure_db_description_table")
+        DTable = GetXlsParameterRangeByName("otdb_parameter_mqf_structure_db_description_table")
 
         found = False
         result = 0
@@ -425,7 +426,7 @@ Module modMQF
         Dim col As Integer
 
 
-        DTable = GetXlsParameterRangeByName("parameter_mqf_structure_db_description_table")
+        DTable = GetXlsParameterRangeByName("otdb_parameter_mqf_structure_db_description_table")
 
         found = False
         result = 0
@@ -473,7 +474,7 @@ error_handler:
     '**********
     Public Sub createXlsDoc9MQFConfig()
         'Dim anObjectName As String
-        'Dim aNewConfig As New clsOTDBXChangeConfig
+        'Dim aNewConfig As New XChangeConfiguration
         'Dim aColl As Collection
         'Dim aSchemaDefTable As New ObjectDefinition
         'Dim m As Object
@@ -567,7 +568,7 @@ error_handler:
         Dim startfolder As String
         Dim dbDoc9Range As Range
         Dim selection, selectioncol As Range
-        Dim msgboxrsl As clsCoreUIMessageBox.ResultType
+        Dim msgboxrsl As CoreMessageBox.ResultType
         Dim MQFWorkbook As Excel.Workbook
         Dim MQFWorksheetName As String
         Dim MQFsheet_flag As Boolean
@@ -599,10 +600,10 @@ error_handler:
         Dim rocols() As Integer
         Dim postheaderstart As Integer
         Dim rowno As Long
-        Dim aMQFDbDesc() As MQFDBDesc
+        Dim aMQFDbDesc() As XLSMQFColumnDescription
         Dim selectfield As Excel.Range
 
-        Dim aXChangeConfig As clsOTDBXChangeConfig
+        Dim aXChangeConfig As XChangeConfiguration
         Dim otdbvalues() As Object
         Dim n, m As Integer
         Dim templatefiledir As String
@@ -612,7 +613,7 @@ error_handler:
 
 
         ' Get Selection
-        dbDoc9Range = getdbDoc9Range()
+        dbDoc9Range = GetdbDoc9Range()
         If dbDoc9Range Is Nothing Then
             createXlsDoc9MQF = False
             Exit Function
@@ -631,7 +632,7 @@ error_handler:
             '*** selection
             ' selection
             Value = getXLSHeaderIDColumn("x1")
-            selectioncol = dbDoc9Range.Worksheet.Range(dbDoc9Range.Cells(1, Value), dbDoc9Range.Cells(dbDoc9Range.Rows.count, Value))
+            selectioncol = dbDoc9Range.Worksheet.Range(dbDoc9Range.Cells(1, Value), dbDoc9Range.Cells(dbDoc9Range.Rows.Count, Value))
             ' selection
             ReDim selectedUIDs(0)
             j = 0
@@ -648,15 +649,15 @@ error_handler:
 
             '* nothing selected
             If j = 0 Then
-                With New clsCoreUIMessageBox
+                With New CoreMessageBox
                     .Message = "ATTENTION !" & vbLf & "No data rows have been selected in the SELECTION Column of the Database. Should ALL rows be written to the Message Queue File ?"
                     .Title = " ARE YOU SURE ?"
-                    .type = clsCoreUIMessageBox.MessageType.Question
+                    .type = CoreMessageBox.MessageType.Question
                     .Show()
                     msgboxrsl = .result
                 End With
 
-                If msgboxrsl <> clsCoreUIMessageBox.ResultType.Yes Then
+                If msgboxrsl <> CoreMessageBox.ResultType.Yes Then
                     Exit Function
                 Else
                     'select all uids
@@ -681,14 +682,14 @@ error_handler:
         If startfolder <> "" Then
             If Mid(startfolder, Len(Value), 1) <> "\" Then startfolder = startfolder & "\"
         End If
-        templatefiledir = GetDBParameter("parameter_mqf_template_filepath")
+        templatefiledir = GetDBParameter("otdb_parameter_mqf_template_filepath")
         If templatefiledir <> "" Then
             If Mid(templatefiledir, Len(Value), 1) <> "\" Then templatefiledir = templatefiledir & "\"
         End If
-        template = GetDBParameter("parameter_mqf_template_file")
+        template = GetDBParameter("otdb_parameter_mqf_template_file")
         'template = startfolder & template
-        formatoldvalues = GetXlsParameterRangeByName("parameter_mqf_format_oldvalues")
-        formatnewvalues = GetXlsParameterRangeByName("parameter_mqf_format_newvalues")
+        formatoldvalues = GetXlsParameterRangeByName("otdb_parameter_mqf_format_oldvalues")
+        formatnewvalues = GetXlsParameterRangeByName("otdb_parameter_mqf_format_newvalues")
 
         ' where is template
         If FileIO.FileSystem.FileExists(startfolder & templatefiledir & template) Then
@@ -702,7 +703,7 @@ error_handler:
         Else
             Call CoreMessageHandler(showmsgbox:=True, _
                                    message:="Abort: The MQF Template '" & template & " ' is not found in the filesystem. Please contact your Administrator" _
-                                   , subname:="modMQF.createXlsDoc9MQF", messagetype:=otCoreMessageType.ApplicationError, break:=False)
+                                   , subname:="modXLSMessageQueueFile.createXlsDoc9MQF", messagetype:=otCoreMessageType.ApplicationError, break:=False)
             createXlsDoc9MQF = False
             Exit Function
         End If
@@ -715,7 +716,7 @@ error_handler:
         'Open the MQF Template
         MQFWorkbook = Globals.ThisAddIn.Application.Globals.ThisAddin.Application.Workbooks.Open(Filename:=template, UpdateLinks:=2, ReadOnly:=True)
 
-        MQFWorksheetName = GetXlsParameterByName("parameter_mqf_templatedata", workbook:=MQFWorkbook, silent:=True)
+        MQFWorksheetName = GetXlsParameterByName("otdb_parameter_mqf_templatedata", workbook:=MQFWorkbook, silent:=True)
         If MQFWorksheetName = "" Then
             MQFWorksheetName = "Data"
         End If
@@ -732,7 +733,7 @@ error_handler:
         ' Error
         If MQFsheet_flag = False Then
             Call CoreMessageHandler(showmsgbox:=True, message:="Abort: The Worksheet '" & MQFWorksheetName & " ' is not found in the Workbook. Is this a valid Doc9 Message Queue File ? " _
-                   & MQFWorkbook.Name & "!", subname:="modMQF.createXlsDoc9MQF", messagetype:=otCoreMessageType.ApplicationError, break:=False)
+                   & MQFWorkbook.Name & "!", subname:="modXLSMessageQueueFile.createXlsDoc9MQF", messagetype:=otCoreMessageType.ApplicationError, break:=False)
 
             createXlsDoc9MQF = False
             Exit Function
@@ -745,7 +746,7 @@ error_handler:
         '**
         '** Build Header
         '**
-        Value = GetXlsParameterByName("parameter_mqf_template_headerstartrow", workbook:=MQFWorkbook)
+        Value = GetXlsParameterByName("otdb_parameter_mqf_template_headerstartrow", workbook:=MQFWorkbook)
         If Not IsNumeric(Value) Then
             createXlsDoc9MQF = False
             MQFWorkbook.Close(False)
@@ -760,7 +761,7 @@ error_handler:
         ' error
         If headerids Is Nothing Then
             Call CoreMessageHandler(showmsgbox:=True, message:="The parameter 'parameter_doc9_headerid_name':" & headerids_name & " is not showing a valid range !" _
-                  , subname:="modMQF.createXlsDoc9MQF", messagetype:=otCoreMessageType.ApplicationError, break:=False)
+                  , subname:="modXLSMessageQueueFile.createXlsDoc9MQF", messagetype:=otCoreMessageType.ApplicationError, break:=False)
 
             createXlsDoc9MQF = False
             Exit Function
@@ -810,10 +811,10 @@ error_handler:
 
         '******* XCHANGE: create the config of the OTDB XChangeManager
         '*******
-        aXChangeConfig = XChangeManager.createXChangeConfigFromIDs(CONFIGNAME:="$$mqftmp", _
-                                                        IDs:=FieldIDs, _
-                                                        XCMD:=otXChangeCommandType.Read, _
-                                                        OBJECTNAMES:=New String() {"tblschedules", _
+        aXChangeConfig = XChangeManager.CreateXChangeConfigFromIDs(configname:="$$mqftmp", _
+                                                        xids:=FieldIDs, _
+                                                        xcmd:=otXChangeCommandType.Read, _
+                                                        objectids:=New String() {"tblschedules", _
                                                                                   "tbldeliverabletargets", _
                                                                                   "tbldeliverables", _
                                                                                   "tblparts", _
@@ -871,7 +872,7 @@ error_handler:
             Else
                 Call CoreMessageHandler(showmsgbox:=True, message:="Abort: The Field-ID '" & fieldname & " ' is not found in the OnTrack Database Description." _
                        & MQFWorkbook.Name & "!" _
-                 , subname:="modMQF.createXlsDoc9MQF", messagetype:=otCoreMessageType.ApplicationError, break:=False)
+                 , subname:="modXLSMessageQueueFile.createXlsDoc9MQF", messagetype:=otCoreMessageType.ApplicationError, break:=False)
 
                 createXlsDoc9MQF = False
                 Exit Function
@@ -932,7 +933,7 @@ error_handler:
         '*** create each row
         '*** in mqf
         ' set the selectioncol to look uid
-        selectioncol = dbDoc9Range.Worksheet.Range(dbDoc9Range.Cells(1, uid_column), dbDoc9Range.Cells(dbDoc9Range.Rows.count, uid_column))
+        selectioncol = dbDoc9Range.Worksheet.Range(dbDoc9Range.Cells(1, uid_column), dbDoc9Range.Cells(dbDoc9Range.Rows.Count, uid_column))
 
         ' init
         'Call aProgressBar.initialize(UBound(selectedUIDs), WindowCaption:="creating MQF ...")
@@ -982,21 +983,21 @@ error_handler:
                         .Interior.Color = formatoldvalues.Interior.Color
                         .Font.Color = formatoldvalues.Font.Color
                         .Font.Name = formatoldvalues.Font.Name
-                        .Font.Size = formatoldvalues.Font.size
+                        .Font.Size = formatoldvalues.Font.Size
                         .Font.Bold = formatoldvalues.Font.Bold
                         .Borders.LineStyle = formatoldvalues.Borders.LineStyle
                         .Borders.Item(Excel.XlBordersIndex.xlEdgeBottom).Color = formatoldvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeBottom).Color
-                        .Borders.Item(Excel.XlBordersIndex.xlEdgeBottom).weight = formatoldvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeBottom).weight
-                        .Borders.Item(Excel.XlBordersIndex.xlEdgeBottom).LineStyle = formatoldvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeBottom).LineStyle
-                        .Borders.Item(Excel.XlBordersIndex.xlEdgeTop).Color = formatoldvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeTop).Color
-                        .Borders.Item(Excel.XlBordersIndex.xlEdgeTop).weight = formatoldvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeTop).weight
-                        .Borders.Item(Excel.XlBordersIndex.xlEdgeTop).LineStyle = formatoldvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeTop).LineStyle
-                        .Borders.Item(Excel.XlBordersIndex.xlEdgeLeft).Color = formatoldvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeLeft).Color
-                        .Borders.Item(Excel.XlBordersIndex.xlEdgeLeft).weight = formatoldvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeLeft).weight
-                        .Borders.Item(Excel.XlBordersIndex.xlEdgeLeft).LineStyle = formatoldvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeLeft).LineStyle
-                        .Borders.Item(Excel.XlBordersIndex.xlEdgeRight).Color = formatoldvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeRight).Color
-                        .Borders.Item(Excel.XlBordersIndex.xlEdgeRight).weight = formatoldvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeRight).weight
-                        .Borders.Item(Excel.XlBordersIndex.xlEdgeRight).LineStyle = formatoldvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeRight).LineStyle
+                        .Borders.Item(Excel.XlBordersIndex.xlEdgeBottom).Weight = formatoldvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeBottom).Weight
+                        .Borders.Item(Excel.XlBordersIndex.xlEdgeBottom).LineStyle = formatoldvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeBottom).LineStyle
+                        .Borders.Item(Excel.XlBordersIndex.xlEdgeTop).Color = formatoldvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeTop).Color
+                        .Borders.Item(Excel.XlBordersIndex.xlEdgeTop).Weight = formatoldvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeTop).Weight
+                        .Borders.Item(Excel.XlBordersIndex.xlEdgeTop).LineStyle = formatoldvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeTop).LineStyle
+                        .Borders.Item(Excel.XlBordersIndex.xlEdgeLeft).Color = formatoldvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeLeft).Color
+                        .Borders.Item(Excel.XlBordersIndex.xlEdgeLeft).Weight = formatoldvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeLeft).Weight
+                        .Borders.Item(Excel.XlBordersIndex.xlEdgeLeft).LineStyle = formatoldvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeLeft).LineStyle
+                        .Borders.Item(Excel.XlBordersIndex.xlEdgeRight).Color = formatoldvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeRight).Color
+                        .Borders.Item(Excel.XlBordersIndex.xlEdgeRight).Weight = formatoldvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeRight).Weight
+                        .Borders.Item(Excel.XlBordersIndex.xlEdgeRight).LineStyle = formatoldvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeRight).LineStyle
                     End With
 
                     ' protect
@@ -1045,20 +1046,20 @@ error_handler:
                     .Interior.Color = formatnewvalues.Interior.Color
                     .Font.Color = formatnewvalues.Font.Color
                     .Font.Name = formatnewvalues.Font.Name
-                    .Font.Size = formatnewvalues.Font.size
+                    .Font.Size = formatnewvalues.Font.Size
                     .Font.Bold = formatnewvalues.Font.Bold
                     .Borders.LineStyle = formatnewvalues.Borders.LineStyle
                     .Borders.Item(Excel.XlBordersIndex.xlEdgeBottom).Color = formatnewvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeBottom).Color
-                    .Borders.Item(Excel.XlBordersIndex.xlEdgeBottom).weight = formatnewvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeBottom).weight
-                    .Borders.Item(Excel.XlBordersIndex.xlEdgeBottom).LineStyle = formatnewvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeBottom).LineStyle
-                    .Borders.Item(Excel.XlBordersIndex.xlEdgeTop).Color = formatnewvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeTop).Color
-                    .Borders.Item(Excel.XlBordersIndex.xlEdgeTop).weight = formatnewvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeTop).weight
-                    .Borders.Item(Excel.XlBordersIndex.xlEdgeTop).LineStyle = formatnewvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeTop).LineStyle
-                    .Borders.Item(Excel.XlBordersIndex.xlEdgeLeft).Color = formatnewvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeLeft).Color
-                    .Borders.Item(Excel.XlBordersIndex.xlEdgeLeft).weight = formatnewvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeLeft).weight
-                    .Borders.Item(Excel.XlBordersIndex.xlEdgeLeft).LineStyle = formatnewvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeLeft).LineStyle
-                    .Borders.Item(Excel.XlBordersIndex.xlEdgeRight).Color = formatnewvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeRight).Color
-                    .Borders.Item(Excel.XlBordersIndex.xlEdgeRight).weight = formatnewvalues.Borders.ITEM(Excel.XlBordersIndex.xlEdgeRight).weight
+                    .Borders.Item(Excel.XlBordersIndex.xlEdgeBottom).Weight = formatnewvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeBottom).Weight
+                    .Borders.Item(Excel.XlBordersIndex.xlEdgeBottom).LineStyle = formatnewvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeBottom).LineStyle
+                    .Borders.Item(Excel.XlBordersIndex.xlEdgeTop).Color = formatnewvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeTop).Color
+                    .Borders.Item(Excel.XlBordersIndex.xlEdgeTop).Weight = formatnewvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeTop).Weight
+                    .Borders.Item(Excel.XlBordersIndex.xlEdgeTop).LineStyle = formatnewvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeTop).LineStyle
+                    .Borders.Item(Excel.XlBordersIndex.xlEdgeLeft).Color = formatnewvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeLeft).Color
+                    .Borders.Item(Excel.XlBordersIndex.xlEdgeLeft).Weight = formatnewvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeLeft).Weight
+                    .Borders.Item(Excel.XlBordersIndex.xlEdgeLeft).LineStyle = formatnewvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeLeft).LineStyle
+                    .Borders.Item(Excel.XlBordersIndex.xlEdgeRight).Color = formatnewvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeRight).Color
+                    .Borders.Item(Excel.XlBordersIndex.xlEdgeRight).Weight = formatnewvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeRight).Weight
                     .Borders.Item(Excel.XlBordersIndex.xlEdgeRight).LineStyle = formatnewvalues.Borders.Item(Excel.XlBordersIndex.xlEdgeRight).LineStyle
 
                     ' not locked
@@ -1133,20 +1134,20 @@ error_handler:
         '*** save parameters
         '***
         'set first data row in MQF
-        flag = SetXlsParameterValueByName(name:="parameter_mqf_template_datastartrow", value:=startdatarow, workbook:=MQFWorkbook)
-        'doc9_mqf_createdby
-        flag = SetXlsParameterValueByName("doc9_mqf_createdby", Globals.ThisAddIn.Application.UserName, workbook:=MQFWorkbook)
-        flag = SetXlsParameterValueByName("doc9_mqf_createdon", Format(Date.Now(), "dd.mm.yyyy"), workbook:=MQFWorkbook)
+        flag = SetXlsParameterValueByName(name:="otdb_parameter_mqf_template_datastartrow", value:=startdatarow, workbook:=MQFWorkbook)
+        'hermes_mqf_createdby
+        flag = SetXlsParameterValueByName("hermes_mqf_createdby", Globals.ThisAddIn.Application.UserName, workbook:=MQFWorkbook)
+        flag = SetXlsParameterValueByName("hermes_mqf_createdon", Format(Date.Now(), "dd.mm.yyyy"), workbook:=MQFWorkbook)
         'parameter_doc9_extract_tooling
-        flag = SetXlsParameterValueByName("parameter_mqf_extract_tooling", getDoc9ToolingName(Globals.ThisAddIn.Application.Globals.ThisAddin.Application.Workbooks(currWorkbookName)), workbook:=MQFWorkbook)
-        flag = SetXlsParameterValueByName("doc9_mqf_doc9used", dbDoc9Range.Worksheet.Parent.Name, workbook:=MQFWorkbook)
-        flag = SetXlsParameterValueByName("doc9_mqf_doc9usedon", Format(Date.Now(), "dd.mm.yyyy") & " " & Format(Date.Now(), "hh:mm"), workbook:=MQFWorkbook)
+        flag = SetXlsParameterValueByName("otdb_parameter_mqf_extract_tooling", getDoc9ToolingName(Globals.ThisAddIn.Application.Globals.ThisAddin.Application.Workbooks(currWorkbookName)), workbook:=MQFWorkbook)
+        flag = SetXlsParameterValueByName("hermes_mqf_doc9used", dbDoc9Range.Worksheet.Parent.Name, workbook:=MQFWorkbook)
+        flag = SetXlsParameterValueByName("hermes_mqf_doc9usedon", Format(Date.Now(), "dd.mm.yyyy") & " " & Format(Date.Now(), "hh:mm"), workbook:=MQFWorkbook)
 
         'flag = setXLSParameterValueByName("parameter_recent_ICD_change_date", _
         'MQFWorkbook.BuiltinDocumentProperties(12).value)
         '
 
-        flag = SetXlsParameterValueByName("parameter_mqf_headerid_name", constMQFHeaderidName, workbook:=MQFWorkbook, silent:=True)
+        flag = SetXlsParameterValueByName("otdb_parameter_mqf_headerid_name", constMQFHeaderidName, workbook:=MQFWorkbook, silent:=True)
         ' update the description table
         Call updateMQFDescTable(MQFWorkbook, ROFieldIDs)
 
@@ -1195,92 +1196,87 @@ handleerror:
 
     End Function
 
-    '********
-    '******** getMQFDBDesc() returns the MQFDBDesc of the MQF or search for aName
-    '********
-    '********
-
-    Public Function getMQFDBDesc(ByRef FieldList() As MQFDBDesc, _
+    
+    ''' <summary>
+    ''' retrieves the Column Descriptions from the XLS MQF File
+    ''' </summary>
+    ''' <param name="fieldlist"></param>
+    ''' <param name="aName"></param>
+    ''' <param name="workbook"></param>
+    ''' <param name="silent"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetMQFDBDesc(ByRef fieldlist() As XLSMQFColumnDescription, _
                                  Optional ByVal aName As String = "", _
-                                 Optional WORKBOOK As Excel.Workbook = Nothing, _
+                                 Optional workbook As Excel.Workbook = Nothing, _
                                  Optional silent As Boolean = False) As Boolean
         Dim headerids As Range
         Dim headerids_name As String
         Dim DescTable As Range
         Dim row As Range
         Dim i As Integer
-        Dim startdesccell As Range
         Dim Prefix As String
         Dim mqfversion As String
-        'Dim fieldlist() As xlsDBDesc
 
-        If IsMissing(WORKBOOK) Then
-            WORKBOOK = GetGlobalDoc9()
-        End If
+        If IsMissing(workbook) Then workbook = Globals.ThisAddIn.Application.ActiveWorkbook
 
-        headerids_name = GetXlsParameterByName("parameter_mqf_headerid_name", workbook:=WORKBOOK)
-        headerids = GetXlsParameterRangeByName(name:=headerids_name, workbook:=WORKBOOK)
+        headerids_name = GetXlsParameterByName("otdb_parameter_mqf_headerid_name", workbook:=workbook)
+        headerids = GetXlsParameterRangeByName(name:=headerids_name, workbook:=workbook)
         'parameter_doc9_dbdesc_prefix
-        Prefix = GetXlsParameterByName("parameter_mqf_dbdesc_prefix", workbook:=WORKBOOK)
-        mqfversion = GetXlsParameterByName("doc9_mqf_version", WORKBOOK, silent:=True)
+        Prefix = GetXlsParameterByName("otdb_parameter_mqf_dbdesc_prefix", workbook:=workbook)
+        mqfversion = GetXlsParameterByName("hermes_mqf_version", workbook, silent:=True)
 
         ' error
         If headerids Is Nothing Then
-            Call CoreMessageHandler(showmsgbox:=True, message:="The parameter 'parameter_mqf_headerid_name':" & headerids_name & " is not showing a valid range !" _
-                , subname:="modMQF.getMQFDBDesc", messagetype:=otCoreMessageType.ApplicationError, break:=False)
-
-            getMQFDBDesc = False
-            Exit Function
+            Call CoreMessageHandler(showmsgbox:=True, message:="The parameter 'otdb_parameter_mqf_headerid_name':" & headerids_name & " is not showing a valid range !" _
+                , subname:="modXLSMessageQueueFile.getMQFDBDesc", messagetype:=otCoreMessageType.ApplicationError, break:=False)
+            Return False
         End If
 
-        DescTable = GetXlsParameterRangeByName("parameter_mqf_structure_db_description_table", workbook:=WORKBOOK)
+        DescTable = GetXlsParameterRangeByName("otdb_parameter_mqf_structure_db_description_table", workbook:=workbook)
         ' error
         If DescTable Is Nothing Then
             If Not silent Then
-                Call CoreMessageHandler(showmsgbox:=True, message:="The parameter 'parameter_mqf_structure_db_description_table' is not showing a valid range !" _
-               , subname:="modMQF.getMQFDBDesc", messagetype:=otCoreMessageType.ApplicationError, break:=False)
+                Call CoreMessageHandler(showmsgbox:=True, message:="The parameter 'otdb_parameter_mqf_structure_db_description_table' is not showing a valid range !" _
+               , subname:="modXLSMessageQueueFile.getMQFDBDesc", messagetype:=otCoreMessageType.ApplicationError, break:=False)
 
             End If
-            getMQFDBDesc = False
-            Exit Function
+            Return False
         End If
-
-        ' upper right corner
-        'Set startdesccell = desctable(1, 1)
 
         ' run through the rows
         i = -1
         For Each row In DescTable.Rows
             If Trim(row.Cells(1, xlsDBDescColNo.FieldID + 1).value) Like aName Or aName = "" Then
                 i = i + 1
-                ReDim Preserve FieldList(i)
-                FieldList(i).ID = Trim(row.Cells(1, constMQFDescFieldID + 1).value)
-                FieldList(i).TITLE = Trim(row.Cells(1, constMQFDescTitle + 1).value)
-                FieldList(i).ColumnNo = CInt(row.Cells(1, constMQFDescColumnNo + 1).value)
+                ReDim Preserve fieldlist(i)
+                fieldlist(i).ID = Trim(row.Cells(1, constMQFDescFieldID + 1).value)
+                fieldlist(i).Title = Trim(row.Cells(1, constMQFDescTitle + 1).value)
+                fieldlist(i).ColumnNo = CInt(row.Cells(1, constMQFDescColumnNo + 1).value)
 
 
                 If mqfversion = "V_02" Or mqfversion = "V_03" Then
                     If row.Cells(1, constMQFReadonly + 1).value Is Nothing Then
-                        FieldList(i).READ_ONLY = False
+                        fieldlist(i).READ_ONLY = False
                     Else
-                        FieldList(i).READ_ONLY = True
+                        fieldlist(i).READ_ONLY = True
                     End If
                     'FieldList(i).READ_ONLY = Not IsEmpty(row.Cells(1, constMQFReadonly + 1).value)
                 End If
                 If mqfversion = "V_03" Then
-                    FieldList(i).OBJECTNAME = CStr(row.Cells(1, constMQFObjectName + 1).value)
+                    fieldlist(i).Objectname = CStr(row.Cells(1, constMQFObjectName + 1).value)
                 Else
-                    FieldList(i).OBJECTNAME = ""
+                    fieldlist(i).Objectname = ""
 
                 End If
-                FieldList(i).mqfversion = mqfversion
+                fieldlist(i).mqfversion = mqfversion
             End If
         Next row
 
         If i >= 0 Then
-            getMQFDBDesc = True
+            Return True
         Else
-            getMQFDBDesc = False
+            Return False
         End If
 
     End Function
@@ -1304,28 +1300,28 @@ handleerror:
 
 
 
-        headerids_name = GetXlsParameterByName("parameter_mqf_headerid_name", WORKBOOK)
+        headerids_name = GetXlsParameterByName("otdb_parameter_mqf_headerid_name", WORKBOOK)
         headerids = GetXlsParameterRangeByName(headerids_name, WORKBOOK)
         'parameter_doc9_dbdesc_prefix
-        Prefix = GetXlsParameterByName("parameter_mqf_dbdesc_prefix", WORKBOOK, silent:=True)
-        mqfversion = GetXlsParameterByName("doc9_mqf_version", WORKBOOK, silent:=True)
+        Prefix = GetXlsParameterByName("otdb_parameter_mqf_dbdesc_prefix", WORKBOOK, silent:=True)
+        mqfversion = GetXlsParameterByName("hermes_mqf_version", WORKBOOK, silent:=True)
         If mqfversion = "V_01" Then
-            Call SetXlsParameterValueByName("doc9_mqf_version", "V_02", WORKBOOK, silent:=True)
+            Call SetXlsParameterValueByName("hermes_mqf_version", "V_02", WORKBOOK, silent:=True)
         End If
 
         ' error
         If headerids Is Nothing Then
-            Call CoreMessageHandler(showmsgbox:=True, message:="The parameter 'parameter_mqf_headerid_name':" & headerids_name & " is not showing a valid range !" _
-              , subname:="modMQF.updateMQFDBDescTable", messagetype:=otCoreMessageType.ApplicationError, break:=False)
+            Call CoreMessageHandler(showmsgbox:=True, message:="The parameter 'otdb_parameter_mqf_headerid_name':" & headerids_name & " is not showing a valid range !" _
+              , subname:="modXLSMessageQueueFile.updateMQFDBDescTable", messagetype:=otCoreMessageType.ApplicationError, break:=False)
 
             Exit Sub
         End If
 
-        DescTable = GetXlsParameterRangeByName("parameter_mqf_structure_db_description_table", WORKBOOK)
+        DescTable = GetXlsParameterRangeByName("otdb_parameter_mqf_structure_db_description_table", WORKBOOK)
         ' error
         If DescTable Is Nothing Then
-            Call CoreMessageHandler(showmsgbox:=True, message:="The parameter 'parameter_mqf_structure_db_description_table' is not showing a valid range !" _
-            , subname:="modMQF.updateMQFDBDescTable", messagetype:=otCoreMessageType.ApplicationError, break:=False)
+            Call CoreMessageHandler(showmsgbox:=True, message:="The parameter 'otdb_parameter_mqf_structure_db_description_table' is not showing a valid range !" _
+            , subname:="modXLSMessageQueueFile.updateMQFDBDescTable", messagetype:=otCoreMessageType.ApplicationError, break:=False)
 
 
             Exit Sub
@@ -1338,53 +1334,53 @@ handleerror:
         i = 0
         For Each cell In headerids
             ' insert new row
-            If i >= DescTable.Rows.count Then
-                startdesccell.offset(i, 0).EntireRow.Insert()
+            If i >= DescTable.Rows.Count Then
+                startdesccell.Offset(i, 0).EntireRow.Insert()
             End If
             ' Header ID
             startdesccell.Offset(i, constMQFDescFieldID).Value = cell.Value
             If Trim(cell.Value) = "" Then
-                startdesccell.offset(i, constMQFDescFieldID).Interior.Color = constErrorBackground
+                startdesccell.Offset(i, constMQFDescFieldID).Interior.Color = constErrorBackground
             Else
-                startdesccell.offset(i, constMQFDescFieldID).Interior.Color = startdesccell.offset(0, 0).Interior.Color
+                startdesccell.Offset(i, constMQFDescFieldID).Interior.Color = startdesccell.Offset(0, 0).Interior.Color
             End If
             ' Description
-            startdesccell.offset(i, constMQFDescTitle).Value = cell.offset(1, 0).Value
+            startdesccell.Offset(i, constMQFDescTitle).Value = cell.Offset(1, 0).Value
             ' Column
-            startdesccell.offset(i, constMQFDescColumnNo).Value = i + 1
+            startdesccell.Offset(i, constMQFDescColumnNo).Value = i + 1
             If NameExistsinWorkbook(startdesccell.Worksheet.Parent, Prefix & cell.Value) Then
                 pn = DescTable.Worksheet.Parent.Names(Prefix & cell.Value)
                 pn.Delete()
             End If
             DescTable.Worksheet.Parent.Names.add( _
-                    Name:=Prefix & cell.Value, RefersTo:=startdesccell.offset(i, 2))
+                    Name:=Prefix & cell.Value, RefersTo:=startdesccell.Offset(i, 2))
             ' readolny
             If IsArrayInitialized(ROFieldIDs) Then
                 For j = LBound(ROFieldIDs) To UBound(ROFieldIDs)
                     If ROFieldIDs(j) = cell.Value Then
-                        startdesccell.offset(i, constMQFReadonly).Value = "Read-only"
+                        startdesccell.Offset(i, constMQFReadonly).Value = "Read-only"
                         Exit For
                     Else
-                        startdesccell.offset(i, constMQFReadonly).Value = ""
+                        startdesccell.Offset(i, constMQFReadonly).Value = ""
                     End If
                 Next j
             Else
-                startdesccell.offset(i, constMQFReadonly).Value = ""
+                startdesccell.Offset(i, constMQFReadonly).Value = ""
             End If
             ' inc
             i = i + 1
         Next cell
 
-        DescTable = startdesccell.Worksheet.Range(startdesccell, startdesccell.offset(i - 1, 2))
+        DescTable = startdesccell.Worksheet.Range(startdesccell, startdesccell.Offset(i - 1, 2))
         If Not SetXlsParameterValueByName("parameter_mfq_dbdesc_range", DescTable.Address, WORKBOOK) Then System.Diagnostics.Debug.WriteLine("parameter_doc9_dbdesc_range doesnot exist ?!")
         ' delete
-        If NameExistsinWorkbook(startdesccell.Worksheet.Parent, "parameter_mqf_structure_db_description_table") Then
-            pn = DescTable.Worksheet.Parent.Names("parameter_mqf_structure_db_description_table")
+        If NameExistsinWorkbook(startdesccell.Worksheet.Parent, "otdb_parameter_mqf_structure_db_description_table") Then
+            pn = DescTable.Worksheet.Parent.Names("otdb_parameter_mqf_structure_db_description_table")
             pn.Delete()
         End If
         ' define
         DescTable.Worksheet.Parent.Names.add( _
-                Name:="parameter_mqf_structure_db_description_table", RefersTo:=DescTable)
+                Name:="otdb_parameter_mqf_structure_db_description_table", RefersTo:=DescTable)
 
 
         Globals.ThisAddIn.Application.StatusBar = " Parameter MFQ Structure Database Description updated"
@@ -1406,7 +1402,7 @@ handleerror:
 
 
         ' get Doc9 File Name
-        FileNamePattern = GetDBParameter("parameter_mqfilename_prefix", silent:=True)
+        FileNamePattern = GetDBParameter("otdb_parameter_mqfilename_prefix", silent:=True)
         FileNamePattern = FileNamePattern & Globals.ThisAddIn.Application.UserName & "_" & Format(Date.Now(), "yyyy-mm-dd") & "_" & Format(Date.Now(), "hhmm")
 
         'Open Dialog for Find
@@ -1416,7 +1412,7 @@ handleerror:
             If Mid(Value, 2, 1) = ":" Then
                 ChDrive(Mid(Value, 1, 2))
             End If
-            Value = Value & GetDBParameter("parameter_mqf_output")
+            Value = Value & GetDBParameter("otdb_parameter_mqf_output")
             If FileIO.FileSystem.FileExists(Value) Then
                 ChDir(Value)
             End If
@@ -1448,18 +1444,19 @@ handleerror:
 
     End Function
 
-    ' ***************************************************************************************************
-    '  preProcessXLSMQF -> Read the Excel MQF, create a MQFObject and run the prechecks
-    '
-    '  MQFWorkbook as Workbook
-    '  MQFObject as clsOTDBMessageQueue
-    '
-    '
 
-    Function preProcessXLSMQF(ByRef MQFWorkbook As Excel.Workbook, _
-                              ByRef MQFObject As clsOTDBMessageQueue, _
-                              Optional ByRef workerthread As BackgroundWorker = Nothing _
-                             ) As Boolean
+
+    ''' <summary>
+    ''' preprocess an xls message queue file and builds a message queue structure
+    ''' 
+    ''' </summary>
+    ''' <param name="MQFWorkbook"></param>
+    ''' <param name="messagequeue"></param>
+    ''' <param name="workerthread"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Function BuildMessageQueueObject(ByRef MQFWorkbook As Excel.Workbook, ByRef [messagequeue] As MessageQueue, _
+                                     Optional ByRef workerthread As BackgroundWorker = Nothing, Optional persist As Boolean = False) As Boolean
         Dim aVAlue As Object
         Dim headerstartrow As Integer
         Dim headerids_name As String
@@ -1469,510 +1466,450 @@ handleerror:
         Dim DescTable As Range
         Dim datawsname As String
         Dim dataws As Excel.Worksheet
-        Dim datefields As String
-        'Dim theMQFFormat As MessageFormat
-        Dim FieldList() As MQFDBDesc
+        Dim theXLSMQFFormat As XLSMQFStructure
+        Dim theXLSMQFColumns() As XLSMQFColumnDescription
         Dim startrow As Integer
         Dim foundflag As Boolean
-        Dim row As Range
+
         Dim mfgStatus As New clsMQFStatus
         Dim changeflag As Boolean
         Dim setro_flag As Boolean
         Dim newStatus As New clsMQFStatus
-        Dim checkascdates As Boolean
+
 
         Dim aXCMD As otXChangeCommandType
         Dim aColumnNo As Long
         Dim theUIDCol As Long
         Dim anObjectName As String
         Dim anID As String
-        Dim i, j, k, l As Integer
         Dim n As Long
         Dim mqfDBRange As Range
-        Dim listofAttributes As New Collection
-        Dim aConfigmember As New clsOTDBXChangeMember
-        Dim aMQFRowEntry As New clsOTDBMessageQueueEntry
-        Dim aMQFMember As New clsOTDBMessageQueueMember
-        Dim aStatus As New StatusItem
-        'Dim aProgressBar As clsUIProgressBarForm
         Dim maximum As Long
-        Dim progress As Long
+        Dim progress As Long = 0
 
-        ' create the MQFObject
-        If MQFObject Is Nothing Then
-            MQFObject = New clsOTDBMessageQueue
-        End If
-
-        ' cache the MQFWOrkbook
-        cacheAllWorkbookNames(MQFWorkbook)
-
-
-        '**
-        '** create a MQFObject
-        If Not MQFObject.IsLoaded And Not MQFObject.IsCreated Then
-            ' check if we have one
-            aVAlue = GetXlsParameterByName(name:="parameter_mqf_tag", workbook:=MQFWorkbook, silent:=True)
-            If aVAlue = "" Then
-                aVAlue = GetHostProperty("parameter_mqf_tag", host:=MQFWorkbook, silent:=True)
+        Try
+            If Not ot.CurrentSession.RequireAccessRight(otAccessRight.ReadUpdateData) Then
+                CoreMessageHandler(showmsgbox:=True, subname:="modXLSMessageQueueFile.preProcessXLSMQF", messagetype:=otCoreMessageType.ApplicationError, _
+                                    message:="the necessary right to run the operation was not granted by the ontrack session - operation aborted.")
+                Return False
             End If
-            ' create
-            If aVAlue = "" Then
-                aVAlue = MQFWorkbook.Name & " " & CStr(Now)
-                If Not MQFObject.Create(aVAlue) Then
-                    MQFObject.Inject(aVAlue)
+
+            ' cache the MQFWOrkbook
+            cacheAllWorkbookNames(MQFWorkbook)
+
+            '''
+            ''' Step0: Get all the Parameters from the MQF Excel
+            '''
+            If [messagequeue] Is Nothing OrElse Not [messagequeue].IsAlive(throwError:=False) Then
+                ' check if we have one
+                aVAlue = GetXlsParameterByName(name:="otdb_parameter_mqf_tag", workbook:=MQFWorkbook, silent:=True)
+                If aVAlue = "" Then aVAlue = GetHostProperty("otdb_parameter_mqf_tag", host:=MQFWorkbook, silent:=True)
+                If aVAlue = "" Then aVAlue = MQFWorkbook.Name & " " & CStr(Now)
+                ''' create a message queue in the backend
+                [messagequeue] = Xchange.MessageQueue.Create(id:=aVAlue)
+                If [messagequeue] Is Nothing Then [messagequeue] = Xchange.MessageQueue.Retrieve(id:=aVAlue)
+                If messagequeue Is Nothing Then
+                    CoreMessageHandler(showmsgbox:=True, message:="the messagequeue is not creatable in the backend  - operation aborted for '" _
+                                  & MQFWorkbook.FullName & "'." & vbLf & ".", _
+                                   subname:="modXLSMessageQueueFile.preProcessXLSMQF", messagetype:=otCoreMessageType.ApplicationError)
+                    Return False
+                Else
+                    [messagequeue].ContextIdentifier = aVAlue
                 End If
-            Else
-                If Not MQFObject.Inject(TAG:=aVAlue) Then
-                    Call MQFObject.Create(TAG:=aVAlue)
+            End If
+
+            ''' fill the message queue object
+            ''' 
+            With messagequeue
+                Call SetXlsParameterValueByName("otdb_parameter_mqf_tag", .ID, workbook:=MQFWorkbook, silent:=True)
+                Call SetHostProperty("otdb_parameter_mqf_tag", .ID, host:=MQFWorkbook, silent:=True)
+                .RequestedBy = GetXlsParameterByName(name:="hermes_mqf_requestedby", workbook:=MQFWorkbook, silent:=True)
+                .RequestedByOU = GetXlsParameterByName(name:="hermes_mqf_requestedby_department", workbook:=MQFWorkbook, silent:=True)
+                aVAlue = GetXlsParameterByName(name:="hermes_mqf_requested_on", workbook:=MQFWorkbook, silent:=True)
+                If Not IsDate(aVAlue) Then
+                    .RequestedOn = Date.Now()
+                Else
+                    .RequestedOn = CDate(aVAlue)
                 End If
+                .Title = GetXlsParameterByName(name:="hermes_mqf_title", workbook:=MQFWorkbook, silent:=True)
+                .Comment = GetXlsParameterByName(name:="hermes_mqf_subject", workbook:=MQFWorkbook, silent:=True)
+
+            End With
+
+            ''' fill the xls super structure although obsolete
+            ''' 
+            With theXLSMQFFormat
+                .Title = messagequeue.Title
+                .requestedbyDept = messagequeue.RequestedByOU
+                .requestedBy = messagequeue.RequestedBy
+                .requestedOn = messagequeue.RequestedOn
+                .Requestfor = messagequeue.Comment
+            End With
+
+            '''
+            ''' check where the headerids are
+            ''' 
+            aVAlue = modParameterXLS.GetXlsParameterByName("otdb_parameter_mqf_template_headerstartrow", workbook:=MQFWorkbook)
+            If Not IsNumeric(aVAlue) Then
+                CoreMessageHandler(showmsgbox:=True, message:="the parameter 'otdb_parameter_mqf_template_headerstartrow' was not found in the mqf workbook '" _
+                                   & MQFWorkbook.FullName & "'." & vbLf & "Check if the file is an MQF. Operation aborted.", _
+                                    subname:="modXLSMessageQueueFile.preProcessXLSMQF", messagetype:=otCoreMessageType.ApplicationError)
+                Return False
             End If
-            ' save it to properties
-            If aVAlue <> "" Then
-                Call SetXlsParameterValueByName("parameter_mqf_tag", aVAlue, workbook:=MQFWorkbook, silent:=True)
-                Call SetHostProperty("parameter_mqf_tag", aVAlue, host:=MQFWorkbook, silent:=True)
+            headerstartrow = CInt(aVAlue)
+            headerids_name = GetXlsParameterByName(name:="otdb_parameter_mqf_headerid_name", workbook:=MQFWorkbook)
+            headerids = GetXlsParameterRangeByName(headerids_name, workbook:=MQFWorkbook)
+            Prefix = GetXlsParameterByName(name:="otdb_parameter_mqf_dbdesc_prefix", workbook:=MQFWorkbook)
+            If headerids Is Nothing Then
+                Call CoreMessageHandler(showmsgbox:=True, _
+                                      message:="The parameter 'otdb_parameter_mqf_headerid_name':" & headerids_name & " is not showing a valid range !" _
+                                    , subname:="modXLSMessageQueueFile.preProcessXLSMQF", messagetype:=otCoreMessageType.ApplicationError, break:=False)
+
+                Return False
             End If
 
-        End If
+            '''
+            ''' Check the description table for the Database Columns
+            ''' 
+            DescTable = GetXlsParameterRangeByName(name:="otdb_parameter_mqf_structure_db_description_table", workbook:=MQFWorkbook, silent:=True)
+            If DescTable Is Nothing Then
+                Call CoreMessageHandler(showmsgbox:=True, _
+                                     message:="The parameter 'otdb_parameter_mqf_structure_db_description_table' is not showing a valid range ! - Operation aborted" _
+                                   , subname:="modXLSMessageQueueFile.preProcessXLSMQF", messagetype:=otCoreMessageType.ApplicationError, break:=False)
 
-        ' get Startrow
-        aVAlue = modParameterXLS.GetXlsParameterByName("parameter_mqf_template_headerstartrow", workbook:=MQFWorkbook)
-        If Not IsNumeric(aVAlue) Then
-            preProcessXLSMQF = False
-            'MQFWorkbook.Close (False)
-            Exit Function
-        End If
-        headerstartrow = CInt(aVAlue)
-        headerids_name = GetXlsParameterByName(name:="parameter_mqf_headerid_name", workbook:=MQFWorkbook)
-        headerids = GetXlsParameterRangeByName(headerids_name, workbook:=MQFWorkbook)
-        'parameter_doc9_dbdesc_prefix
-        Prefix = GetXlsParameterByName(name:="parameter_mqf_dbdesc_prefix", workbook:=MQFWorkbook)
-        datefields = GetDBParameter("parameter_plausibility_fc_asc_dates")
-
-        ' error
-        If headerids Is Nothing Then
-            Call CoreMessageHandler(showmsgbox:=True, _
-                                  message:="The parameter 'parameter_mqf_headerid_name':" & headerids_name & " is not showing a valid range !" _
-                                , subname:="modMQF.preProcessXLSMQF", messagetype:=otCoreMessageType.ApplicationError, break:=False)
-
-            preProcessXLSMQF = False
-            Exit Function
-        End If
-
-        DescTable = GetXlsParameterRangeByName(name:="parameter_mqf_structure_db_description_table", workbook:=MQFWorkbook, silent:=True)
-        ' error
-        If DescTable Is Nothing Then
-            'MsgBox "The parameter 'parameter_doc9_structure_db_description_table' is not showing a valid range !", Buttons:=vbCritical, title:="OnTrack Tooling Error"
-            System.Diagnostics.Debug.WriteLine("FATAL ERROR: " & "The parameter 'parameter_doc9_structure_db_description_table' is not showing a valid range !")
-
-            'preProcessXLSMQF = False
-            'Exit Function
-        End If
-
-        ' set the doc9
-
-        checkascdates = False
-
-        Globals.ThisAddIn.Application.ScreenUpdating = False
-        '**** create the MessageFormat
-        MQFObject.requestedBy = GetXlsParameterByName(name:="doc9_mqf_requestedby", workbook:=MQFWorkbook, silent:=True)
-        MQFObject.requestedByOU = GetXlsParameterByName(name:="doc9_mqf_requestedby_department", workbook:=MQFWorkbook, silent:=True)
-        aVAlue = GetXlsParameterByName(name:="doc9_mqf_requested_on", workbook:=MQFWorkbook, silent:=True)
-        If Not IsDate(aVAlue) Then
-            MQFObject.requestedOn = Date.Now()
-        Else
-            MQFObject.requestedOn = CDate(aVAlue)
-        End If
-        MQFObject.description = GetXlsParameterByName(name:="doc9_mqf_title", workbook:=MQFWorkbook, silent:=True)
-        MQFObject.COMMENT = GetXlsParameterByName(name:="doc9_mqf_subject", workbook:=MQFWorkbook, silent:=True)
-        MQFObject.XCHANGECONFIG = New clsOTDBXChangeConfig
-        ' load the config if a name is given
-        aVAlue = GetXlsParameterByName(name:="parameter_mqf_xchangeconfigname", workbook:=MQFWorkbook, silent:=True)
-        If aVAlue <> "" Then
-            If MQFObject.XCHANGECONFIG.Inject(configname:=aVAlue) Then
-            Else
-                MQFObject.XCHANGECONFIG = New clsOTDBXChangeConfig
-                MQFObject.XCHANGECONFIG.Create(MQFObject.TAG)
+                Return False
             End If
-        Else
-            MQFObject.XCHANGECONFIG = New clsOTDBXChangeConfig
-            MQFObject.XCHANGECONFIG.Create(MQFObject.TAG)
-        End If
-        ' index
-        i = 0
-        k = 0
+            Dim aMQFDBDescLookup As New Dictionary(Of String, XLSMQFColumnDescription)
 
-        '*** HACK
-        Call MQFObject.XCHANGECONFIG.AddObjectByName(Name:="tblschedules", XCMD:=otXChangeCommandType.Update)
-        Call MQFObject.XCHANGECONFIG.AddObjectByName(Name:="tbldeliverabletargets", XCMD:=otXChangeCommandType.Update)
-        Call MQFObject.XCHANGECONFIG.AddObjectByName(Name:="tbldeliverabletracks", XCMD:=otXChangeCommandType.Update)
-        Call MQFObject.XCHANGECONFIG.AddObjectByName(Name:="tbldeliverables", XCMD:=otXChangeCommandType.Update)
-        Call MQFObject.XCHANGECONFIG.AddObjectByName(Name:="tblparts", XCMD:=otXChangeCommandType.Update)
-        Call MQFObject.XCHANGECONFIG.AddObjectByName(Name:="tblconfigs", XCMD:=otXChangeCommandType.Update)
-
-        '** go through headerids
-        '**
-        Dim aMQFDBDescLookup As New Dictionary(Of String, MQFDBDesc)
-        Dim anMQFDBDescEntry As MQFDBDesc
-        If getMQFDBDesc(FieldList, WORKBOOK:=MQFWorkbook) Then
-            For Each anMQFDBDescEntry In FieldList
-                If Not aMQFDBDescLookup.ContainsKey(anMQFDBDescEntry.ID) Then
-                    aMQFDBDescLookup.Add(key:=anMQFDBDescEntry.ID, value:=anMQFDBDescEntry)
-                End If
-            Next
-        End If
-
-        For Each cell In headerids
-            If cell.Value <> "" And Not IsError(cell.Value) Then
-                ' resolve the ID
-                anID = CStr(cell.text)
-                workerthread.ReportProgress(0, anID)
-                ' try to get a MQFDBDesc in the parameters
-                If aMQFDBDescLookup.ContainsKey(anID) Then
-                    anMQFDBDescEntry = aMQFDBDescLookup.Item(key:=anID)
-
-
-                    aColumnNo = anMQFDBDescEntry.ColumnNo
-                    anObjectName = anMQFDBDescEntry.OBJECTNAME
-                    ' build or reset the ordinal for the config
-                    ' preset the operation
-                    If anMQFDBDescEntry.READ_ONLY Then
-                        aXCMD = otXChangeCommandType.Read
-                    Else
-                        aXCMD = otXChangeCommandType.Update
+            ''' fill all XLS DB Column Descriptions
+            If GetMQFDBDesc(theXLSMQFColumns, workbook:=MQFWorkbook) Then
+                For Each anMQFDBDescEntry As XLSMQFColumnDescription In theXLSMQFColumns
+                    If Not aMQFDBDescLookup.ContainsKey(anMQFDBDescEntry.ID) Then
+                        aMQFDBDescLookup.Add(key:=anMQFDBDescEntry.ID, value:=anMQFDBDescEntry)
                     End If
-                    ' if not
-                Else
-                    aColumnNo = cell.Column
-                    aXCMD = otXChangeCommandType.Read     'assumption
-                    anObjectName = ""
-                End If
-
-                ' redim
-                'ReDim Preserve theMQFFormat.desc(i)
-                'theMQFFormat.desc(i).ID = cell.aValue
-                ' description
-                'theMQFFormat.desc(i).ColumnNo = FieldList(0).ColumnNo
-
-                'default is that READ_ONLY
-                'theMQFFormat.desc(i).READ_ONLY = FieldList(0).READ_ONLY
-                'theMQFFormat.desc(i).mqfversion = FieldList(0).mqfversion
-                'theMQFFormat.desc(i).title = FieldList(0).title
-                ' special cells
-                If LCase(cell.Value) = "uid" Then    ' this should be the min primary key which is for Doc9 UID
-                    theUIDCol = aColumnNo
-                ElseIf LCase(cell.Value) = "mqfx2" Then
-                    MQFObject.ProcessDateordinal = aColumnNo
-                ElseIf LCase(cell.Value) = "mqfx3" Then
-                    MQFObject.ProcessLogordinal = aColumnNo
-                ElseIf LCase(cell.Value) = "mqfx4" Then
-                    MQFObject.ProcessStatusordinal = aColumnNo
-                ElseIf LCase(cell.Value) = "mqfxaction" Then
-                    MQFObject.Actionordinal = aColumnNo
-
-                End If
-
-
-                If MQFObject.XCHANGECONFIG.IsLoaded Then
-                    Call MQFObject.XCHANGECONFIG.SetordinalForID(anID, aColumnNo)
-                    'xcmd:=aXCMD) ' theMQFFormat.desc(i).ColumnNo
-                ElseIf MQFObject.XCHANGECONFIG.IsCreated Then
-                    ' add Attribute by ID
-                    Call MQFObject.XCHANGECONFIG.AddAttributeByID(id:=anID, _
-                                                                  ordinal:=CLng(aColumnNo), _
-                                                                  objectname:=anObjectName, _
-                                                                  xcmd:=aXCMD)    ' theMQFFormat.desc(i).ColumnNo
-                Else
-                    Call CoreMessageHandler(subname:="MQF.preProcessXLSMQF", _
-                                          message:="xChangeConfig is neither created nor loaded")
-
-                End If
-
-                '** set flag for ascending and dates check -> if any fields of the parameter asc_fields is effected
-                '**
-                'If InStr(datefields, theMQFFormat.desc(i).ID) > 0 Then
-                '    checkascdates = True
-                'End If
-                '** set flag for schedule is touched -> should be parametrized
-                '**
-                'If LCase(theMQFFormat.desc(i).ID) Like "bp*" Then
-                '    checkschedule = True
-                'End If
-                '** set flag for revision is touched -> should be parametrized
-                '**
-                'If LCase(theMQFFormat.desc(i).ID) Like "c16" Then
-                '    checkrevision = True
-                'End If
-                '** increment
-                i = i + 1
-
+                Next
+                ' save it
+                theXLSMQFFormat.desc = theXLSMQFColumns
             End If
 
-        Next cell
+            Globals.ThisAddIn.Application.EnableEvents = False
+            Globals.ThisAddIn.Application.ScreenUpdating = False
 
+            '''
+            ''' load or create the xchange configuration if a name is given
+            ''' 
+            aVAlue = GetXlsParameterByName(name:="otdb_parameter_mqf_xchangeconfigname", workbook:=MQFWorkbook, silent:=True)
+            If aVAlue Is Nothing OrElse aVAlue = "" Then aVAlue = [messagequeue].ID
 
-
-        '*** error conditions after header processing
-        'If checkschedule And Not checkrevision And n > 0 Then
-        '    theMessages(n).log = addLog(theMessages(n).log, _
-        '                                "ERROR: Revision (c16) has to be included in the MQF if schedules are touched !")
-        '    Set theMessages(n).status = New clsMQFStatus
-        '    theMessages(n).status.code = constStatusCode_error
-        '   theMessages(n).processable = theMessages(n).status.isProcessed
-        'End If
-        '*** continue feeding
-        '***
-
-        ' set the READ_ONLY flag to be determined
-        setro_flag = False
-        ' add change tag
-        'theMQFFormat.processchangetag = MQFWorkbook.name
-        ' get datefields
-        datefields = GetDBParameter("parameter_plausibility_fc_asc_dates")
-
-        ' get startrow
-        startrow = GetXlsParameterByName("parameter_mqf_template_datastartrow", workbook:=MQFWorkbook)
-        ' assumption where to start ?!
-        datawsname = GetXlsParameterByName("parameter_mqf_templatedata", workbook:=MQFWorkbook, found:=foundflag, silent:=False)
-        If Not foundflag Then
-            dataws = headerids.Worksheet
-        Else
-            dataws = MQFWorkbook.Sheets(datawsname)
-        End If
-        ' the full sheet
-        Dim maxrow As Integer
-        Dim MaxCol As Integer
-        MaxCol = dataws.Cells(startrow, dataws.Columns.Count).End(Excel.XlDirection.xlToLeft).Column
-        maxrow = dataws.Cells(dataws.Rows.Count, theUIDCol).End(Excel.XlDirection.xlUp).row
-        ' set it
-        mqfDBRange = dataws.Range(dataws.Cells(startrow, 1), dataws.Cells(maxrow, MaxCol))
-        ' autofilter
-        dataws.AutoFilterMode = False
-
-        ' init
-        If workerthread Is Nothing Then
-            'aProgressBar = New clsUIProgressBarForm
-            'Call aProgressBar.initialize(maxrow - startrow, WindowCaption:="preprocessing MQF ...")
-            'aProgressBar.showForm()
-        Else
-            workerthread.ReportProgress(0, "")
-
-            'workerthread.Minimum = 0
-            maximum = maxrow - startrow
-            'workerthread.Value1 = 0
-            'workerthread.Text = "preprocessing MQF...."
-
-        End If
-        '**** through all
-        '****
-        n = 0
-
-        ' get the attributes
-        listofAttributes = MQFObject.XCHANGECONFIG.Attributes
-
-        Dim aMQFXLSValueRange As Object = mqfDBRange.Value
-        Dim rowno As ULong
-
-        If IsArray(aMQFXLSValueRange) Then
-            If CType(aMQFXLSValueRange, Array(,)).Rank = 0 Then
-                Console.WriteLine("Rank of MQF Array = 0")
-                System.Diagnostics.Debug.Assert(False)
-
-            End If
-
-        Else
-            CoreMessageHandler(message:="No Array Table of MQF Data Input", arg1:=mqfDBRange.Address, subname:="preprocessxlsmqf")
-            Return False
-        End If
-
-
-        '*********
-        '********* step thorugh 2-dimensional array from MQF and build MQFRowEntry objects -> preprocess these
-        '*********
-        For rowno = LBound(aMQFXLSValueRange, 1) To UBound(aMQFXLSValueRange, 1)
-
-            changeflag = False
-
-            aMQFRowEntry = MQFObject.createEntry(rowno:=rowno)
-            '** progress
-            If workerthread Is Nothing Then
-                'Call aProgressBar.progress(1, Statustext:="preprocessing row #" & rowno)
+            Dim aXconfig = Xchange.XChangeConfiguration.Retrieve(configname:=aVAlue.toupper)
+            If aXconfig IsNot Nothing Then
+                [messagequeue].XChangeConfig = aXconfig
             Else
-                progress += 1
-                workerthread.ReportProgress((progress / maximum) * 100, "preprocessing row #" & rowno)
-            End If
-            '** Application Bar
-            Globals.ThisAddIn.Application.StatusBar = " preprocessing from " & MQFWorkbook.Name & " row#" & rowno
+                [messagequeue].XChangeConfig = Xchange.XChangeConfiguration.Create(configname:=aVAlue.toupper)
+                [messagequeue].XChangeConfig.AllowDynamicEntries = True
 
-            '***** ACTION COMMAND
-            '*****
-            aVAlue = aMQFXLSValueRange(rowno, MQFObject.Actionordinal)
-            If aMQFRowEntry.verifyAction(LCase(Trim(aVAlue))) Then
-                aMQFRowEntry.action = LCase(Trim(aVAlue))
-                aMQFRowEntry.processable = aMQFRowEntry.isActionProcessable
             End If
 
+            '*** HACK
+            'Call [messagequeue].XChangeConfig.AddObjectByName(name:=Scheduling.ScheduleEdition.ConstObjectID, xcmd:=otXChangeCommandType.Update)
+            'Call [messagequeue].XChangeConfig.AddObjectByName(name:=Deliverables.Target.ConstObjectID, xcmd:=otXChangeCommandType.Update)
+            'Call [messagequeue].XChangeConfig.AddObjectByName(name:=Deliverables.Track.ConstObjectID, xcmd:=otXChangeCommandType.Update)
+            Call [messagequeue].XChangeConfig.AddObjectByName(name:=Deliverables.Deliverable.ConstObjectID, xcmd:=otXChangeCommandType.Update)
+            'Call [messagequeue].XChangeConfig.AddObjectByName(name:=Parts.Part.ConstObjectID, xcmd:=otXChangeCommandType.Update)
 
-            '** already processed -> Process Date
-            '**
-            aVAlue = aMQFXLSValueRange(rowno, MQFObject.ProcessDateordinal)
-            If IsDate(aVAlue) Then
-                'theMessages(n).log = addLog(theMessages(n).log, _
-                '                            "INFO:In row#" & rowno & " UID #" & theMessages(n).UID & ": message already processed on " & format(aValue, "dd.mm.yyyy") & "")
-                'theMessages(n).processable = theMessages(n).processable And True
+            ''' do not persist the xchange configuration since we are only dynamic here
+            ''' If messagequeue.XChangeConfig.IsCreated Then [messagequeue].XChangeConfig.Persist()
+
+            '''
+            ''' STEP1 : Check the headerids
+            '''
+
+
+            ''' go through the header ids
+            Dim i As Integer = 0
+            For Each cell In headerids
+                If cell.Value <> "" And Not IsError(cell.Value) Then
+                    ' resolve the ID
+                    anID = CStr(cell.Text)
+                    Diagnostics.Debug.WriteLine(anID)
+                   
+                    '' try to get a MQFDBDesc in the parameters
+                    ''
+                    If aMQFDBDescLookup.ContainsKey(anID) Then
+                        Dim anMQFDBDescEntry As XLSMQFColumnDescription = aMQFDBDescLookup.Item(key:=anID)
+                        aColumnNo = anMQFDBDescEntry.ColumnNo
+                        anObjectName = anMQFDBDescEntry.Objectname
+                        ' build or reset the ordinal for the config
+                        ' preset the operation
+                        If anMQFDBDescEntry.READ_ONLY Then
+                            aXCMD = otXChangeCommandType.Read
+                        Else
+                            aXCMD = otXChangeCommandType.Update
+                        End If
+                        ' if not
+                    Else
+                        aColumnNo = cell.Column
+                        aXCMD = otXChangeCommandType.Read     'assumption
+                        anObjectName = ""
+                    End If
+
+
+                    ' special cells
+                    If LCase(cell.Value) = "uid" Then    ' 
+                        theUIDCol = aColumnNo
+                        theXLSMQFFormat.UIDCol = aColumnNo
+                        [messagequeue].UIDOrdinal = aColumnNo
+                    ElseIf LCase(cell.Value) = "mqfx2" Then
+                        [messagequeue].ProcessDateordinal = aColumnNo
+                        theXLSMQFFormat.processdatecol = aColumnNo
+                    ElseIf LCase(cell.Value) = "mqfx3" Then
+                        [messagequeue].ProcessLogordinal = aColumnNo
+                        theXLSMQFFormat.processlogcol = aColumnNo
+                    ElseIf LCase(cell.Value) = "mqfx4" Then
+                        [messagequeue].ProcessStatusordinal = aColumnNo
+                        theXLSMQFFormat.processstatuscol = aColumnNo
+                    ElseIf LCase(cell.Value) = "mqfxaction" Then
+                        [messagequeue].ActionOrdinal = aColumnNo
+                        theXLSMQFFormat.ActionCol = aColumnNo
+                    End If
+
+                    '''
+                    ''' extend the xchange config
+                    ''' 
+                    If [messagequeue].XChangeConfig.IsLoaded Then
+                        Call [messagequeue].XChangeConfig.SetOrdinalForXID(anID, aColumnNo)
+                    ElseIf [messagequeue].XChangeConfig.IsCreated Then
+                        ' add Attribute by ID
+                        Call [messagequeue].XChangeConfig.AddEntryByXID(Xid:=anID, _
+                                                                      ordinal:=CLng(aColumnNo), _
+                                                                      objectname:=anObjectName, _
+                                                                      xcmd:=aXCMD)    ' theMQFFormat.desc(i).ColumnNo
+                    Else
+                        Call CoreMessageHandler(subname:="MQF.preProcessXLSMQF", _
+                                                message:="xChangeConfig is neither created nor loaded")
+
+                    End If
+
+
+                    '** increment
+                    i = i + 1
+
+                End If
+
+            Next cell
+
+            ' set the READ_ONLY flag to be determined
+            setro_flag = False
+            ' add change tag
+            theXLSMQFFormat.processchangetag = MQFWorkbook.Name
+
+            ' get startrow
+            startrow = GetXlsParameterByName("otdb_parameter_mqf_template_datastartrow", workbook:=MQFWorkbook)
+            ' assumption where to start ?!
+            datawsname = GetXlsParameterByName("otdb_parameter_mqf_templatedata", workbook:=MQFWorkbook, found:=foundflag, silent:=False)
+            If Not foundflag Then
+                dataws = headerids.Worksheet
+            Else
+                dataws = MQFWorkbook.Sheets(datawsname)
+            End If
+            ' the full sheet
+            '' go in the uid column from the bottom upwards
+            Dim maxrow As Integer = dataws.Cells(dataws.Rows.Count, theUIDCol).End(Excel.XlDirection.xlUp).row
+            '' go from the headid row right-most to the left
+            Dim MaxCol As Integer = dataws.Cells(headerids.Row, dataws.Columns.Count).End(Excel.XlDirection.xlToLeft).Column
+            ' set it
+            mqfDBRange = dataws.Range(dataws.Cells(startrow, 1), dataws.Cells(maxrow, MaxCol))
+            ' autofilter off
+            dataws.AutoFilterMode = False
+
+            ' init worker
+            If workerthread IsNot Nothing Then
+                workerthread.ReportProgress(0, "")
+                maximum = maxrow - startrow + 1
             End If
 
-            '** already processed -> Status
-            '**
-            aVAlue = aMQFXLSValueRange(rowno, MQFObject.ProcessStatusordinal)
-            'Set newStatus = New clsMQFStatus
-            'newStatus.code = aValue
-            '**
-            'If newStatus.Verify(aValue) Then
-            '** if processed
-            '   If newStatus.isProcessed Then
-            'theMessages(n).log = addLog(theMessages(n).log, _
-            '                            "INFO:In row#" & rowno & " uid #" & theMessages(n).UID & " : message already succesfully processed - skipped.")
-            'theMessages(n).processable = False
-            '   Else
-            ' reprocess
-            'theMessages(n).log = addLog(theMessages(n).log, _
-            '                            "INFO:In row#" & rowno & " uid #" & theMessages(n).UID & " : message not succesfully processed - retry it in next process.")
-            'theMessages(n).processable = theMessages(n).processable And True
-            '   End If
-            ' take the new status if we have no other
-            'If theMessages(n).status Is Nothing And newStatus.isProcessed Then
-            'Set theMessages(n).status = newStatus
-            'End If
+            '**** through all
+            '****
+            n = 0
 
-            'Else
-            ' set it to a status
-            'If theMessages(n).status Is Nothing Then
-            '    Set theMessages(n).status = New clsMQFStatus
-            'End If
-            'End If
+            ' get the attributes
+            Dim listOfXEntries As IEnumerable(Of IXChangeConfigEntry) = [messagequeue].XChangeConfig.GetObjectEntries
+            Dim aMQFXLSValueRange As Object = mqfDBRange.Value
 
-            ' set the msglog identifiers
-            aMQFRowEntry.ContextIdentifier = MQFObject.TAG
-            aMQFRowEntry.TupleIdentifier = rowno
+            If Not aMQFXLSValueRange.GetType.IsArray OrElse (aMQFXLSValueRange.GetType.IsArray AndAlso aMQFXLSValueRange.GetType.GetArrayRank <> 2) Then
+                CoreMessageHandler(message:="No Array Table of MQF Data Input", arg1:=mqfDBRange.Address, subname:="modXLSMessageQueueFile.preProcessXLSMQF", _
+                                   messagetype:=otCoreMessageType.ApplicationError)
+                Return False
+            End If
 
-            '** phase1 in row : run through all fields of the row to get a full message
-            '**
-            aColumnNo = 0
-            For Each aConfigmember In listofAttributes
 
-                ' get the mapping to the Column
-                If IsNumeric(aConfigmember.ordinal.Value) Then
-                    aColumnNo = CLng(aConfigmember.ordinal.Value)
-                Else
-                    aColumnNo = aColumnNo + 1
+            '''
+            ''' STEP 2:  thorugh 2-dimensional array from MQF and build MQMessages
+            '''
+
+            For rowno As ULong = LBound(aMQFXLSValueRange, 1) To UBound(aMQFXLSValueRange, 1)
+
+                changeflag = False
+
+                Dim aMQMessage As MQMessage = [messagequeue].CreateMessage(no:=rowno)
+                '** progress
+                If workerthread IsNot Nothing Then
+                    progress += 1
+                    workerthread.ReportProgress((progress / maximum) * 100, "reading row #" & rowno)
+                End If
+
+                '** Application Bar
+                Globals.ThisAddIn.Application.StatusBar = " reading from " & MQFWorkbook.Name & " row#" & rowno
+
+                '***** ACTION COMMAND
+                '*****
+                If messagequeue.ActionOrdinal IsNot Nothing Then
+                    aVAlue = aMQFXLSValueRange(rowno, [messagequeue].ActionOrdinal)
+                    If aMQMessage.VerifyAction(LCase(Trim(aVAlue))) Then
+                        aMQMessage.Action = LCase(Trim(aVAlue))
+                        aMQMessage.Processable = aMQMessage.IsActionProcessable
+                    End If
                 End If
 
 
-                ' get aValue
-                aVAlue = aMQFXLSValueRange(rowno, aColumnNo)
-                If IsEmpty(aVAlue) Then
-                    aVAlue = Nothing
-                    'ElseIf  aVAlue = aMQFXLSValueRange(rowno,Columno).HasFormula Then
-                    '    aVAlue = row.Cells(1, aColumnNo).text
-                ElseIf IsDate(aVAlue) Then
-                    aVAlue = CDate(aVAlue)
-                ElseIf IsNumeric(aVAlue) Then
-                    aVAlue = CDbl(aVAlue)
-                ElseIf IsError(aVAlue) Then
-                    aVAlue = Nothing    '-> if otRead will be overwritten anyway on otUpdate nothing will happen
+                '** already processed -> Process Date
+                '**
+                If messagequeue.ProcessDateordinal IsNot Nothing Then
+                    aVAlue = aMQFXLSValueRange(rowno, [messagequeue].ProcessDateordinal)
+                    If IsDate(aVAlue) Then
+                        'theMessages(n).log = addLog(theMessages(n).log, _
+                        '                            "INFO:In row#" & rowno & " UID #" & theMessages(n).UID & ": message already processed on " & format(aValue, "dd.mm.yyyy") & "")
+                        'theMessages(n).processable = theMessages(n).processable And True
+                    End If
+                End If
+
+                '** already processed -> Status
+                '**
+                If messagequeue.ProcessStatusordinal IsNot Nothing Then
+                    aVAlue = aMQFXLSValueRange(rowno, [messagequeue].ProcessStatusordinal)
+                    'Set newStatus = New clsMQFStatus
+                    'newStatus.code = aValue
+                    '**
+                    'If newStatus.Verify(aValue) Then
+                    '** if processed
+                    '   If newStatus.isProcessed Then
                     'theMessages(n).log = addLog(theMessages(n).log, _
-                    '                            "ERROR: '" & aValue & "' is computed cell with error in row#" & rowno)
-                    'Set theMessages(n).status = New clsMQFStatus
-                    'theMessages(n).status.code = constStatusCode_error
-                    'theMessages(n).processable = theMessages(n).status.isProcessed
+                    '                            "INFO:In row#" & rowno & " uid #" & theMessages(n).UID & " : message already succesfully processed - skipped.")
+                    'theMessages(n).processable = False
+                    '   Else
+                    ' reprocess
+                    'theMessages(n).log = addLog(theMessages(n).log, _
+                    '                            "INFO:In row#" & rowno & " uid #" & theMessages(n).UID & " : message not succesfully processed - retry it in next process.")
+                    'theMessages(n).processable = theMessages(n).processable And True
+                    '   End If
+                    ' take the new status if we have no other
+                    'If theMessages(n).status Is Nothing And newStatus.isProcessed Then
+                    'Set theMessages(n).status = newStatus
+                    'End If
+
+                    'Else
+                    ' set it to a status
+                    'If theMessages(n).status Is Nothing Then
+                    '    Set theMessages(n).status = New clsMQFStatus
+                    'End If
+                    'End If
                 End If
 
+                ' set the msglog identifiers
+                aMQMessage.ContextIdentifier = [messagequeue].ID
+                aMQMessage.TupleIdentifier = mqfDBRange.Rows(rowno).address
+
+                '** phase1 in row : run through all fields of the row to get a full message
                 '**
-                '** store the aValues it
-                ' theMessages(n).fieldvalues(i) = aValue
-                If Not aVAlue Is Nothing Then
-                    ' create a new Member in the RowEntry
-                    aMQFMember = aMQFRowEntry.createMember
-                    With aMQFMember
-                        .xChangeID = aConfigmember.ID
-                        .Value = aVAlue
-                        .OBJECTNAME = aConfigmember.OBJECTNAME
-                        .Entryname = aConfigmember.Entryname
-                        .Ordinal.Value = aConfigmember.ordinal.Value
-                        .DATATYPE = aConfigmember.ObjectEntryDefinition.Datatype
-                    End With
-                End If
+                aColumnNo = 0
+                For Each aXChangeEntry As IXChangeConfigEntry In listOfXEntries
 
-                ' set the changeflag
-                If Trim(aVAlue) <> "" And aConfigmember.xChangeCmd <> otXChangeCommandType.Read And _
-                   aMQFRowEntry.processable Then
-                    changeflag = changeflag Or True
-                End If
-                '** set the changeflag
-                'If Trim(aValue) <> "" And Not LCase(theMQFFormat.desc(i).ID) Like "mqf*" And _
-                '   theMQFFormat.desc(i).READ_ONLY = False And theMessages(n).processable Then
-                '    changeflag = changeflag Or True
-                'End If
-
-            Next aConfigmember    ' run through fields
-
-            '*** phase 2 in row: next phase -> check on aValues only if all aValues are set in the RowEntry
-            '***
-            If aMQFRowEntry.processable And changeflag Then
-                ' check all fields depending on their aValue context-insensitive
-                If Not aMQFRowEntry.runPreCheck Then
-                    aMQFRowEntry.processable = False
-                    ' status
-                    If Not aMQFRowEntry.MSGLOG Is Nothing Then
-                        aStatus = aMQFRowEntry.MSGLOG.GetStatus
-
+                    ' get the mapping to the Column
+                    If IsNumeric(aXChangeEntry.Ordinal.Value) Then
+                        aColumnNo = CLng(aXChangeEntry.Ordinal.Value)
                     Else
-                        System.Diagnostics.Debug.WriteLine("MSGLog is nothign")
-
+                        aColumnNo = aColumnNo + 1
                     End If
+
+                    ' get aValue
+                    aVAlue = aMQFXLSValueRange(rowno, aColumnNo)
+                    If IsEmpty(aVAlue) Then
+                        aVAlue = Nothing
+                    ElseIf IsDate(aVAlue) Then
+                        aVAlue = CDate(aVAlue)
+                    ElseIf IsNumeric(aVAlue) Then
+                        aVAlue = CDbl(aVAlue)
+                    ElseIf IsError(aVAlue) Then
+                        aVAlue = Nothing    '-> if otRead will be overwritten anyway on otUpdate nothing will happen
+                        'theMessages(n).log = addLog(theMessages(n).log, _
+                        '                            "ERROR: '" & aValue & "' is computed cell with error in row#" & rowno)
+                        'Set theMessages(n).status = New clsMQFStatus
+                        'theMessages(n).status.code = constStatusCode_error
+                        'theMessages(n).processable = theMessages(n).status.isProcessed
+                    End If
+
+                    '**
+                    '** store the aValues it
+                    ' theMessages(n).fieldvalues(i) = aValue
+                    If Not aVAlue Is Nothing Then
+                        ' create a new Member in the Message
+                        Dim aMQSlot As MQXSlot = aMQMessage.CreateSlot(aColumnNo)
+                        With aMQSlot
+                            .ContextIdentifier = [messagequeue].ID
+                            .TupleIdentifier = mqfDBRange.Rows(rowno).address
+                            .EntityIdentifier = mqfDBRange.Cells(rowno, aColumnNo).address
+                            .Value = aVAlue
+                        End With
+                    End If
+
+                    ' set the changeflag
+                    If aVAlue IsNot Nothing AndAlso Trim(aVAlue) <> "" And aXChangeEntry.XChangeCmd <> otXChangeCommandType.Read And _
+                       aMQMessage.Processable Then
+                        changeflag = changeflag Or True
+                    End If
+
+                Next aXChangeEntry    ' run through fields
+
+                ' reset the processable flag if no change -> ""
+                If Not changeflag And aMQMessage.Processable Then
+                    'Call aMQFRowEntry.msglog.AddMsg("301", _
+                    '                                MQFObject.TAG, _
+                    '                                aMQFRowEntry.Rowno, _
+                    '                                Nothing, aMQFRowEntry.Rowno)
+                    '    theMessages(n).log = addLog(theMessages(n).log, _
+                    '                                "INFO:In row#" & rowno & " uid #" & theMessages(n).UID & " : message has no changes - skipped.")
+                    '    Set theMessages(n).status = New clsMQFStatus
+                    '    theMessages(n).status.code = constStatusCode_skipped
+                    '    theMessages(n).processable = theMessages(n).processable And theMessages(n).status.isProcessed
                 End If
 
+                ' increase
+                n = n + 1
+            Next rowno
 
+            Globals.ThisAddIn.Application.EnableEvents = True
+            Globals.ThisAddIn.Application.ScreenUpdating = True
+
+            ''' save the MQF
+            If persist Then
+                If workerthread IsNot Nothing Then workerthread.ReportProgress(100, "saving MQF in OnTrack Database ...")
+                ' Persist
+                [messagequeue].Persist()
+                If workerthread IsNot Nothing Then workerthread.ReportProgress(100, "saved MQF in OnTrack Database ...")
             End If
 
-            ' reset the processable flag if no change -> ""
-            If Not changeflag And aMQFRowEntry.processable Then
-                Call aMQFRowEntry.MSGLOG.AddMsg("301", _
-                                                MQFObject.TAG, _
-                                                aMQFRowEntry.rowno, _
-                                                Nothing, aMQFRowEntry.rowno)
-                '    theMessages(n).log = addLog(theMessages(n).log, _
-                '                                "INFO:In row#" & rowno & " uid #" & theMessages(n).UID & " : message has no changes - skipped.")
-                '    Set theMessages(n).status = New clsMQFStatus
-                '    theMessages(n).status.code = constStatusCode_skipped
-                '    theMessages(n).processable = theMessages(n).processable And theMessages(n).status.isProcessed
-            End If
+            ''' finish
+            Call CoreMessageHandler(message:="message queue built from '" & MQFWorkbook.Name & "'", _
+                                    subname:="modXLSMessageQueueFile.buildMessageQueue", messagetype:=otCoreMessageType.ApplicationInfo)
+            'return
+            Return True
 
-            ' increase
-            n = n + 1
-        Next rowno
-
-        ' save the MQF
-        If workerthread Is Nothing Then
-            'aProgressBar.showStatus("saving MQF in OnTrack ... ")
-        Else
-            'workerthread.Text = "saving MQF in OnTrack ...."
-            workerthread.ReportProgress(100, "saving MQF in OnTrack Database ...")
-        End If
-        ' Persist
-        MQFObject.PERSIST()
-
-        If workerthread Is Nothing Then
-            ' aProgressBar.showStatus("saved MQF in OnTrack ... ")
-            ' aProgressBar.closeForm()
-        Else
-            'workerthread.Text = "saved MQF in OnTrack ...."
-        End If
-
-
-        Globals.ThisAddIn.Application.StatusBar = n & " rows preprocesed from" & MQFWorkbook.Name
-        'return
-        preProcessXLSMQF = True
+        Catch ex As Exception
+            Globals.ThisAddIn.Application.EnableEvents = True
+            Globals.ThisAddIn.Application.ScreenUpdating = True
+            CoreMessageHandler(messagetype:=otCoreMessageType.ApplicationException, exception:=ex, subname:="modXLSMessageQueueFile.preProcessXLSMQF")
+            Return False
+        End Try
 
     End Function
 
@@ -1984,7 +1921,7 @@ handleerror:
     '  aLog
 
 
-    Public Function getStatus(theMessage As MQFMessage) As clsMQFStatus
+    Public Function GetStatus(theMessage As MQFMessage) As clsMQFStatus
 
         Dim fieldstatus() As Object
         Dim aStatus As New clsMQFStatus
@@ -2073,7 +2010,7 @@ handleerror:
     '  theMQFFormat as Messageformat
     '  theMessage as Message
 
-    Public Function checkOnMQFAscendingDates(theMQFFormat As MessageFormat, theMessage As MQFMessage) As Boolean
+    Public Function checkOnMQFAscendingDates(theMQFFormat As XLSMQFStructure, theMessage As MQFMessage) As Boolean
         Dim Value As Object
         Dim MSG As String
         Dim date1, date2 As Object
@@ -2183,18 +2120,18 @@ handleerror:
     ' processXLSMQF
     '
 
-    Function processXLSMQF(ByRef MQFWorkbook As Excel.Workbook, ByRef MQFObject As clsOTDBMessageQueue) As Boolean
-        Dim aMQFRowEntry As clsOTDBMessageQueueEntry
+    Function processXLSMQF(ByRef MQFWorkbook As Excel.Workbook, ByRef MQFObject As MessageQueue) As Boolean
+        Dim aMQFRowEntry As MQMessage
         Dim aMapping As New Dictionary(Of Object, Object)
-        Dim aMember As clsOTDBMessageQueueMember
-        Dim aConfig As clsOTDBXChangeConfig
-        Dim aConfigmember As clsOTDBXChangeMember
+        Dim aMember As MQXSlot
+        Dim aConfig As XChangeConfiguration
+        Dim aConfigmember As IXChangeConfigEntry
         'Dim aProgressBar As New clsUIProgressBarForm
         Dim aDeliverable As New Deliverables.Deliverable
         Dim aNewDeliverable As New Deliverables.Deliverable
         Dim aValue As Object
         Dim aWorkspace As String
-        Dim aSchedule As New Scheduling.Schedule
+        Dim aSchedule As New Scheduling.ScheduleEdition
         Dim aRefdate As New Date
         Dim aNewUID As Long
 
@@ -2209,16 +2146,16 @@ handleerror:
             CurrentSession.StartUp(otAccessRight.ReadUpdateData)
         End If
         ' save
-        MQFObject.processedByUsername = CurrentSession.OTdbUser.Username
-        MQFObject.processdate = Now
+        MQFObject.ProcessedByUsername = CurrentSession.OTdbUser.Username
+        MQFObject.Processdate = Now
 
         ' step through the RowEntries
 
-        For Each aMQFRowEntry In MQFObject.Entries
+        For Each aMQFRowEntry In MQFObject.Messages
 
             ' for each Member Check it with the XChangeConfig routines
-            If aMQFRowEntry.action = constMQFOperation_CHANGE Then
-                Call aMQFRowEntry.runXChange(MAPPING:=aMapping)
+            If aMQFRowEntry.Action = constMQFOperation_CHANGE Then
+                'Call aMQFRowEntry.RunXChange(MAPPING:=aMapping)
                 ' get the Result
                 'Set aMapping = New Dictionary
                 'For Each aMember In aMQFRowEntry.Members
@@ -2231,29 +2168,29 @@ handleerror:
                 '    End If
 
                 'Next aMember
-                aMQFRowEntry.processedOn = Now
+                aMQFRowEntry.ProcessedOn = Now
 
-                Call updateRowXlsDoc9(INPUTMAPPING:=aMapping, INPUTXCHANGECONFIG:=MQFObject.XCHANGECONFIG)
+                Call updateRowXlsDoc9(INPUTMAPPING:=aMapping, INPUTXCHANGECONFIG:=MQFObject.XChangeConfig)
                 '****
                 '**** ADD REVISION
-            ElseIf aMQFRowEntry.action = constMQFOperation_REVISION Then
+            ElseIf aMQFRowEntry.Action = constMQFOperation_REVISION Then
                 ' fill the Mapping
                 aMapping = New Dictionary(Of Object, Object)
-                Call aMQFRowEntry.fillMapping(aMapping)
+                'Call aMQFRowEntry.FillMapping(aMapping)
                 ' get UID
-                aConfigmember = MQFObject.XCHANGECONFIG.AttributeByID(ID:="uid")
+                aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
                 If Not aConfigmember Is Nothing Then
                     If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
-                        If aMapping.ContainsKey(key:=aConfigmember.ordinal.Value) Then
-                            anUID = aMapping.Item(key:=aConfigmember.ordinal.Value)
-                            aDeliverable = New Deliverables.Deliverable
-                            If aDeliverable.Inject(uid:=anUID) Then
+                        If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
+                            anUID = aMapping.Item(key:=aConfigmember.Ordinal.Value)
+                            aDeliverable = Deliverables.Deliverable.Retrieve(uid:=anUID)
+                            If aDeliverable Is Nothing Then
                                 '** revision ?!
-                                aConfigmember = MQFObject.XCHANGECONFIG.AttributeByID(ID:="c16")
+                                aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="c16")
                                 If Not aConfigmember Is Nothing Then
                                     If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
-                                        If aMapping.ContainsKey(key:=aConfigmember.ordinal.Value) Then
-                                            aRev = aMapping.Item(key:=aConfigmember.ordinal.Value)
+                                        If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
+                                            aRev = aMapping.Item(key:=aConfigmember.Ordinal.Value)
                                         Else
                                             aRev = ""
                                         End If
@@ -2267,41 +2204,41 @@ handleerror:
                                 aNewDeliverable = aDeliverable.AddRevision(newRevision:=aRev, persist:=True)
                                 If Not aNewDeliverable Is Nothing Then
                                     ' substitute UID
-                                    aConfigmember = MQFObject.XCHANGECONFIG.AttributeByID(ID:="uid")
-                                    Call aMapping.Remove(key:=aConfigmember.ordinal.Value)
-                                    Call aMapping.Add(key:=aConfigmember.ordinal.Value, value:=aNewDeliverable.Uid)
+                                    aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
+                                    Call aMapping.Remove(key:=aConfigmember.Ordinal.Value)
+                                    Call aMapping.Add(key:=aConfigmember.Ordinal.Value, value:=aNewDeliverable.Uid)
                                     ' substitute REV
-                                    aConfigmember = MQFObject.XCHANGECONFIG.AttributeByID(ID:="c16")
+                                    aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="c16")
                                     If Not aConfigmember Is Nothing Then
                                         If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
-                                            If aMapping.ContainsKey(key:=aConfigmember.ordinal.Value) Then
-                                                Call aMapping.Remove(key:=aConfigmember.ordinal.Value)
+                                            If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
+                                                Call aMapping.Remove(key:=aConfigmember.Ordinal.Value)
                                             End If
-                                            Call aMapping.Add(key:=aConfigmember.ordinal.Value, value:=aNewDeliverable.Revision)
+                                            Call aMapping.Add(key:=aConfigmember.Ordinal.Value, value:=aNewDeliverable.Revision)
                                         End If
                                     End If
                                     ' substitute TYPEID or ADD
-                                    aConfigmember = MQFObject.XCHANGECONFIG.AttributeByID(ID:="SC14")
+                                    aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="SC14")
                                     If aConfigmember Is Nothing Then
-                                        If MQFObject.XCHANGECONFIG.AddAttributeByID(id:="SC14") Then
-                                            aConfigmember = MQFObject.XCHANGECONFIG.AttributeByID(ID:="SC14")
+                                        If MQFObject.XChangeConfig.AddEntryByXID(Xid:="SC14") Then
+                                            aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="SC14")
                                         End If
                                     End If
                                     If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
-                                        If aMapping.ContainsKey(key:=aConfigmember.ordinal.Value) Then
-                                            Call aMapping.Remove(key:=aConfigmember.ordinal.Value)
+                                        If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
+                                            Call aMapping.Remove(key:=aConfigmember.Ordinal.Value)
                                         End If
                                         Dim aTrack As Deliverables.Track
                                         aTrack = aNewDeliverable.GetTrack
                                         If Not aTrack Is Nothing Then
-                                            Call aMapping.Add(key:=aConfigmember.ordinal.Value, value:=aTrack.Scheduletype)
+                                            Call aMapping.Add(key:=aConfigmember.Ordinal.Value, value:=aTrack.Scheduletype)
                                         End If
                                         'Call aMapping.Add(key:=aConfigmember.ordinal.value, c:=aNewDeliverable.getTrack.SCHEDULETYPE)
                                     End If
 
                                     '*** runxchange
-                                    Call aMQFRowEntry.runXChange(MAPPING:=aMapping)
-                                    aMQFRowEntry.processedOn = Now
+                                    'Call aMQFRowEntry.RunXChange(MAPPING:=aMapping)
+                                    aMQFRowEntry.ProcessedOn = Now
                                     'how to save new uid ?!
                                     'Call updateRowXlsDoc9(INPUTMAPPING:=aMapping, INPUTXCHANGECONFIG:=MQFObject.XCHANGECONFIG)
                                 Else
@@ -2314,7 +2251,7 @@ handleerror:
                             End If
                         Else
                             Call CoreMessageHandler(subname:="MQF.processXLSMQF", message:="load of Deliverable failed", _
-                                                  arg1:=aConfigmember.ordinal.Value)
+                                                  arg1:=aConfigmember.Ordinal.Value)
                         End If
                     Else
                         Call CoreMessageHandler(subname:="MQF.processXLSMQF", message:="uid id not in configuration", _
@@ -2328,43 +2265,43 @@ handleerror:
                 '****
                 '**** ADD-AFTER
                 '****
-            ElseIf aMQFRowEntry.action = constMQFOperation_ADDAFTER Then
+            ElseIf aMQFRowEntry.Action = constMQFOperation_ADDAFTER Then
                 ' fill the Mapping
                 aMapping = New Dictionary(Of Object, Object)
-                Call aMQFRowEntry.fillMapping(aMapping)
+                'Call aMQFRowEntry.FillMapping(aMapping)
 
-                ' create
-                aDeliverable = New Deliverables.Deliverable
-                aDeliverable = aDeliverable.CreateFirstRevision()
+                ' create -> deliverable type should be in here
+                aDeliverable = Deliverables.Deliverable.Create()
+                ' aDeliverable = aDeliverable.CreateFirstRevision() not necessary anymore
                 If aDeliverable.IsCreated Then
                     aNewUID = aDeliverable.Uid
                     ' substitute UID
-                    aConfigmember = MQFObject.XCHANGECONFIG.AttributeByID(ID:="uid")
+                    aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
                     If Not aConfigmember Is Nothing Then
                         If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
-                            If aMapping.ContainsKey(key:=aConfigmember.ordinal.Value) Then
-                                anUID = aMapping.Item(key:=aConfigmember.ordinal.Value)
-                                Call aMapping.Remove(key:=aConfigmember.ordinal.Value)
+                            If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
+                                anUID = aMapping.Item(key:=aConfigmember.Ordinal.Value)
+                                Call aMapping.Remove(key:=aConfigmember.Ordinal.Value)
                             Else
                                 anUID = -1
                             End If
                         Else
-                            If MQFObject.XCHANGECONFIG.AddAttributeByID(id:="uid") Then
-                                aConfigmember = MQFObject.XCHANGECONFIG.AttributeByID(ID:="uid")
+                            If MQFObject.XChangeConfig.AddEntryByXID(Xid:="uid") Then
+                                aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
                             End If
                         End If
                     Else
-                        If MQFObject.XCHANGECONFIG.AddAttributeByID(id:="uid") Then
-                            aConfigmember = MQFObject.XCHANGECONFIG.AttributeByID(ID:="uid")
+                        If MQFObject.XChangeConfig.AddEntryByXID(Xid:="uid") Then
+                            aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
                         End If
                     End If
 
-                    Call aMapping.Add(key:=aConfigmember.ordinal.Value, value:=aNewUID)
+                    Call aMapping.Add(key:=aConfigmember.Ordinal.Value, value:=aNewUID)
 
 
                     '*** runxchange
-                    Call aMQFRowEntry.runXChange(MAPPING:=aMapping)
-                    aMQFRowEntry.processedOn = Now
+                    'Call aMQFRowEntry.RunXChange(MAPPING:=aMapping)
+                    aMQFRowEntry.ProcessedOn = Now
                     '*** TODO : ADD TO OUTLINE
                     System.Diagnostics.Debug.Write("new deliverable added: " & aNewUID & " to be added after uid #" & anUID)
                 Else
@@ -2375,32 +2312,32 @@ handleerror:
 
                 '******
                 '****** freeze
-            ElseIf aMQFRowEntry.action = constMQFOperation_FREEZE Then
+            ElseIf aMQFRowEntry.Action = constMQFOperation_FREEZE Then
                 aMapping = New Dictionary(Of Object, Object)
-                Call aMQFRowEntry.fillMapping(aMapping)
+                'Call aMQFRowEntry.FillMapping(aMapping)
                 ' get UID
-                aConfigmember = MQFObject.XCHANGECONFIG.AttributeByID(ID:="uid")
+                aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
                 If Not aConfigmember Is Nothing Then
                     If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
-                        If aMapping.ContainsKey(key:=aConfigmember.ordinal.Value) Then
-                            anUID = aMapping.Item(key:=aConfigmember.ordinal.Value)
-                            aDeliverable = New Deliverables.Deliverable
-                            If aDeliverable.Inject(uid:=anUID) Then
+                        If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
+                            anUID = aMapping.Item(key:=aConfigmember.Ordinal.Value)
+                            aDeliverable = Deliverables.Deliverable.Retrieve(uid:=anUID)
+                            If aDeliverable IsNot Nothing Then
                                 If Not aDeliverable.IsDeleted Then
                                     '*** set the workspaceID
-                                    aValue = MQFObject.XCHANGECONFIG.GetMemberValue(ID:="WS", mapping:=aMapping)
+                                    ' REWORK: aValue = MQFObject.XCHANGECONFIG.GetMemberValue(ID:="WS", mapping:=aMapping)
                                     If IsNull(aValue) Then
                                         aWorkspace = CurrentSession.CurrentWorkspaceID
                                     Else
                                         aWorkspace = CStr(aValue)
                                     End If
                                     '***get the schedule
-                                    aSchedule = aDeliverable.GetSchedule(workspaceID:=aWorkspace)
+                                    aSchedule = aDeliverable.GetWorkScheduleEdition(workspaceID:=aWorkspace)
                                     If Not aSchedule Is Nothing Then
                                         If aSchedule.IsLoaded Then
                                             '*** reference date
-                                            aRefdate = MQFObject.requestedOn
-                                            If aRefdate = ConstNullDate Then
+                                            aRefdate = MQFObject.RequestedOn
+                                            If aRefdate = constNullDate Then
                                                 aRefdate = Now
                                             End If
                                             '*** draw baseline
@@ -2415,18 +2352,18 @@ handleerror:
                 End If
                 '****
                 '**** Delete Deliverable
-            ElseIf aMQFRowEntry.action = constMQFOperation_DELETE Then
+            ElseIf aMQFRowEntry.Action = constMQFOperation_DELETE Then
                 ' fill the Mapping
                 aMapping = New Dictionary(Of Object, Object)
-                Call aMQFRowEntry.fillMapping(aMapping)
+                'Call aMQFRowEntry.FillMapping(aMapping)
                 ' get UID
-                aConfigmember = MQFObject.XCHANGECONFIG.AttributeByID(ID:="uid")
+                aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
                 If Not aConfigmember Is Nothing Then
                     If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
-                        If aMapping.ContainsKey(key:=aConfigmember.ordinal.Value) Then
-                            anUID = aMapping.Item(key:=aConfigmember.ordinal.Value)
-                            aDeliverable = New Deliverables.Deliverable
-                            If aDeliverable.Inject(uid:=anUID) Then
+                        If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
+                            anUID = aMapping.Item(key:=aConfigmember.Ordinal.Value)
+                            aDeliverable = Deliverables.Deliverable.Retrieve(uid:=anUID)
+                            If aDeliverable IsNot Nothing Then
                                 aDeliverable.Delete()
 
                             End If
@@ -2440,7 +2377,7 @@ handleerror:
         Next
 
         'aProgressBar.showStatus("saving MQF in OnTrack ... ")
-        MQFObject.PERSIST()
+        MQFObject.Persist()
         'aProgressBar.showStatus("saved MQF in OnTrack ... ")
 
         'aProgressBar.closeForm()
@@ -2449,169 +2386,193 @@ handleerror:
         processXLSMQF = True
 
     End Function
-    ' ***************************************************************************************************
-    '  postprocessXLSMQF -> write to the MQF the results
-    '
-
-    '
-
-    Function postprocessXLSMQF(ByRef MQFWorkbook As Excel.Workbook, ByRef MQFObject As clsOTDBMessageQueue) As Boolean
-        Dim Value As Object
+   
+    ''' <summary>
+    ''' Postprocess the Excel after MQF Preprocess / Process run - write back the results
+    ''' </summary>
+    ''' <param name="MQFWorkbook"></param>
+    ''' <param name="MQFObject"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Function PostProcessXLSMQF(ByRef MQFWorkbook As Excel.Workbook, ByRef [messagequeue] As MessageQueue, _
+                               Optional ByRef workerthread As BackgroundWorker = Nothing) As Boolean
+        Dim aValue As Object
         Dim headerstartrow As Integer
         Dim headerids_name As String
         Dim headerids As Range
         Dim Prefix As String
-        Dim cell As Range
         Dim DescTable As Range
         Dim datawsname As String
         Dim dataws As Excel.Worksheet
-
-        'Dim theMQFFormat As MessageFormat
-        Dim FieldList() As MQFDBDesc
-        'Dim theMessages() As Message
-        Dim i As Integer
         Dim n As Long
-
         Dim startrow As Integer
         Dim foundflag As Boolean
         Dim row As Range
-        Dim mfgStatus As New clsMQFStatus
-        Dim aStatus As clsMQFStatus
-
-
-        Dim celllock As Boolean
-        Dim MQFWorksheetName As String
-        Dim MQFStatus As New clsMQFStatus
-
+        Dim aStatus As Commons.StatusItem
         Dim mqfDBRange As Range
-        Dim aMQFRowEntry As New clsOTDBMessageQueueEntry
+        Dim aMessage As New MQMessage
+        Dim MQFWorksheetname As String
+        Dim maximum, progress As Integer
 
-
-
-        ' get Startrow
-        Value = GetXlsParameterByName("parameter_mqf_template_headerstartrow", workbook:=MQFWorkbook)
-        If Not IsNumeric(Value) Then
-            postprocessXLSMQF = False
-            'MQFWorkbook.Close (False)
-            Exit Function
-        End If
-        headerstartrow = CInt(Value)
-        headerids_name = GetXlsParameterByName("parameter_mqf_headerid_name", workbook:=MQFWorkbook)
-        headerids = GetXlsParameterRangeByName(headerids_name, workbook:=MQFWorkbook)
-        ' error
-        If headerids Is Nothing Then
-            Call CoreMessageHandler(showmsgbox:=True, _
-                                  message:="The parameter 'parameter_mqf_headerid_name':" & headerids_name & " is not showing a valid range !" _
-                                , subname:="modMQF.postProcessXLSMQF", messagetype:=otCoreMessageType.ApplicationError, break:=False)
-
-            postprocessXLSMQF = False
-            Exit Function
-        End If
-
-        'parameter_doc9_dbdesc_prefix
-        Prefix = GetXlsParameterByName("parameter_mqf_dbdesc_prefix", workbook:=MQFWorkbook)
-        MQFWorksheetName = GetXlsParameterByName("parameter_mqf_templatedata", workbook:=MQFWorkbook, silent:=True)
-        If MQFWorksheetName <> "" Then
-            If MQFWorkbook.Sheets(MQFWorksheetName).ProtectContents Then MQFWorkbook.Sheets(MQFWorksheetName).Unprotect(constPasswordTemplate)
-        End If
-
-
-        DescTable = GetXlsParameterRangeByName("parameter_mqf_structure_db_description_table", workbook:=MQFWorkbook)
-        ' error
-        If DescTable Is Nothing Then
-            Call CoreMessageHandler(showmsgbox:=True, _
-                                 message:="The parameter 'parameter_doc9_structure_db_description_table' is not showing a valid range !" _
-                               , subname:="modMQF.postProcessXLSMQF", messagetype:=otCoreMessageType.ApplicationError, break:=False)
-
-            postprocessXLSMQF = False
-            Exit Function
-        End If
-
-        ' get startrow
-        startrow = GetXlsParameterByName("parameter_mqf_template_datastartrow", workbook:=MQFWorkbook)
-        datawsname = GetXlsParameterByName("parameter_mqf_templatedata", workbook:=MQFWorkbook, found:=foundflag, silent:=False)
-        If Not foundflag Then
-            dataws = headerids.Worksheet
-        Else
-            dataws = MQFWorkbook.Sheets(datawsname)
-        End If
-        ' the full sheet
-        Dim maxrow As Integer
-        Dim MaxCol As Integer
-        MaxCol = dataws.Cells(startrow, dataws.Columns.Count).End(Excel.XlDirection.xlToLeft).Column
-        maxrow = dataws.Cells(dataws.Rows.Count, 1).End(Excel.XlDirection.xlUp).row
-        ' set it
-        mqfDBRange = dataws.Range(dataws.Cells(startrow, 1), dataws.Cells(maxrow, MaxCol))
-
-        '**** go through message queue
-        '****
-        n = 1
-        For Each row In mqfDBRange.Rows
-            ' only if we are really in the same order
-            aMQFRowEntry = MQFObject.getEntry(n)
-
-            If Not IsError(row.Cells(1, MQFObject.Actionordinal).Value) Then
-                If LCase(aMQFRowEntry.action) = LCase(row.Cells(1, MQFObject.Actionordinal).Value) Then  'And _
-                    'aMQFRowEntry. = row.Cells(1, theMQFFormat.UIDCol).Value Then
-
-                    Globals.ThisAddIn.Application.StatusBar = " postprocessing MQF " & MQFWorkbook.Name & " updating messages and stati for row#" & row.row
-
-                    ' timestamp
-                    row.Cells(1, MQFObject.ProcessDateordinal) = Format(MQFObject.processdate, "dd.mm.yyyy hh:mm")
-                    ' status code
-                    'row.Cells(1, MQFObject.ProcessStatusordinal) = aMQFRowEntry.statuscode
-                    ' get it
-                    'row.Cells(1, MQFObject.ProcessStatusordinal).Value = aStatus.code
-                    'row.Cells(1, MQFObject.ProcessStatusordinal).Interior.Color = aStatus.getCodeColor
-
-                    'If aMQFRowEntry.status Is Nothing Then
-                    '    theMessages(n).log = theMessages(n).status.name & "-" & theMessages(n).status.description
-                    'End If
-                    ' logmsg
-                    'row.Cells(1, MQFObject.ProcessLogordinal) = aMQFRowEntry.msglog.getSummary()
-                    row.Cells(1, MQFObject.ProcessLogordinal).Font.size = 6
-                    row.Cells(1, MQFObject.ProcessLogordinal).Font.Bold = False
-                    row.Cells(1, MQFObject.ProcessLogordinal).WrapText = True
-
-                Else
-                    System.Diagnostics.Debug.WriteLine("Order of postprocess is not matching: ")
-                    postprocessXLSMQF = False
-                End If
+        Try
+            Globals.ThisAddIn.Application.EnableEvents = False
+            Globals.ThisAddIn.Application.ScreenUpdating = False
+            ' get Startrow
+            aValue = GetXlsParameterByName("otdb_parameter_mqf_template_headerstartrow", workbook:=MQFWorkbook)
+            If Not IsNumeric(aValue) Then
+                PostProcessXLSMQF = False
+                'MQFWorkbook.Close (False)
+                Exit Function
             End If
-            ' increase
-            n = n + 1
-        Next row
+            headerstartrow = CInt(aValue)
+            headerids_name = GetXlsParameterByName("otdb_parameter_mqf_headerid_name", workbook:=MQFWorkbook)
+            headerids = GetXlsParameterRangeByName(headerids_name, workbook:=MQFWorkbook)
+            ' error
+            If headerids Is Nothing Then
+                Call CoreMessageHandler(showmsgbox:=True, _
+                                      message:="The parameter 'otdb_parameter_mqf_headerid_name':" & headerids_name & " is not showing a valid range !" _
+                                    , subname:="modXLSMessageQueueFile.postProcessXLSMQF", messagetype:=otCoreMessageType.ApplicationError, break:=False)
 
-        Value = SetXlsParameterValueByName("doc9_mqf_processedBy", MQFObject.processedByUsername, workbook:=MQFWorkbook)
-        Value = SetXlsParameterValueByName("doc9_mqf_processedOn", Format(MQFObject.processdate, "dd.mm.yyyy"), workbook:=MQFWorkbook)
-        Value = SetXlsParameterValueByName("doc9_mqf_status", MQFObject.statuscode, workbook:=MQFWorkbook)
-        ' autofilter
-        dataws.Range(dataws.Cells(headerstartrow + 1, 1), _
-                     dataws.Cells(headerstartrow + 1, MaxCol)).AutoFilter()
+                PostProcessXLSMQF = False
+                Exit Function
+            End If
 
-        ' protect again
-        MQFWorkbook.Sheets(MQFWorksheetName).Protect(password:=constPasswordTemplate, _
-                                                     DrawingObjects:=False, Contents:=True, Scenarios:=False, _
-                                                     AllowFormattingCells:=True, AllowFormattingColumns:=True, _
-                                                     AllowFormattingRows:=True, AllowInsertingColumns:=True, AllowInsertingRows:=True, _
-                                                     AllowDeletingColumns:=True, AllowDeletingRows:=True, _
-                                                     AllowFiltering:=True, AllowUsingPivotTables:=True, AllowSorting:=True)
+            Prefix = GetXlsParameterByName("otdb_parameter_mqf_dbdesc_prefix", workbook:=MQFWorkbook)
+            MQFWorksheetname = GetXlsParameterByName("otdb_parameter_mqf_templatedata", workbook:=MQFWorkbook, silent:=True)
+            If MQFWorksheetname <> "" Then
+                If MQFWorkbook.Sheets(MQFWorksheetname).ProtectContents Then MQFWorkbook.Sheets(MQFWorksheetname).Unprotect(constPasswordTemplate)
+            End If
 
-        ' save it
-        Globals.ThisAddIn.Application.StatusBar = " MQF " & MQFWorkbook.Name & " was updated after processing"
-        MQFWorkbook.Save()
 
-        'return
-        postprocessXLSMQF = True
+            DescTable = GetXlsParameterRangeByName("otdb_parameter_mqf_structure_db_description_table", workbook:=MQFWorkbook)
+            ' error
+            If DescTable Is Nothing Then
+                Call CoreMessageHandler(showmsgbox:=True, _
+                                     message:="The parameter 'otdb_parameter_mqf_structure_db_description_table' is not showing a valid range !" _
+                                   , subname:="modXLSMessageQueueFile.postProcessXLSMQF", messagetype:=otCoreMessageType.ApplicationError, break:=False)
 
+                PostProcessXLSMQF = False
+                Exit Function
+            End If
+
+            ' get startrow
+            startrow = GetXlsParameterByName("otdb_parameter_mqf_template_datastartrow", workbook:=MQFWorkbook)
+            datawsname = GetXlsParameterByName("otdb_parameter_mqf_templatedata", workbook:=MQFWorkbook, found:=foundflag, silent:=False)
+            If Not foundflag Then
+                dataws = headerids.Worksheet
+            Else
+                dataws = MQFWorkbook.Sheets(datawsname)
+            End If
+            ' the full sheet
+            '' go in the uid column from the bottom upwards
+            Dim maxrow As Integer = dataws.Cells(dataws.Rows.Count, messagequeue.UIDOrdinal).End(Excel.XlDirection.xlUp).row
+            '' go from the headid row right-most to the left
+            Dim MaxCol As Integer = dataws.Cells(headerids.Row, dataws.Columns.Count).End(Excel.XlDirection.xlToLeft).Column
+            ' set it
+            mqfDBRange = dataws.Range(dataws.Cells(startrow, 1), dataws.Cells(maxrow, MaxCol))
+            ' autofilter off
+            dataws.AutoFilterMode = False
+
+            ' init
+            If workerthread IsNot Nothing Then
+                workerthread.ReportProgress(0, "")
+                maximum = maxrow - startrow + 1
+            End If
+
+            '**** go through message queue
+            '****
+            n = 1
+            For Each row In mqfDBRange.Rows
+                ' only if we are really in the same order
+                aMessage = [messagequeue].Messages.Item(n)
+                '** progress
+                If workerthread IsNot Nothing Then
+                    progress += 1
+                    workerthread.ReportProgress((progress / maximum) * 100, "updating row #" & row.Row)
+                End If
+
+                If Not IsError(row.Cells(1, [messagequeue].ActionOrdinal).Value) Then
+                    If LCase(aMessage.Action) = LCase(row.Cells(1, [messagequeue].ActionOrdinal).Value) Then  'And _
+                        'aMQFRowEntry. = row.Cells(1, theMQFFormat.UIDCol).Value Then
+
+                        Globals.ThisAddIn.Application.StatusBar = " postprocessing MQF " & MQFWorkbook.Name & " updating messages and stati for row#" & row.Row
+
+                        ' timestamp
+                        If messagequeue.ProcessDateordinal IsNot Nothing Then
+                            If messagequeue.Processdate IsNot Nothing Then
+                                row.Cells(1, [messagequeue].ProcessDateordinal) = Format([messagequeue].Processdate, "dd.MM.yyyy hh:mm")
+                            Else
+                                row.Cells(1, [messagequeue].ProcessDateordinal) = Format(DateTime.Now, "dd.MM.yyyy hh:mm")
+                            End If
+
+                        End If
+
+                        aStatus = aMessage.ObjectMessageLog.GetHighesStatusItem
+                        If aStatus IsNot Nothing Then
+                            ' status code
+                            row.Cells(1, [messagequeue].ProcessStatusordinal) = aStatus.Code
+                            ' get it
+                            If aStatus.FormatBGColor IsNot Nothing Then row.Cells(1, [messagequeue].ProcessStatusordinal).Interior.Color = aStatus.FormatBGColor
+                        End If
+
+                        ' message log
+                        Dim messages As String = aMessage.ObjectMessageLog.MessageText
+                        row.Cells(1, [messagequeue].ProcessLogordinal) = messages
+                        row.Cells(1, [messagequeue].ProcessLogordinal).Font.size = 6
+                        row.Cells(1, [messagequeue].ProcessLogordinal).Font.Bold = False
+                        row.Cells(1, [messagequeue].ProcessLogordinal).WrapText = True
+
+                    Else
+                        System.Diagnostics.Debug.WriteLine("Order of postprocess is not matching: ")
+                        PostProcessXLSMQF = False
+                    End If
+                End If
+                ' increase
+                n = n + 1
+            Next row
+
+            aValue = SetXlsParameterValueByName("hermes_mqf_processedBy", [messagequeue].ProcessedByUsername, workbook:=MQFWorkbook)
+            aValue = SetXlsParameterValueByName("hermes_mqf_processedOn", Format([messagequeue].Processdate, "dd.mm.yyyy"), workbook:=MQFWorkbook)
+            aValue = SetXlsParameterValueByName("hermes_mqf_status", [messagequeue].GetHighestStatusItem.Code, workbook:=MQFWorkbook)
+            ' autofilter
+            'dataws.Range(dataws.Cells(headerstartrow + 1, 1), _
+            '             dataws.Cells(headerstartrow + 1, MaxCol)).AutoFilter()
+
+            ' protect again
+            MQFWorkbook.Sheets(MQFWorksheetname).Protect(password:=constPasswordTemplate, _
+                                                         DrawingObjects:=False, Contents:=True, Scenarios:=False, _
+                                                         AllowFormattingCells:=True, AllowFormattingColumns:=True, _
+                                                         AllowFormattingRows:=True, AllowInsertingColumns:=True, AllowInsertingRows:=True, _
+                                                         AllowDeletingColumns:=True, AllowDeletingRows:=True, _
+                                                         AllowFiltering:=True, AllowUsingPivotTables:=True, AllowSorting:=True)
+
+            ' save it
+            Globals.ThisAddIn.Application.StatusBar = " MQF " & MQFWorkbook.Name & " was updated after processing"
+            If workerthread IsNot Nothing Then workerthread.ReportProgress(100, "saving excel workbook")
+            MQFWorkbook.Save()
+
+            Globals.ThisAddIn.Application.EnableEvents = True
+            Globals.ThisAddIn.Application.ScreenUpdating = True
+            'return
+            Return True
+
+        Catch ex As Exception
+            Globals.ThisAddIn.Application.EnableEvents = True
+            Globals.ThisAddIn.Application.ScreenUpdating = True
+            CoreMessageHandler(showmsgbox:=True, exception:=ex, subname:="modXLSMessageQueueFile.PostProcessXLSMQF")
+            Return False
+        End Try
     End Function
 
 
-    ' ***************************************************************************************************
-    '  Subroutine to Locate and Open a Doc9-Document Message Queue in the Globals.ThisAddin.Application
-    '  runs through some tests to ensure that it is really an Doc9-MQ
-    '  returns the Workbook
-
+    
+    ''' <summary>
+    ''' Subroutine to Locate and Open a Doc9-Document Message Queue in the Globals.ThisAddin.Application
+    '''  runs through some tests to ensure that it is really an Doc9-MQ
+    '''  returns the Workbook
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     Function LocateAndOpenMQF() As Excel.Workbook
         Dim FileNamePattern, FileNamePattern2, currWorkbookName, MQFWorkbookName, MQFSheetName As String
         Dim filenames As Object
@@ -2628,7 +2589,7 @@ handleerror:
         End If
 
         ' get Doc9 File Name
-        FileNamePattern = GetDBParameter("parameter_mqf_filenamepattern", silent:=True)
+        FileNamePattern = GetDBParameter("otdb_parameter_mqf_filenamepattern", silent:=True)
         'FileNamePattern2 = getXLSParameterByName("parameter_Doc9filename_search_2")
         'For Each wb In Globals.ThisAddin.Application.Globals.ThisAddin.Application.Workbooks
         ' If (InStr(wb.Name, FileNamePattern) > 0) Or (InStr(wb.Name, FileNamePattern2) > 0) Then
@@ -2648,7 +2609,7 @@ handleerror:
             If Mid(Value, 2, 1) = ":" Then
                 ChDrive(Mid(Value, 1, 2))
             End If
-            Value = Value & GetDBParameter("parameter_mqf_inputqueue")
+            Value = Value & GetDBParameter("otdb_parameter_mqf_inputqueue")
             If FileIO.FileSystem.FileExists(Value) Then
                 ChDir(Value)
             End If
@@ -2686,7 +2647,7 @@ handleerror:
         End If
 
 
-        LocateAndOpenMQF = MQFWorkbook
+        Return MQFWorkbook
     End Function
 
     '**************
@@ -2701,12 +2662,12 @@ handleerror:
         'Open and check the Doc9
         currWorkbookName = Globals.ThisAddIn.Application.ActiveWorkbook.Name
 
-        MQFSheetname = GetXlsParameterByName("parameter_mqf_templatedata", MQFWORKBOOK, silent:=True)
+        MQFSheetname = GetXlsParameterByName("otdb_parameter_mqf_templatedata", MQFWORKBOOK, silent:=True)
         If MQFSheetname = "" Then
-            MQFSheetname = GetXlsParameterByName("parameter_mqf_templatedata", silent:=True)
+            MQFSheetname = GetXlsParameterByName("otdb_parameter_mqf_templatedata", silent:=True)
         End If
         If MQFSheetname = "" Then
-            MQFSheetname = GetDBParameter("parameter_mqf_templatedata", silent:=True)
+            MQFSheetname = GetDBParameter("otdb_parameter_mqf_templatedata", silent:=True)
         End If
         'Check if Worksheet there
         ' Check if Parameters Sheet is still there
@@ -2714,13 +2675,14 @@ handleerror:
         If SheetExistsinWorkbook(MQFWORKBOOK, MQFSheetname) Then
             ws = MQFWORKBOOK.Sheets(MQFSheetname)
         Else
-            Call CoreMessageHandler(subname:="checkOnMQF", message:="Workbook '" & MQFWORKBOOK.Name & "' is not a valid Message Queue File", arg1:=MQFWORKBOOK.Name, showmsgbox:=SILENT)
+            Call CoreMessageHandler(subname:="checkOnMQF", message:="Workbook '" & MQFWORKBOOK.Name & "' is not a valid Message Queue File", _
+                                    arg1:=MQFWORKBOOK.Name, showmsgbox:=Not SILENT, messagetype:=otCoreMessageType.ApplicationInfo)
 
             ' Error
             If SILENT = False Then
                 Call CoreMessageHandler(showmsgbox:=True, _
                                  message:="TThe Worksheet '" & MQFSheetname & " ' is not found in the Workbook. Is this a valid Doc9 Message Queue Workbook ? " _
-                               , subname:="modMQF.checkWorkbookIfMQF", messagetype:=otCoreMessageType.ApplicationError, break:=False)
+                               , subname:="modXLSMessageQueueFile.checkWorkbookIfMQF", messagetype:=otCoreMessageType.ApplicationError, break:=False)
             End If
 
             Return False

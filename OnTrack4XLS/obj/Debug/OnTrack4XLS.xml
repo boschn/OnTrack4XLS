@@ -15,6 +15,10 @@ OnTrack4XLS
   Overrides the current thread's CurrentUICulture property for all
   resource lookups using this strongly typed resource class.
 </summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources._3x3_grid">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:OnTrack.Addin.My.Resources.Resources.Actions_configure_toolbars_icon">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
@@ -28,6 +32,10 @@ OnTrack4XLS
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member><member name="P:OnTrack.Addin.My.Resources.Resources.Actions_system_run_icon32x32">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.align_just">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
@@ -51,11 +59,43 @@ OnTrack4XLS
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.business">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.business_contact">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.cert">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.checkbox_unchecked">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:OnTrack.Addin.My.Resources.Resources.connect_icon">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.database">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.db">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:OnTrack.Addin.My.Resources.Resources.disconnect_icon">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.doc_lines">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.doc_lines1">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
@@ -87,11 +127,43 @@ OnTrack4XLS
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.list_bullets">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:OnTrack.Addin.My.Resources.Resources.MarketSectorIcons_01_Red">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.memory_module">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:OnTrack.Addin.My.Resources.Resources.MessageQueueTube">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.minus">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.mono_cog_48_48">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.mono_doc_edit_32_32">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.mono_doc_edit_48_48">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.mono_lightbulb_48_48">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.mono_magic_wand_32_32">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
@@ -103,6 +175,30 @@ OnTrack4XLS
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.pin_sq_down">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.playback_reload">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.plus">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.plus1">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.progress_radar">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.rail_metro_24_2x">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:OnTrack.Addin.My.Resources.Resources.railway_tracks_icon">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
@@ -111,7 +207,31 @@ OnTrack4XLS
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.school">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:OnTrack.Addin.My.Resources.Resources.setting_config">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.super_mono_3d_part2_11">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.table">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.twitter_2">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.wrench_plus">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:OnTrack.Addin.My.Resources.Resources.wrench_plus_2_32x32">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
@@ -161,6 +281,25 @@ OnTrack4XLS
 	<param name="silent"></param>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.Workbooklist_SelectedIndexChanged(System.Object,Telerik.WinControls.UI.Data.PositionChangedEventArgs)">
+	<summary>
+ handles the SelectIndex Workbooklist Changed event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.Preprocess_load">
+	<summary>
+ load the preprocessing Wizard page
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.PreProcessButton_Click(System.Object,System.EventArgs)">
+	<summary>
+ handles the PreProcess Button Click
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
 </member><member name="M:OnTrack.Addin.UIWizardMQFFeed.SetProgress(System.Int32,System.String)">
 	<summary>
  Set the Progress
@@ -168,31 +307,206 @@ OnTrack4XLS
 	<param name="percentage"></param>
 	<param name="text"></param>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.SetAfterWork">
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.SetAfterBuildModelWork">
 	<summary>
  AfterWork (Preprocess) CleanUp
  </summary>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.ProgressofPreprocess(System.Object,System.ComponentModel.ProgressChangedEventArgs)">
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.SetAfterPreProcessWork">
+	<summary>
+ AfterWork (Preprocess) CleanUp
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.ProgressOfWorker(System.Object,System.ComponentModel.ProgressChangedEventArgs)">
 	<summary>
  Progress EventHandler
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.EndOfPreprocess(System.Object,System.ComponentModel.RunWorkerCompletedEventArgs)">
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.EndOfBuildWorker(System.Object,System.ComponentModel.RunWorkerCompletedEventArgs)">
 	<summary>
   End of the Preprocess Eventhandler
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.RunPreprocess(System.Object,System.ComponentModel.DoWorkEventArgs)">
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.EndOfPreCHeckWorker(System.Object,System.ComponentModel.RunWorkerCompletedEventArgs)">
+	<summary>
+  End of the Preprocess Eventhandler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.RunBuild(System.Object,System.ComponentModel.DoWorkEventArgs)">
 	<summary>
  Run Preprocess
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.RunPreProcess(System.Object,System.ComponentModel.DoWorkEventArgs)">
+	<summary>
+ Run Precheck
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.Process_load">
+	<summary>
+ load the processing Wizard page
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.ProcessButton_Click(System.Object,System.EventArgs)">
+	<summary>
+ handles the PreProcess Button Click
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.SetAfterProcessWork">
+	<summary>
+ AfterWork (Preprocess) CleanUp
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.RunProcessCheck(System.Object,System.ComponentModel.DoWorkEventArgs)">
+	<summary>
+ Run Precheck
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.EndOfProcessWorker(System.Object,System.ComponentModel.RunWorkerCompletedEventArgs)">
+	<summary>
+  End of the Preprocess Eventhandler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.UpdateXLS_load">
+	<summary>
+ load the preprocessing Wizard page
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.UpdateXlsButton_Click(System.Object,System.EventArgs)">
+	<summary>
+ handles the PreProcess Button Click
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.SetAfterUpdateXLSWork">
+	<summary>
+ AfterWork (Preprocess) CleanUp
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.RunUpdateXLSWorker(System.Object,System.ComponentModel.DoWorkEventArgs)">
+	<summary>
+ Run Precheck
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.EndOfUpdateXLSWorker(System.Object,System.ComponentModel.RunWorkerCompletedEventArgs)">
+	<summary>
+  End of the Preprocess Eventhandler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.UIWizardMQFFeed_Event(System.Object,Telerik.WinControls.UI.GridViewBindingCompleteEventArgs)">
+	<summary>
+ Handler for DataBinding Complete to add the MQF to each element
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.UIWizardMQFFeed_OnGridViewRowFormatEvent(System.Object,Telerik.WinControls.UI.RowFormattingEventArgs)">
+	<summary>
+ Event Handler for GridView RowFormatting
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.UIWizardMQFFeed_OnGridViewCellFormatEvent(System.Object,Telerik.WinControls.UI.CellFormattingEventArgs)">
+	<summary>
+ Event Handler for GridView RowFormatting
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIWizardMQFFeed.MQFWizard_OnNext(System.Object,Telerik.WinControls.UI.WizardCancelEventArgs)">
+	<summary>
+ Handles the next Event in the Wizard
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIMQFDataModel.#ctor(OnTrack.Xchange.MessageQueue)">
+	<summary>
+  constructor
+ </summary>
+	<param name="messagequeue"></param>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Addin.UIMQFDataModel.IsInitialized">
+	<summary>
+ Gets or sets the is initialized.
+ </summary>
+	<value>The is initialized.</value>
+</member><member name="P:OnTrack.Addin.UIMQFDataModel.MessageQueue">
+	<summary>
+ returns the message queue
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIMQFDataModel.Initialize(System.Boolean)">
+	<summary>
+ initialize the DataModel
+ </summary>
+	<param name="force"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIMQFDataModel.GetStatusItemOf(System.Int64)">
+	<summary>
+ Returns the StatusItem of the messageno
+ </summary>
+	<param name="messageno"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIMQFDataModel.LoadData">
+	<summary>
+ load data from the mqf into the data model
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIMQFDataModel.OnMessagePrechecked(System.Object,OnTrack.Xchange.MQMessage.EventArgs)">
+	<summary>
+ Event Handler for the Message Prechecked Event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIMQFDataModel.OnMessageProcessed(System.Object,OnTrack.Xchange.MQMessage.EventArgs)">
+	<summary>
+ Event Handler for the Message Processed Event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.UIMQFDataModel.OnPropertyChanged(System.Object,System.ComponentModel.PropertyChangedEventArgs)">
+	<summary>
+ event handler if property changed
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.modQuicknDirty.CreateConfigDocXCONFIG(OnTrack.XChange.otXChangeCommandType)">
+	<summary>
+ create a ConfigDocXConfig
+ </summary>
+	<param name="XCMD"></param>
+	<returns></returns>
 	<remarks></remarks>
 </member><member name="M:OnTrack.Addin.ThisAddIn.#ctor(Microsoft.Office.Tools.Excel.ApplicationFactory,System.IServiceProvider)">
 </member><member name="M:OnTrack.Addin.ThisAddIn.Initialize">
@@ -323,6 +637,49 @@ OnTrack4XLS
 	<param name="silent"></param>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="T:OnTrack.Addin.modXLSMessageQueueFile.XLSMQFColumnDescription">
+	<summary>
+ structure for describing Excel Database MQF Columns
+ </summary>
+	<remarks></remarks>
+</member><member name="T:OnTrack.Addin.modXLSMessageQueueFile.XLSMQFStructure">
+	<summary>
+ structure for describing an MQF File
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.modXLSMessageQueueFile.GetMQFDBDesc(OnTrack.Addin.modXLSMessageQueueFile.XLSMQFColumnDescription[]@,System.String,Microsoft.Office.Interop.Excel.Workbook,System.Boolean)">
+	<summary>
+ retrieves the Column Descriptions from the XLS MQF File
+ </summary>
+	<param name="fieldlist"></param>
+	<param name="aName"></param>
+	<param name="workbook"></param>
+	<param name="silent"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.modXLSMessageQueueFile.BuildMessageQueueObject(Microsoft.Office.Interop.Excel.Workbook@,OnTrack.Xchange.MessageQueue@,System.ComponentModel.BackgroundWorker@,System.Boolean)">
+	<summary>
+ preprocess an xls message queue file and builds a message queue structure
+ 
+ </summary>
+	<param name="MQFWorkbook"></param>
+	<param name="messagequeue"></param>
+	<param name="workerthread"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Addin.modXLSMessageQueueFile.LocateAndOpenMQF">
+	<summary>
+ Subroutine to Locate and Open a Doc9-Document Message Queue in the Globals.ThisAddin.Application
+  runs through some tests to ensure that it is really an Doc9-MQ
+  returns the Workbook
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="T:OnTrack.Addin.modXLSMessageQueueFile">
+	<summary>
+ Module for Excel message Queue File functions
+ </summary>
+	<remarks></remarks>
 </member><member name="P:OnTrack.Addin.XLSDataArea.WorkbookName">
 	<summary>
  Gets or sets the PS workbook.
@@ -408,7 +765,7 @@ OnTrack4XLS
  Gets or sets the PS transaction ID.
  </summary>
 	<value>The PS transaction ID.</value>
-</member><member name="M:OnTrack.Addin.ExcelXBag.#ctor(OnTrack.XChange.XConfig)">
+</member><member name="M:OnTrack.Addin.ExcelXBag.#ctor(OnTrack.XChange.XChangeConfiguration)">
 	<summary>
  Constructor
  </summary>
@@ -433,7 +790,7 @@ OnTrack4XLS
  defines a XBag as Excel Converter function
  </summary>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Addin.XLSXChangeMgr.ReplicateOld(OnTrack.Addin.XLSDataArea,OnTrack.otXChangeCommandType,System.Boolean,System.Boolean,System.String,System.ComponentModel.BackgroundWorker@)">
+</member><member name="M:OnTrack.Addin.XLSXChangeMgr.ReplicateOld(OnTrack.Addin.XLSDataArea,OnTrack.XChange.otXChangeCommandType,System.Boolean,System.Boolean,System.String,System.ComponentModel.BackgroundWorker@)">
 	<summary>
  replicates with the excel data area
  </summary>
@@ -445,7 +802,7 @@ OnTrack4XLS
 	<param name="workerthread"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Addin.XLSXChangeMgr.Replicate(OnTrack.Addin.XLSDataArea,OnTrack.otXChangeCommandType,System.Boolean,System.Boolean,System.String,System.ComponentModel.BackgroundWorker@)">
+</member><member name="M:OnTrack.Addin.XLSXChangeMgr.Replicate(OnTrack.Addin.XLSDataArea,OnTrack.XChange.otXChangeCommandType,System.Boolean,System.Boolean,System.String,System.ComponentModel.BackgroundWorker@)">
 	<summary>
  replicates with the excel data area
  </summary>
