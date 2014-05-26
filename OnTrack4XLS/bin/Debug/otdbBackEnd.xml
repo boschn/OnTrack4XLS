@@ -1316,6 +1316,41 @@ otdbBackEnd
  Relation to Mesages
  </summary>
 	<remarks></remarks>
+</member><member name="P:OnTrack.Xchange.MessageQueue.ApprovalDate">
+	<summary>
+ Gets or sets the approval date.
+ </summary>
+	<value>The approval date.</value>
+</member><member name="P:OnTrack.Xchange.MessageQueue.ApprovedBy">
+	<summary>
+ Gets or sets the approver person.
+ </summary>
+	<value>The approverperson.</value>
+</member><member name="P:OnTrack.Xchange.MessageQueue.Planrevision">
+	<summary>
+ Gets or sets the planrevision.
+ </summary>
+	<value>The planrevision.</value>
+</member><member name="P:OnTrack.Xchange.MessageQueue.ProcessComment">
+	<summary>
+ Gets or sets the proc comment.
+ </summary>
+	<value>The proc comment.</value>
+</member><member name="P:OnTrack.Xchange.MessageQueue.CreationDate">
+	<summary>
+ Gets or sets the creation date.
+ </summary>
+	<value>The creation date.</value>
+</member><member name="P:OnTrack.Xchange.MessageQueue.CreatingOU">
+	<summary>
+ Gets or sets the creating OU.
+ </summary>
+	<value>The creating OU.</value>
+</member><member name="P:OnTrack.Xchange.MessageQueue.Creator">
+	<summary>
+ Gets or sets the creating person.
+ </summary>
+	<value>The creating person.</value>
 </member><member name="P:OnTrack.Xchange.MessageQueue.UsedSlotIDs">
 	<summary>
  Gets or sets the actual used slot ids.
@@ -1478,6 +1513,18 @@ otdbBackEnd
  returns true if the MessageQueue is processed - at least one message is processed with success
  </summary>
 	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Xchange.MessageQueue.ProcessStatusCode">
+	<summary>
+ returns the status Code of the ProcessStatus
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Xchange.MessageQueue.ProcessStatus">
+	<summary>
+ returns the status Code of the ProcessStatus - nothing if not processed
+ </summary>
 	<returns></returns>
 	<remarks></remarks>
 </member><member name="M:OnTrack.Xchange.MessageQueue.GetHighestStatusItem">
@@ -4822,7 +4869,7 @@ otdbBackEnd
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
-</member><member name="M:OnTrack.ObjectMessageLog.Retrieve">
+</member><member name="M:OnTrack.ObjectMessageLog.Retrieve(System.String)">
 	<summary>
  retrieves the log and loads all messages for the container object
  </summary>
@@ -4951,7 +4998,7 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="P:OnTrack.ObjectMessage.Msgid">
+</member><member name="P:OnTrack.ObjectMessage.MessageTypeID">
 	<summary>
  gets or sets the message type uid
  </summary>
@@ -5002,7 +5049,7 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="P:OnTrack.ObjectMessage.EntitityIdentifier">
+</member><member name="P:OnTrack.ObjectMessage.EntityIdentifier">
 	<summary>
  gets or sets the entitity identifier
  </summary>
@@ -5906,6 +5953,20 @@ otdbBackEnd
 	<param name="id">id of the command</param>
 	<remarks></remarks>
 	<returns>a iOTDBSqlCommand</returns>
+</member><member name="M:OnTrack.Database.ormDatabaseDriver.CreateSqlCommand(System.String)">
+	<summary>
+ Creates a Command and store it or gets the current Command
+ </summary>
+	<param name="id">id of the command</param>
+	<returns>a iOTDBSqlCommand</returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.ormDatabaseDriver.CreateSqlSelectCommand(System.String)">
+	<summary>
+ Creates a Command and store it or gets the current Command
+ </summary>
+	<param name="id">id of the command</param>
+	<returns>a iOTDBSqlCommand</returns>
+	<remarks></remarks>
 </member><member name="M:OnTrack.Database.ormDatabaseDriver.RegisterConnection(OnTrack.Database.iormConnection@)">
 	<summary>
  Register a connection at the Driver to be used
@@ -6653,6 +6714,19 @@ otdbBackEnd
  </summary>
 	<param name="propertystring"></param>
 	<remarks></remarks>
+</member><member name="M:OnTrack.Database.LookupProperty.Validate">
+	<summary>
+ validates the property
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.LookupProperty.Validate(OnTrack.Database.LookupProperty)">
+	<summary>
+ validates the property
+ </summary>
+	<param name="property"></param>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="M:OnTrack.Database.LookupProperty.ToEnum">
 	<summary>
  returns the enumeration value
@@ -7023,6 +7097,13 @@ otdbBackEnd
  </summary>
 	<remarks></remarks>
 	<returns>True if validated and OK</returns>
+</member><member name="M:OnTrack.Database.ormDataObject.ValidateCompoundValue(System.String,System.Object,OnTrack.ObjectMessageLog)">
+	<summary>
+ Validates a Compound
+ </summary>
+	<param name="entryname"></param>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="T:OnTrack.Database.ObjectValidator.EventArgs">
 	<summary>
  Event Argument Class
@@ -7240,7 +7321,7 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.ormRelationCollection`1.GetKeyNames">
+</member><member name="P:OnTrack.Database.ormRelationCollection`1.KeyNames">
 	<summary>
  returns the entry names for the keys in the collection
  </summary>
@@ -8326,6 +8407,13 @@ otdbBackEnd
  Gets or sets the is foreign key implementation.
  </summary>
 	<value>T</value>
+</member><member name="P:OnTrack.Database.ForeignKeyDefinition.ForeignKeyReferenceTables">
+	<summary>
+ returns a list of tablenames which are referenced in the foreign key
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="P:OnTrack.Database.ForeignKeyDefinition.ForeignKeyReferences">
 	<summary>
  Gets or sets the is foreign Key reference string.
@@ -8987,6 +9075,13 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="P:OnTrack.Database.ObjectDefinition.CompoundEntryObjectNames">
+	<summary>
+ returns a List of CompoundEntryObjectNames
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="P:OnTrack.Database.ObjectDefinition.Entries">
 	<summary>
  returns all Entries
@@ -8997,6 +9092,18 @@ otdbBackEnd
 </member><member name="M:OnTrack.Database.ObjectDefinition.GetEntries(System.Boolean)">
 	<summary>
  gets a collection of object Entry definitions
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.ObjectDefinition.GetCompoundEntries(System.Boolean)">
+	<summary>
+ gets a collection of object compound Entry definitions
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.ObjectDefinition.GetColumnEntries(System.Boolean)">
+	<summary>
+ gets a collection of object column Entry definitions
  </summary>
 	<returns></returns>
 	<remarks></remarks>
@@ -9617,6 +9724,11 @@ otdbBackEnd
  constructor of a SchemaDefTableEntry
  </summary>
 	<remarks></remarks>
+</member><member name="P:OnTrack.Database.ObjectCompoundEntry.CompoundValidatorMethodName">
+	<summary>
+ Gets or sets the name of the compound validator method.
+ </summary>
+	<value>The name of the compound getter method.</value>
 </member><member name="P:OnTrack.Database.ObjectCompoundEntry.CompoundGetterMethodName">
 	<summary>
  Gets or sets the name of the compound getter method.
@@ -13480,6 +13592,100 @@ otdbBackEnd
  3. the workspace schedule differentiates between active Schedule edition(frozen) and working schedule editions
  
  </remarks>
+</member><member name="F:OnTrack.Commons.ValueList.ConstTableID">
+	<summary>
+ Table Definition
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.Commons.ValueList._id">
+	<summary>
+ Mappings
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.Commons.ValueList.ConstRValues">
+	<summary>
+ Relations
+ </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Commons.ValueList.Description">
+	<summary>
+ Gets or sets the description.
+ </summary>
+	<value>The description.</value>
+</member><member name="P:OnTrack.Commons.ValueList.ID">
+	<summary>
+ returns the ID of the configuration
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Commons.ValueList.ValueEntries">
+	<summary>
+ returns the collection of Properties in this set
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Commons.ValueList.Values">
+	<summary>
+ returns a List of Values (objects)
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Commons.ValueList.Retrieve(System.String,System.String)">
+	<summary>
+ retrieve  the property section from store
+ </summary>
+	<param name="id"></param>
+	<param name="domainid"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Commons.ValueList.Create(System.String,System.String)">
+	<summary>
+ creates a persistable property section
+ </summary>
+	<param name="id"></param>
+	<param name="domainid"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Commons.ValueList.ValuesCollection_OnAdded(System.Object,OnTrack.Database.ormRelationCollection{OnTrack.Commons.ValueEntry}.EventArgs)">
+	<summary>
+ Handler for the OnAdded event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="T:OnTrack.Commons.ValueList">
+	<summary>
+ class to define a list of lookup values
+ </summary>
+	<remarks>
+ 
+ Design Principles:
+ 
+ 1. Value lists are stand-alone and must exist before a value entry can be created.
+ 
+ 2. value entry are added by creating themselves e.g. ValueEntry.Create(setid:= ...). It will be added automatically to the List
+ 
+ 3. On loading the set all the value entries will be retrieved as well due to relation.
+ 
+ </remarks>
+</member><member name="F:OnTrack.Commons.ValueEntry.ConstFNSelector">
+	<summary>
+ Columns
+ </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Commons.ValueEntry.List">
+	<summary>
+ Gets the value list
+ </summary>
+	<value>The list.</value>
+</member><member name="P:OnTrack.Commons.ValueEntry.Ordinal">
+	<summary>
+ Gets or sets the ordinal.
+ </summary>
+	<value>The ordinal.</value>
 </member><member name="P:OnTrack.Commons.ValueEntry.DomainID">
 	<summary>
  gets the ID of the Domain
@@ -13508,6 +13714,13 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="P:OnTrack.Commons.ValueEntry.ValueString">
+	<summary>
+ gets or sets the String Presentaton
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="P:OnTrack.Commons.ValueEntry.Value">
 	<summary>
  gets or sets the value of the domain setting
@@ -13515,12 +13728,19 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Commons.ValueEntry.CreateSchema(System.Boolean)">
+</member><member name="M:OnTrack.Commons.ValueEntry.ValueEntry_OnCreating(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
 	<summary>
- create the objects persistence schema
+ Handles OnCreating 
  </summary>
-	<param name="silent"></param>
-	<returns></returns>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Commons.ValueEntry.ValueEntry_OnCreated(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+	<summary>
+ Handles OnCreated and Relation to ConfigSet
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
 	<remarks></remarks>
 </member><member name="T:OnTrack.Commons.ValueEntry">
 	<summary>
@@ -13567,13 +13787,6 @@ otdbBackEnd
  Retrieve the workspaceID Cache Object
  </summary>
 	<param name="id"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.Commons.DomainSetting.CreateSchema(System.Boolean)">
-	<summary>
- create the objects persistence schema
- </summary>
-	<param name="silent"></param>
 	<returns></returns>
 	<remarks></remarks>
 </member><member name="T:OnTrack.Commons.DomainSetting">
@@ -16134,6 +16347,13 @@ otdbBackEnd
 	<param name="relationname"></param>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:OnTrack.Database.DataObjectRelationMgr.Contains(System.String)">
+	<summary>
+ returns true if the relationname is in the relation manager
+ </summary>
+	<param name="relationname"></param>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="M:OnTrack.Database.DataObjectRelationMgr.GetObjectsFromContainer(System.String,System.String,System.Boolean,System.Object)">
 	<summary>
  selects dataobject from a relation mapped entry  optional if an entryname exists and and optional the value equals
@@ -17226,7 +17446,7 @@ otdbBackEnd
 	<param name="objectname"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.XChange.XEnvelope.RunXChange(OnTrack.ObjectMessageLog@,System.Boolean)">
+</member><member name="M:OnTrack.XChange.XEnvelope.RunXChange(OnTrack.ObjectMessageLog,System.Boolean)">
 	<summary>
  run XChange for this Envelope
  </summary>

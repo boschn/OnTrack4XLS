@@ -1,6 +1,7 @@
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\05_Core\05_ObjectCompoundEntries.csv
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\05_Core\06_DomainSettings_TCMS.csv
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\05_Core\15_ObjectMessageTypes.csv
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\05_Core\10_StatusItems.csv
-C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\10_Commons\Sites.csv
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\15_Properties\10_PropertySet.csv
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\15_Properties\20_Property.csv
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\20_Scheduling\10_MileStoneDefinitions.csv
@@ -47,5 +48,7 @@ C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\obj\Debug\
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\obj\Debug\OnTrack4XLS.dll
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\obj\Debug\OnTrack4XLS.xml
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\obj\Debug\OnTrack4XLS.pdb
-C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\05_Core\15_ObjectMessageTypes.csv
-C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\05_Core\05_ObjectCompoundEntries.csv
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\10_Commons\20_Sites.csv
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\05_Core\08_ValidationObjectEntries_TCMS.csv
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\10_Commons\10_ValueLists_TCMS.csv
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\10_Commons\15_ValueEntry_TCMS.csv

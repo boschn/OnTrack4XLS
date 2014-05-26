@@ -48,19 +48,19 @@ OBJECTVALIDATOR;G2;@;"SUCCEEDED";"data object validation succeeded - corrections
 #
 # SCHEDULE LIFECYCLE
 #
-SCHEDULINGLFCL;R1;@;"FAILED";"failed schedule lifecycle check - schedule is not alive";90;True;False;False;False;15794175;2037680;15794175;2037680;
+SCHEDULINGLFCL;R1;@;"FAILED";"failed schedule lifecycle check - schedule is not alive";"";90;True;False;False;False;15794175;2037680;15794175;2037680;
 SCHEDULINGLFCL;Y1;@;"WARNING";"schedule lifecycle check has warnings but will go alive";"";50;False;False;False;False;15794175;2474495;15794175;2474495;
 SCHEDULINGLFCL;G1;@;"SUCCEEDED";"succeeded schedule lifecycle check - schedule is alive";"";10;False;False;False;False;15794175;5737262;15794175;5737262;
 SCHEDULINGLFCL;G2;@;"SUCCEEDED W/INFO";"succeeded schedule lifecycle check with additional information - schedule is alive";"";11;False;False;False;False;15794175;5737262;15794175;5737262;
 #
 # SCHEDULE PROCESS
 #
-SCHEDULINGPROC;R2;@;"OVERDUE";"current date is later than target date";90;True;False;False;False;15794175;2037680;15794175;2037680;
+SCHEDULINGPROC;R2;@;"OVERDUE";"current date is later than target date";"";90;True;False;False;False;15794175;2037680;15794175;2037680;
 SCHEDULINGPROC;Y1;@;"WARNING";"entry validation succeeded with warnings";"";50;False;False;False;False;15794175;2474495;15794175;2474495;
 SCHEDULINGPROC;G1;@;"SUCCEEDED";"succeeded schedule lifecycle check - schedule is alive";"";20;False;False;False;False;15794175;5737262;15794175;5737262;
 #
 # DELIVERABLE TRACKING
 #
-TRACKING;R1;@;"OVERDUE";"current date is later than target date";90;True;False;False;False;15794175;2037680;15794175;2037680;
-TRACKING;R2;@;"FAILED";"schedule is not alive or has error - unable to track";91;True;False;False;False;15794175;2037680;15794175;2037680;
+TRACKING;R1;@;"OVERDUE";"current date is later than target date";"";90;True;False;False;False;15794175;2037680;15794175;2037680;
+TRACKING;R2;@;"FAILED";"schedule is not alive or has error - unable to track";"";91;True;False;False;False;15794175;2037680;15794175;2037680;
 TRACKING;G1;@;"ONTRACK";"schedule is on track";"";20;False;False;False;False;15794175;5737262;15794175;5737262;

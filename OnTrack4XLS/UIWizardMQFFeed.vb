@@ -633,6 +633,96 @@ Public Class UIWizardMQFFeed
 
         Me.UpdateXLSButton.ButtonElement.ToolTipText = "Update the excel workbook with processing results"
         Me.MQFWizard.CommandArea.NextButton.Enabled = False
+
+        '' load the fields
+        Dim foundflag As Boolean
+        Dim aValue As Object
+        aValue = GetXlsParameterByName(name:="hermes_mqf_createdby", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
+        If foundflag AndAlso aValue.ToString <> "" Then
+            Me.XLSCreatedBy.Text = CStr(aValue)
+        Else
+            Me.XLSCreatedBy.Text = CurrentSession.OTdbUser.PersonName
+        End If
+        aValue = GetXlsParameterByName(name:="hermes_mqf_createdby_department", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
+        If foundflag Then
+            Me.XLSCreatedByDepartment.Text = CStr(aValue)
+        Else
+            Me.XLSCreatedByDepartment.Text = ""
+        End If
+        aValue = GetXlsParameterByName(name:="hermes_mqf_createdon", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
+        If foundflag And IsDate(aValue) Then
+            Me.XLSCreatedOn.Value = CDate(aValue)
+        Else
+            Me.XLSCreatedOn.Value = Date.Now
+        End If
+
+        aValue = GetXlsParameterByName(name:="hermes_mqf_requestedby", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
+        If foundflag AndAlso aValue.ToString <> "" Then
+            Me.XLSRequestedBy.Text = CStr(aValue)
+        Else
+            Me.XLSRequestedBy.Text = CurrentSession.OTdbUser.PersonName
+        End If
+        aValue = GetXlsParameterByName(name:="hermes_mqf_requestedby_department", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
+        If foundflag Then
+            Me.XLSRequestedByDepartment.Text = CStr(aValue)
+        Else
+            Me.XLSRequestedByDepartment.Text = ""
+        End If
+        aValue = GetXlsParameterByName(name:="hermes_mqf_requestedon", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
+        If foundflag And IsDate(aValue) Then
+            Me.XLSRequestedOn.Value = CDate(aValue)
+        Else
+            Me.XLSRequestedOn.Value = Date.Now
+        End If
+
+        aValue = GetXlsParameterByName(name:="hermes_mqf_title", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
+        If foundflag AndAlso aValue.ToString <> "" Then
+            Me.XlsTitel.Text = CStr(aValue)
+        Else
+            Me.XlsTitel.Text = "Update"
+        End If
+        aValue = GetXlsParameterByName(name:="hermes_mqf_subject", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
+        If foundflag AndAlso aValue.ToString <> "" Then
+            Me.XLSRequestFor.Text = CStr(aValue)
+        Else
+            Me.XLSRequestFor.Text = ""
+        End If
+        aValue = GetXlsParameterByName(name:="hermes_mqf_plan_revision", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
+        If foundflag AndAlso aValue.ToString <> "" Then
+            Me.XLSPlanRevision.Text = CStr(aValue)
+        Else
+            Me.XLSPlanRevision.Text = ""
+        End If
+
+        'aValue = GetXlsParameterByName(name:="hermes_mqf_approvedBy", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
+        'If foundflag AndAlso aValue.ToString <> "" Then
+        '    Me.XLSRequestedBy.Text = CStr(aValue)
+        'Else
+        Me.XLSApprovedBy.Text = CurrentSession.OTdbUser.PersonName
+        'End If
+        'aValue = GetXlsParameterByName(name:="hermes_mqf_processedBy", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
+        'If foundflag AndAlso aValue.ToString <> "" Then
+        '    Me.XLSRequestedBy.Text = CStr(aValue)
+        'Else
+        Me.XLSProcessedBy.Text = CurrentSession.OTdbUser.PersonName
+        'End If
+        'aValue = GetXlsParameterByName(name:="hermes_mqf_processedOn", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
+        'If foundflag And IsDate(aValue) Then
+        '    Me.XLSRequestedOn.Value = CDate(aValue)
+        'Else
+        If _MQFObject.Processdate.HasValue Then
+            Me.XLSProcessedDate.Value = CDate(_MQFObject.Processdate)
+        Else
+            Me.XLSProcessedDate.Value = Date.Now
+        End If
+        If _MQFObject.ProcessStatusCode IsNot Nothing Then
+            Me.XLSProcessStatus.Text = _MQFObject.ProcessStatusCode
+            Me.XLSProcessStatus.TextAlign = Windows.Forms.HorizontalAlignment.Center
+            Me.XLSProcessStatus.BackColor = System.Drawing.Color.FromArgb(CInt(_MQFObject.ProcessStatus.FormatBGColor))
+            Me.XLSProcessStatus.ForeColor = System.Drawing.Color.FromArgb(CInt(_MQFObject.ProcessStatus.FormatFGColor))
+        End If
+
+        'End If
         Me.Refresh()
 
     End Sub
@@ -656,6 +746,22 @@ Public Class UIWizardMQFFeed
 
         Me.Refresh()
 
+        ' update data
+        With _MQFObject
+            .CreationDate = XLSCreatedOn.Value
+            .CreatingOU = XLSCreatedByDepartment.Text
+            .Creator = XLSCreatedBy.Text
+            .RequestedOn = XLSRequestedOn.Value
+            .RequestedBy = XLSRequestedBy.Text
+            .RequestedByOU = XLSRequestedByDepartment.Text
+            .Title = XlsTitel.Text
+            .Comment = XLSRequestFor.Text
+            .Planrevision = XLSPlanRevision.Text
+            .ApprovedBy = XLSApprovedBy.Text
+            .ApprovalDate = Date.Now
+        End With
+
+        '
         Me._UpdateXLSWorker.WorkerReportsProgress = True
         ' run
         _UpdateXLSWorker.RunWorkerAsync()
@@ -921,4 +1027,5 @@ Public Class UIWizardMQFFeed
 
 #End Region
 
+   
 End Class

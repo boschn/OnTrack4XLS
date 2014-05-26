@@ -2532,8 +2532,24 @@ handleerror:
             Next row
 
             aValue = SetXlsParameterValueByName("hermes_mqf_processedBy", [messagequeue].ProcessedByUsername, workbook:=MQFWorkbook)
-            aValue = SetXlsParameterValueByName("hermes_mqf_processedOn", Format([messagequeue].Processdate, "dd.mm.yyyy"), workbook:=MQFWorkbook)
-            aValue = SetXlsParameterValueByName("hermes_mqf_status", [messagequeue].GetHighestStatusItem.Code, workbook:=MQFWorkbook)
+            aValue = SetXlsParameterValueByName("hermes_mqf_processedOn", Format([messagequeue].Processdate, "dd.MM.yyyy"), workbook:=MQFWorkbook)
+            aValue = SetXlsParameterValueByName("hermes_mqf_status", [messagequeue].ProcessStatusCode, workbook:=MQFWorkbook)
+
+            SetXlsParameterValueByName("hermes_mqf_requestedby", [messagequeue].RequestedBy, workbook:=MQFWorkbook, silent:=True)
+            SetXlsParameterValueByName("hermes_mqf_requested_on", Format([messagequeue].RequestedOn, "dd.MM.yyyy"), workbook:=MQFWorkbook, silent:=True)
+            SetXlsParameterValueByName("hermes_mqf_requestedby_department", [messagequeue].RequestedByOU, workbook:=MQFWorkbook)
+
+            SetXlsParameterValueByName("hermes_mqf_createdby", [messagequeue].Creator, workbook:=MQFWorkbook, silent:=True)
+            SetXlsParameterValueByName("hermes_mqf_createdon", Format([messagequeue].CreationDate, "dd.MM.yyyy"), workbook:=MQFWorkbook, silent:=True)
+            SetXlsParameterValueByName("hermes_mqf_createdby_department", [messagequeue].CreatingOU, workbook:=MQFWorkbook)
+
+            SetXlsParameterValueByName("hermes_mqf_title", [messagequeue].Title, workbook:=MQFWorkbook, silent:=True)
+            SetXlsParameterValueByName("hermes_mqf_subject", [messagequeue].Comment, workbook:=MQFWorkbook, silent:=True)
+            SetXlsParameterValueByName("hermes_mqf_plan_revision", [messagequeue].PlanRevision, workbook:=MQFWorkbook, silent:=True)
+
+            SetXlsParameterValueByName("hermes_mqf_approvedBy", [messagequeue].ApprovedBy, workbook:=MQFWorkbook, silent:=True)
+
+
             ' autofilter
             'dataws.Range(dataws.Cells(headerstartrow + 1, 1), _
             '             dataws.Cells(headerstartrow + 1, MaxCol)).AutoFilter()

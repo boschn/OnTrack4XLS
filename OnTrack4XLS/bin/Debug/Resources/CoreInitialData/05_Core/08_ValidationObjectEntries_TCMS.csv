@@ -1,0 +1,39 @@
+# Customized Entries for ObjectColumnEntries ;;;;;;;;;;;;;;;
+#;;;;;;;;;;;;;;;
+# --- BOMBARDIER TRANSPORTATION FUNCTIONAL DESIGN BASELINE ---;;;;;;;;;;;;;;;
+#;;;;;;;;;;;;;;;
+# Exchange IDs;;;;;;;;;;;;;;;
+#;;;;;;;;;;;;;;;
+#;DM1;OBJECTCOLUMNENTRY;DOMAINID;domain identifier;3;;;;;;;;;;
+#;OBJID;OBJECTCOLUMNENTRY;ID;unique name of the Object;3;;;;;;;;;;
+#;OED1;OBJECTCOLUMNENTRY;ENTRY;entry (data slot) name of an Ontrack Object;3;;;;;;;;;;
+# OED3 TYPE of the Entry = Compound | Column;;;;;;;;;;;;;;;
+#;OED13;OBJECTCOLUMNENTRY;SIZE;not allowed to be longer than Column !;7;;;;;;;;;;
+#;OED22;OBJECTCOLUMNENTRY;TITLE;;3;;;;;;;;;;
+#;OED23;OBJECTCOLUMNENTRY;DESC;;10;;;;;;;;;;
+#;OED16;OBJECTCOLUMNENTRY;DEFAULTVALUE;default value of the object entry on the object level;3;;;;;;;;;;
+#;OED17;OBJECTCOLUMNENTRY;PROPERTIES;properties and property functions for the entry;2;;;;;;;;;;
+#;OED18;OBJECTCOLUMNENTRY;READONLY;set if the object entry is created internally and can not be changed;9;;;;;;;;;;
+#;OED19;OBJECTCOLUMNENTRY;ACTIVE;set if the object entry is activated;9;;;;;;;;;;
+#;OED31;OBJECTCOLUMNENTRY;VALIDATE;set if the object entry will be validated;9;;;;;;;;;;
+#;OED32;OBJECTCOLUMNENTRY;VALUES;list of possible values;2;;;;;;;;;;
+#;OED33;OBJECTCOLUMNENTRY;LPROPERTIES;list of lookup properties;2;;;;;;;;;;
+#;OED34;OBJECTCOLUMNENTRY;LOOKUP;lookup condition of possible values;2;;;;;;;;;;
+#;OED35;OBJECTCOLUMNENTRY;LOWER;lower range value;7;;;;;;;;;;
+#;OED36;OBJECTCOLUMNENTRY;UPPER;upper range value;7;;;;;;;;;;
+#;OED37;OBJECTCOLUMNENTRY;VPROPERTIES;list of validation properties;2;;;;;;;;;;
+#;OED38;OBJECTCOLUMNENTRY;VALIDREGEX;regex match for validation to be true;3;;;;;;;;;;
+#;OED41;OBJECTCOLUMNENTRY;RENDER;set if the object entry will be rendered to a string presentation;9;;;;;;;;;;
+#;OED42;OBJECTCOLUMNENTRY;RPROPERTIES;list of render properties;2;;;;;;;;;;
+#;OED43;OBJECTCOLUMNENTRY;RENDERREGEXMATCH;regex match for render to be true;3;;;;;;;;;;
+#;OED44;OBJECTCOLUMNENTRY;RENDERREGEXREPLACE;regex replace pattern for rendering;3;;;;;;;;;;
+#Entryname;XID;;DOMAINID;TITLE;DESCRIPTION;Typeid;Size;DefaultValue;Properties;Values;Lproperties;Lookup;Validate;Vproperty;VALIDREGEX
+OBJECTColumnENTRY.OED1;OED21;OBJID;DM1;OED22;OED23;OED3;OED13;OED16;OED17;OED32;OED33;OED34;OED31;OED37;OED38
+# EXTEND the Target;;;;;;;;;;;;;;;
+ID;DLV3;DELIVERABLE;@;;;Column;;;;;;;True;|NOTEMPTY|;
+DREV;DLV6;DELIVERABLE;@;;;Column;2;__;;;;;True;|NOTEMPTY|;^[A-z]{2}
+DESC;DLV10;DELIVERABLE;@;;;Column;;;;;;;True;|NOTEMPTY|;
+RESP;DLV16;DELIVERABLE;@;;;Column;;;;;;;True;|NOTEMPTY|;
+FUNCTION;;DELIVERABLE;@;;;Column;;;;;USEVALUELIST(HLFG);;True;|NOTEMPTY|USELOOKUP|;
+PARM_TXT1;DLV90;DELIVERABLE;@;Sharepoint;Sharepoint Version and Release Date Do2010;Column;;;;;;;True;;
+PARM_TXT2;DLV91;DELIVERABLE;@;GDB Version;;Column;;;;;;;True;;

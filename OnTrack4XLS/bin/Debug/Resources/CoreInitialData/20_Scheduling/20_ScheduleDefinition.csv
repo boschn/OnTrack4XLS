@@ -8,5 +8,5 @@
 #SCT1;SCHEDULEDEFINITION;SCHEDULETYPE;Unique ID of the schedule type definition;3
 #SCT2;SCHEDULEDEFINITION;DESC;description of the schedule definition;3
 #SCT3;SCHEDULEDEFINITION;AUTOPUBLISH;publish automatically after each persist of edition;9
-SCT1;DM1;SCT2;SCT3;
+SCT1;DM1;SCT2;SCT3
 PDM;@;"simple pdm approval schedule";True;

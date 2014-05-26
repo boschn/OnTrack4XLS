@@ -241,7 +241,7 @@ Public Class UIMQFDataModel
             Dim aMessageBlock As New StringBuilder
 
             For Each aMessage As ObjectMessage In e.Mqmessage.ObjectMessageLog
-                aMessageBlock.AppendFormat("{0:000000}:", aMessage.Msgid)
+                aMessageBlock.AppendFormat("{0:000000}:", aMessage.MessageTypeID)
                 aMessageBlock.AppendLine(aMessage.Message)
             Next
             Me.Columns.Item(ConstFNMQFMessages).ReadOnly = False
@@ -284,7 +284,7 @@ Public Class UIMQFDataModel
             Dim aMessageBlock As New StringBuilder
 
             For Each aMessage As ObjectMessage In e.Mqmessage.ObjectMessageLog
-                aMessageBlock.AppendFormat("{0:000000}:", aMessage.Msgid)
+                aMessageBlock.AppendFormat("{0:000000}:", aMessage.MessageTypeID)
                 aMessageBlock.AppendLine(aMessage.Message)
             Next
             Me.Columns.Item(ConstFNMQFMessages).ReadOnly = False

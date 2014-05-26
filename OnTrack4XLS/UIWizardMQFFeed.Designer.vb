@@ -33,6 +33,7 @@ Partial Class UIWizardMQFFeed
         Me.MQFWizard = New Telerik.WinControls.UI.RadWizard()
         Me.WizardCompletionPage1 = New Telerik.WinControls.UI.WizardCompletionPage()
         Me.Panel3 = New System.Windows.Forms.Panel()
+        Me.RadTextBox2 = New Telerik.WinControls.UI.RadTextBox()
         Me.SelectPanel = New System.Windows.Forms.Panel()
         Me.PBDocument = New System.Windows.Forms.PictureBox()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
@@ -55,16 +56,44 @@ Partial Class UIWizardMQFFeed
         Me.MQFViewGrid = New Telerik.WinControls.UI.RadGridView()
         Me.ProgressPictureBox = New System.Windows.Forms.PictureBox()
         Me.UpdateXLSPanel = New System.Windows.Forms.Panel()
+        Me.XLSCreatedOn = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.RadLabel3 = New Telerik.WinControls.UI.RadLabel()
+        Me.RadLabel2 = New Telerik.WinControls.UI.RadLabel()
+        Me.XLSCreatedByDepartment = New Telerik.WinControls.UI.RadTextBox()
+        Me.RadLabel1 = New Telerik.WinControls.UI.RadLabel()
+        Me.XLSCreatedBy = New Telerik.WinControls.UI.RadTextBox()
         Me.UpdateXLSCommandPanel = New Telerik.WinControls.UI.RadPanel()
         Me.UpdateXLSButton = New Telerik.WinControls.UI.RadButton()
         Me.WizardWelcomePage1 = New Telerik.WinControls.UI.WizardWelcomePage()
         Me.WizardPage1 = New Telerik.WinControls.UI.WizardPage()
         Me.WizardPage3 = New Telerik.WinControls.UI.WizardPage()
-        Me.RadTextBox2 = New Telerik.WinControls.UI.RadTextBox()
+        Me.RadLabel4 = New Telerik.WinControls.UI.RadLabel()
+        Me.XLSRequestedOn = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.RadLabel5 = New Telerik.WinControls.UI.RadLabel()
+        Me.XLSRequestedByDepartment = New Telerik.WinControls.UI.RadTextBox()
+        Me.RadLabel6 = New Telerik.WinControls.UI.RadLabel()
+        Me.XLSRequestedBy = New Telerik.WinControls.UI.RadTextBox()
+        Me.RadLabel7 = New Telerik.WinControls.UI.RadLabel()
+        Me.XLSPlanRevision = New Telerik.WinControls.UI.RadTextBox()
+        Me.RadLabel8 = New Telerik.WinControls.UI.RadLabel()
+        Me.XlsTitel = New Telerik.WinControls.UI.RadTextBox()
+        Me.XLSRequestFor = New Telerik.WinControls.UI.RadTextBox()
+        Me.RadLabel9 = New Telerik.WinControls.UI.RadLabel()
+        Me.XLSProcessedDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.RadLabel10 = New Telerik.WinControls.UI.RadLabel()
+        Me.XLSProcessStatus = New Telerik.WinControls.UI.RadTextBox()
+        Me.RadLabel11 = New Telerik.WinControls.UI.RadLabel()
+        Me.XLSProcessedBy = New Telerik.WinControls.UI.RadTextBox()
+        Me.RadLabel12 = New Telerik.WinControls.UI.RadLabel()
+        Me.XLSApprovedBy = New Telerik.WinControls.UI.RadTextBox()
+        Me.RadLabel13 = New Telerik.WinControls.UI.RadLabel()
+        Me.RadLabel14 = New Telerik.WinControls.UI.RadLabel()
+        Me.XLSProcessComments = New Telerik.WinControls.UI.RadTextBoxControl()
         Me.workbookListContextMenuStrip.SuspendLayout()
         CType(Me.MQFWizard, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MQFWizard.SuspendLayout()
         Me.Panel3.SuspendLayout()
+        CType(Me.RadTextBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SelectPanel.SuspendLayout()
         CType(Me.PBDocument, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MQFSelectedTextbox, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -84,10 +113,37 @@ Partial Class UIWizardMQFFeed
         Me.MQFViewGrid.SuspendLayout()
         CType(Me.ProgressPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.UpdateXLSPanel.SuspendLayout()
+        CType(Me.XLSCreatedOn, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.XLSCreatedByDepartment, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.XLSCreatedBy, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.UpdateXLSCommandPanel, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.UpdateXLSCommandPanel.SuspendLayout()
         CType(Me.UpdateXLSButton, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadTextBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.XLSRequestedOn, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.XLSRequestedByDepartment, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.XLSRequestedBy, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.XLSPlanRevision, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.XlsTitel, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.XLSRequestFor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.XLSProcessedDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.XLSProcessStatus, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.XLSProcessedBy, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.XLSApprovedBy, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.XLSProcessComments, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -164,6 +220,16 @@ Partial Class UIWizardMQFFeed
         Me.Panel3.Name = "Panel3"
         Me.Panel3.Size = New System.Drawing.Size(579, 356)
         Me.Panel3.TabIndex = 2
+        '
+        'RadTextBox2
+        '
+        Me.RadTextBox2.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
+        Me.RadTextBox2.Location = New System.Drawing.Point(33, 44)
+        Me.RadTextBox2.Name = "RadTextBox2"
+        Me.RadTextBox2.Size = New System.Drawing.Size(523, 28)
+        Me.RadTextBox2.TabIndex = 0
+        Me.RadTextBox2.Text = "Message Queue File was imported into the OnTrack Database"
+        Me.RadTextBox2.ThemeName = "TelerikMetroBlue"
         '
         'SelectPanel
         '
@@ -450,11 +516,94 @@ Partial Class UIWizardMQFFeed
         'UpdateXLSPanel
         '
         Me.UpdateXLSPanel.BackColor = System.Drawing.Color.White
+        Me.UpdateXLSPanel.Controls.Add(Me.XLSProcessComments)
+        Me.UpdateXLSPanel.Controls.Add(Me.RadLabel14)
+        Me.UpdateXLSPanel.Controls.Add(Me.RadLabel13)
+        Me.UpdateXLSPanel.Controls.Add(Me.RadLabel12)
+        Me.UpdateXLSPanel.Controls.Add(Me.XLSProcessedDate)
+        Me.UpdateXLSPanel.Controls.Add(Me.XLSApprovedBy)
+        Me.UpdateXLSPanel.Controls.Add(Me.RadLabel9)
+        Me.UpdateXLSPanel.Controls.Add(Me.RadLabel10)
+        Me.UpdateXLSPanel.Controls.Add(Me.XLSRequestFor)
+        Me.UpdateXLSPanel.Controls.Add(Me.XLSProcessStatus)
+        Me.UpdateXLSPanel.Controls.Add(Me.RadLabel11)
+        Me.UpdateXLSPanel.Controls.Add(Me.RadLabel7)
+        Me.UpdateXLSPanel.Controls.Add(Me.XLSProcessedBy)
+        Me.UpdateXLSPanel.Controls.Add(Me.XLSPlanRevision)
+        Me.UpdateXLSPanel.Controls.Add(Me.RadLabel4)
+        Me.UpdateXLSPanel.Controls.Add(Me.RadLabel8)
+        Me.UpdateXLSPanel.Controls.Add(Me.XLSRequestedOn)
+        Me.UpdateXLSPanel.Controls.Add(Me.XlsTitel)
+        Me.UpdateXLSPanel.Controls.Add(Me.RadLabel3)
+        Me.UpdateXLSPanel.Controls.Add(Me.RadLabel5)
+        Me.UpdateXLSPanel.Controls.Add(Me.XLSCreatedOn)
+        Me.UpdateXLSPanel.Controls.Add(Me.XLSRequestedByDepartment)
+        Me.UpdateXLSPanel.Controls.Add(Me.RadLabel2)
+        Me.UpdateXLSPanel.Controls.Add(Me.RadLabel6)
+        Me.UpdateXLSPanel.Controls.Add(Me.XLSCreatedByDepartment)
+        Me.UpdateXLSPanel.Controls.Add(Me.XLSRequestedBy)
+        Me.UpdateXLSPanel.Controls.Add(Me.RadLabel1)
+        Me.UpdateXLSPanel.Controls.Add(Me.XLSCreatedBy)
         Me.UpdateXLSPanel.Controls.Add(Me.UpdateXLSCommandPanel)
         Me.UpdateXLSPanel.Location = New System.Drawing.Point(0, 94)
         Me.UpdateXLSPanel.Name = "UpdateXLSPanel"
         Me.UpdateXLSPanel.Size = New System.Drawing.Size(709, 331)
         Me.UpdateXLSPanel.TabIndex = 4
+        '
+        'XLSCreatedOn
+        '
+        Me.XLSCreatedOn.Location = New System.Drawing.Point(546, 81)
+        Me.XLSCreatedOn.Name = "XLSCreatedOn"
+        Me.XLSCreatedOn.Size = New System.Drawing.Size(144, 22)
+        Me.XLSCreatedOn.TabIndex = 3
+        Me.XLSCreatedOn.TabStop = False
+        Me.XLSCreatedOn.Text = "Saturday, May 24, 2014"
+        Me.XLSCreatedOn.ThemeName = "TelerikMetroBlue"
+        Me.XLSCreatedOn.Value = New Date(2014, 5, 24, 12, 29, 42, 484)
+        '
+        'RadLabel3
+        '
+        Me.RadLabel3.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.RadLabel3.Location = New System.Drawing.Point(317, 84)
+        Me.RadLabel3.Name = "RadLabel3"
+        Me.RadLabel3.Size = New System.Drawing.Size(72, 19)
+        Me.RadLabel3.TabIndex = 8
+        Me.RadLabel3.Text = "Department"
+        '
+        'RadLabel2
+        '
+        Me.RadLabel2.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.RadLabel2.Location = New System.Drawing.Point(521, 84)
+        Me.RadLabel2.Name = "RadLabel2"
+        Me.RadLabel2.Size = New System.Drawing.Size(23, 19)
+        Me.RadLabel2.TabIndex = 8
+        Me.RadLabel2.Text = "On"
+        '
+        'XLSCreatedByDepartment
+        '
+        Me.XLSCreatedByDepartment.Location = New System.Drawing.Point(398, 81)
+        Me.XLSCreatedByDepartment.Name = "XLSCreatedByDepartment"
+        Me.XLSCreatedByDepartment.Size = New System.Drawing.Size(117, 22)
+        Me.XLSCreatedByDepartment.TabIndex = 2
+        Me.XLSCreatedByDepartment.ThemeName = "TelerikMetroBlue"
+        '
+        'RadLabel1
+        '
+        Me.RadLabel1.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.RadLabel1.Location = New System.Drawing.Point(12, 84)
+        Me.RadLabel1.Name = "RadLabel1"
+        Me.RadLabel1.Size = New System.Drawing.Size(66, 19)
+        Me.RadLabel1.TabIndex = 6
+        Me.RadLabel1.Text = "Created By"
+        '
+        'XLSCreatedBy
+        '
+        Me.XLSCreatedBy.Location = New System.Drawing.Point(98, 81)
+        Me.XLSCreatedBy.Name = "XLSCreatedBy"
+        Me.XLSCreatedBy.Size = New System.Drawing.Size(213, 22)
+        Me.XLSCreatedBy.TabIndex = 1
+        Me.XLSCreatedBy.Text = "RadTextBox3"
+        Me.XLSCreatedBy.ThemeName = "TelerikMetroBlue"
         '
         'UpdateXLSCommandPanel
         '
@@ -510,15 +659,210 @@ Partial Class UIWizardMQFFeed
         Me.WizardPage3.Title = "Update Excel"
         Me.WizardPage3.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
-        'RadTextBox2
+        'RadLabel4
         '
-        Me.RadTextBox2.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
-        Me.RadTextBox2.Location = New System.Drawing.Point(33, 44)
-        Me.RadTextBox2.Name = "RadTextBox2"
-        Me.RadTextBox2.Size = New System.Drawing.Size(523, 28)
-        Me.RadTextBox2.TabIndex = 0
-        Me.RadTextBox2.Text = "Message Queue File was imported into the OnTrack Database"
-        Me.RadTextBox2.ThemeName = "TelerikMetroBlue"
+        Me.RadLabel4.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.RadLabel4.Location = New System.Drawing.Point(317, 111)
+        Me.RadLabel4.Name = "RadLabel4"
+        Me.RadLabel4.Size = New System.Drawing.Size(72, 19)
+        Me.RadLabel4.TabIndex = 14
+        Me.RadLabel4.Text = "Department"
+        '
+        'XLSRequestedOn
+        '
+        Me.XLSRequestedOn.Location = New System.Drawing.Point(546, 108)
+        Me.XLSRequestedOn.Name = "XLSRequestedOn"
+        Me.XLSRequestedOn.Size = New System.Drawing.Size(144, 22)
+        Me.XLSRequestedOn.TabIndex = 6
+        Me.XLSRequestedOn.TabStop = False
+        Me.XLSRequestedOn.Text = "Saturday, May 24, 2014"
+        Me.XLSRequestedOn.ThemeName = "TelerikMetroBlue"
+        Me.XLSRequestedOn.Value = New Date(2014, 5, 24, 12, 29, 42, 484)
+        '
+        'RadLabel5
+        '
+        Me.RadLabel5.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.RadLabel5.Location = New System.Drawing.Point(521, 108)
+        Me.RadLabel5.Name = "RadLabel5"
+        Me.RadLabel5.Size = New System.Drawing.Size(23, 19)
+        Me.RadLabel5.TabIndex = 15
+        Me.RadLabel5.Text = "On"
+        '
+        'XLSRequestedByDepartment
+        '
+        Me.XLSRequestedByDepartment.Location = New System.Drawing.Point(398, 108)
+        Me.XLSRequestedByDepartment.Name = "XLSRequestedByDepartment"
+        Me.XLSRequestedByDepartment.Size = New System.Drawing.Size(117, 22)
+        Me.XLSRequestedByDepartment.TabIndex = 5
+        Me.XLSRequestedByDepartment.ThemeName = "TelerikMetroBlue"
+        '
+        'RadLabel6
+        '
+        Me.RadLabel6.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.RadLabel6.Location = New System.Drawing.Point(12, 111)
+        Me.RadLabel6.Name = "RadLabel6"
+        Me.RadLabel6.Size = New System.Drawing.Size(81, 19)
+        Me.RadLabel6.TabIndex = 12
+        Me.RadLabel6.Text = "Requested By"
+        '
+        'XLSRequestedBy
+        '
+        Me.XLSRequestedBy.Location = New System.Drawing.Point(98, 108)
+        Me.XLSRequestedBy.Name = "XLSRequestedBy"
+        Me.XLSRequestedBy.Size = New System.Drawing.Size(213, 22)
+        Me.XLSRequestedBy.TabIndex = 4
+        Me.XLSRequestedBy.Text = "RadTextBox3"
+        Me.XLSRequestedBy.ThemeName = "TelerikMetroBlue"
+        '
+        'RadLabel7
+        '
+        Me.RadLabel7.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.RadLabel7.Location = New System.Drawing.Point(521, 157)
+        Me.RadLabel7.Name = "RadLabel7"
+        Me.RadLabel7.Size = New System.Drawing.Size(78, 19)
+        Me.RadLabel7.TabIndex = 19
+        Me.RadLabel7.Text = "Plan Revision"
+        '
+        'XLSPlanRevision
+        '
+        Me.XLSPlanRevision.Location = New System.Drawing.Point(599, 153)
+        Me.XLSPlanRevision.Name = "XLSPlanRevision"
+        Me.XLSPlanRevision.Size = New System.Drawing.Size(91, 22)
+        Me.XLSPlanRevision.TabIndex = 8
+        Me.XLSPlanRevision.ThemeName = "TelerikMetroBlue"
+        '
+        'RadLabel8
+        '
+        Me.RadLabel8.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.RadLabel8.Location = New System.Drawing.Point(12, 156)
+        Me.RadLabel8.Name = "RadLabel8"
+        Me.RadLabel8.Size = New System.Drawing.Size(32, 19)
+        Me.RadLabel8.TabIndex = 17
+        Me.RadLabel8.Text = "Titel"
+        '
+        'XlsTitel
+        '
+        Me.XlsTitel.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.XlsTitel.Location = New System.Drawing.Point(98, 153)
+        Me.XlsTitel.Name = "XlsTitel"
+        Me.XlsTitel.Size = New System.Drawing.Size(417, 22)
+        Me.XlsTitel.TabIndex = 7
+        Me.XlsTitel.Text = "RadTextBox3"
+        Me.XlsTitel.ThemeName = "TelerikMetroBlue"
+        '
+        'XLSRequestFor
+        '
+        Me.XLSRequestFor.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.XLSRequestFor.Location = New System.Drawing.Point(98, 181)
+        Me.XLSRequestFor.Name = "XLSRequestFor"
+        Me.XLSRequestFor.Size = New System.Drawing.Size(417, 22)
+        Me.XLSRequestFor.TabIndex = 9
+        Me.XLSRequestFor.Text = "RadTextBox3"
+        Me.XLSRequestFor.ThemeName = "TelerikMetroBlue"
+        '
+        'RadLabel9
+        '
+        Me.RadLabel9.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.RadLabel9.Location = New System.Drawing.Point(12, 184)
+        Me.RadLabel9.Name = "RadLabel9"
+        Me.RadLabel9.Size = New System.Drawing.Size(76, 19)
+        Me.RadLabel9.TabIndex = 18
+        Me.RadLabel9.Text = "Request For"
+        '
+        'XLSProcessedDate
+        '
+        Me.XLSProcessedDate.Location = New System.Drawing.Point(546, 232)
+        Me.XLSProcessedDate.Name = "XLSProcessedDate"
+        Me.XLSProcessedDate.Size = New System.Drawing.Size(144, 22)
+        Me.XLSProcessedDate.TabIndex = 12
+        Me.XLSProcessedDate.TabStop = False
+        Me.XLSProcessedDate.Text = "Saturday, May 24, 2014"
+        Me.XLSProcessedDate.ThemeName = "TelerikMetroBlue"
+        Me.XLSProcessedDate.Value = New Date(2014, 5, 24, 12, 29, 42, 484)
+        '
+        'RadLabel10
+        '
+        Me.RadLabel10.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.RadLabel10.Location = New System.Drawing.Point(521, 235)
+        Me.RadLabel10.Name = "RadLabel10"
+        Me.RadLabel10.Size = New System.Drawing.Size(21, 19)
+        Me.RadLabel10.TabIndex = 14
+        Me.RadLabel10.Text = "on"
+        '
+        'XLSProcessStatus
+        '
+        Me.XLSProcessStatus.Location = New System.Drawing.Point(398, 232)
+        Me.XLSProcessStatus.Name = "XLSProcessStatus"
+        Me.XLSProcessStatus.Size = New System.Drawing.Size(117, 22)
+        Me.XLSProcessStatus.TabIndex = 11
+        Me.XLSProcessStatus.ThemeName = "TelerikMetroBlue"
+        '
+        'RadLabel11
+        '
+        Me.RadLabel11.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.RadLabel11.Location = New System.Drawing.Point(12, 235)
+        Me.RadLabel11.Name = "RadLabel11"
+        Me.RadLabel11.Size = New System.Drawing.Size(78, 19)
+        Me.RadLabel11.TabIndex = 12
+        Me.RadLabel11.Text = "Processed By"
+        '
+        'XLSProcessedBy
+        '
+        Me.XLSProcessedBy.Location = New System.Drawing.Point(98, 232)
+        Me.XLSProcessedBy.Name = "XLSProcessedBy"
+        Me.XLSProcessedBy.Size = New System.Drawing.Size(213, 22)
+        Me.XLSProcessedBy.TabIndex = 10
+        Me.XLSProcessedBy.Text = "RadTextBox3"
+        Me.XLSProcessedBy.ThemeName = "TelerikMetroBlue"
+        '
+        'RadLabel12
+        '
+        Me.RadLabel12.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.RadLabel12.Location = New System.Drawing.Point(12, 263)
+        Me.RadLabel12.Name = "RadLabel12"
+        Me.RadLabel12.Size = New System.Drawing.Size(77, 19)
+        Me.RadLabel12.TabIndex = 14
+        Me.RadLabel12.Text = "Approved By"
+        '
+        'XLSApprovedBy
+        '
+        Me.XLSApprovedBy.Location = New System.Drawing.Point(98, 260)
+        Me.XLSApprovedBy.Name = "XLSApprovedBy"
+        Me.XLSApprovedBy.Size = New System.Drawing.Size(213, 22)
+        Me.XLSApprovedBy.TabIndex = 13
+        Me.XLSApprovedBy.Text = "RadTextBox3"
+        Me.XLSApprovedBy.ThemeName = "TelerikMetroBlue"
+        '
+        'RadLabel13
+        '
+        Me.RadLabel13.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.RadLabel13.Location = New System.Drawing.Point(317, 235)
+        Me.RadLabel13.Name = "RadLabel13"
+        Me.RadLabel13.Size = New System.Drawing.Size(40, 19)
+        Me.RadLabel13.TabIndex = 15
+        Me.RadLabel13.Text = "Status"
+        '
+        'RadLabel14
+        '
+        Me.RadLabel14.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.RadLabel14.Location = New System.Drawing.Point(12, 288)
+        Me.RadLabel14.Name = "RadLabel14"
+        Me.RadLabel14.Size = New System.Drawing.Size(66, 19)
+        Me.RadLabel14.TabIndex = 15
+        Me.RadLabel14.Text = "Comments"
+        '
+        'XLSProcessComments
+        '
+        Me.XLSProcessComments.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.XLSProcessComments.Location = New System.Drawing.Point(98, 288)
+        Me.XLSProcessComments.Multiline = True
+        Me.XLSProcessComments.Name = "XLSProcessComments"
+        Me.XLSProcessComments.Size = New System.Drawing.Size(592, 40)
+        Me.XLSProcessComments.TabIndex = 14
+        Me.XLSProcessComments.Text = "RadTextBoxControl1"
+        Me.XLSProcessComments.ThemeName = "TelerikMetroBlue"
         '
         'UIWizardMQFFeed
         '
@@ -540,6 +884,7 @@ Partial Class UIWizardMQFFeed
         Me.MQFWizard.ResumeLayout(False)
         Me.Panel3.ResumeLayout(False)
         Me.Panel3.PerformLayout()
+        CType(Me.RadTextBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SelectPanel.ResumeLayout(False)
         Me.SelectPanel.PerformLayout()
         CType(Me.PBDocument, System.ComponentModel.ISupportInitialize).EndInit()
@@ -562,10 +907,38 @@ Partial Class UIWizardMQFFeed
         Me.MQFViewGrid.ResumeLayout(False)
         CType(Me.ProgressPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.UpdateXLSPanel.ResumeLayout(False)
+        Me.UpdateXLSPanel.PerformLayout()
+        CType(Me.XLSCreatedOn, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.XLSCreatedByDepartment, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.XLSCreatedBy, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.UpdateXLSCommandPanel, System.ComponentModel.ISupportInitialize).EndInit()
         Me.UpdateXLSCommandPanel.ResumeLayout(False)
         CType(Me.UpdateXLSButton, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadTextBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.XLSRequestedOn, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.XLSRequestedByDepartment, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.XLSRequestedBy, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.XLSPlanRevision, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.XlsTitel, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.XLSRequestFor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.XLSProcessedDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.XLSProcessStatus, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.XLSProcessedBy, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.XLSApprovedBy, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.XLSProcessComments, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -607,6 +980,34 @@ Partial Class UIWizardMQFFeed
     Friend WithEvents UpdateXLSButton As Telerik.WinControls.UI.RadButton
     Friend WithEvents RadThemeManager1 As Telerik.WinControls.RadThemeManager
     Friend WithEvents RadTextBox2 As Telerik.WinControls.UI.RadTextBox
+    Friend WithEvents XLSCreatedBy As Telerik.WinControls.UI.RadTextBox
+    Friend WithEvents RadLabel1 As Telerik.WinControls.UI.RadLabel
+    Friend WithEvents XLSCreatedOn As Telerik.WinControls.UI.RadDateTimePicker
+    Friend WithEvents RadLabel3 As Telerik.WinControls.UI.RadLabel
+    Friend WithEvents RadLabel2 As Telerik.WinControls.UI.RadLabel
+    Friend WithEvents XLSCreatedByDepartment As Telerik.WinControls.UI.RadTextBox
+    Friend WithEvents XLSProcessComments As Telerik.WinControls.UI.RadTextBoxControl
+    Friend WithEvents RadLabel14 As Telerik.WinControls.UI.RadLabel
+    Friend WithEvents RadLabel13 As Telerik.WinControls.UI.RadLabel
+    Friend WithEvents RadLabel12 As Telerik.WinControls.UI.RadLabel
+    Friend WithEvents XLSProcessedDate As Telerik.WinControls.UI.RadDateTimePicker
+    Friend WithEvents XLSApprovedBy As Telerik.WinControls.UI.RadTextBox
+    Friend WithEvents RadLabel9 As Telerik.WinControls.UI.RadLabel
+    Friend WithEvents RadLabel10 As Telerik.WinControls.UI.RadLabel
+    Friend WithEvents XLSRequestFor As Telerik.WinControls.UI.RadTextBox
+    Friend WithEvents XLSProcessStatus As Telerik.WinControls.UI.RadTextBox
+    Friend WithEvents RadLabel11 As Telerik.WinControls.UI.RadLabel
+    Friend WithEvents RadLabel7 As Telerik.WinControls.UI.RadLabel
+    Friend WithEvents XLSProcessedBy As Telerik.WinControls.UI.RadTextBox
+    Friend WithEvents XLSPlanRevision As Telerik.WinControls.UI.RadTextBox
+    Friend WithEvents RadLabel4 As Telerik.WinControls.UI.RadLabel
+    Friend WithEvents RadLabel8 As Telerik.WinControls.UI.RadLabel
+    Friend WithEvents XLSRequestedOn As Telerik.WinControls.UI.RadDateTimePicker
+    Friend WithEvents XlsTitel As Telerik.WinControls.UI.RadTextBox
+    Friend WithEvents RadLabel5 As Telerik.WinControls.UI.RadLabel
+    Friend WithEvents XLSRequestedByDepartment As Telerik.WinControls.UI.RadTextBox
+    Friend WithEvents RadLabel6 As Telerik.WinControls.UI.RadLabel
+    Friend WithEvents XLSRequestedBy As Telerik.WinControls.UI.RadTextBox
 
 End Class
 
