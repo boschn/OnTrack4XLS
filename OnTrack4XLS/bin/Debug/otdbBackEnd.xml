@@ -304,6 +304,16 @@ otdbBackEnd
   further dynamic 
  </summary>
 	<remarks></remarks>
+</member><member name="F:OnTrack.ObjectProperties.ObjectProperty.ConstFNFinalObjectID">
+	<summary>
+ Disabled
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectProperty.#ctor">
+	<summary>
+ constructor
+ </summary>
+	<remarks></remarks>
 </member><member name="P:OnTrack.ObjectProperties.ObjectProperty.ID">
 	<summary>
  Gets the entity ID.
@@ -1724,13 +1734,6 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Xchange.MQMessage.VerifyAction(System.String)">
-	<summary>
- verify action
- </summary>
-	<param name="ActionCommand"></param>
-	<returns></returns>
-	<remarks></remarks>
 </member><member name="M:OnTrack.Xchange.MQMessage.IsActionProcessable(System.String,OnTrack.ObjectMessageLog@)">
 	<summary>
  Is Action Processable
@@ -1810,6 +1813,16 @@ otdbBackEnd
  Mapping
  </summary>
 	<remarks></remarks>
+</member><member name="P:OnTrack.Xchange.MQXSlot.IsEmpty">
+	<summary>
+ Gets or sets the isempty.
+ </summary>
+	<value>The isempty.</value>
+</member><member name="P:OnTrack.Xchange.MQXSlot.IsNull">
+	<summary>
+ Gets or sets the isnull.
+ </summary>
+	<value>The isnull.</value>
 </member><member name="P:OnTrack.Xchange.MQXSlot.ContextIdentifier">
 	<summary>
  sets or gets the context identifier
@@ -2393,6 +2406,11 @@ otdbBackEnd
  Mappings
  </summary>
 	<remarks></remarks>
+</member><member name="F:OnTrack.XChange.XChangeConfiguration.ConstROutline">
+	<summary>
+ Relation to Outline
+ </summary>
+	<remarks></remarks>
 </member><member name="F:OnTrack.XChange.XChangeConfiguration._msglog">
 	<summary>
   dynamic entries
@@ -2403,6 +2421,13 @@ otdbBackEnd
  Gets or sets the S outlineid.
  </summary>
 	<value>The S outlineid.</value>
+</member><member name="P:OnTrack.XChange.XChangeConfiguration.Outline">
+	<summary>
+ returns the outline object for this xchangeconfiguration
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="P:OnTrack.XChange.XChangeConfiguration.AllowDynamicEntries">
 	<summary>
  Gets or sets the dynamic attributes.
@@ -2587,7 +2612,13 @@ otdbBackEnd
 	<remarks></remarks>
 </member><member name="P:OnTrack.XChange.XChangeConfiguration.ObjectsByOrderNo">
 	<summary>
- retrieves the ordinal numbers of the objects
+ returns a list of xchangeobjects in ordinal order
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.XChange.XChangeConfiguration.ObjectnamesByOrderNo">
+	<summary>
+ returns a list of xchange object names in ordinal order
  </summary>
 	<returns></returns>
 	<remarks></remarks>
@@ -2678,7 +2709,7 @@ otdbBackEnd
  CLASS XConfig defines how data can be exchanged with the XChange Manager
  </summary>
 	<remarks></remarks>
-</member><member name="F:OnTrack.XChange.XOutline.constFNID">
+</member><member name="F:OnTrack.XChange.XOutline.ConstFNID">
 	<summary>
  Keys
  </summary>
@@ -2687,6 +2718,43 @@ otdbBackEnd
 	<summary>
   Fields
  </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.XChange.XOutline._id">
+	<summary>
+ Column Mappings
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.XChange.XOutline.ConstRItems">
+	<summary>
+ Relations
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.XChange.XOutline._dynamicCollection">
+	<summary>
+ runtime Elements
+ </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.XChange.XOutline.OrderByClause">
+	<summary>
+ Gets or sets the oder by clause.
+ </summary>
+	<value>The oder by clause.</value>
+</member><member name="P:OnTrack.XChange.XOutline.DynamicBehaviour">
+	<summary>
+ Gets or sets the dynami behaviour.
+ </summary>
+	<value>The dynamic behaviour.</value>
+</member><member name="P:OnTrack.XChange.XOutline.Objects">
+	<summary>
+ Gets or sets the objects.
+ </summary>
+	<value>The objects.</value>
+</member><member name="P:OnTrack.XChange.XOutline.Items">
+	<summary>
+ Returns the Collection of OutlineItems in this
+ </summary>
+	<value></value>
+	<returns></returns>
 	<remarks></remarks>
 </member><member name="P:OnTrack.XChange.XOutline.Description">
 	<summary>
@@ -2698,7 +2766,7 @@ otdbBackEnd
  Gets or sets the dynamic add revisions.
  </summary>
 	<value>The dynamic add revisions.</value>
-</member><member name="P:OnTrack.XChange.XOutline.id">
+</member><member name="P:OnTrack.XChange.XOutline.ID">
 	<summary>
  gets the ID of the Outline
  </summary>
@@ -2712,55 +2780,41 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.XChange.XOutline.GetMaxordinal">
-	<summary>
- returns the maximal ordinal of the outline items
- </summary>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.XChange.XOutline.ordinals">
+</member><member name="M:OnTrack.XChange.XOutline.Ordinals">
 	<summary>
  ordinals of the components
  </summary>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.XChange.XOutline.Items">
-	<summary>
- retrieves a collection of Outline Items
- </summary>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.XChange.XOutline.CreateSchema">
-	<summary>
- Create persistable schema for this dataobject
- </summary>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.XChange.XOutline.Inject(System.String)">
-	<summary>
- loads the X Outline from the datastore
- </summary>
-	<param name="id"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.XChange.XOutline.LoadItems(System.String)">
-	<summary>
- load all the related outline items
- </summary>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.XChange.XOutline.Persist(System.DateTime)">
-	<summary>
- persist the Outline and the components
- </summary>
-	<param name="timestamp"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.XChange.XOutline.Create(System.String)">
+</member><member name="M:OnTrack.XChange.XOutline.Retrieve(System.String,System.String)">
 	<summary>
  create an persistable outline
  </summary>
 	<param name="id"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.XChange.XOutline.Create(System.String,System.String)">
+	<summary>
+ create an persistable outline
+ </summary>
+	<param name="id"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.XChange.XOutline.RunDynamic(System.String)">
+	<summary>
+ add the items dynamically
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.XChange.XOutline.RunDynamicRevision">
+	<summary>
+ processes the dynamic collection with revisions
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.XChange.XOutline.GetEnumerator">
+	<summary>
+ returns an enumerator
+ </summary>
 	<returns></returns>
 	<remarks></remarks>
 </member><member name="T:OnTrack.XChange.XOutline">
@@ -2768,22 +2822,22 @@ otdbBackEnd
  describes a XChange Outline data structure
  </summary>
 	<remarks></remarks>
-</member><member name="P:OnTrack.XChange.XOutlineItem.OTLineKey.Type">
+</member><member name="P:OnTrack.XChange.XOutlineItem.OutlineKey.Type">
 	<summary>
  Gets the type.
  </summary>
 	<value>The type.</value>
-</member><member name="P:OnTrack.XChange.XOutlineItem.OTLineKey.ID">
+</member><member name="P:OnTrack.XChange.XOutlineItem.OutlineKey.ID">
 	<summary>
  Gets the ID.
  </summary>
 	<value>The ID.</value>
-</member><member name="P:OnTrack.XChange.XOutlineItem.OTLineKey.Value">
+</member><member name="P:OnTrack.XChange.XOutlineItem.OutlineKey.Value">
 	<summary>
  Gets the value.
  </summary>
 	<value>The value.</value>
-</member><member name="T:OnTrack.XChange.XOutlineItem.OTLineKey">
+</member><member name="T:OnTrack.XChange.XOutlineItem.OutlineKey">
 	<summary>
  OutlineKey Class as subclass of outline item to make it flexible
  </summary>
@@ -2825,7 +2879,7 @@ otdbBackEnd
 	<param name="id"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.XChange.XOutlineItem.Inject(System.String,System.String)">
+</member><member name="M:OnTrack.XChange.XOutlineItem.Retrieve(System.String,System.String)">
 	<summary>
  retrieves the data object from the data store
  </summary>
@@ -2833,21 +2887,7 @@ otdbBackEnd
 	<param name="ordinal"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.XChange.XOutlineItem.CreateSchema(System.Boolean)">
-	<summary>
- create schema for persistency
- </summary>
-	<param name="silent"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.XChange.XOutlineItem.Persist(System.DateTime)">
-	<summary>
- Persist the data object to the datastore
- </summary>
-	<param name="timestamp"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.XChange.XOutlineItem.Create(System.String,System.String,System.Int64,System.UInt16)">
+</member><member name="M:OnTrack.XChange.XOutlineItem.Create(System.String,System.String,System.Nullable{System.Int64},System.Nullable{System.UInt16},System.Boolean)">
 	<summary>
  create a new outline item in the persistable data store
  </summary>
@@ -9523,7 +9563,7 @@ otdbBackEnd
  Gets or sets the description.
  </summary>
 	<value>The description.</value>
-</member><member name="P:OnTrack.Database.AbstractEntryDefinition.isNullable">
+</member><member name="P:OnTrack.Database.AbstractEntryDefinition.IsNullable">
 	<summary>
  gets or sets the nullable
  </summary>
@@ -9670,23 +9710,30 @@ otdbBackEnd
  </summary>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.AbstractEntryDefinition.SetByAttribute(OnTrack.Database.ormObjectEntryAttribute)">
+</member><member name="M:OnTrack.Database.AbstractEntryDefinition.AbstractEntryDefinition_SetByAttribute(OnTrack.Database.ormObjectEntryAttribute)">
 	<summary>
  set the properties of an ObjectEntryDefinition by a SchemaColumnAttribute
  </summary>
 	<param name="attribute"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.AbstractEntryDefinition.OnCreated(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+</member><member name="M:OnTrack.Database.AbstractEntryDefinition.AbstractEntryDefinition_OnCreated(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
 	<summary>
  handler for OnCreated
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.AbstractEntryDefinition.OnCreating(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+</member><member name="M:OnTrack.Database.AbstractEntryDefinition.AbstractEntryDefinition_OnCreating(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
 	<summary>
  handler for onCreating 
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.AbstractEntryDefinition.AbstractEntryDefinition_OnEntryChanged(System.Object,OnTrack.Database.ormDataObjectEntryEventArgs)">
+	<summary>
+ handler for entry changed event
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
@@ -9989,7 +10036,7 @@ otdbBackEnd
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.ObjectColumnEntry.SetByAttribute(OnTrack.Database.ormObjectEntryAttribute)">
+</member><member name="M:OnTrack.Database.ObjectColumnEntry.AbstractEntryDefinition_SetByAttribute(OnTrack.Database.ormObjectEntryAttribute)">
 	<summary>
  set the properties of a Column Entry by a ormObjectEntryAttribute
  </summary>
@@ -13676,6 +13723,11 @@ otdbBackEnd
  Columns
  </summary>
 	<remarks></remarks>
+</member><member name="P:OnTrack.Commons.ValueEntry.Description">
+	<summary>
+ Gets or sets the description.
+ </summary>
+	<value>The description.</value>
 </member><member name="P:OnTrack.Commons.ValueEntry.List">
 	<summary>
  Gets the value list
@@ -16356,7 +16408,7 @@ otdbBackEnd
 	<remarks></remarks>
 </member><member name="M:OnTrack.Database.DataObjectRelationMgr.GetObjectsFromContainer(System.String,System.String,System.Boolean,System.Object)">
 	<summary>
- selects dataobject from a relation mapped entry  optional if an entryname exists and and optional the value equals
+ selects dataobject from a relation mapped entry : optional if an entryname exist: select the data objects having the entryname containing the value
  </summary>
 	<returns></returns>
 	<remarks></remarks>

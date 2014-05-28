@@ -24,6 +24,7 @@ Imports OnTrack.Commons
 '*********                            OnTrack Database
 '*********
 
+
 Public Class XLSDataAreaStore
 
     Private _Store As Dictionary(Of String, List(Of XLSDataArea))
@@ -951,7 +952,7 @@ Public Class ExcelXBag
                         End If
 
                     Case Else
-                        args.Hostvalue = "-"
+                        args.Hostvalue = constMQFClearFieldChar
                         args.ConvertSucceeded = True
                         Return
 
@@ -984,7 +985,7 @@ Public Class ExcelXBag
                             End If
 
                         Case Else
-                            args.Hostvalue = "-"
+                            args.Hostvalue = constMQFClearFieldChar
                             args.ConvertSucceeded = True
                             Return
 
@@ -1011,7 +1012,7 @@ Public Class ExcelXBag
 
             '** special values
             '*** Reset to '-'
-            If CStr(args.Hostvalue) = "-" OrElse args.IsNull Then
+            If CStr(args.Hostvalue) = constMQFClearFieldChar OrElse args.IsNull Then
                 args.DbValueisNull = True
                 ' HACK ! Here we should define which IDs/Slot react with which value
                 Select Case args.Datatype
@@ -1340,7 +1341,7 @@ Module XLSXChangeMgr
                 aMapping = New Dictionary(Of Object, Object)
                 ' reset the map
                 aXEnvelope = aXBag.AddEnvelope(key:=progress)
-                For Each key As XOutlineItem.OTLineKey In item.keys
+                For Each key As XOutlineItem.OutlineKey In item.keys
                     anAttribute = dataarea.XConfig.GetEntryByXID(XID:=key.ID)
                     If Not anAttribute Is Nothing Then
                         If aMapping.ContainsKey(anAttribute.Ordinal.Value) Then
@@ -1377,7 +1378,7 @@ Module XLSXChangeMgr
 
                                         '* change dependent on type
                                         If aNewValue Is Nothing Then
-                                            aRow.Cells(1, column).value = "-"
+                                            aRow.Cells(1, column).value = constMQFClearFieldChar
                                         ElseIf (anAttribute.ObjectEntryDefinition.Datatype = otDataType.Date Or _
                                         anAttribute.ObjectEntryDefinition.Datatype = otDataType.Timestamp) And _
                                         IsDate(aNewValue) Then
@@ -1733,7 +1734,7 @@ Module XLSXChangeMgr
                 End If
 
                 '** add the ordinals to the envelope
-                For Each key As XOutlineItem.OTLineKey In item.keys
+                For Each key As XOutlineItem.OutlineKey In item.keys
                     aXEnvelope.AddSlotByXID(xid:=key.ID, value:=key.Value, isHostValue:=True)
                 Next
 

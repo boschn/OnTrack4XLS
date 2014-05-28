@@ -24,6 +24,21 @@
 #
 SI1;SI2;DM1;SI3;SI4;SI5;SI6;SI14;SI11;SI12;SI13;SI21;SI22;SI23;SI24
 #
+# MQF
+#
+MQF;R1;@;"FAILED";"The message queue file failed processing";"";90;True;False;False;False;15794175;2037680;15794175;2037680;
+MQF;Y1;@;"WARNING";"The message queue file issued warnings";"";50;False;False;False;False;15794175;2474495;15794175;2474495;
+MQF;G1;@;"SUCCEEDED";"The message queue file succeeded processing";"";10;False;False;False;False;15794175;5737262;15794175;5737262;
+MQF;G2;@;"SUCCEEDED";"The message queue file succeeded processing with additional information";"";20;False;False;False;False;15794175;5737262;15794175;5737262;
+#
+# MQMessage
+#
+MQMESSAGE;R1;@;"FAILED";"The mq message failed processing";"";90;True;False;False;False;15794175;2037680;15794175;2037680;
+MQMESSAGE;Y1;@;"WARNING";"The mq message issued warnings";"";50;False;False;False;False;15794175;2474495;15794175;2474495;
+MQMESSAGE;G1;@;"SUCCEEDED";"The mq message succeeded processing";"";10;False;False;False;False;15794175;5737262;15794175;5737262;
+MQMESSAGE;G2;@;"SUCCEEDED";"The mq message succeeded processing with additional information";"";20;False;False;False;False;15794175;5737262;15794175;5737262;
+MQMESSAGE;S1;@;"SKIPPED";"The mq message was skipped";"";99;True;False;False;False;15794175;13421772;15794175;13421772;
+#
 # XCHANGE ENVELOPE
 #
 XCHANGEENVELOPE;R1;@;"FAILED";"The xchange enveloped failed prechecking";"";90;True;False;False;False;15794175;2037680;15794175;2037680;
@@ -44,7 +59,6 @@ OBJECTVALIDATOR;R1;@;"FAILED";"data object validation failed";"";90;TRrue;False;
 OBJECTVALIDATOR;Y1;@;"WARNING";"data object validation succeeded with warnings";"";50;False;False;False;False;15794175;2474495;15794175;2474495;
 OBJECTVALIDATOR;G1;@;"SUCCEEDED";"data object validation succeeded";"";10;False;False;False;False;15794175;5737262;15794175;5737262;
 OBJECTVALIDATOR;G2;@;"SUCCEEDED";"data object validation succeeded - corrections were made";"";20;False;False;False;False;15794175;5737262;15794175;5737262;
-
 #
 # SCHEDULE LIFECYCLE
 #

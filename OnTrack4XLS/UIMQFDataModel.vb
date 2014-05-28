@@ -201,7 +201,12 @@ Public Class UIMQFDataModel
                     Case Else
                         ''' check if the slot exists and add it
                         If IsNumeric(aColumn.ColumnName) AndAlso aMessage.Slots.ContainsKey(aColumn.ColumnName) Then
-                            aRow.Item(aColumn.ColumnName) = aMessage.Slots.Item(aColumn.ColumnName).Value.ToString
+                            If aMessage.Slots.Item(aColumn.ColumnName).Value IsNot Nothing Then
+                                aRow.Item(aColumn.ColumnName) = aMessage.Slots.Item(aColumn.ColumnName).Value.ToString
+                            Else
+                                aRow.Item(aColumn.ColumnName) = ""
+                            End If
+
                         End If
                 End Select
             Next

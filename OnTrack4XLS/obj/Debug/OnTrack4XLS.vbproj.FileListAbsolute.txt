@@ -52,3 +52,4 @@ C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\05_Core\08_ValidationObjectEntries_TCMS.csv
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\10_Commons\10_ValueLists_TCMS.csv
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\10_Commons\15_ValueEntry_TCMS.csv
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\60_XChange\10_Xoutline.csv

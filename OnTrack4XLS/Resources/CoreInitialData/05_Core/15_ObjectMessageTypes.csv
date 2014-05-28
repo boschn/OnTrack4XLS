@@ -19,6 +19,21 @@
 #;;;;;;;;;
 OMD1;DM1;OMD2;OMD5;OMD6;OMD3;OMD4;OMD7;OMD20;OMD10
 #;;;;;;;;;
+# Message of Message Queue Messages processing
+#;;;;;;;;;
+501;@;MQF;cell value '%2%' of column %1% in %Tupleidentifier% has excel error;Check the cell value formular and correct it;90;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
+510;@;MQF;message operation '%1%' in %Tupleidentifier% is unknown;Please correct;99;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
+511;@;MQF;message operation '%1%' in %Tupleidentifier% is not yet implemented;Please correct;99;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
+512;@;MQF;message operation '%2%' in xchange configuration '%1%' is invalid - operation '%2%' aborted;;90;Error;false;|R1|S1|;|XCHANGEENVELOPE|MQMESSAGE|
+513;@;MQF;message operation is missing - message not processed;;99;Error;false;|R1|S1|;|XCHANGEENVELOPE|MQMESSAGE|
+570;@;MQF;message in row %Tupleidentifier% has no changed values - skip processing;;99;Error;false;|Y1|S1|;|XCHANGEENVELOPE|MQMESSAGE|
+571;@;MQF;message in row %Tupleidentifier% was already completely processed on %1% - skip processing;;70;Error;false;|Y1|S1|;|XCHANGEENVELOPE|MQMESSAGE|
+572;@;MQF;message in row %Tupleidentifier% was already processed on %1% with errors ;;01;Error;false;|Y1|G2|;|XCHANGEENVELOPE|MQMESSAGE|
+573;@;MQF;message in row %Tupleidentifier% has operation NOOP which means 'DO NOTHING' - skip processing;;99;Error;false;|S1|;|MQMESSAGE|
+575;@;MQF;message in row %Tupleidentifier% has skip status - skipping prechecking again;;99;Error;false;|S1|;|MQMESSAGE|
+576;@;MQF;message in row %Tupleidentifier% has skip status - skipping processing again;;99;Error;false;|S1|;|MQMESSAGE|
+580;@;MQF;message in row %Tupleidentifier% with operation %1% is not possible for object type %2% - operation failed;;95;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
+#;;;;;;;;;
 # Message of XChange for an Envelope ;;;;;;;;;
 #;;;;;;;;;
 1001;@;XCHANGE;primary key of object '%2%' is Nothing in xchange configuration '%1%';Check the XConfiguration why XchangeID is not included;90;Error;false;|R1|;|XCHANGEENVELOPE|
@@ -30,8 +45,8 @@ OMD1;DM1;OMD2;OMD5;OMD6;OMD3;OMD4;OMD7;OMD20;OMD10
 1007;@;XCHANGE;object of type '%2%' with primary key '%3%' from xchange configuration '%1%'  doesnot exists in the database - operation '%4%' aborted;;90;Error;false;|G2|;|XCHANGEENVELOPE|
 1008;@;XCHANGE;object of type '%2%' with primary key '%3%' from xchange configuration '%1%'  doesnot exists in the database - operation '%4%' obsolete;;50;Error;false;|Y1|;|XCHANGEENVELOPE|
 1009;@;XCHANGE;object of type '%2%' has no primary key in object repository from xchange configuration '%1%'  - operation '%3%' aborted;;90;Error;false;|R1|;|XCHANGEENVELOPE|
-1010;@;XCHANGE;mqf operation '%2%' in xchange configuration '%1%' is invalid - operation '%2%' aborted;;90;Error;false;|R1|;|XCHANGEENVELOPE|
-1011;@;XCHANGE;mqf operation is missing - message not processed;;80;Error;false;|R1|;|XCHANGEENVELOPE|
+1010;@;XCHANGE;xchange command '%2%' in xchange configuration '%1%' is invalid - operation '%2%' aborted;;90;Error;false;|R1|;|XCHANGEENVELOPE|
+1011;@;XCHANGE;xchange command is missing - message not processed;;80;Error;false;|R1|;|XCHANGEENVELOPE|
 #;;;;;;;;;
 # Success Messages in an Envelope;;;;;;;;;
 #;;;;;;;;;

@@ -29,6 +29,7 @@ Imports OnTrack.Commons
 ''' <remarks></remarks>
 Module modXLSMessageQueueFile
 
+    Public Const ConstXLSNullValue As String = "-"
 
     ' const
     Public Const constMQFClearFieldChar As String = "-"
@@ -1476,7 +1477,7 @@ handleerror:
         Dim setro_flag As Boolean
         Dim newStatus As New clsMQFStatus
 
-
+        Dim aprocessdate As DateTime
         Dim aXCMD As otXChangeCommandType
         Dim aColumnNo As Long
         Dim theUIDCol As Long
@@ -1752,6 +1753,10 @@ handleerror:
                 changeflag = False
 
                 Dim aMQMessage As MQMessage = [messagequeue].CreateMessage(no:=rowno)
+                ' set the msglog identifiers
+                aMQMessage.ContextIdentifier = [messagequeue].ID
+                aMQMessage.TupleIdentifier = mqfDBRange.Rows(rowno).address
+
                 '** progress
                 If workerthread IsNot Nothing Then
                     progress += 1
@@ -1765,10 +1770,15 @@ handleerror:
                 '*****
                 If messagequeue.ActionOrdinal IsNot Nothing Then
                     aVAlue = aMQFXLSValueRange(rowno, [messagequeue].ActionOrdinal)
-                    If aMQMessage.VerifyAction(LCase(Trim(aVAlue))) Then
-                        aMQMessage.Action = LCase(Trim(aVAlue))
-                        aMQMessage.Processable = aMQMessage.IsActionProcessable
+                    If aVAlue IsNot Nothing Then
+                        aMQMessage.Action = aVAlue.ToString.Trim.ToUpper
+                        aMQMessage.IsActionProcessable()
+                    Else
+                        '513;@;MQF;message operation is missing - message not processed;;99;Error;false;|R1|S1|;|XCHANGEENVELOPE|MQMESSAGE|
+                        aMQMessage.ObjectMessageLog.Add(513, Nothing, Nothing, Nothing, Nothing)
                     End If
+
+
                 End If
 
 
@@ -1777,52 +1787,39 @@ handleerror:
                 If messagequeue.ProcessDateordinal IsNot Nothing Then
                     aVAlue = aMQFXLSValueRange(rowno, [messagequeue].ProcessDateordinal)
                     If IsDate(aVAlue) Then
-                        'theMessages(n).log = addLog(theMessages(n).log, _
-                        '                            "INFO:In row#" & rowno & " UID #" & theMessages(n).UID & ": message already processed on " & format(aValue, "dd.mm.yyyy") & "")
-                        'theMessages(n).processable = theMessages(n).processable And True
+                        aprocessdate = CDate(aVAlue)
+                    Else
+                        aprocessdate = constNullDate
                     End If
+                Else
+                    aprocessdate = constNullDate
                 End If
 
                 '** already processed -> Status
                 '**
                 If messagequeue.ProcessStatusordinal IsNot Nothing Then
                     aVAlue = aMQFXLSValueRange(rowno, [messagequeue].ProcessStatusordinal)
-                    'Set newStatus = New clsMQFStatus
-                    'newStatus.code = aValue
-                    '**
-                    'If newStatus.Verify(aValue) Then
-                    '** if processed
-                    '   If newStatus.isProcessed Then
-                    'theMessages(n).log = addLog(theMessages(n).log, _
-                    '                            "INFO:In row#" & rowno & " uid #" & theMessages(n).UID & " : message already succesfully processed - skipped.")
-                    'theMessages(n).processable = False
-                    '   Else
-                    ' reprocess
-                    'theMessages(n).log = addLog(theMessages(n).log, _
-                    '                            "INFO:In row#" & rowno & " uid #" & theMessages(n).UID & " : message not succesfully processed - retry it in next process.")
-                    'theMessages(n).processable = theMessages(n).processable And True
-                    '   End If
-                    ' take the new status if we have no other
-                    'If theMessages(n).status Is Nothing And newStatus.isProcessed Then
-                    'Set theMessages(n).status = newStatus
-                    'End If
-
-                    'Else
-                    ' set it to a status
-                    'If theMessages(n).status Is Nothing Then
-                    '    Set theMessages(n).status = New clsMQFStatus
-                    'End If
-                    'End If
+                    If aVAlue IsNot Nothing Then
+                        Dim aStatusItem As Commons.StatusItem = Commons.StatusItem.Retrieve(typeid:=ConstStatusType_MQMessage, code:=aVAlue.ToString)
+                        If aStatusItem IsNot Nothing Then
+                            If Not aStatusItem.Aborting Then
+                                '571;@;MQF;message in row %Tupleidentifier% was already completely processed on %1% - skip processing;;70;Error;false;|Y1|S1|;|XCHANGEENVELOPE|MQMESSAGE|
+                                aMQMessage.ObjectMessageLog.Add(571, Nothing, Nothing, Nothing, Nothing, aprocessdate.ToLocalTime)
+                            Else
+                                '572;@;MQF;message in row %Tupleidentifier% was already processed on %1% with errors ;;01;Error;false;|Y1|G2|;|XCHANGEENVELOPE|MQMESSAGE|
+                                aMQMessage.ObjectMessageLog.Add(572, Nothing, Nothing, Nothing, Nothing, aprocessdate.ToLocalTime)
+                            End If
+                        End If
+                    End If
                 End If
 
-                ' set the msglog identifiers
-                aMQMessage.ContextIdentifier = [messagequeue].ID
-                aMQMessage.TupleIdentifier = mqfDBRange.Rows(rowno).address
+                
 
                 '** phase1 in row : run through all fields of the row to get a full message
                 '**
                 aColumnNo = 0
                 For Each aXChangeEntry As IXChangeConfigEntry In listOfXEntries
+                    Dim fillSlot As Boolean = True
 
                     ' get the mapping to the Column
                     If IsNumeric(aXChangeEntry.Ordinal.Value) Then
@@ -1833,54 +1830,58 @@ handleerror:
 
                     ' get aValue
                     aVAlue = aMQFXLSValueRange(rowno, aColumnNo)
+                    '*** transform
                     If IsEmpty(aVAlue) Then
                         aVAlue = Nothing
+                        fillSlot = True
                     ElseIf IsDate(aVAlue) Then
                         aVAlue = CDate(aVAlue)
+                        fillSlot = True
                     ElseIf IsNumeric(aVAlue) Then
                         aVAlue = CDbl(aVAlue)
+                        fillSlot = True
                     ElseIf IsError(aVAlue) Then
-                        aVAlue = Nothing    '-> if otRead will be overwritten anyway on otUpdate nothing will happen
-                        'theMessages(n).log = addLog(theMessages(n).log, _
-                        '                            "ERROR: '" & aValue & "' is computed cell with error in row#" & rowno)
-                        'Set theMessages(n).status = New clsMQFStatus
-                        'theMessages(n).status.code = constStatusCode_error
-                        'theMessages(n).processable = theMessages(n).status.isProcessed
+                        '501;@;MQF;cell value '%2%' of column %1% in %Tupleidentifier% has excel error
+                        aMQMessage.ObjectMessageLog.Add(501, Nothing, Nothing, Nothing, Nothing, aColumnNo, aVAlue)
+                        fillSlot = False
                     End If
 
                     '**
                     '** store the aValues it
                     ' theMessages(n).fieldvalues(i) = aValue
-                    If Not aVAlue Is Nothing Then
+                    If fillSlot Then
                         ' create a new Member in the Message
                         Dim aMQSlot As MQXSlot = aMQMessage.CreateSlot(aColumnNo)
                         With aMQSlot
+                            If aVAlue Is Nothing Then
+                                .IsNull = False
+                                .IsEmpty = True
+                                .Value = Nothing
+                            ElseIf aVAlue.ToString = constMQFClearFieldChar Then
+                                .IsNull = True
+                                .IsEmpty = False
+                                .Value = Nothing
+                            Else
+                                .IsNull = False
+                                .IsEmpty = False
+                                .Value = aVAlue
+                            End If
+
                             .ContextIdentifier = [messagequeue].ID
                             .TupleIdentifier = mqfDBRange.Rows(rowno).address
                             .EntityIdentifier = mqfDBRange.Cells(rowno, aColumnNo).address
-                            .Value = aVAlue
+                            changeflag = changeflag Or True
                         End With
-                    End If
-
-                    ' set the changeflag
-                    If aVAlue IsNot Nothing AndAlso Trim(aVAlue) <> "" And aXChangeEntry.XChangeCmd <> otXChangeCommandType.Read And _
-                       aMQMessage.Processable Then
-                        changeflag = changeflag Or True
+                    Else
+                        ''# slot not filled
                     End If
 
                 Next aXChangeEntry    ' run through fields
 
                 ' reset the processable flag if no change -> ""
-                If Not changeflag And aMQMessage.Processable Then
-                    'Call aMQFRowEntry.msglog.AddMsg("301", _
-                    '                                MQFObject.TAG, _
-                    '                                aMQFRowEntry.Rowno, _
-                    '                                Nothing, aMQFRowEntry.Rowno)
-                    '    theMessages(n).log = addLog(theMessages(n).log, _
-                    '                                "INFO:In row#" & rowno & " uid #" & theMessages(n).UID & " : message has no changes - skipped.")
-                    '    Set theMessages(n).status = New clsMQFStatus
-                    '    theMessages(n).status.code = constStatusCode_skipped
-                    '    theMessages(n).processable = theMessages(n).processable And theMessages(n).status.isProcessed
+                If Not changeflag Then
+                    '570;@;MQF;message in row %Tupleidentifier% has no changed values - skip processing;;70;Error;false;|Y1|R1|;|XCHANGEENVELOPE|MQMessage|
+                    aMQMessage.ObjectMessageLog.Add(570, Nothing, Nothing, Nothing, Nothing)
                 End If
 
                 ' increase

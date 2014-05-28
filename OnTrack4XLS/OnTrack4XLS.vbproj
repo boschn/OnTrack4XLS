@@ -353,6 +353,9 @@
     <None Include="Resources\CoreInitialData\30_Deliverables\DeliverableTypes.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\CoreInitialData\60_XChange\10_Xoutline.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\otdbconfig.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
