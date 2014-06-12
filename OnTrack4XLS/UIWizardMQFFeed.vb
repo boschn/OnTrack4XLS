@@ -26,6 +26,10 @@ Public Class UIWizardMQFFeed
     Friend WithEvents MQFDataSet As System.Data.DataSet
     Friend WithEvents _datamodel As UIMQFDataModel
 
+    Protected WithEvents _SelectedDomain As DomainEventArgs
+    Protected _selectedDomainID As String
+    Protected _currentDomainID As String
+
     Private Delegate Sub SetProgressCallback([percentage] As Integer, [text] As String)
     Private Delegate Sub SetStatusCallback([text] As String)
     Private Delegate Sub SetAfterWorkCallback()
@@ -37,27 +41,51 @@ Public Class UIWizardMQFFeed
         ' This call is required by the designer.
         InitializeComponent()
 
+        
+
         ' Add any initialization after the InitializeComponent() call.
         Me.MQFWizard.CommandArea.NextButton.Enabled = False
 
         ' load the current workbooks to the Listbox
+        Dim firstIndex As Integer?
+        Dim i As Integer
+        Dim no As Integer = 0
         For Each aWb As Excel.Workbook In Globals.ThisAddIn.Application.Workbooks
             Dim aDataItem As New RadListDataItem
 
             If modXLSMessageQueueFile.checkWorkbookIfMQF(aWb) Then
+                If Not firstIndex.HasValue Then firstIndex = i
                 aDataItem.Text = aWb.Name
                 aDataItem.Enabled = True
+                no += 1
             Else
                 aDataItem.Text = aWb.Name
                 aDataItem.Enabled = False
             End If
             ' add item
             Me.WorkbookList.Items.Add(aDataItem)
-
+            i += 1
             Me.PreProcessButton.ButtonElement.ToolTipText = "Run Preprocess"
 
         Next
 
+        '** select one
+
+        If no = 1 Then
+            Me.WorkbookList.SelectedIndex = firstIndex.Value
+        ElseIf no > 1 Then
+            Dim found As Boolean = False
+            ' select the one with the active Workbook
+            For Each aDataitem As RadListDataItem In Me.WorkbookList.Items.Where(Function(x) x.Enabled = True).ToList
+                If aDataitem.Text = Globals.ThisAddIn.Application.ActiveWorkbook.Name Then
+                    Me.WorkbookList.SelectedIndex = aDataitem.RowIndex
+                    found = True
+                    Exit For
+                End If
+            Next
+            '* if not found take the first one
+            If Not found AndAlso firstIndex.HasValue Then Me.WorkbookList.SelectedIndex = firstIndex.Value
+        End If
         'MQFDataSet
         '
         Me.MQFViewGrid.MasterTemplate.DataSource = Me.MQFDataSet
@@ -77,7 +105,13 @@ Public Class UIWizardMQFFeed
         'System.Diagnostics.Debug.WriteLine("opening")
     End Sub
 
-    Private Sub WorkbookListContextMenu_loadWorkbook(ByVal sendder As Object, ByVal e As EventArgs) Handles OpenWorkbookButton.Click _
+    ''' <summary>
+    ''' Event Handler for LoadWorkWorkbook Button click
+    ''' </summary>
+    ''' <param name="sendder"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub WorkbookListContextMenu_LoadWorkbook(ByVal sendder As Object, ByVal e As EventArgs) Handles OpenWorkbookButton.Click _
         , workbookListContextMenuStrip.Click
 
         'Dim _MQFWorkbook As Excel.Workbook
@@ -88,10 +122,12 @@ Public Class UIWizardMQFFeed
             Exit Sub
         End If
 
-        '** locate a new MQF
-        _MQFWorkbook = modXLSMessageQueueFile.LocateAndOpenMQF()
 
-        If _MQFWorkbook Is Nothing Then
+
+        '** locate a new MQF
+        Dim selectedWorkbook As Excel.Workbook = modXLSMessageQueueFile.LocateAndOpenMQF()
+
+        If selectedWorkbook Is Nothing Then
             lastError = GetLastError()
             If Not lastError Is Nothing Then
                 Me.WelcomeStatusLabel.Text = lastError.Message
@@ -104,7 +140,7 @@ Public Class UIWizardMQFFeed
 
         '** check if already in list
         For Each anItem As RadListDataItem In Me.WorkbookList.Items
-            If LCase(anItem.Text) = LCase(_MQFWorkbook.Name) Then
+            If LCase(anItem.Text) = LCase(selectedWorkbook.Name) Then
                 Me.WelcomeStatusLabel.Text = "Workbook already in List"
                 Me.WorkbookList.SelectedItem = anItem
                 Exit Sub
@@ -113,9 +149,11 @@ Public Class UIWizardMQFFeed
 
         ' Add to list
         Dim aNewItem As New RadListDataItem
-        aNewItem.Text = _MQFWorkbook.Name
+        aNewItem.Text = selectedWorkbook.Name
         Me.WorkbookList.Items.Add(aNewItem)
         Me.WorkbookList.SelectedItem = aNewItem
+
+        _MQFWorkbook = selectedWorkbook
 
     End Sub
 
@@ -179,6 +217,83 @@ Public Class UIWizardMQFFeed
         Me.WizardPage1.Title = "Pre-Process :" & _MQFWorkbook.Name
         Me.WizardPage1.Header = "select the preprocess button to check and prepare the messages before feeding"
 
+        '''
+        ''' login 
+        '''
+        Dim aValue As Object
+        Dim tooltiptext As String
+        aValue = GetXlsParameterByName(name:="hermes_mqf_domainid", silent:=True)
+        If aValue IsNot Nothing Then
+            _selectedDomainID = CStr(aValue)
+        End If
+
+        '' try to get access
+        If Not CurrentSession.IsRunning Then
+            If Not CurrentSession.StartUp(AccessRequest:=otAccessRight.ReadUpdateData, domainID:=_selectedDomainID, _
+                                          messagetext:="For importing the message queue file login to the OnTrack database") Then
+                Me.WelcomeStatusLabel.Text = "Could not get access to OnTrack database - operation aborted"
+                Me.MQFWizard.SelectedPage = Me.MQFWizard.Pages(0)
+            End If
+        Else
+            If String.IsNullOrWhiteSpace(_selectedDomainID) Then _selectedDomainID = CurrentSession.CurrentDomainID
+
+            If Not CurrentSession.RequestUserAccess(accessRequest:=otAccessRight.ReadUpdateData, domainID:=_selectedDomainID) Then
+                Me.WelcomeStatusLabel.Text = "Could not get access right to OnTrack database domain '" & CStr(_selectedDomainID) & "' - operation aborted"
+                Me.MQFWizard.SelectedPage = Me.MQFWizard.Pages(0)
+            End If
+        End If
+
+        '''
+        ''' set possible domains
+        ''' 
+        ' remember the current domainid if we have to switch
+
+        _currentDomainID = CurrentSession.CurrentDomainID
+
+
+        If String.IsNullOrWhiteSpace(CStr(aValue)) Then
+            If CurrentSession.IsRunning Then
+                aValue = CurrentSession.CurrentDomainID
+                Dim aDomain As Commons.Domain = Commons.Domain.Retrieve(id:=CStr(aValue))
+                _selectedDomainID = CStr(aValue)
+                tooltiptext = aDomain.Description
+            Else
+                Me.DomainButton.Enabled = False
+                tooltiptext = "wait until Ontrack is started"
+            End If
+        Else
+            If CurrentSession.IsRunning Then
+                Dim aDomain As Commons.Domain = Commons.Domain.Retrieve(id:=CStr(aValue))
+                If aDomain IsNot Nothing Then
+                    tooltiptext = aDomain.Description
+                    _selectedDomainID = CStr(aValue)
+                Else
+                    aValue = CurrentSession.CurrentDomainID
+                    tooltiptext = "#Domain '" & CStr(aValue) & "' not found - falling back to current domain " & CurrentSession.CurrentDomainID
+                    _selectedDomainID = CurrentSession.CurrentDomainID
+                End If
+            End If
+        End If
+        Me.DomainButton.Text = _selectedDomainID
+        If CurrentSession.IsRunning Then
+            Me.DomainButton.DropDownButtonElement.ToolTipText = tooltiptext
+            For Each aDomain As Commons.Domain In Commons.Domain.All
+                Dim aRadItem As New Telerik.WinControls.UI.RadMenuItem()
+                aRadItem.AccessibleDescription = "RadMenuItem2"
+                aRadItem.AccessibleName = "RadMenuItem2"
+                aRadItem.Name = "RadMenuItem_" & aDomain.ID
+                aRadItem.Text = aDomain.ID & "-" & aDomain.Description
+                aRadItem.Visibility = Telerik.WinControls.ElementVisibility.Visible
+
+                AddHandler aRadItem.Click, AddressOf UIWizardMQFFeed_DomainButtonClick
+
+                Me.DomainButton.Items.Add(aRadItem)
+            Next
+        Else
+            Me.DomainButton.Visible = False
+            Me.DomainButton.Enabled = False
+        End If
+
         Me.Refresh()
 
         Me._BuildMQFWorker.WorkerReportsProgress = True
@@ -186,7 +301,24 @@ Public Class UIWizardMQFFeed
         _BuildMQFWorker.RunWorkerAsync()
     End Sub
 
-
+    ''' <summary>
+    ''' Click Event of the Domain Selection
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Public Sub UIWizardMQFFeed_DomainButtonClick(sender As Object, e As EventArgs)
+        Dim aRadItem As RadMenuItem = CType(sender, RadMenuItem)
+        Dim values As String() = aRadItem.Text.Split("-"c)
+        RadMessageBox.SetThemeName(Me.MQFWizard.ThemeName)
+        Dim ds As Windows.Forms.DialogResult = _
+            RadMessageBox.Show(Me, "Are you sure to process Message Queue in Domain '" & values(0) & "' ?", "Change Domain for processing Message Queue", Windows.Forms.MessageBoxButtons.YesNo, RadMessageIcon.Question)
+        Me.Text = ds.ToString()
+        If ds = Windows.Forms.DialogResult.Yes Then
+            _selectedDomainID = values(0)
+            Me.DomainButton.Text = _selectedDomainID
+        End If
+    End Sub
     ''' <summary>
     ''' handles the PreProcess Button Click
     ''' </summary>
@@ -346,6 +478,7 @@ Public Class UIWizardMQFFeed
                 Me.ProcessButton.ButtonElement.ShowBorder = False
                 Me.ProcessButton.ButtonElement.ToolTipText = "Process and Feed not available due to preprocess errors"
                 Me.MQFWizard.NextButton.Enabled = False
+
             Else
                 Me.ProcessStatusLabel.Text = "press process button to feed data to the database"
 
@@ -362,7 +495,7 @@ Public Class UIWizardMQFFeed
                 Me.WizardPage1.Header = "select the process button to feed the messages to the database"
                 Me.MQFWizard.NextButton.Enabled = False
             End If
-
+           
         End If
     End Sub
     ''' <summary>
@@ -430,7 +563,7 @@ Public Class UIWizardMQFFeed
     ''' <remarks></remarks>
     Private Sub RunBuild(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles _BuildMQFWorker.DoWork
 
-        e.Result = modXLSMessageQueueFile.BuildMessageQueueObject(_MQFWorkbook, _MQFObject, _BuildMQFWorker)
+        e.Result = modXLSMessageQueueFile.BuildXLSMessageQueueObject(_MQFWorkbook, _MQFObject, workerthread:=_BuildMQFWorker, domainid:=_selectedDomainID)
 
     End Sub
     ''' <summary>
@@ -440,7 +573,8 @@ Public Class UIWizardMQFFeed
     ''' <param name="e"></param>
     ''' <remarks></remarks>
     Private Sub RunPreProcess(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles _PreProcessWorker.DoWork
-        e.Result = _MQFObject.Precheck(_PreProcessWorker)
+       
+        e.Result = _MQFObject.Precheck(_PreProcessWorker, switchdomainid:=_selecteddomainid)
     End Sub
 #End Region
 
@@ -471,6 +605,7 @@ Public Class UIWizardMQFFeed
 
         Me.WizardPage1.Title = "Process " & _MQFObject.ID
         Me.WizardPage1.Header = "select the process button to feed the messages to the database"
+        Me.DomainButton.Enabled = False
 
         Me.Refresh()
 
@@ -541,7 +676,9 @@ Public Class UIWizardMQFFeed
             ' Add any initialization after the InitializeComponent() call.
             Dim ahighest As Commons.StatusItem = _MQFObject.GetHighestStatusItem
 
-            If _MQFObject.Processed AndAlso ahighest IsNot Nothing AndAlso Not ahighest.Code Like "G*" Then
+            ''' not successfull at all
+            ''' 
+            If Not _MQFObject.Processed OrElse (ahighest IsNot Nothing AndAlso ahighest.Aborting) Then
                 Me.ProcessStatusLabel.Text = "data processed with errors or warnings"
 
                 Me.PreProcessButton.Visible = True
@@ -553,10 +690,12 @@ Public Class UIWizardMQFFeed
                 Me.ProcessButton.Enabled = True
                 Me.ProcessButton.ButtonElement.ShowBorder = True
                 Me.ProcessButton.ButtonElement.ToolTipText = "process again"
-                Me.MQFWizard.CommandArea.NextButton.Enabled = True
+                Me.MQFWizard.CommandArea.NextButton.Enabled = True 'enable save
 
-            ElseIf _MQFObject.Processed Then
-                Me.ProcessStatusLabel.Text = "data processed with no warnings nor errors"
+                '' successfull but highest not green
+                ''
+            ElseIf _MQFObject.Processed AndAlso ahighest IsNot Nothing AndAlso Not ahighest.Code Like "G*" Then
+                Me.ProcessStatusLabel.Text = "data processed with warnings - some messages might be processable"
 
                 Me.PreProcessButton.Visible = True
                 Me.PreProcessButton.Enabled = False
@@ -564,12 +703,29 @@ Public Class UIWizardMQFFeed
                 Me.ProcessButton.ButtonElement.ToolTipText = "data preprocessed"
 
                 Me.ProcessButton.Visible = True
-                Me.ProcessButton.Enabled = False
+                Me.ProcessButton.Enabled = True
                 Me.ProcessButton.ButtonElement.ShowBorder = False
                 Me.ProcessButton.ButtonElement.ToolTipText = "processed"
                 Me.MQFWizard.CommandArea.NextButton.Enabled = True
-            Else
-                Me.ProcessStatusLabel.Text = "data processed with no warnings nor errors"
+
+                ''' full success
+                ''' 
+            ElseIf _MQFObject.Processed AndAlso ahighest IsNot Nothing AndAlso ahighest.Code Like "G*" Then
+                Me.ProcessStatusLabel.Text = "data processed with success"
+
+                Me.PreProcessButton.Visible = True
+                Me.PreProcessButton.Enabled = False
+                Me.ProcessButton.ButtonElement.ShowBorder = False
+                Me.PreProcessButton.ButtonElement.ToolTipText = "data preprocessed"
+
+                Me.ProcessButton.Visible = True
+                Me.ProcessButton.Enabled = False
+                Me.ProcessButton.ButtonElement.ShowBorder = True
+                Me.ProcessButton.ButtonElement.ToolTipText = "process the data again"
+                Me.MQFWizard.CommandArea.NextButton.Enabled = True
+
+            ElseIf _MQFObject.Processed AndAlso ahighest Is Nothing Then
+                Me.ProcessStatusLabel.Text = "data processed but no status ?!"
 
                 Me.PreProcessButton.Visible = True
                 Me.PreProcessButton.Enabled = False
@@ -580,7 +736,7 @@ Public Class UIWizardMQFFeed
                 Me.ProcessButton.Enabled = True
                 Me.ProcessButton.ButtonElement.ShowBorder = True
                 Me.ProcessButton.ButtonElement.ToolTipText = "process the data again"
-                Me.MQFWizard.CommandArea.NextButton.Enabled = False
+                Me.MQFWizard.CommandArea.NextButton.Enabled = True
             End If
 
 
@@ -624,7 +780,7 @@ Public Class UIWizardMQFFeed
 
         Me.UpdateXLSPanel.Controls.Add(Me.ProcessStatusStrip)
         Me.UpdateXLSPanel.Controls.Add(Me.ProgressPictureBox)
-
+        Me.ProgressPictureBox.BringToFront()
         Me.ProcessStatusLabel.Text = "about to update excel message queue file ..."
         Me.ProcessStatusStrip.Refresh()
 
@@ -637,14 +793,17 @@ Public Class UIWizardMQFFeed
         '' load the fields
         Dim foundflag As Boolean
         Dim aValue As Object
+        Dim aPersonsname As String = CurrentSession.OTdbUser.PersonName
+        If aPersonsname Is Nothing Then aPersonsname = Environment.UserName
+
         aValue = GetXlsParameterByName(name:="hermes_mqf_createdby", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
-        If foundflag AndAlso aValue.ToString <> "" Then
+        If foundflag AndAlso Not String.IsNullOrWhiteSpace(CStr(aValue)) Then
             Me.XLSCreatedBy.Text = CStr(aValue)
         Else
             Me.XLSCreatedBy.Text = CurrentSession.OTdbUser.PersonName
         End If
         aValue = GetXlsParameterByName(name:="hermes_mqf_createdby_department", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
-        If foundflag Then
+        If foundflag AndAlso Not String.IsNullOrWhiteSpace(CStr(aValue)) Then
             Me.XLSCreatedByDepartment.Text = CStr(aValue)
         Else
             Me.XLSCreatedByDepartment.Text = ""
@@ -657,13 +816,13 @@ Public Class UIWizardMQFFeed
         End If
 
         aValue = GetXlsParameterByName(name:="hermes_mqf_requestedby", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
-        If foundflag AndAlso aValue.ToString <> "" Then
+        If foundflag AndAlso Not String.IsNullOrWhiteSpace(CStr(aValue)) Then
             Me.XLSRequestedBy.Text = CStr(aValue)
         Else
-            Me.XLSRequestedBy.Text = CurrentSession.OTdbUser.PersonName
+            Me.XLSRequestedBy.Text = aPersonsname
         End If
         aValue = GetXlsParameterByName(name:="hermes_mqf_requestedby_department", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
-        If foundflag Then
+        If foundflag AndAlso Not String.IsNullOrWhiteSpace(CStr(aValue)) Then
             Me.XLSRequestedByDepartment.Text = CStr(aValue)
         Else
             Me.XLSRequestedByDepartment.Text = ""
@@ -676,19 +835,19 @@ Public Class UIWizardMQFFeed
         End If
 
         aValue = GetXlsParameterByName(name:="hermes_mqf_title", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
-        If foundflag AndAlso aValue.ToString <> "" Then
+        If foundflag AndAlso Not String.IsNullOrWhiteSpace(CStr(aValue)) Then
             Me.XlsTitel.Text = CStr(aValue)
         Else
             Me.XlsTitel.Text = "Update"
         End If
         aValue = GetXlsParameterByName(name:="hermes_mqf_subject", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
-        If foundflag AndAlso aValue.ToString <> "" Then
+        If foundflag AndAlso Not String.IsNullOrWhiteSpace(CStr(aValue)) Then
             Me.XLSRequestFor.Text = CStr(aValue)
         Else
             Me.XLSRequestFor.Text = ""
         End If
         aValue = GetXlsParameterByName(name:="hermes_mqf_plan_revision", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
-        If foundflag AndAlso aValue.ToString <> "" Then
+        If foundflag AndAlso Not String.IsNullOrWhiteSpace(CStr(aValue)) Then
             Me.XLSPlanRevision.Text = CStr(aValue)
         Else
             Me.XLSPlanRevision.Text = ""
@@ -698,13 +857,14 @@ Public Class UIWizardMQFFeed
         'If foundflag AndAlso aValue.ToString <> "" Then
         '    Me.XLSRequestedBy.Text = CStr(aValue)
         'Else
-        Me.XLSApprovedBy.Text = CurrentSession.OTdbUser.PersonName
+        Me.XLSApprovedBy.Text = aPersonsname
+
         'End If
         'aValue = GetXlsParameterByName(name:="hermes_mqf_processedBy", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
         'If foundflag AndAlso aValue.ToString <> "" Then
         '    Me.XLSRequestedBy.Text = CStr(aValue)
         'Else
-        Me.XLSProcessedBy.Text = CurrentSession.OTdbUser.PersonName
+        Me.XLSProcessedBy.Text = _MQFObject.ProcessedByUsername
         'End If
         'aValue = GetXlsParameterByName(name:="hermes_mqf_processedOn", workbook:=_MQFWorkbook, silent:=True, found:=foundflag)
         'If foundflag And IsDate(aValue) Then
@@ -717,9 +877,15 @@ Public Class UIWizardMQFFeed
         End If
         If _MQFObject.ProcessStatusCode IsNot Nothing Then
             Me.XLSProcessStatus.Text = _MQFObject.ProcessStatusCode
+
+            DirectCast(Me.XLSProcessStatus.RootElement.Children(0), RadTextBoxElement).TextBoxItem.ToolTipText = "test"
+            Me.XLSProcessStatus.TextBoxElement.TextBoxItem.AutoToolTip = True
+            Me.XLSProcessStatus.TextBoxElement.TextBoxItem.ToolTipText = _MQFObject.ProcessStatus.Description
             Me.XLSProcessStatus.TextAlign = Windows.Forms.HorizontalAlignment.Center
-            Me.XLSProcessStatus.BackColor = System.Drawing.Color.FromArgb(CInt(_MQFObject.ProcessStatus.FormatBGColor))
-            Me.XLSProcessStatus.ForeColor = System.Drawing.Color.FromArgb(CInt(_MQFObject.ProcessStatus.FormatFGColor))
+
+            Me.XLSProcessStatus.TextBoxElement.BackColor = CType(_MQFObject.ProcessStatus.FormatBGColor, System.Drawing.Color)
+            Me.XLSProcessStatus.ForeColor = CType(_MQFObject.ProcessStatus.FormatFGColor, System.Drawing.Color)
+            Me.ProcessStatusLabel.Text = "Status: " & _MQFObject.ProcessStatusCode & "-" & _MQFObject.ProcessStatus.Description
         End If
 
         'End If
@@ -727,6 +893,18 @@ Public Class UIWizardMQFFeed
 
     End Sub
 
+    Public Sub UIWizardMQFFeed_OnToolTipNeeded(sender As Object, e As ToolTipTextNeededEventArgs) Handles XLSProcessStatus.ToolTipTextNeeded
+        If _MQFObject.ProcessStatusCode IsNot Nothing Then
+            e.ToolTipText = _MQFObject.ProcessStatus.Description
+        End If
+    End Sub
+
+    Public Sub UIWizardMQFFeed_XLSProcessStatusMouseHover(sender As Object, e As System.EventArgs) Handles XLSProcessStatus.MouseMove
+        If _MQFObject.ProcessStatusCode IsNot Nothing Then
+            Me.ProcessStatusLabel.Text = "Status: " & _MQFObject.ProcessStatusCode & "-" & _MQFObject.ProcessStatus.Description
+        End If
+
+    End Sub
     ''' <summary>
     ''' handles the PreProcess Button Click
     ''' </summary>
@@ -748,17 +926,20 @@ Public Class UIWizardMQFFeed
 
         ' update data
         With _MQFObject
-            .CreationDate = XLSCreatedOn.Value
-            .CreatingOU = XLSCreatedByDepartment.Text
-            .Creator = XLSCreatedBy.Text
-            .RequestedOn = XLSRequestedOn.Value
-            .RequestedBy = XLSRequestedBy.Text
-            .RequestedByOU = XLSRequestedByDepartment.Text
-            .Title = XlsTitel.Text
-            .Comment = XLSRequestFor.Text
-            .Planrevision = XLSPlanRevision.Text
-            .ApprovedBy = XLSApprovedBy.Text
-            .ApprovalDate = Date.Now
+            If Not String.IsNullOrWhiteSpace(XLSCreatedOn.Text) Then .CreationDate = XLSCreatedOn.Value
+            If Not String.IsNullOrWhiteSpace(XLSCreatedByDepartment.Text) Then .CreatingOU = XLSCreatedByDepartment.Text
+            If Not String.IsNullOrWhiteSpace(XLSCreatedBy.Text) Then .Creator = XLSCreatedBy.Text
+            If Not String.IsNullOrWhiteSpace(XLSRequestedOn.Text) Then .RequestedOn = XLSRequestedOn.Value
+            If Not String.IsNullOrWhiteSpace(XLSRequestedBy.Text) Then .RequestedBy = XLSRequestedBy.Text
+            If Not String.IsNullOrWhiteSpace(XLSRequestedByDepartment.Text) Then .RequestedByOU = XLSRequestedByDepartment.Text
+            If Not String.IsNullOrWhiteSpace(XlsTitel.Text) Then .Title = XlsTitel.Text
+            If Not String.IsNullOrWhiteSpace(XLSRequestFor.Text) Then .Description = XLSRequestFor.Text
+            If Not String.IsNullOrWhiteSpace(XLSPlanRevision.Text) Then .Planrevision = XLSPlanRevision.Text
+            'If Not String.IsNullOrWhiteSpace(XLSProcessedBy.Text) Then .ProcessedByUsername = XLSProcessedBy.Text
+            'If Not String.IsNullOrWhiteSpace(XLSProcessedDate.Text) Then .Processdate = XLSProcessedDate.Value
+            If Not String.IsNullOrWhiteSpace(XLSApprovedBy.Text) Then .ApprovedBy = XLSApprovedBy.Text
+            If Not String.IsNullOrWhiteSpace(XLSApprovedBy.Text) Then .ApprovalDate = Date.Now
+            If Not String.IsNullOrWhiteSpace(XLSProcessComments.Text) Then .ProcessComment = XLSProcessComments.Text
         End With
 
         '
@@ -782,7 +963,7 @@ Public Class UIWizardMQFFeed
             Me.Invoke(d, New Object() {})
         Else
             Me.Cursor = Windows.Forms.Cursors.Default
-            Me.UpdateXLSButton.Enabled = False
+            ' Me.UpdateXLSButton.Enabled = False -> stay active
             Me.WizardPage1.Enabled = True
             Me.ProcessStatusStrip.Refresh()
 
@@ -800,7 +981,7 @@ Public Class UIWizardMQFFeed
     ''' <param name="e"></param>
     ''' <remarks></remarks>
     Private Sub RunUpdateXLSWorker(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles _UpdateXLSWorker.DoWork
-        e.Result = PostProcessXLSMQF(_MQFWorkbook, _MQFObject, workerthread:=_UpdateXLSWorker)
+        e.Result = UpdateXLSMQF(_MQFWorkbook, _MQFObject, workerthread:=_UpdateXLSWorker)
     End Sub
 
 
@@ -961,7 +1142,7 @@ Public Class UIWizardMQFFeed
                 Me.WelcomeStatusLabel.Text = [text]
                 Me.WelcomeStatusStrip.Refresh()
             End If
-        ElseIf Me.MQFWizard.SelectedPage Is Me.MQFWizard.Pages(1) Then
+        ElseIf Me.MQFWizard.SelectedPage Is Me.MQFWizard.Pages(1) OrElse Me.MQFWizard.SelectedPage Is Me.MQFWizard.Pages(2) Then
             If Me.ProcessStatusStrip.InvokeRequired Then
                 Dim d As New SetStatusCallback(AddressOf SetStatus)
                 Me.Invoke(d, New Object() {[text]})
@@ -984,12 +1165,19 @@ Public Class UIWizardMQFFeed
             RadMessageBox.Show(Me, "Are you sure?", "Cancel", Windows.Forms.MessageBoxButtons.YesNo, RadMessageIcon.Question)
         Me.Text = ds.ToString()
         If ds = Windows.Forms.DialogResult.Yes Then
-
+            '** switch back to the old domain
+            If _selectedDomainID IsNot Nothing AndAlso _currentDomainID IsNot Nothing AndAlso CurrentSession.IsRunning Then
+                If _currentDomainID <> CurrentSession.CurrentDomainID Then
+                    CurrentSession.SwitchToDomain(_currentDomainID)
+                End If
+            End If
             Me.Dispose()
         Else
             Dim formClosingArgs As System.Windows.Forms.FormClosingEventArgs = TryCast(e, System.Windows.Forms.FormClosingEventArgs)
             If Not formClosingArgs Is Nothing Then
                 formClosingArgs.Cancel = True
+            Else
+              
             End If
 
         End If
@@ -1006,6 +1194,7 @@ Public Class UIWizardMQFFeed
     Private Sub MQFWizard_OnNext(ByVal sender As Object, ByVal e As WizardCancelEventArgs) Handles MQFWizard.Next
         ''' current page is Startpage
         If (Me.MQFWizard.SelectedPage Is Me.MQFWizard.Pages(0)) Then
+
             Call Preprocess_load()
 
             ''' current page is preprocess page #1
@@ -1024,7 +1213,22 @@ Public Class UIWizardMQFFeed
     Private Sub MQFWizard_OnPrevious(ByVal sender As Object, ByVal e As WizardCancelEventArgs) Handles MQFWizard.Previous
 
     End Sub
-
+    ''' <summary>
+    ''' finish the wizard
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub MQFWizard_OnFinish(ByVal sender As Object, ByVal e As System.EventArgs) Handles MQFWizard.Finish
+        '** switch back to the old domain
+        If _selectedDomainID IsNot Nothing AndAlso _currentDomainID IsNot Nothing AndAlso CurrentSession.IsRunning Then
+            If _currentDomainID <> CurrentSession.CurrentDomainID Then
+                CurrentSession.SwitchToDomain(_currentDomainID)
+            End If
+        End If
+        '** close down
+        Me.Dispose()
+    End Sub
 #End Region
 
    

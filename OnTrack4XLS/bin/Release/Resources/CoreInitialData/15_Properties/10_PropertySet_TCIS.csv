@@ -1,0 +1,16 @@
+# Customizaton for Property Set
+#
+# --- BOMBARDIER TRANSPORTATION FUNCTIONAL DESIGN BASELINE ---
+#
+# Exchange IDs
+#
+#DM1;PROPERTYSET;DOMAINID;domain identifier;3;
+#OPS1;PROPERTYSET;SETID;ID of the property set;3;
+#OPS3;PROPERTYSET;DESC;description of the property section;3;
+#OPS4;PROPERTYSET;PROPERTIES;properties of the object property section;2;
+#OPS5;PROPERTYSET;OBJECTS;applicable business objects for this section;2;
+#OPS6;PROPERTYSET;ORDINAL;ordinal of the set;7;
+#
+OPS1;DM1;OPS3;OPS4;OPS5;OPS6
+FBLSBB;SBB;Functional Baseline SBB;;|DELIVERABLE|;10;
+FBLDOSTO2010;DOSTO2010;Functional Baseline DOSTO2010;;|DELIVERABLE|;10;

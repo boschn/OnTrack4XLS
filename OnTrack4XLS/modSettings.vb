@@ -54,7 +54,8 @@ Function HostPropertyExists(ByVal aProject As Project, ByVal aName As String) As
 
 End function
 
-#ElseIf ExcelVersion <> "" Then
+#End If
+
 
     Function HostPropertyExists(ByVal aWorkbook As Workbook, ByVal aName As String) As Boolean
 
@@ -75,7 +76,6 @@ End function
 
     End Function
 
-#End If
 
     '************************************************************************
     ' getPropertyByName : returns Parameter by Name in the order XLS, Project, Worksheet
@@ -130,7 +130,8 @@ End function
         End If
     end function
 
-#ElseIf ExcelVersion <> "" Then
+#End If
+
     ''' <summary>
     ''' retrieves an Office Document Property
     ''' </summary>
@@ -177,16 +178,15 @@ End function
             If Not silent Then
                 Call CoreMessageHandler(showmsgbox:=True, messagetype:=otCoreMessageType.ApplicationWarning, _
                                       message:="The parameter '" & name & " ' is not found in this HostApplicaiton '" & host.Name & "'!", subname:="modSettings.getPropertyByName")
-                'Debug.Print "FATAL ERROR: The parameter '" & aName & "' is not found in this Project !"
             End If
-            GetHostProperty = ""
+
             found = False
             Return Nothing
         End If
 
     End Function
 
-#End If
+
 
     '************************************************************************
     ' setPropertyValueByName : sets the Value of a Parameter on the parameter sheet by the Name supplied
@@ -258,7 +258,8 @@ End function
         Exit Function
     End Function
 
-#ElseIf ExcelVersion <> "" Then
+#End If
+
     ''' <summary>
     ''' Sets a Office Document Property
     ''' </summary>
@@ -284,14 +285,14 @@ End function
             If Not parametername_flag Then
                 parametername_flag = HostPropertyExists(host, name)
                 If parametername_flag Then
-                    For Each prop As Microsoft.Office.Core.DocumentProperty In host.CustomDocumentProperties
+                    For Each prop As Object In host.CustomDocumentProperties
                         If prop.Name = name Then
                             prop.Value = value
                             SetHostProperty = True
                             Exit Function
                         End If
                     Next prop
-                    For Each prop As Microsoft.Office.Core.DocumentProperty In host.DocumentProperties
+                    For Each prop As Object In host.DocumentProperties
                         If prop.Name = name Then
                             prop.Value = value
                             SetHostProperty = True
@@ -308,18 +309,15 @@ End function
                 End If
             End If
         Catch ex As Exception
-            Call CoreMessageHandler(showmsgbox:=True, _
-                              message:="The parameter '" & name & " ' cannot be written to " & name & "!", _
-                              subname:="modSettings.setpropertyValueByName")
+            CoreMessageHandler(showmsgbox:=Not silent, arg1:=name, _
+                               exception:=ex, subname:="modSettings.SetHostProperty")
 
-            SetHostProperty = False
-            Exit Function
+            Return False
         End Try
 
         SetHostProperty = True
         Exit Function
     End Function
-#End If
 
 
 End Module

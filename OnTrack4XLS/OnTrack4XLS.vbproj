@@ -120,7 +120,8 @@
     <DebugSymbols>true</DebugSymbols>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>OnTrack4XLS.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
@@ -151,12 +152,14 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>OnTrack4XLS.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
     <WarningLevel>0</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <!--
     This section specifies references for the project.
@@ -314,10 +317,13 @@
     <None Include="Resources\CoreInitialData\05_Core\05_ObjectCompoundEntries.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\CoreInitialData\05_Core\06_DomainSettings_TCMS.csv">
+    <None Include="Resources\CoreInitialData\05_Core\06_Domain_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\CoreInitialData\05_Core\08_ValidationObjectEntries_TCMS.csv">
+    <None Include="Resources\CoreInitialData\05_Core\07_DomainSettings_TCIS.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\CoreInitialData\05_Core\08_ValidationObjectEntries_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Resources\CoreInitialData\05_Core\15_ObjectMessageTypes.csv">
@@ -326,31 +332,31 @@
     <None Include="Resources\CoreInitialData\05_Core\10_StatusItems.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\CoreInitialData\10_Commons\10_ValueLists_TCMS.csv">
+    <None Include="Resources\CoreInitialData\10_Commons\10_ValueLists_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\CoreInitialData\10_Commons\15_ValueEntry_TCMS.csv">
+    <None Include="Resources\CoreInitialData\10_Commons\15_ValueEntry_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\CoreInitialData\10_Commons\20_Sites.csv">
+    <None Include="Resources\CoreInitialData\10_Commons\20_Sites_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\CoreInitialData\15_Properties\10_PropertySet.csv">
+    <None Include="Resources\CoreInitialData\15_Properties\10_PropertySet_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\CoreInitialData\15_Properties\20_Property.csv">
+    <None Include="Resources\CoreInitialData\15_Properties\20_Property_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\CoreInitialData\20_Scheduling\10_MileStoneDefinitions.csv">
+    <None Include="Resources\CoreInitialData\20_Scheduling\10_MileStoneDefinitions_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\CoreInitialData\20_Scheduling\20_ScheduleDefinition.csv">
+    <None Include="Resources\CoreInitialData\20_Scheduling\20_ScheduleDefinition_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\CoreInitialData\20_Scheduling\30_ScheduleMilestoneDefinitions.csv">
+    <None Include="Resources\CoreInitialData\20_Scheduling\30_ScheduleMilestoneDefinitions_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\CoreInitialData\30_Deliverables\DeliverableTypes.csv">
+    <None Include="Resources\CoreInitialData\30_Deliverables\10_DeliverableTypes_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Resources\CoreInitialData\60_XChange\10_Xoutline.csv">

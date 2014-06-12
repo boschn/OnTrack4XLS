@@ -12,7 +12,8 @@ Public Class OnTrackRibbon
     Private WithEvents _logFormThread As Threading.Thread
     Private WithEvents _SettingForm As New UIFormSetting
     Private WithEvents _BatchForm As New UIFormBatchProcesses
-
+    Private WithEvents _replicationForm As UIFormReplication
+    Private WithEvents _MQFWizard As UIWizardMQFFeed
 
     Private Sub Ribbon_Load(ByVal sender As System.Object, ByVal e As RibbonUIEventArgs) Handles MyBase.Load
 
@@ -33,18 +34,25 @@ Public Class OnTrackRibbon
         End If
     End Sub
 
+    ''' <summary>
+    ''' OnError Handler for Applicationinfo Output
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="args"></param>
+    ''' <remarks></remarks>
     Private Sub OnErrorLog(sender As Object, args As ormErrorEventArgs) Handles _errorlog.onErrorRaised
         ' show on bar
         If args.Error.messagetype = otCoreMessageType.ApplicationInfo Then
-            Globals.ThisAddIn.Application.StatusBar = Date.Now.ToLocalTime & " INFORMATION: " & args.Error.Message
+            Globals.ThisAddIn.Application.StatusBar = Date.Now & " INFORMATION: " & args.Error.Message
         End If
     End Sub
 
     Private Sub Login_Click(sender As Object, e As RibbonControlEventArgs) Handles ConnectToggleButton.Click
         Globals.ThisAddIn.SetCurrentHost()
         If Me.ConnectToggleButton.Label = "Connect" Then
-            If otdbsession.StartUp(AccessRequest:=otAccessRight.ReadUpdateData) Then
-                Globals.ThisAddIn.Application.StatusBar = Date.Now.ToLocalTime & " INFORMATION: user '" & Globals.ThisAddIn._OTDBSession.Username & _
+            Dim domainid As String = Globals.ThisAddIn.CurrentDefaultDomainID
+            If otdbsession.StartUp(AccessRequest:=otAccessRight.ReadUpdateData, domainID:=domainid) Then
+                Globals.ThisAddIn.Application.StatusBar = Date.Now & " INFORMATION: user '" & Globals.ThisAddIn._OTDBSession.Username & _
                     "' successfully connected to OnTrack " & ot.CurrentConnection.DBName & " on " & ot.CurrentConnection.PathOrAddress
             Else
                 Me.ConnectToggleButton.Checked = False
@@ -69,7 +77,7 @@ Public Class OnTrackRibbon
         Me.ConnectToggleButton.Checked = True
         Me.ConnectToggleButton.ShowImage = True
         Me.ConnectToggleButton.SuperTip = "Disconnect " & Username & " from the OnTrack Database on " & DBConnectionString
-        Globals.ThisAddIn.Application.StatusBar = Date.Now.ToLocalTime & " INFORMATION: user '" & Globals.ThisAddIn._OTDBSession.OTdbUser.Username & _
+        Globals.ThisAddIn.Application.StatusBar = Date.Now & " INFORMATION: user '" & Globals.ThisAddIn._OTDBSession.OTdbUser.Username & _
                   "' successfully connected to OnTrack " & ot.CurrentConnection.DBName & " on " & ot.CurrentConnection.PathOrAddress
         ' set the settings
         WorkspaceCombo_load()
@@ -90,11 +98,33 @@ Public Class OnTrackRibbon
         Me.WorkspaceCombo.Enabled = False
         Me.DomainCombo.Enabled = False
     End Sub
+
+    ''' <summary>
+    ''' Handle the Domain Change Event
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub OnDomainChanged(sender As Object, e As SessionEventArgs) Handles otdbsession.OnDomainChanged
+        DomainCombo.Text = e.Session.CurrentDomainID
+    End Sub
+    ''' <summary>
+    ''' Handle the Domain Change Event
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub OnWorkspaceChanged(sender As Object, e As SessionEventArgs) Handles otdbsession.OnWorkspaceChanged
+        WorkspaceCombo.Text = e.Session.CurrentWorkspaceID
+    End Sub
+    ''' <summary>
+    ''' Sub for loading the Combo
+    ''' </summary>
+    ''' <remarks></remarks>
     Private Sub DomainCombo_load()
         If Globals.ThisAddIn._OTDBSession.IsRunning Then
-            Dim aDomainList = Domain.All
             Me.DomainCombo.Items.Clear()
-            For Each aDomain As Domain In aDomainList
+            For Each aDomain As Domain In Domain.All
                 Dim anItem As Microsoft.Office.Tools.Ribbon.RibbonDropDownItem = Me.Factory.CreateRibbonDropDownItem
                 anItem.Label = aDomain.ID
                 anItem.ScreenTip = aDomain.Description
@@ -110,6 +140,31 @@ Public Class OnTrackRibbon
             End If
         End If
     End Sub
+
+    ''' <summary>
+    ''' Event for DomainComboClicked
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub OnTrackRibbon_OnDomainComboClick(sender As Object, e As RibbonControlEventArgs) Handles DomainCombo.TextChanged
+        'Dim aCombo As RibbonComboBox = CType(e.Control, RibbonComboBox)
+        If DomainCombo.Text <> CurrentSession.CurrentDomainID Then
+            Telerik.WinControls.RadMessageBox.SetThemeName("TelerikMetroBlue")
+            Dim aresult As DialogResult = Telerik.WinControls.RadMessageBox.Show(text:="Change current domain to " & DomainCombo.Text, _
+                                                          caption:="Please confirm", _
+                                                          icon:=Telerik.WinControls.RadMessageIcon.Question, _
+                                                          buttons:=MessageBoxButtons.YesNo, _
+                                                          defaultButton:=MessageBoxDefaultButton.Button2)
+            If aresult = DialogResult.Yes OrElse aresult = DialogResult.OK Then
+                CurrentSession.SwitchToDomain(DomainCombo.Text)
+            End If
+        End If
+    End Sub
+    ''' <summary>
+    ''' load the Combo Box for Workspaces
+    ''' </summary>
+    ''' <remarks></remarks>
     Private Sub WorkspaceCombo_load()
         If Globals.ThisAddIn._OTDBSession.IsRunning Then
             Me.WorkspaceCombo.Items.Clear()
@@ -130,8 +185,8 @@ Public Class OnTrackRibbon
     End Sub
     Private Sub MQFAdminButton_Click(sender As Object, e As RibbonControlEventArgs) Handles MQFAdminButton.Click
         Globals.ThisAddIn.SetCurrentHost()
-        Dim aMQFAdmin As New UIWizardMQFFeed
-        Call aMQFAdmin.Show()
+        If _MQFWizard Is Nothing OrElse _MQFWizard.IsDisposed Then _MQFWizard = New UIWizardMQFFeed
+        Call _MQFWizard.Show()
     End Sub
 
     Private Sub AboutButton_Click(sender As Object, e As RibbonControlEventArgs) Handles AboutButton.Click
@@ -143,8 +198,8 @@ Public Class OnTrackRibbon
 
     Private Sub ReplicateButton_Click(sender As Object, e As RibbonControlEventArgs) Handles ReplicateButton.Click
         Globals.ThisAddIn.SetCurrentHost()
-        Dim aReplicationForm As New UIFormReplication
-        Call aReplicationForm.Show()
+        If _replicationForm Is Nothing OrElse _replicationForm.IsDisposed Then _replicationForm = New UIFormReplication
+        Call _replicationForm.Show()
     End Sub
 
     Private Sub SettingButton_Click(sender As Object, e As RibbonControlEventArgs) Handles SettingButton.Click
@@ -155,6 +210,12 @@ Public Class OnTrackRibbon
 
     End Sub
 
+    ''' <summary>
+    ''' Event Handler for Workspace Changed
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
     Private Sub WorkspaceCombo_TextChanged(sender As Object, e As RibbonControlEventArgs) Handles WorkspaceCombo.TextChanged
         If Globals.ThisAddIn._OTDBSession.IsRunning Then
             Dim aDefaultWS As Workspace = Workspace.Retrieve(id:=Me.WorkspaceCombo.Text)

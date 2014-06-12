@@ -14,7 +14,10 @@ Public Class UIFormReplication
     Private _workspaceTable As New DataTable
     Private _dataAreaList As List(Of XLSDataArea)
     Private _DataAreaTable As New DataTable
-    Private _workspace As String
+    Private _domainList As IList(Of Domain)
+    Private _domainTable As New DataTable
+    Private _workspaceID As String
+    Private _domainID As String
 
     Private WithEvents _replicateWorker As BackgroundWorker
     Private Delegate Sub SetProgressCallback([percentage] As Integer, [text] As String)
@@ -55,21 +58,55 @@ Public Class UIFormReplication
         ' This call is required by the designer.
         InitializeComponent()
 
-        ' Add any initialization after the InitializeComponent() call.
-        If Not ot.RequireAccess(accessRequest:=otAccessRight.[ReadOnly]) Then
-            Me.StatusLabel.Text = "no access to database"
+        ' set the defaultdomainid
+        Dim foundflag As Boolean
+        Dim value = GetXlsParameterByName(name:=constCPNDefaultDomainid, workbook:=Globals.ThisAddIn.Application.ActiveWorkbook, found:=foundflag, silent:=True)
+        If foundflag AndAlso value IsNot Nothing Then
+            _domainID = CStr(value)
+        ElseIf Not String.IsNullOrWhiteSpace(Globals.ThisAddIn.CurrentDefaultDomainID) Then
+            _domainID = Globals.ThisAddIn.CurrentDefaultDomainID
+        Else
+            _domainID = Nothing
+
         End If
+
+        ' Add any initialization after the InitializeComponent() call.
+        If Not ot.RequireAccess(accessRequest:=otAccessRight.[ReadOnly], domainID:=_domainID) Then
+            Me.StatusLabel.Text = "no access to database"
+            Return
+        End If
+        If String.IsNullOrWhiteSpace(_domainID) Then _domainID = CurrentSession.CurrentDomainID
+        '** fill the domain List
+
+        _domainList = Domain.All
+        ' setup of the workspaceID table
+        _domainTable.Columns.Add("DomainID", GetType(String))
+        _domainTable.Columns.Add("Description", GetType(String))
+        _domainTable.Columns.Add("is Global", GetType(Boolean))
+        Dim i As Integer
+        Dim found As Integer
+
+        For Each aDomain As Domain In _domainList
+            If Not aDomain.IsDeleted Then
+                _domainTable.Rows.Add(Trim(aDomain.ID), aDomain.Description, aDomain.IsGlobal)
+                If _domainID.ToUpper = aDomain.ID.ToUpper Then
+                    found = i
+                End If
+                i += 1
+            End If
+        Next
+        Me.DomainCombo.DataSource = _domainTable
+        Me.DomainCombo.SelectedIndex = found
 
         '** fill the workspaceID List
         Me.WorkspaceDropDownList.Text = CurrentSession.CurrentWorkspaceID
-        Dim aWorkspace As New Workspace
-        _workspaceList = aWorkspace.All
+        _workspaceList = Workspace.All
         ' setup of the workspaceID table
         _workspaceTable.Columns.Add("workspaceID", GetType(String))
         _workspaceTable.Columns.Add("Description", GetType(String))
         _workspaceTable.Columns.Add("is Base", GetType(Boolean))
         _workspaceTable.Columns.Add("has Actuals", GetType(Boolean))
-        For Each aWorkspace In _workspaceList
+        For Each aWorkspace As Workspace In _workspaceList
             If Not aWorkspace.IsDeleted Then
                 _workspaceTable.Rows.Add(Trim(aWorkspace.ID), aWorkspace.Description, aWorkspace.IsBasespace, aWorkspace.HasActuals)
             End If
@@ -108,6 +145,8 @@ Public Class UIFormReplication
         'Me.ConfigDropDownList.Text = _DataAreaTable.Rows(0).Item(0)
         'Set the Inbound
         Me.OutboundToggleButton.ToggleState = Enumerations.ToggleState.On
+
+        Me.Refresh()
 
 
     End Sub
@@ -152,6 +191,7 @@ Public Class UIFormReplication
 
             Me.DataAreaComboBox.Enabled = False
             Me.WorkspaceDropDownList.Enabled = False
+            Me.DomainCombo.Enabled = False
             Me.ToggleInOutButton.Enabled = False
             Me.InboundToggleButton.Enabled = False
             Me.OutboundToggleButton.Enabled = False
@@ -178,9 +218,9 @@ Public Class UIFormReplication
         If Me._replicationMode = ReplicationMode.Outbound Then
             aXCMD = otXChangeCommandType.Read
         ElseIf Me._replicationMode = ReplicationMode.Inbound Then
-            aXCMD = otXChangeCommandType.UpdateCreate
+            aXCMD = otXChangeCommandType.CreateUpdate
         ElseIf Me._replicationMode = ReplicationMode.InAndOut Then
-            aXCMD = otXChangeCommandType.UpdateCreate
+            aXCMD = otXChangeCommandType.CreateUpdate
         End If
 
         Dim fullReplication As Boolean
@@ -189,7 +229,7 @@ Public Class UIFormReplication
         Else
             fullReplication = False
         End If
-        e.Result = XLSXChangeMgr.Replicate(dataarea:=_dataarea, fullReplication:=fullReplication, xcmd:=aXCMD, _
+        e.Result = XLSXChangeMgr.ReplicateDataArea(dataarea:=_dataarea, domainid:=_domainID, fullReplication:=fullReplication, xcmd:=aXCMD, _
                                            workspaceID:=Me.WorkspaceDropDownList.Text, workerthread:=_replicateWorker)
 
         CoreMessageHandler(message:="replication to " & _dataarea.DataRangeAddress & " completed", messagetype:=otCoreMessageType.ApplicationInfo)
@@ -243,9 +283,11 @@ Public Class UIFormReplication
             Me.ReplicateButton.Enabled = True
             Me.DataAreaComboBox.Enabled = True
             Me.WorkspaceDropDownList.Enabled = True
+            Me.DomainCombo.Enabled = True
             Me.ToggleInOutButton.Enabled = True
             Me.InboundToggleButton.Enabled = True
             Me.OutboundToggleButton.Enabled = True
+            Me.CancelButton.Text = "Finish"
             'Me.Enabled = True
             Me.StatusStrip.Refresh()
         End If
@@ -358,9 +400,9 @@ Public Class UIFormReplication
         Dim found As Boolean
         '*** check workspaces
         Dim workspaceID As String
-        workspaceID = WorkspaceDropDownList.Text
+        workspaceID = Me.WorkspaceDropDownList.Text
         found = False
-        If Not _workspaceList Is Nothing Then
+        If String.IsNullOrWhiteSpace(workspaceID) AndAlso _workspaceList Is Nothing Then
             For Each aWorkspace As Workspace In _workspaceList
                 If LCase(workspaceID) = LCase(aWorkspace.ID) Then
                     found = True
@@ -456,12 +498,14 @@ Public Class UIFormReplication
 
 
     End Sub
-
-    Private Sub RadTextBoxControl1_TextChanged(sender As Object, e As EventArgs)
-
-    End Sub
-
-    Private Sub RadLabel4_Click(sender As Object, e As EventArgs) Handles RadLabel4.Click
-
+    ''' <summary>
+    ''' handler for selected index changed
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub DomainCombo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DomainCombo.SelectedIndexChanged
+        _domainID = Me.DomainCombo.Text
+        Me.StatusLabel.Text = "Domain changed to " & _domainID
     End Sub
 End Class

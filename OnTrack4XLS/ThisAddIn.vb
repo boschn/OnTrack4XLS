@@ -7,53 +7,92 @@ Public Class ThisAddIn
 
     Friend WithEvents _OTDBSession As Session
     Private _CurrentHost As Excel.Workbook
+    Private _CurrentDefaultDomainID As String
 
-    Public Property CurrentHost
-        Set(host)
+    ''' <summary>
+    ''' Gets or sets the current default domain ID.
+    ''' </summary>
+    ''' <value>The current default domain ID.</value>
+    Public Property CurrentDefaultDomainID() As String
+        Get
+            Return Me._CurrentDefaultDomainID
+        End Get
+        Set
+            Me._CurrentDefaultDomainID = Value
+        End Set
+    End Property
+
+    ''' <summary>
+    ''' set the Current Host
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Property CurrentHost As Object
+        Set(host As Object)
             Dim value As Object
+            Try
 
-            If Not host Is Nothing Then
-                If _CurrentHost Is Nothing OrElse _CurrentHost.Name <> host.name Then
-                    _CurrentHost = host
-                    ' add the Filepaths for tooling
-                    Try
-                        If Not Application.ActiveWorkbook Is Nothing Then
-                            value = Application.ActiveWorkbook.Path
-                        Else
+                If Not host Is Nothing Then
+                    If _CurrentHost Is Nothing OrElse _CurrentHost.Name <> host.name Then
+                        _CurrentHost = host
+                        ' add the Filepaths for tooling
+                        Try
+                            If Not Application.ActiveWorkbook Is Nothing Then
+                                value = Application.ActiveWorkbook.Path
+                            Else
+                                value = ""
+                            End If
+                        Catch ex As Exception
                             value = ""
+                        End Try
+                        If value <> "" Then
+                            AddConfigFilePath(value)
                         End If
-                    Catch ex As Exception
-                        value = ""
-                    End Try
-                    If value <> "" Then
-                        AddConfigFilePath(value)
-                    End If
-                    ' than a property
-                    value = GetHostProperty(ConstCPNConfigFileLocation)
-                    If value <> "" Then
-                        AddConfigFilePath(value)
-                    End If
-                    ' first look if we have a parameter 
-                    value = modParameterXLS.GetXlsParameterByName(name:=ConstCPNConfigFileLocation, silent:=True)
-                    If value <> "" Then
-                        AddConfigFilePath(value)
-                    End If
+                        ' than a property
+                        value = GetHostProperty(ConstCPNConfigFileLocation)
+                        If value <> "" Then
+                            AddConfigFilePath(value)
+                        End If
+                        ' first look if we have a parameter 
+                        value = modParameterXLS.GetXlsParameterByName(name:=ConstCPNConfigFileLocation, silent:=True)
+                        If value <> "" Then
+                            AddConfigFilePath(value)
+                        End If
 
-                    Call CoreMessageHandler(message:=" Host Application switched to " & host.name, arg1:=host.path, _
-                                                 messagetype:=otCoreMessageType.InternalInfo, subname:="ThisAddin.CurrentHost")
-                    If Not _OTDBSession Is Nothing AndAlso Not _OTDBSession.IsRunning Then
-                        '* add the config file path
-                        AddConfigFilePath(host.path)
-                        '** read the config properties
-                        Me.SetConfigProperties()
+                        '''
+                        ''' message than we switched the host
+                        ''' 
+                        Call CoreMessageHandler(message:=" Host Application switched to " & host.name, arg1:=host.path, _
+                                                     messagetype:=otCoreMessageType.InternalInfo, subname:="ThisAddin.CurrentHost")
+
+                        ' set the defaultdomainid
+                        value = GetXlsParameterByName(name:=constCPNDefaultDomainid, silent:=True)
+                        If Not value Is Nothing Then
+                            Me.CurrentDefaultDomainID = CStr(value)
+                        End If
+
+                        If Not _OTDBSession Is Nothing AndAlso Not _OTDBSession.IsRunning Then
+                            '* add the config file path
+                            AddConfigFilePath(host.path)
+                            '** read the config properties
+                            Me.SetConfigProperties()
+                        End If
                     End If
                 End If
-            End If
+            Catch ex As Exception
+                Call CoreMessageHandler(message:=" could not switch host application ", _
+                                                     messagetype:=otCoreMessageType.InternalInfo, subname:="ThisAddin.CurrentHost")
+            End Try
         End Set
         Get
             Return _CurrentHost
         End Get
     End Property
+    ''' <summary>
+    ''' set the current host to the current active Workbook
+    ''' </summary>
+    ''' <remarks></remarks>
     Public Sub SetCurrentHost()
         Me.CurrentHost = Me.Application.ActiveWorkbook
     End Sub
@@ -262,7 +301,15 @@ Public Class ThisAddIn
         If Not value Is Nothing Then
             SetConfigProperty(name:=constCPNUseLogAgent, weight:=20, value:=CBool(value), configsetname:=useConfigSetName)
         End If
-
+        ' set the defaultdomainid
+        value = GetXlsParameterByName(name:=constCPNDefaultDomainid, silent:=True)
+        If Not value Is Nothing Then
+            SetConfigProperty(name:=constCPNDefaultDomainid, weight:=30, value:=CStr(value), configsetname:=useConfigSetName)
+        End If
+        value = GetHostProperty(constCPNDefaultDomainid, silent:=True)
+        If Not value Is Nothing Then
+            SetConfigProperty(name:=constCPNDefaultDomainid, weight:=20, value:=CStr(value), configsetname:=useConfigSetName)
+        End If
         '****
         '**** Finally set the Configset Name after we have created everthing - mus texist
         If useConfigSetName IsNot Nothing Then
@@ -275,7 +322,7 @@ Public Class ThisAddIn
     Private Sub ThisAddIn_Shutdown() Handles Me.Shutdown
         '*** disconnect
         If Not _OTDBSession Is Nothing AndAlso _OTDBSession.ShutDown() Then
-            Globals.ThisAddIn.Application.StatusBar = Date.Now.ToLocalTime & ": Disconnected from OnTrack Database"
+            Globals.ThisAddIn.Application.StatusBar = Date.Now & ": Disconnected from OnTrack Database"
         End If
     End Sub
 

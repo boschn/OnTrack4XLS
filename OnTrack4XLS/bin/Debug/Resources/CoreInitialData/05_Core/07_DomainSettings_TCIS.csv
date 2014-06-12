@@ -1,6 +1,6 @@
 # Entries for DOMAIN SETTINGS
 #
-# --- STANDARD ---
+# --- Bombardier TCIS Global @ Settings ---
 #
 # Exchange IDs
 #
@@ -20,3 +20,9 @@ DEFAULTSCHEDULETYPEID;@;"default schedule type for new schedules";PDM;3;
 DEFAULTDELIVERABLETYPEID;@;"default deliverable type for new deliverables";FVDS;3;
 # this sets the autopublish to false
 AUTOPUBLISHTARGET;@;"if true the target will be published every time on changed";False;9;
+# Unique IDs for Deliverables TCIS
+DELIVERABLEUNIQUEENTRIES;@;"entries of the deliverable which will be checked on cloneing or persisting to be unique";|ID|DREV|CHREF|;2;
+# Related ObjectID to Deliverable ID to clone also
+DELIVERABLEONCLONINGCLONEALSO;@;"related objects of the deliverable which will be cloned also";|PROPERTYVALUELOT|;2;
+# entries of a deliverable to reset on cloneing
+DELIVERABLEONCLONINGRESETENTRIES;@;"entry names of a deliverable to reset on cloneing";|DREV|CHREF|;2;

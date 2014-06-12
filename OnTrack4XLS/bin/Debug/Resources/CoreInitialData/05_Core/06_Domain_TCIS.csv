@@ -1,0 +1,14 @@
+# Entries for DOMAINs;;;;
+#;;;;
+# --- Bombardier TCIS Global @ Settings ---;;;;
+#;;;;
+# Exchange IDs;;;;
+#;;;;
+#DM1;DOMAIN;DOMAINID;domain identifier;3
+#DM10;DOMAIN;MINDLVUID;Minimum deliverable uid for domain;7
+#DM11;DOMAIN;MAXDLVUID;Maximum deliverable uid for domain;7
+#DM2;DOMAIN;DESC;description of the domain;3
+#DM3;DOMAIN;ISGLOBAL;if set this domain is the global domain;9
+DOMAIN.DM1;DM2;DM3;DM10;DM11
+SBB;TCIS SBB Project;false;10000;19999
+DOSTO2010;TCIS Dosto 2010 Project;false;20000;29999

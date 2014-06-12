@@ -1138,11 +1138,11 @@ error_handler:
         flag = SetXlsParameterValueByName(name:="otdb_parameter_mqf_template_datastartrow", value:=startdatarow, workbook:=MQFWorkbook)
         'hermes_mqf_createdby
         flag = SetXlsParameterValueByName("hermes_mqf_createdby", Globals.ThisAddIn.Application.UserName, workbook:=MQFWorkbook)
-        flag = SetXlsParameterValueByName("hermes_mqf_createdon", Format(Date.Now(), "dd.mm.yyyy"), workbook:=MQFWorkbook)
+        flag = SetXlsParameterValueByName("hermes_mqf_createdon", Converter.Date2LocaleShortDateString(Date.Now()), workbook:=MQFWorkbook)
         'parameter_doc9_extract_tooling
         flag = SetXlsParameterValueByName("otdb_parameter_mqf_extract_tooling", getDoc9ToolingName(Globals.ThisAddIn.Application.Globals.ThisAddin.Application.Workbooks(currWorkbookName)), workbook:=MQFWorkbook)
         flag = SetXlsParameterValueByName("hermes_mqf_doc9used", dbDoc9Range.Worksheet.Parent.Name, workbook:=MQFWorkbook)
-        flag = SetXlsParameterValueByName("hermes_mqf_doc9usedon", Format(Date.Now(), "dd.mm.yyyy") & " " & Format(Date.Now(), "hh:mm"), workbook:=MQFWorkbook)
+        flag = SetXlsParameterValueByName("hermes_mqf_doc9usedon", Converter.DateTime2LocaleDateTimeString(Date.Now), workbook:=MQFWorkbook)
 
         'flag = setXLSParameterValueByName("parameter_recent_ICD_change_date", _
         'MQFWorkbook.BuiltinDocumentProperties(12).value)
@@ -1287,7 +1287,7 @@ handleerror:
     '********
     '********
 
-    Public Sub updateMQFDescTable(WORKBOOK As Excel.Workbook, Optional ROFieldIDs As Object() = Nothing)
+    Public Sub UpdateMQFDescTable(WORKBOOK As Excel.Workbook, Optional ROFieldIDs As Object() = Nothing)
         Dim headerids As Range
         Dim headerids_name As String
         Dim DescTable As Range
@@ -1456,8 +1456,10 @@ handleerror:
     ''' <param name="workerthread"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Function BuildMessageQueueObject(ByRef MQFWorkbook As Excel.Workbook, ByRef [messagequeue] As MessageQueue, _
-                                     Optional ByRef workerthread As BackgroundWorker = Nothing, Optional persist As Boolean = False) As Boolean
+    Function BuildXLSMessageQueueObject(ByRef MQFWorkbook As Excel.Workbook, ByRef [messagequeue] As MessageQueue, _
+                                     Optional ByRef workerthread As BackgroundWorker = Nothing,
+                                     Optional domainid As String = Nothing, _
+                                     Optional persist As Boolean = False) As Boolean
         Dim aVAlue As Object
         Dim headerstartrow As Integer
         Dim headerids_name As String
@@ -1487,16 +1489,35 @@ handleerror:
         Dim mqfDBRange As Range
         Dim maximum As Long
         Dim progress As Long = 0
+        Dim aStopwatch As New Diagnostics.Stopwatch
+
 
         Try
-            If Not ot.CurrentSession.RequireAccessRight(otAccessRight.ReadUpdateData) Then
-                CoreMessageHandler(showmsgbox:=True, subname:="modXLSMessageQueueFile.preProcessXLSMQF", messagetype:=otCoreMessageType.ApplicationError, _
-                                    message:="the necessary right to run the operation was not granted by the ontrack session - operation aborted.")
-                Return False
+            If Not ot.IsConnected Then
+                If Not ot.Startup(accessRequest:=otAccessRight.ReadUpdateData, domainID:=domainid, _
+                                   messagetext:="For creating a MQF data structure out of an excel file you need access to Ontrack Database. Please login.") Then
+                    CoreMessageHandler(showmsgbox:=True, subname:="modXLSMessageQueueFile.preProcessXLSMQF", messagetype:=otCoreMessageType.ApplicationError, _
+                                        message:="the necessary right to run the operation was not granted by the ontrack session - operation aborted.")
+                    Return False
+                End If
+            Else
+                If String.IsNullOrWhiteSpace(domainid) Then domainid = CurrentSession.CurrentDomainID
+                If Not ot.CurrentSession.RequireAccessRight(otAccessRight.ReadUpdateData, domainID:=domainid) Then
+                    CoreMessageHandler(showmsgbox:=True, subname:="modXLSMessageQueueFile.preProcessXLSMQF", messagetype:=otCoreMessageType.ApplicationError, _
+                                        message:="the necessary right to run the operation was not granted by the ontrack session - operation aborted.")
+                    Return False
+                Else
+                    If CurrentSession.CurrentDomainID <> domainid Then
+                        CurrentSession.SwitchToDomain(domainid)
+                    End If
+                End If
             End If
 
             ' cache the MQFWOrkbook
             cacheAllWorkbookNames(MQFWorkbook)
+
+            ' start watch
+            aStopwatch.Start()
 
             '''
             ''' Step0: Get all the Parameters from the MQF Excel
@@ -1504,10 +1525,10 @@ handleerror:
             If [messagequeue] Is Nothing OrElse Not [messagequeue].IsAlive(throwError:=False) Then
                 ' check if we have one
                 aVAlue = GetXlsParameterByName(name:="otdb_parameter_mqf_tag", workbook:=MQFWorkbook, silent:=True)
-                If aVAlue = "" Then aVAlue = GetHostProperty("otdb_parameter_mqf_tag", host:=MQFWorkbook, silent:=True)
-                If aVAlue = "" Then aVAlue = MQFWorkbook.Name & " " & CStr(Now)
+                If String.IsNullOrWhiteSpace(aVAlue) Then aVAlue = GetHostProperty("otdb_parameter_mqf_tag", host:=MQFWorkbook, silent:=True)
+                If String.IsNullOrWhiteSpace(aVAlue) Then aVAlue = MQFWorkbook.Name & " " & CStr(Now)
                 ''' create a message queue in the backend
-                [messagequeue] = Xchange.MessageQueue.Create(id:=aVAlue)
+                [messagequeue] = Xchange.MessageQueue.Create(id:=aVAlue, runtimeOnly:=True)
                 If [messagequeue] Is Nothing Then [messagequeue] = Xchange.MessageQueue.Retrieve(id:=aVAlue)
                 If messagequeue Is Nothing Then
                     CoreMessageHandler(showmsgbox:=True, message:="the messagequeue is not creatable in the backend  - operation aborted for '" _
@@ -1533,8 +1554,17 @@ handleerror:
                     .RequestedOn = CDate(aVAlue)
                 End If
                 .Title = GetXlsParameterByName(name:="hermes_mqf_title", workbook:=MQFWorkbook, silent:=True)
-                .Comment = GetXlsParameterByName(name:="hermes_mqf_subject", workbook:=MQFWorkbook, silent:=True)
-
+                .Description = GetXlsParameterByName(name:="hermes_mqf_subject", workbook:=MQFWorkbook, silent:=True)
+                If String.IsNullOrWhiteSpace(domainid) Then
+                    aVAlue = GetXlsParameterByName(name:="hermes_mqf_domainid", workbook:=MQFWorkbook, silent:=True)
+                    If aVAlue IsNot Nothing Then
+                        .DomainID = aVAlue
+                    Else
+                        .DomainID = CurrentSession.CurrentDomainID
+                    End If
+                Else
+                    .DomainID = domainid
+                End If
             End With
 
             ''' fill the xls super structure although obsolete
@@ -1544,7 +1574,7 @@ handleerror:
                 .requestedbyDept = messagequeue.RequestedByOU
                 .requestedBy = messagequeue.RequestedBy
                 .requestedOn = messagequeue.RequestedOn
-                .Requestfor = messagequeue.Comment
+                .Requestfor = messagequeue.Description
             End With
 
             '''
@@ -1612,11 +1642,7 @@ handleerror:
             End If
 
             '*** HACK
-            'Call [messagequeue].XChangeConfig.AddObjectByName(name:=Scheduling.ScheduleEdition.ConstObjectID, xcmd:=otXChangeCommandType.Update)
-            'Call [messagequeue].XChangeConfig.AddObjectByName(name:=Deliverables.Target.ConstObjectID, xcmd:=otXChangeCommandType.Update)
-            'Call [messagequeue].XChangeConfig.AddObjectByName(name:=Deliverables.Track.ConstObjectID, xcmd:=otXChangeCommandType.Update)
             Call [messagequeue].XChangeConfig.AddObjectByName(name:=Deliverables.Deliverable.ConstObjectID, xcmd:=otXChangeCommandType.Update)
-            'Call [messagequeue].XChangeConfig.AddObjectByName(name:=Parts.Part.ConstObjectID, xcmd:=otXChangeCommandType.Update)
 
             ''' do not persist the xchange configuration since we are only dynamic here
             ''' If messagequeue.XChangeConfig.IsCreated Then [messagequeue].XChangeConfig.Persist()
@@ -1632,8 +1658,8 @@ handleerror:
                 If cell.Value <> "" And Not IsError(cell.Value) Then
                     ' resolve the ID
                     anID = CStr(cell.Text)
-                    Diagnostics.Debug.WriteLine(anID)
-                   
+                    'Diagnostics.Debug.WriteLine(anID)
+
                     '' try to get a MQFDBDesc in the parameters
                     ''
                     If aMQFDBDescLookup.ContainsKey(anID) Then
@@ -1747,12 +1773,19 @@ handleerror:
             '''
             ''' STEP 2:  thorugh 2-dimensional array from MQF and build MQMessages
             '''
+           
+            Dim aStopWatch2 As New Diagnostics.Stopwatch
+            aStopWatch2.Start()
+            Dim aStopWatch3 As New Diagnostics.Stopwatch
+            Dim aStopWatch4 As New Diagnostics.Stopwatch
 
             For rowno As ULong = LBound(aMQFXLSValueRange, 1) To UBound(aMQFXLSValueRange, 1)
+                aStopWatch3 = New Diagnostics.Stopwatch
+                aStopWatch3.Start()
 
                 changeflag = False
-
                 Dim aMQMessage As MQMessage = [messagequeue].CreateMessage(no:=rowno)
+
                 ' set the msglog identifiers
                 aMQMessage.ContextIdentifier = [messagequeue].ID
                 aMQMessage.TupleIdentifier = mqfDBRange.Rows(rowno).address
@@ -1775,7 +1808,7 @@ handleerror:
                         aMQMessage.IsActionProcessable()
                     Else
                         '513;@;MQF;message operation is missing - message not processed;;99;Error;false;|R1|S1|;|XCHANGEENVELOPE|MQMESSAGE|
-                        aMQMessage.ObjectMessageLog.Add(513, Nothing, Nothing, Nothing, Nothing)
+                        aMQMessage.ObjectMessageLog.Add(513, Nothing, Nothing, Nothing, Nothing, aMQMessage)
                     End If
 
 
@@ -1804,20 +1837,21 @@ handleerror:
                         If aStatusItem IsNot Nothing Then
                             If Not aStatusItem.Aborting Then
                                 '571;@;MQF;message in row %Tupleidentifier% was already completely processed on %1% - skip processing;;70;Error;false;|Y1|S1|;|XCHANGEENVELOPE|MQMESSAGE|
-                                aMQMessage.ObjectMessageLog.Add(571, Nothing, Nothing, Nothing, Nothing, aprocessdate.ToLocalTime)
+                                aMQMessage.ObjectMessageLog.Add(571, Nothing, Nothing, Nothing, Nothing, aMQMessage, aprocessdate)
                             Else
                                 '572;@;MQF;message in row %Tupleidentifier% was already processed on %1% with errors ;;01;Error;false;|Y1|G2|;|XCHANGEENVELOPE|MQMESSAGE|
-                                aMQMessage.ObjectMessageLog.Add(572, Nothing, Nothing, Nothing, Nothing, aprocessdate.ToLocalTime)
+                                aMQMessage.ObjectMessageLog.Add(572, Nothing, Nothing, Nothing, Nothing, aMQMessage, aprocessdate)
                             End If
                         End If
                     End If
                 End If
 
-                
+
 
                 '** phase1 in row : run through all fields of the row to get a full message
                 '**
                 aColumnNo = 0
+              
                 For Each aXChangeEntry As IXChangeConfigEntry In listOfXEntries
                     Dim fillSlot As Boolean = True
 
@@ -1830,7 +1864,9 @@ handleerror:
 
                     ' get aValue
                     aVAlue = aMQFXLSValueRange(rowno, aColumnNo)
-                    '*** transform
+                    '*** remove any whitespaces which are disturbing
+                    If aVAlue IsNot Nothing Then aVAlue = Trim(aVAlue)
+                    '*** basic transforms
                     If IsEmpty(aVAlue) Then
                         aVAlue = Nothing
                         fillSlot = True
@@ -1842,7 +1878,7 @@ handleerror:
                         fillSlot = True
                     ElseIf IsError(aVAlue) Then
                         '501;@;MQF;cell value '%2%' of column %1% in %Tupleidentifier% has excel error
-                        aMQMessage.ObjectMessageLog.Add(501, Nothing, Nothing, Nothing, Nothing, aColumnNo, aVAlue)
+                        aMQMessage.ObjectMessageLog.Add(501, Nothing, Nothing, Nothing, Nothing, aMQMessage, aColumnNo, aVAlue)
                         fillSlot = False
                     End If
 
@@ -1850,13 +1886,20 @@ handleerror:
                     '** store the aValues it
                     ' theMessages(n).fieldvalues(i) = aValue
                     If fillSlot Then
+                        aStopWatch4 = New Diagnostics.Stopwatch
+                        aStopWatch4.Start()
+
+                        Dim aMQSlot As MQXSlot = aMQMessage.CreateAddedSlot(aColumnNo)
+
+                        aStopWatch4.Stop()
+                        Diagnostics.Debug.WriteLine("> addSlot " & aStopWatch4.ElapsedMilliseconds)
+
                         ' create a new Member in the Message
-                        Dim aMQSlot As MQXSlot = aMQMessage.CreateSlot(aColumnNo)
+
                         With aMQSlot
                             If aVAlue Is Nothing Then
                                 .IsNull = False
                                 .IsEmpty = True
-                                .Value = Nothing
                             ElseIf aVAlue.ToString = constMQFClearFieldChar Then
                                 .IsNull = True
                                 .IsEmpty = False
@@ -1877,19 +1920,27 @@ handleerror:
                     End If
 
                 Next aXChangeEntry    ' run through fields
-
+                aStopWatch3.Stop()
+                Diagnostics.Debug.WriteLine(rowno & ". message line build in " & aStopWatch3.ElapsedMilliseconds & "ms")
+               
                 ' reset the processable flag if no change -> ""
                 If Not changeflag Then
                     '570;@;MQF;message in row %Tupleidentifier% has no changed values - skip processing;;70;Error;false;|Y1|R1|;|XCHANGEENVELOPE|MQMessage|
-                    aMQMessage.ObjectMessageLog.Add(570, Nothing, Nothing, Nothing, Nothing)
+                    aMQMessage.ObjectMessageLog.Add(570, Nothing, Nothing, Nothing, Nothing, aMQMessage)
                 End If
 
                 ' increase
                 n = n + 1
             Next rowno
 
+            aStopWatch2.Stop()
             Globals.ThisAddIn.Application.EnableEvents = True
             Globals.ThisAddIn.Application.ScreenUpdating = True
+
+            aStopwatch.Stop()
+            CoreMessageHandler(message:="mqf build from excel file " & MQFWorkbook.Name & " in " & aStopwatch.ElapsedMilliseconds & "ms", _
+                                subname:="modXLSMessageQueueFile.BuildXLSMessageQueueObject", messagetype:=otCoreMessageType.ApplicationInfo)
+
 
             ''' save the MQF
             If persist Then
@@ -2120,273 +2171,274 @@ handleerror:
     '****************************************************************************************************
     ' processXLSMQF
     '
+    ' OUTDATED !!
 
-    Function processXLSMQF(ByRef MQFWorkbook As Excel.Workbook, ByRef MQFObject As MessageQueue) As Boolean
-        Dim aMQFRowEntry As MQMessage
-        Dim aMapping As New Dictionary(Of Object, Object)
-        Dim aMember As MQXSlot
-        Dim aConfig As XChangeConfiguration
-        Dim aConfigmember As IXChangeConfigEntry
-        'Dim aProgressBar As New clsUIProgressBarForm
-        Dim aDeliverable As New Deliverables.Deliverable
-        Dim aNewDeliverable As New Deliverables.Deliverable
-        Dim aValue As Object
-        Dim aWorkspace As String
-        Dim aSchedule As New Scheduling.ScheduleEdition
-        Dim aRefdate As New Date
-        Dim aNewUID As Long
+    'Function processXLSMQF(ByRef MQFWorkbook As Excel.Workbook, ByRef MQFObject As MessageQueue) As Boolean
+    '    Dim aMQFRowEntry As MQMessage
+    '    Dim aMapping As New Dictionary(Of Object, Object)
+    '    Dim aMember As MQXSlot
+    '    Dim aConfig As XChangeConfiguration
+    '    Dim aConfigmember As IXChangeConfigEntry
+    '    'Dim aProgressBar As New clsUIProgressBarForm
+    '    Dim aDeliverable As New Deliverables.Deliverable
+    '    Dim aNewDeliverable As New Deliverables.Deliverable
+    '    Dim aValue As Object
+    '    Dim aWorkspace As String
+    '    Dim aSchedule As New Scheduling.ScheduleEdition
+    '    Dim aRefdate As New Date
+    '    Dim aNewUID As Long
 
-        Dim anUID As Long
-        Dim aRev As String
-        Dim i As Long
+    '    Dim anUID As Long
+    '    Dim aRev As String
+    '    Dim i As Long
 
-        ' init
-        'Call aProgressBar.initialize(MQFObject.size, WindowCaption:="processing MQF  ...")
-        'aProgressBar.showForm()
-        If Not CurrentSession.IsRunning Then
-            CurrentSession.StartUp(otAccessRight.ReadUpdateData)
-        End If
-        ' save
-        MQFObject.ProcessedByUsername = CurrentSession.OTdbUser.Username
-        MQFObject.Processdate = Now
+    '    ' init
+    '    'Call aProgressBar.initialize(MQFObject.size, WindowCaption:="processing MQF  ...")
+    '    'aProgressBar.showForm()
+    '    If Not CurrentSession.IsRunning Then
+    '        CurrentSession.StartUp(otAccessRight.ReadUpdateData)
+    '    End If
+    '    ' save
+    '    MQFObject.ProcessedByUsername = CurrentSession.OTdbUser.Username
+    '    MQFObject.Processdate = Now
 
-        ' step through the RowEntries
+    '    ' step through the RowEntries
 
-        For Each aMQFRowEntry In MQFObject.Messages
+    '    For Each aMQFRowEntry In MQFObject.Messages
 
-            ' for each Member Check it with the XChangeConfig routines
-            If aMQFRowEntry.Action = constMQFOperation_CHANGE Then
-                'Call aMQFRowEntry.RunXChange(MAPPING:=aMapping)
-                ' get the Result
-                'Set aMapping = New Dictionary
-                'For Each aMember In aMQFRowEntry.Members
-                '    '**
-                '    Set aConfigmember = MQFObject.XCHANGECONFIG.AttributeByfieldname(aMember.fieldname, tablename:=aMember.OBJECTNAME)
-                '    If aConfigmember.ISXCHANGED Then
-                '        If Not aMapping.exists(Key:=aConfigmember.ordinal.value) Then
-                '            Call aMapping.add(Key:=aConfigmember.ordinal.value, ITEM:=aMember.Value)
-                '        End If
-                '    End If
+    '        ' for each Member Check it with the XChangeConfig routines
+    '        If aMQFRowEntry.Action = constMQFOperation_CHANGE Then
+    '            'Call aMQFRowEntry.RunXChange(MAPPING:=aMapping)
+    '            ' get the Result
+    '            'Set aMapping = New Dictionary
+    '            'For Each aMember In aMQFRowEntry.Members
+    '            '    '**
+    '            '    Set aConfigmember = MQFObject.XCHANGECONFIG.AttributeByfieldname(aMember.fieldname, tablename:=aMember.OBJECTNAME)
+    '            '    If aConfigmember.ISXCHANGED Then
+    '            '        If Not aMapping.exists(Key:=aConfigmember.ordinal.value) Then
+    '            '            Call aMapping.add(Key:=aConfigmember.ordinal.value, ITEM:=aMember.Value)
+    '            '        End If
+    '            '    End If
 
-                'Next aMember
-                aMQFRowEntry.ProcessedOn = Now
+    '            'Next aMember
+    '            aMQFRowEntry.ProcessedOn = Now
 
-                Call updateRowXlsDoc9(INPUTMAPPING:=aMapping, INPUTXCHANGECONFIG:=MQFObject.XChangeConfig)
-                '****
-                '**** ADD REVISION
-            ElseIf aMQFRowEntry.Action = constMQFOperation_REVISION Then
-                ' fill the Mapping
-                aMapping = New Dictionary(Of Object, Object)
-                'Call aMQFRowEntry.FillMapping(aMapping)
-                ' get UID
-                aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
-                If Not aConfigmember Is Nothing Then
-                    If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
-                        If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
-                            anUID = aMapping.Item(key:=aConfigmember.Ordinal.Value)
-                            aDeliverable = Deliverables.Deliverable.Retrieve(uid:=anUID)
-                            If aDeliverable Is Nothing Then
-                                '** revision ?!
-                                aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="c16")
-                                If Not aConfigmember Is Nothing Then
-                                    If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
-                                        If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
-                                            aRev = aMapping.Item(key:=aConfigmember.Ordinal.Value)
-                                        Else
-                                            aRev = ""
-                                        End If
-                                    Else
-                                        aRev = ""
-                                    End If
-                                Else
-                                    aRev = ""
-                                End If
-                                '**
-                                aNewDeliverable = aDeliverable.AddRevision(newRevision:=aRev, persist:=True)
-                                If Not aNewDeliverable Is Nothing Then
-                                    ' substitute UID
-                                    aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
-                                    Call aMapping.Remove(key:=aConfigmember.Ordinal.Value)
-                                    Call aMapping.Add(key:=aConfigmember.Ordinal.Value, value:=aNewDeliverable.Uid)
-                                    ' substitute REV
-                                    aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="c16")
-                                    If Not aConfigmember Is Nothing Then
-                                        If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
-                                            If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
-                                                Call aMapping.Remove(key:=aConfigmember.Ordinal.Value)
-                                            End If
-                                            Call aMapping.Add(key:=aConfigmember.Ordinal.Value, value:=aNewDeliverable.Revision)
-                                        End If
-                                    End If
-                                    ' substitute TYPEID or ADD
-                                    aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="SC14")
-                                    If aConfigmember Is Nothing Then
-                                        If MQFObject.XChangeConfig.AddEntryByXID(Xid:="SC14") Then
-                                            aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="SC14")
-                                        End If
-                                    End If
-                                    If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
-                                        If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
-                                            Call aMapping.Remove(key:=aConfigmember.Ordinal.Value)
-                                        End If
-                                        Dim aTrack As Deliverables.Track
-                                        aTrack = aNewDeliverable.GetTrack
-                                        If Not aTrack Is Nothing Then
-                                            Call aMapping.Add(key:=aConfigmember.Ordinal.Value, value:=aTrack.Scheduletype)
-                                        End If
-                                        'Call aMapping.Add(key:=aConfigmember.ordinal.value, c:=aNewDeliverable.getTrack.SCHEDULETYPE)
-                                    End If
+    '            Call updateRowXlsDoc9(INPUTMAPPING:=aMapping, INPUTXCHANGECONFIG:=MQFObject.XChangeConfig)
+    '            '****
+    '            '**** ADD REVISION
+    '        ElseIf aMQFRowEntry.Action = constMQFOperation_REVISION Then
+    '            ' fill the Mapping
+    '            aMapping = New Dictionary(Of Object, Object)
+    '            'Call aMQFRowEntry.FillMapping(aMapping)
+    '            ' get UID
+    '            aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
+    '            If Not aConfigmember Is Nothing Then
+    '                If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
+    '                    If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
+    '                        anUID = aMapping.Item(key:=aConfigmember.Ordinal.Value)
+    '                        aDeliverable = Deliverables.Deliverable.Retrieve(uid:=anUID)
+    '                        If aDeliverable Is Nothing Then
+    '                            '** revision ?!
+    '                            aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="c16")
+    '                            If Not aConfigmember Is Nothing Then
+    '                                If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
+    '                                    If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
+    '                                        aRev = aMapping.Item(key:=aConfigmember.Ordinal.Value)
+    '                                    Else
+    '                                        aRev = ""
+    '                                    End If
+    '                                Else
+    '                                    aRev = ""
+    '                                End If
+    '                            Else
+    '                                aRev = ""
+    '                            End If
+    '                            '**
+    '                            'aNewDeliverable = aDeliverable.AddRevision(newRevision:=aRev, persist:=True)
+    '                            If Not aNewDeliverable Is Nothing Then
+    '                                ' substitute UID
+    '                                aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
+    '                                Call aMapping.Remove(key:=aConfigmember.Ordinal.Value)
+    '                                Call aMapping.Add(key:=aConfigmember.Ordinal.Value, value:=aNewDeliverable.Uid)
+    '                                ' substitute REV
+    '                                aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="c16")
+    '                                If Not aConfigmember Is Nothing Then
+    '                                    If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
+    '                                        If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
+    '                                            Call aMapping.Remove(key:=aConfigmember.Ordinal.Value)
+    '                                        End If
+    '                                        Call aMapping.Add(key:=aConfigmember.Ordinal.Value, value:=aNewDeliverable.Revision)
+    '                                    End If
+    '                                End If
+    '                                ' substitute TYPEID or ADD
+    '                                aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="SC14")
+    '                                If aConfigmember Is Nothing Then
+    '                                    If MQFObject.XChangeConfig.AddEntryByXID(Xid:="SC14") Then
+    '                                        aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="SC14")
+    '                                    End If
+    '                                End If
+    '                                If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
+    '                                    If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
+    '                                        Call aMapping.Remove(key:=aConfigmember.Ordinal.Value)
+    '                                    End If
+    '                                    Dim aTrack As Deliverables.Track
+    '                                    aTrack = aNewDeliverable.GetTrack
+    '                                    If Not aTrack Is Nothing Then
+    '                                        Call aMapping.Add(key:=aConfigmember.Ordinal.Value, value:=aTrack.Scheduletype)
+    '                                    End If
+    '                                    'Call aMapping.Add(key:=aConfigmember.ordinal.value, c:=aNewDeliverable.getTrack.SCHEDULETYPE)
+    '                                End If
 
-                                    '*** runxchange
-                                    'Call aMQFRowEntry.RunXChange(MAPPING:=aMapping)
-                                    aMQFRowEntry.ProcessedOn = Now
-                                    'how to save new uid ?!
-                                    'Call updateRowXlsDoc9(INPUTMAPPING:=aMapping, INPUTXCHANGECONFIG:=MQFObject.XCHANGECONFIG)
-                                Else
-                                    Call CoreMessageHandler(subname:="MQF.processXLSMQF", message:="AddRevision failed", _
-                                                          arg1:=aDeliverable.Uid)
-                                End If
-                            Else
-                                Call CoreMessageHandler(subname:="MQF.processXLSMQF", message:="uid not in mapping", _
-                                                      arg1:=anUID)
-                            End If
-                        Else
-                            Call CoreMessageHandler(subname:="MQF.processXLSMQF", message:="load of Deliverable failed", _
-                                                  arg1:=aConfigmember.Ordinal.Value)
-                        End If
-                    Else
-                        Call CoreMessageHandler(subname:="MQF.processXLSMQF", message:="uid id not in configuration", _
-                                              arg1:="uid")
-                    End If
-                Else
-                    Call CoreMessageHandler(subname:="MQF.processXLSMQF", message:="uid id not in configuration", _
-                                          arg1:="uid")
-                End If
+    '                                '*** runxchange
+    '                                'Call aMQFRowEntry.RunXChange(MAPPING:=aMapping)
+    '                                aMQFRowEntry.ProcessedOn = Now
+    '                                'how to save new uid ?!
+    '                                'Call updateRowXlsDoc9(INPUTMAPPING:=aMapping, INPUTXCHANGECONFIG:=MQFObject.XCHANGECONFIG)
+    '                            Else
+    '                                Call CoreMessageHandler(subname:="MQF.processXLSMQF", message:="AddRevision failed", _
+    '                                                      arg1:=aDeliverable.Uid)
+    '                            End If
+    '                        Else
+    '                            Call CoreMessageHandler(subname:="MQF.processXLSMQF", message:="uid not in mapping", _
+    '                                                  arg1:=anUID)
+    '                        End If
+    '                    Else
+    '                        Call CoreMessageHandler(subname:="MQF.processXLSMQF", message:="load of Deliverable failed", _
+    '                                              arg1:=aConfigmember.Ordinal.Value)
+    '                    End If
+    '                Else
+    '                    Call CoreMessageHandler(subname:="MQF.processXLSMQF", message:="uid id not in configuration", _
+    '                                          arg1:="uid")
+    '                End If
+    '            Else
+    '                Call CoreMessageHandler(subname:="MQF.processXLSMQF", message:="uid id not in configuration", _
+    '                                      arg1:="uid")
+    '            End If
 
-                '****
-                '**** ADD-AFTER
-                '****
-            ElseIf aMQFRowEntry.Action = constMQFOperation_ADDAFTER Then
-                ' fill the Mapping
-                aMapping = New Dictionary(Of Object, Object)
-                'Call aMQFRowEntry.FillMapping(aMapping)
+    '            '****
+    '            '**** ADD-AFTER
+    '            '****
+    '        ElseIf aMQFRowEntry.Action = constMQFOperation_ADDAFTER Then
+    '            ' fill the Mapping
+    '            aMapping = New Dictionary(Of Object, Object)
+    '            'Call aMQFRowEntry.FillMapping(aMapping)
 
-                ' create -> deliverable type should be in here
-                aDeliverable = Deliverables.Deliverable.Create()
-                ' aDeliverable = aDeliverable.CreateFirstRevision() not necessary anymore
-                If aDeliverable.IsCreated Then
-                    aNewUID = aDeliverable.Uid
-                    ' substitute UID
-                    aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
-                    If Not aConfigmember Is Nothing Then
-                        If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
-                            If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
-                                anUID = aMapping.Item(key:=aConfigmember.Ordinal.Value)
-                                Call aMapping.Remove(key:=aConfigmember.Ordinal.Value)
-                            Else
-                                anUID = -1
-                            End If
-                        Else
-                            If MQFObject.XChangeConfig.AddEntryByXID(Xid:="uid") Then
-                                aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
-                            End If
-                        End If
-                    Else
-                        If MQFObject.XChangeConfig.AddEntryByXID(Xid:="uid") Then
-                            aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
-                        End If
-                    End If
+    '            ' create -> deliverable type should be in here
+    '            aDeliverable = Deliverables.Deliverable.Create()
+    '            ' aDeliverable = aDeliverable.CreateFirstRevision() not necessary anymore
+    '            If aDeliverable.IsCreated Then
+    '                aNewUID = aDeliverable.Uid
+    '                ' substitute UID
+    '                aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
+    '                If Not aConfigmember Is Nothing Then
+    '                    If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
+    '                        If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
+    '                            anUID = aMapping.Item(key:=aConfigmember.Ordinal.Value)
+    '                            Call aMapping.Remove(key:=aConfigmember.Ordinal.Value)
+    '                        Else
+    '                            anUID = -1
+    '                        End If
+    '                    Else
+    '                        If MQFObject.XChangeConfig.AddEntryByXID(Xid:="uid") Then
+    '                            aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
+    '                        End If
+    '                    End If
+    '                Else
+    '                    If MQFObject.XChangeConfig.AddEntryByXID(Xid:="uid") Then
+    '                        aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
+    '                    End If
+    '                End If
 
-                    Call aMapping.Add(key:=aConfigmember.Ordinal.Value, value:=aNewUID)
-
-
-                    '*** runxchange
-                    'Call aMQFRowEntry.RunXChange(MAPPING:=aMapping)
-                    aMQFRowEntry.ProcessedOn = Now
-                    '*** TODO : ADD TO OUTLINE
-                    System.Diagnostics.Debug.Write("new deliverable added: " & aNewUID & " to be added after uid #" & anUID)
-                Else
-                    Call CoreMessageHandler(subname:="MQF.processXLSMQF", message:="new deliverable couldn't be created", _
-                                          arg1:=anUID, break:=False, messagetype:=otCoreMessageType.ApplicationError)
-                End If
+    '                Call aMapping.Add(key:=aConfigmember.Ordinal.Value, value:=aNewUID)
 
 
-                '******
-                '****** freeze
-            ElseIf aMQFRowEntry.Action = constMQFOperation_FREEZE Then
-                aMapping = New Dictionary(Of Object, Object)
-                'Call aMQFRowEntry.FillMapping(aMapping)
-                ' get UID
-                aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
-                If Not aConfigmember Is Nothing Then
-                    If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
-                        If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
-                            anUID = aMapping.Item(key:=aConfigmember.Ordinal.Value)
-                            aDeliverable = Deliverables.Deliverable.Retrieve(uid:=anUID)
-                            If aDeliverable IsNot Nothing Then
-                                If Not aDeliverable.IsDeleted Then
-                                    '*** set the workspaceID
-                                    ' REWORK: aValue = MQFObject.XCHANGECONFIG.GetMemberValue(ID:="WS", mapping:=aMapping)
-                                    If IsNull(aValue) Then
-                                        aWorkspace = CurrentSession.CurrentWorkspaceID
-                                    Else
-                                        aWorkspace = CStr(aValue)
-                                    End If
-                                    '***get the schedule
-                                    aSchedule = aDeliverable.GetWorkScheduleEdition(workspaceID:=aWorkspace)
-                                    If Not aSchedule Is Nothing Then
-                                        If aSchedule.IsLoaded Then
-                                            '*** reference date
-                                            aRefdate = MQFObject.RequestedOn
-                                            If aRefdate = constNullDate Then
-                                                aRefdate = Now
-                                            End If
-                                            '*** draw baseline
-                                            Call aSchedule.DrawBaseline(REFDATE:=aRefdate)
-                                        End If
-                                    End If
-                                End If
+    '                '*** runxchange
+    '                'Call aMQFRowEntry.RunXChange(MAPPING:=aMapping)
+    '                aMQFRowEntry.ProcessedOn = Now
+    '                '*** TODO : ADD TO OUTLINE
+    '                System.Diagnostics.Debug.Write("new deliverable added: " & aNewUID & " to be added after uid #" & anUID)
+    '            Else
+    '                Call CoreMessageHandler(subname:="MQF.processXLSMQF", message:="new deliverable couldn't be created", _
+    '                                      arg1:=anUID, break:=False, messagetype:=otCoreMessageType.ApplicationError)
+    '            End If
 
-                            End If
-                        End If
-                    End If
-                End If
-                '****
-                '**** Delete Deliverable
-            ElseIf aMQFRowEntry.Action = constMQFOperation_DELETE Then
-                ' fill the Mapping
-                aMapping = New Dictionary(Of Object, Object)
-                'Call aMQFRowEntry.FillMapping(aMapping)
-                ' get UID
-                aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
-                If Not aConfigmember Is Nothing Then
-                    If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
-                        If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
-                            anUID = aMapping.Item(key:=aConfigmember.Ordinal.Value)
-                            aDeliverable = Deliverables.Deliverable.Retrieve(uid:=anUID)
-                            If aDeliverable IsNot Nothing Then
-                                aDeliverable.Delete()
 
-                            End If
-                        End If
-                    End If
-                End If
-            End If    ' commands
+    '            '******
+    '            '****** freeze
+    '        ElseIf aMQFRowEntry.Action = constMQFOperation_FREEZE Then
+    '            aMapping = New Dictionary(Of Object, Object)
+    '            'Call aMQFRowEntry.FillMapping(aMapping)
+    '            ' get UID
+    '            aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
+    '            If Not aConfigmember Is Nothing Then
+    '                If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
+    '                    If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
+    '                        anUID = aMapping.Item(key:=aConfigmember.Ordinal.Value)
+    '                        aDeliverable = Deliverables.Deliverable.Retrieve(uid:=anUID)
+    '                        If aDeliverable IsNot Nothing Then
+    '                            If Not aDeliverable.IsDeleted Then
+    '                                '*** set the workspaceID
+    '                                ' REWORK: aValue = MQFObject.XCHANGECONFIG.GetMemberValue(ID:="WS", mapping:=aMapping)
+    '                                If IsNull(aValue) Then
+    '                                    aWorkspace = CurrentSession.CurrentWorkspaceID
+    '                                Else
+    '                                    aWorkspace = CStr(aValue)
+    '                                End If
+    '                                '***get the schedule
+    '                                aSchedule = aDeliverable.GetWorkScheduleEdition(workspaceID:=aWorkspace)
+    '                                If Not aSchedule Is Nothing Then
+    '                                    If aSchedule.IsLoaded Then
+    '                                        '*** reference date
+    '                                        aRefdate = MQFObject.RequestedOn
+    '                                        If aRefdate = constNullDate Then
+    '                                            aRefdate = Now
+    '                                        End If
+    '                                        '*** draw baseline
+    '                                        Call aSchedule.DrawBaseline(REFDATE:=aRefdate)
+    '                                    End If
+    '                                End If
+    '                            End If
 
-            i = i + 1
-            'Call aProgressBar.progress(1, Statustext:="updating OnTrack Database message #" & i)
-        Next
+    '                        End If
+    '                    End If
+    '                End If
+    '            End If
+    '            '****
+    '            '**** Delete Deliverable
+    '        ElseIf aMQFRowEntry.Action = constMQFOperation_DELETE Then
+    '            ' fill the Mapping
+    '            aMapping = New Dictionary(Of Object, Object)
+    '            'Call aMQFRowEntry.FillMapping(aMapping)
+    '            ' get UID
+    '            aConfigmember = MQFObject.XChangeConfig.GetEntryByXID(XID:="uid")
+    '            If Not aConfigmember Is Nothing Then
+    '                If aConfigmember.IsLoaded Or aConfigmember.IsCreated Then
+    '                    If aMapping.ContainsKey(key:=aConfigmember.Ordinal.Value) Then
+    '                        anUID = aMapping.Item(key:=aConfigmember.Ordinal.Value)
+    '                        aDeliverable = Deliverables.Deliverable.Retrieve(uid:=anUID)
+    '                        If aDeliverable IsNot Nothing Then
+    '                            aDeliverable.Delete()
 
-        'aProgressBar.showStatus("saving MQF in OnTrack ... ")
-        MQFObject.Persist()
-        'aProgressBar.showStatus("saved MQF in OnTrack ... ")
+    '                        End If
+    '                    End If
+    '                End If
+    '            End If
+    '        End If    ' commands
 
-        'aProgressBar.closeForm()
+    '        i = i + 1
+    '        'Call aProgressBar.progress(1, Statustext:="updating OnTrack Database message #" & i)
+    '    Next
 
-        'return
-        processXLSMQF = True
+    '    'aProgressBar.showStatus("saving MQF in OnTrack ... ")
+    '    MQFObject.Persist()
+    '    'aProgressBar.showStatus("saved MQF in OnTrack ... ")
 
-    End Function
+    '    'aProgressBar.closeForm()
+
+    '    'return
+    '    processXLSMQF = True
+
+    'End Function
    
     ''' <summary>
     ''' Postprocess the Excel after MQF Preprocess / Process run - write back the results
@@ -2395,7 +2447,7 @@ handleerror:
     ''' <param name="MQFObject"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Function PostProcessXLSMQF(ByRef MQFWorkbook As Excel.Workbook, ByRef [messagequeue] As MessageQueue, _
+    Function UpdateXLSMQF(ByRef MQFWorkbook As Excel.Workbook, ByRef [messagequeue] As MessageQueue, _
                                Optional ByRef workerthread As BackgroundWorker = Nothing) As Boolean
         Dim aValue As Object
         Dim headerstartrow As Integer
@@ -2421,7 +2473,7 @@ handleerror:
             ' get Startrow
             aValue = GetXlsParameterByName("otdb_parameter_mqf_template_headerstartrow", workbook:=MQFWorkbook)
             If Not IsNumeric(aValue) Then
-                PostProcessXLSMQF = False
+                UpdateXLSMQF = False
                 'MQFWorkbook.Close (False)
                 Exit Function
             End If
@@ -2434,7 +2486,7 @@ handleerror:
                                       message:="The parameter 'otdb_parameter_mqf_headerid_name':" & headerids_name & " is not showing a valid range !" _
                                     , subname:="modXLSMessageQueueFile.postProcessXLSMQF", messagetype:=otCoreMessageType.ApplicationError, break:=False)
 
-                PostProcessXLSMQF = False
+                UpdateXLSMQF = False
                 Exit Function
             End If
 
@@ -2452,7 +2504,7 @@ handleerror:
                                      message:="The parameter 'otdb_parameter_mqf_structure_db_description_table' is not showing a valid range !" _
                                    , subname:="modXLSMessageQueueFile.postProcessXLSMQF", messagetype:=otCoreMessageType.ApplicationError, break:=False)
 
-                PostProcessXLSMQF = False
+                UpdateXLSMQF = False
                 Exit Function
             End If
 
@@ -2501,9 +2553,9 @@ handleerror:
                         ' timestamp
                         If messagequeue.ProcessDateordinal IsNot Nothing Then
                             If messagequeue.Processdate IsNot Nothing Then
-                                row.Cells(1, [messagequeue].ProcessDateordinal) = Format([messagequeue].Processdate, "dd.MM.yyyy hh:mm")
+                                row.Cells(1, [messagequeue].ProcessDateordinal) = Converter.DateTime2LocaleDateTimeString([messagequeue].Processdate)
                             Else
-                                row.Cells(1, [messagequeue].ProcessDateordinal) = Format(DateTime.Now, "dd.MM.yyyy hh:mm")
+                                row.Cells(1, [messagequeue].ProcessDateordinal) = Converter.DateTime2LocaleDateTimeString(DateTime.Now)
                             End If
 
                         End If
@@ -2525,7 +2577,7 @@ handleerror:
 
                     Else
                         System.Diagnostics.Debug.WriteLine("Order of postprocess is not matching: ")
-                        PostProcessXLSMQF = False
+                        UpdateXLSMQF = False
                     End If
                 End If
                 ' increase
@@ -2533,24 +2585,23 @@ handleerror:
             Next row
 
             aValue = SetXlsParameterValueByName("hermes_mqf_processedBy", [messagequeue].ProcessedByUsername, workbook:=MQFWorkbook)
-            aValue = SetXlsParameterValueByName("hermes_mqf_processedOn", Format([messagequeue].Processdate, "dd.MM.yyyy"), workbook:=MQFWorkbook)
+            aValue = SetXlsParameterValueByName("hermes_mqf_processedOn", Converter.Date2LocaleShortDateString([messagequeue].Processdate), workbook:=MQFWorkbook)
             aValue = SetXlsParameterValueByName("hermes_mqf_status", [messagequeue].ProcessStatusCode, workbook:=MQFWorkbook)
 
             SetXlsParameterValueByName("hermes_mqf_requestedby", [messagequeue].RequestedBy, workbook:=MQFWorkbook, silent:=True)
-            SetXlsParameterValueByName("hermes_mqf_requested_on", Format([messagequeue].RequestedOn, "dd.MM.yyyy"), workbook:=MQFWorkbook, silent:=True)
+            SetXlsParameterValueByName("hermes_mqf_requested_on", Converter.Date2LocaleShortDateString([messagequeue].RequestedOn), workbook:=MQFWorkbook, silent:=True)
             SetXlsParameterValueByName("hermes_mqf_requestedby_department", [messagequeue].RequestedByOU, workbook:=MQFWorkbook)
 
             SetXlsParameterValueByName("hermes_mqf_createdby", [messagequeue].Creator, workbook:=MQFWorkbook, silent:=True)
-            SetXlsParameterValueByName("hermes_mqf_createdon", Format([messagequeue].CreationDate, "dd.MM.yyyy"), workbook:=MQFWorkbook, silent:=True)
+            SetXlsParameterValueByName("hermes_mqf_createdon", Converter.Date2LocaleShortDateString([messagequeue].CreationDate), workbook:=MQFWorkbook, silent:=True)
             SetXlsParameterValueByName("hermes_mqf_createdby_department", [messagequeue].CreatingOU, workbook:=MQFWorkbook)
 
             SetXlsParameterValueByName("hermes_mqf_title", [messagequeue].Title, workbook:=MQFWorkbook, silent:=True)
-            SetXlsParameterValueByName("hermes_mqf_subject", [messagequeue].Comment, workbook:=MQFWorkbook, silent:=True)
+            SetXlsParameterValueByName("hermes_mqf_subject", [messagequeue].Description, workbook:=MQFWorkbook, silent:=True)
             SetXlsParameterValueByName("hermes_mqf_plan_revision", [messagequeue].PlanRevision, workbook:=MQFWorkbook, silent:=True)
 
             SetXlsParameterValueByName("hermes_mqf_approvedBy", [messagequeue].ApprovedBy, workbook:=MQFWorkbook, silent:=True)
-
-
+            SetXlsParameterValueByName("hermes_mqf_comment", [messagequeue].ProcessComment, workbook:=MQFWorkbook, silent:=True)
             ' autofilter
             'dataws.Range(dataws.Cells(headerstartrow + 1, 1), _
             '             dataws.Cells(headerstartrow + 1, MaxCol)).AutoFilter()
@@ -2582,10 +2633,9 @@ handleerror:
     End Function
 
 
-    
     ''' <summary>
-    ''' Subroutine to Locate and Open a Doc9-Document Message Queue in the Globals.ThisAddin.Application
-    '''  runs through some tests to ensure that it is really an Doc9-MQ
+    ''' Subroutine to Locate and Open a  Message Queue in the Globals.ThisAddin.Application
+    '''  runs through some tests to ensure that it is really an MQF
     '''  returns the Workbook
     ''' </summary>
     ''' <returns></returns>
@@ -2618,7 +2668,7 @@ handleerror:
         'Next
 
         'Open Dialog for Doc9 Find
-        Value = GetDBParameter("parameter_startfoldernode")
+        Value = GetDBParameter("parameter_startfoldernode", silent:=True)
         If Value <> "" And FileIO.FileSystem.FileExists(Value) Then
 
             If Mid(Value, Len(Value), 1) <> "\" Then Value = Value & "\"

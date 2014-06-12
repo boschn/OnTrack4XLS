@@ -325,11 +325,12 @@ Public Class XLSDataAreaStore
         Return True
     End Function
 End Class
-'*********
-'********* CLASS XLSOTDBDataArea defines a Data Range which is connected to the
-'*********                       OnTrack Database
-'*********
 
+
+''' <summary>
+''' defines a Data Range which is connected to the OnTrack Database
+''' </summary>
+''' <remarks></remarks>
 Public Class XLSDataArea
     Implements INotifyPropertyChanged
 
@@ -838,18 +839,20 @@ Public Class XLSDataArea
 
         '* nothing selected
         If selected Is Nothing Then
-            msgboxrsl = MsgBox("ATTENTION !" & vbLf & "No data rows have been selected in the SELECTION Column of the Database. Should ALL rows be selected ?", _
-                               vbQuestion + vbYesNoCancel, "OTDB Tooling Message: ARE YOU SURE ?")
-
-            If msgboxrsl <> vbYes Then
-                GetSelectionAsRange = Nothing
-                Exit Function
-            Else
+            Telerik.WinControls.RadMessageBox.SetThemeName("TelerikMetroBlue")
+            Dim aresult As System.Windows.Forms.DialogResult = Telerik.WinControls.RadMessageBox.Show(text:="ATTENTION !" & vbLf & "No data rows have been selected in the SELECTION Column of the Database. Should ALL rows be selected ?", _
+                                                          caption:="Please confirm", _
+                                                          icon:=Telerik.WinControls.RadMessageIcon.Question, _
+                                                          buttons:=System.Windows.Forms.MessageBoxButtons.YesNo, _
+                                                          defaultButton:=System.Windows.Forms.MessageBoxDefaultButton.Button2)
+            If aresult = System.Windows.Forms.DialogResult.Yes OrElse aresult = System.Windows.Forms.DialogResult.OK Then
                 selected = selectioncol.Cells
+            Else
+                Return Nothing
             End If
         End If
-        '
-        GetSelectionAsRange = selected
+
+        Return selected
     End Function
 
     '****** AddHeaderIDRange2Config
@@ -934,7 +937,7 @@ Public Class ExcelXBag
     ''' <remarks></remarks>
     Sub Convert2Hostvalue(ByVal sender As Object, ByVal args As ConvertRequestEventArgs) Handles MyBase.ConvertRequest2HostValue
 
-        If Not args.ConvertSucceeded Then
+        If Not args.result Then
 
             '** special values
             '**
@@ -948,12 +951,12 @@ Public Class ExcelXBag
                     Case otDataType.Bool
                         If args.Dbvalue = True Then
                             args.Hostvalue = args.Dbvalue
-                            args.ConvertSucceeded = True
+                            args.result = True
                         End If
 
                     Case Else
                         args.Hostvalue = constMQFClearFieldChar
-                        args.ConvertSucceeded = True
+                        args.result = True
                         Return
 
                 End Select
@@ -962,12 +965,12 @@ Public Class ExcelXBag
                 '** Do not Change Value at all
                 args.Hostvalue = Nothing
                 args.IsEmpty = True
-                args.ConvertSucceeded = True
+                args.result = True
                 Return
             Else
 
                 '*** Take the Default Routine
-                args.ConvertSucceeded = XSlot.DefaultConvert2HostValue(datatype:=args.Datatype, hostvalue:=args.Hostvalue, dbvalue:=args.Dbvalue, _
+                args.result = XSlot.DefaultConvert2HostValue(datatype:=args.Datatype, hostvalue:=args.Hostvalue, dbvalue:=args.Dbvalue, _
                                                                        dbValueIsEmpty:=args.DbValueIsEmpty, dbValueIsNull:=args.DbValueisNull, _
                                                                        hostValueIsEmpty:=args.HostValueisEmpty, hostValueIsNull:=args.HostValueisNull, _
                                                                        msglog:=args.Msglog)
@@ -981,12 +984,12 @@ Public Class ExcelXBag
                         Case otDataType.Bool
                             If args.Dbvalue = True Then
                                 args.Hostvalue = args.Dbvalue
-                                args.ConvertSucceeded = True
+                                args.result = True
                             End If
 
                         Case Else
                             args.Hostvalue = constMQFClearFieldChar
-                            args.ConvertSucceeded = True
+                            args.result = True
                             Return
 
                     End Select
@@ -1008,7 +1011,7 @@ Public Class ExcelXBag
     ''' <remarks></remarks>
     Sub Convert2DBvalue(ByVal sender As Object, ByVal args As ConvertRequestEventArgs) Handles MyBase.ConvertRequest2DBValue
 
-        If Not args.ConvertSucceeded Then
+        If Not args.result Then
 
             '** special values
             '*** Reset to '-'
@@ -1018,31 +1021,31 @@ Public Class ExcelXBag
                 Select Case args.Datatype
                     Case otDataType.Date, otDataType.Timestamp
                         args.Dbvalue = Nothing
-                        args.ConvertSucceeded = True
+                        args.result = True
                         Return
                     Case otDataType.Time
                         args.Dbvalue = Nothing
-                        args.ConvertSucceeded = True
+                        args.result = True
                         Return
                     Case otDataType.Long
                         args.Dbvalue = Nothing
-                        args.ConvertSucceeded = True
+                        args.result = True
                         Return
                     Case otDataType.Numeric
                         args.Dbvalue = Nothing
-                        args.ConvertSucceeded = True
+                        args.result = True
                         Return
                     Case otDataType.Bool
                         args.Dbvalue = Nothing
-                        args.ConvertSucceeded = True
+                        args.result = True
                         Return
                     Case otDataType.Text, otDataType.Memo, otDataType.List
                         args.Dbvalue = Nothing
-                        args.ConvertSucceeded = True
+                        args.result = True
                         Return
                     Case Else
                         CoreMessageHandler(message:="cannot determine default converter for '-'", messagetype:=otCoreMessageType.InternalError, subname:="ExcelXBag.ConvertRequest2DBValue")
-                        args.ConvertSucceeded = False
+                        args.result = False
                         args.Dbvalue = Nothing
                         Return
                 End Select
@@ -1050,11 +1053,11 @@ Public Class ExcelXBag
             ElseIf String.IsNullOrEmpty(args.Hostvalue) Then
                 '** Do not Change Value at all
                 args.DbValueIsEmpty = True
-                args.ConvertSucceeded = True
+                args.result = True
                 Return
             Else
                 '*** Take the Default Routine
-                args.ConvertSucceeded = XSlot.DefaultConvert2DBValue(datatype:=args.Datatype, hostvalue:=args.Hostvalue, dbvalue:=args.Dbvalue, _
+                args.result = XSlot.DefaultConvert2DBValue(datatype:=args.Datatype, hostvalue:=args.Hostvalue, dbvalue:=args.Dbvalue, _
                                                                       dbValueIsEmpty:=args.DbValueIsEmpty, dbValueIsNull:=args.DbValueisNull, _
                                                                        hostValueIsEmpty:=args.HostValueisEmpty, hostValueIsNull:=args.HostValueisNull, _
                                                                        msglog:=args.Msglog)
@@ -1129,7 +1132,7 @@ Module XLSXChangeMgr
     End Sub
 
     ''' <summary>
-    ''' replicates with the excel data area
+    ''' replicate OnTrack Database with the excel data area
     ''' </summary>
     ''' <param name="dataarea"></param>
     ''' <param name="xcmd"></param>
@@ -1139,729 +1142,502 @@ Module XLSXChangeMgr
     ''' <param name="workerthread"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function ReplicateOld(dataarea As XLSDataArea, _
-    Optional xcmd As otXChangeCommandType = otXChangeCommandType.Read, _
-    Optional ByVal fullReplication As Boolean = False, _
-    Optional ByVal silent As Boolean = True, _
-    Optional ByVal workspaceID As String = "", _
-    Optional ByRef workerthread As BackgroundWorker = Nothing) As Boolean
+    Public Function ReplicateDataArea(dataarea As XLSDataArea, _
+                                        Optional xcmd As otXChangeCommandType = otXChangeCommandType.Read, _
+                                        Optional ByVal fullReplication As Boolean = False, _
+                                        Optional ByVal silent As Boolean = True, _
+                                        Optional ByVal workspaceID As String = Nothing, _
+                                        Optional ByVal domainid As String = Nothing, _
+                                        Optional ByRef workerthread As BackgroundWorker = Nothing) As Boolean
 
 
         Dim aSelection As Excel.Range
         Dim aValue, aNewValue As Object
-
-        Dim aXChangeConfig As New XChangeConfiguration
         Dim progress As Long = 0
         Dim maximum As ULong = 0
-        Dim column As UShort
+        Dim column As Long
         Dim flag As Boolean
-        Dim aMapping As Dictionary(Of Object, Object)
+        Dim previousDomainid As String
+
+        Dim aLogColumn As Long?
+        Dim aStatusColumn As Long?
+        Dim aTimestampColumn As Long?
+
+        Try
 
 
 
-        If xcmd = otXChangeCommandType.Read Then
-            If Not CurrentSession.RequireAccessRight(accessRequest:=otAccessRight.[ReadOnly]) Then
-                Call CoreMessageHandler(message:="Access right READONLY couldnot be granted to this user", subname:="replicate", showmsgbox:=True, _
-                                        messagetype:=otCoreMessageType.ApplicationError)
-                Return False
-            End If
-        Else
-            If Not CurrentSession.RequireAccessRight(accessRequest:=otAccessRight.ReadUpdateData) Then
-                Call CoreMessageHandler(message:="Access right READ UPDATE couldnot be granted to this user", subname:="replicate", showmsgbox:=True, _
-                                        messagetype:=otCoreMessageType.ApplicationError)
-                Return False
-            End If
-        End If
 
-
-
-        '*** check on workspaceID
-        '***
-        If workspaceID = "" Then
-            workspaceID = CurrentSession.CurrentWorkspaceID
-        End If
-        Dim aWorkspace As Workspace = Workspace.Retrieve(id:=workspaceID)
-
-        If aWorkspace Is Nothing Then
-            Call CoreMessageHandler(message:="workspaceID '" & workspaceID & "' is not defined", subname:="replicate", _
-                                    showmsgbox:=True, _
-                                    messagetype:=otCoreMessageType.ApplicationError)
-            Return False
-        End If
-
-
-        'progress
-        If Not workerthread Is Nothing Then
-            workerthread.ReportProgress(0, "#1 checking dataarea")
-        End If
-        '** xconfig 
-        If dataarea.XConfigName = "" Then
-            Call CoreMessageHandler(message:="xconfig name must not be empty", _
-                                    messagetype:=otCoreMessageType.ApplicationError, _
-                                    subname:="xlsChangeMgr.replicate")
-            Return False
-        ElseIf dataarea.XConfig Is Nothing Then
-            Call CoreMessageHandler(message:="couldnot load xchange config by name '" & dataarea.XConfigName & "'", _
-                                    messagetype:=otCoreMessageType.ApplicationError, _
-                                    subname:="replicate")
-            Return False
-
-        End If
-
-        '*** Patch
-        aXChangeConfig = XChangeConfiguration.Retrieve(configname:=dataarea.XConfigName)
-
-
-        '** datarange
-        If dataarea.DataRange Is Nothing Then
-            If dataarea.DataRangeAddress <> "" Then
-                Try
-                    dataarea.DataRange = Globals.ThisAddIn.Application.Range(dataarea.DataRangeAddress)
-                Catch ex As Exception
-                    Call CoreMessageHandler(message:="data range with address " & dataarea.DataRangeAddress & " couldn't be found", _
-                                            messagetype:=otCoreMessageType.ApplicationError, subname:="XLSXchangeMGr.replicate")
+            If xcmd = otXChangeCommandType.Read Then
+                If Not CurrentSession.RequireAccessRight(accessRequest:=otAccessRight.[ReadOnly], domainID:=domainid) Then
+                    Call CoreMessageHandler(message:="Access right READONLY couldnot be granted to this user", subname:="replicate", showmsgbox:=True, _
+                                            messagetype:=otCoreMessageType.ApplicationError)
                     Return False
-                End Try
-
-            End If
-        End If
-
-        '** headerids
-        If dataarea.HeaderIDRange Is Nothing Then
-            If dataarea.HeaderIDAddress <> " then" Then
-                Try
-                    dataarea.HeaderIDRange = Globals.ThisAddIn.Application.Range(dataarea.HeaderIDAddress)
-                Catch ex As Exception
-                    Call CoreMessageHandler(message:="header id range with address " & dataarea.HeaderIDAddress & " couldn't be found", messagetype:=otCoreMessageType.ApplicationError, subname:="XLSXChangeMgr.replicate")
+                End If
+            Else
+                If Not CurrentSession.RequireAccessRight(accessRequest:=otAccessRight.ReadUpdateData, domainID:=domainid) Then
+                    Call CoreMessageHandler(message:="Access right READ UPDATE could not be granted to this user", subname:="replicate", showmsgbox:=True, _
+                                            messagetype:=otCoreMessageType.ApplicationError)
                     Return False
-                End Try
+                End If
             End If
-        End If
 
-        '*** TODO:here the ordinal should be rearranged to the headerids
-
-        '*** 
-
-        '*** get the dynamic  IDs from the header area
-        If dataarea.XConfig.AllowDynamicEntries Then
-            If Not dataarea.AddHeaderIDs2XConfig(XCMD:=xcmd) Then
-                Call CoreMessageHandler(message:="header id range with address " & dataarea.HeaderIDAddress _
-                                        & " couldnot be added to xconfig with name '" & dataarea.XConfigName & "'", _
-                                        messagetype:=otCoreMessageType.ApplicationError, subname:="xlsXChangeMgr.replicate")
-                Return False
-            End If
-        End If
-
-        '*** define the keys
-        Dim keyordinals As New List(Of Ordinal)
-        For Each headerID As String In dataarea.KeyIDs
-            Dim value As Object = dataarea.GetHeaderIDColumn(headerID)
-            Dim anordinal As New Ordinal(value)
-            keyordinals.Add(anordinal)
-        Next
-
-
-
-        '*** check on selection
-        If Not fullReplication Then
-            If dataarea.SelectionID = "" Then
-                Call CoreMessageHandler(message:="no selection header id provided although partial replication called", subname:="replicate", messagetype:=otCoreMessageType.ApplicationError)
+            '*** check on Domain -> switch if necessary
+            '***
+            If String.IsNullOrWhiteSpace(domainid) Then domainid = CurrentSession.CurrentDomainID
+            Dim aDomain As Domain = Domain.Retrieve(id:=domainid)
+            If aDomain Is Nothing Then
+                Call CoreMessageHandler(message:="domain by id '" & domainid & "' is not defined", subname:="replicate", _
+                                        showmsgbox:=True, _
+                                        messagetype:=otCoreMessageType.ApplicationError)
                 Return False
             Else
-                If dataarea.HeaderIDRange.Find(What:=dataarea.SelectionID, MatchCase:=False) Is Nothing Then
-                    Call CoreMessageHandler(message:="selection header id '" & dataarea.SelectionID & _
-                                            "' couldnot be found in header id range " & dataarea.HeaderIDAddress, _
-                                            messagetype:=otCoreMessageType.ApplicationError, subname:="XLSXChangeMgr.replicate")
+                If CurrentSession.CurrentDomainID <> domainid Then
+                    previousDomainid = CurrentSession.CurrentDomainID
+                    CurrentSession.SwitchToDomain(domainid)
+                End If
+            End If
+
+            '*** check on workspaceID
+            '***
+            If String.IsNullOrWhiteSpace(workspaceID) Then workspaceID = CurrentSession.CurrentWorkspaceID
+            Dim aWorkspace As Workspace = Workspace.Retrieve(id:=workspaceID)
+
+            If aWorkspace Is Nothing Then
+                Call CoreMessageHandler(message:="workspaceID '" & workspaceID & "' is not defined", subname:="replicate", _
+                                        showmsgbox:=True, _
+                                        messagetype:=otCoreMessageType.ApplicationError)
+                '' switch back
+                If previousDomainid IsNot Nothing AndAlso previousDomainid <> CurrentSession.CurrentDomainID Then
+                    CurrentSession.SwitchToDomain(previousDomainid)
+                End If
+                Return False
+            End If
+
+
+            'progress
+            If Not workerthread Is Nothing Then
+                workerthread.ReportProgress(0, "#1 checking data area")
+            End If
+
+            '** xconfig 
+            If dataarea.XConfigName = "" Then
+                Call CoreMessageHandler(message:="xconfig name must not be empty", _
+                                        messagetype:=otCoreMessageType.ApplicationError, _
+                                        subname:="xlsChangeMgr.replicate")
+                '' switch back
+                If previousDomainid IsNot Nothing AndAlso previousDomainid <> CurrentSession.CurrentDomainID Then
+                    CurrentSession.SwitchToDomain(previousDomainid)
+                End If
+                Return False
+            ElseIf dataarea.XConfig Is Nothing Then
+                Call CoreMessageHandler(message:="could not load xchange config by name '" & dataarea.XConfigName & "'", _
+                                        messagetype:=otCoreMessageType.ApplicationError, _
+                                        subname:="replicate")
+                '' switch back
+                If previousDomainid IsNot Nothing AndAlso previousDomainid <> CurrentSession.CurrentDomainID Then
+                    CurrentSession.SwitchToDomain(previousDomainid)
+                End If
+                Return False
+            Else
+                ''' refresh the objects in the domain
+                ''' make sure they are loaded in the repository
+                dataarea.XConfig.RefreshObjects(domainid)
+            End If
+
+            '** datarange
+            If dataarea.DataRange Is Nothing Then
+                If dataarea.DataRangeAddress IsNot Nothing AndAlso dataarea.DataRangeAddress <> "" Then
+                    Try
+                        dataarea.DataRange = Globals.ThisAddIn.Application.Range(dataarea.DataRangeAddress)
+                    Catch ex As Exception
+                        Call CoreMessageHandler(message:="data range with address " & dataarea.DataRangeAddress & " couldn't be found", _
+                                                messagetype:=otCoreMessageType.ApplicationError, subname:="XLSXchangeMGr.replicate")
+                        '' switch back
+                        If previousDomainid IsNot Nothing AndAlso previousDomainid <> CurrentSession.CurrentDomainID Then
+                            CurrentSession.SwitchToDomain(previousDomainid)
+                        End If
+                        Return False
+                    End Try
+                Else
+                    Call CoreMessageHandler(message:="data range in dataarea " & dataarea.Name & "' has no address ", _
+                                               messagetype:=otCoreMessageType.ApplicationError, subname:="XLSXchangeMGr.replicate")
+                    '' switch back
+                    If previousDomainid IsNot Nothing AndAlso previousDomainid <> CurrentSession.CurrentDomainID Then
+                        CurrentSession.SwitchToDomain(previousDomainid)
+                    End If
                     Return False
                 End If
-                aSelection = dataarea.GetSelectionAsRange(silent:=silent)
-            End If
-        Else
-            '** select the full selection by Key
-            aSelection = dataarea.DataRange.Worksheet.Range(dataarea.DataRange.Worksheet.Cells(dataarea.DataRange.Rows(1).row, CInt(keyordinals(0).Value)), _
-                                                            dataarea.DataRange.Worksheet.Cells(dataarea.DataRange.Rows.Count, CInt(keyordinals(0).Value)))
-        End If
-
-        Globals.ThisAddIn.Application.ScreenUpdating = False
-        Globals.ThisAddIn.Application.EnableEvents = False
-
-        '*** save the Attributes
-        Dim aXBag As New ExcelXBag(dataarea.XConfig)
-        Dim aXEnvelope As XEnvelope
-        Dim anAttribute As XChangeObjectEntry
-        Dim anAttributesList As List(Of XChangeObjectEntry) = dataarea.XConfig.GetObjectEntries
-
-        '*** operate on the outline -> makes only sense on a Read !
-        '***
-        '***
-        If xcmd = otXChangeCommandType.Read AndAlso Not dataarea.XConfig.Outline Is Nothing Then
-            ' cleanup
-            '*** ge tthe outline enumeration -> dynmaic
-            If Not workerthread Is Nothing Then
-                workerthread.ReportProgress(0, "#2 clean up outline")
-            End If
-            Call dataarea.XConfig.Outline.CleanUpRevision()
-            ' the row
-            Dim i As Long = 0
-
-            '*** ge tthe outline enumeration -> dynmaic
-            If Not workerthread Is Nothing Then
-                workerthread.ReportProgress(0, "#3 generating outline")
             End If
 
-            Dim outLineList As List(Of XOutlineItem) = dataarea.XConfig.Outline.ToList
-            If maximum = 0 Then
-                maximum = outLineList.Count
-            End If
 
-            If Not workerthread Is Nothing Then
-                workerthread.ReportProgress(0, "#3 outline generated")
-            End If
-            For Each item As XOutlineItem In outLineList
-                i += 1
-
-                Dim aRow As Excel.Range = dataarea.DataRange.Rows(i)
-                '** progress
-                If Not workerthread Is Nothing Then
-                    progress += 1
-                    workerthread.ReportProgress((progress / maximum) * 100, "#4 replicated progress: " & String.Format("{0:0%}", (progress / maximum)))
-                End If
-
-                '** put the level in the mapping
-                anAttribute = dataarea.XConfig.GetEntryByXID(XID:="OTLIV4")
-                If anAttribute IsNot Nothing Then
-                    If aMapping.ContainsKey(anAttribute.Ordinal.Value) Then
-                        Call aMapping.Remove(key:=anAttribute.Ordinal.Value)
-                    End If
-                    Call aMapping.Add(key:=anAttribute.Ordinal.Value, value:=item.Level)
-                End If
-                '**
-                '** put keys in map
-                '**** INPUT
-                aMapping = New Dictionary(Of Object, Object)
-                ' reset the map
-                aXEnvelope = aXBag.AddEnvelope(key:=progress)
-                For Each key As XOutlineItem.OutlineKey In item.keys
-                    anAttribute = dataarea.XConfig.GetEntryByXID(XID:=key.ID)
-                    If Not anAttribute Is Nothing Then
-                        If aMapping.ContainsKey(anAttribute.Ordinal.Value) Then
-                            Call aMapping.Remove(key:=anAttribute.Ordinal.Value)
+            '** headerids
+            '**
+            If dataarea.HeaderIDRange Is Nothing Then
+                If Not String.IsNullOrWhiteSpace(dataarea.HeaderIDAddress) Then
+                    Try
+                        dataarea.HeaderIDRange = Globals.ThisAddIn.Application.Range(dataarea.HeaderIDAddress)
+                    Catch ex As Exception
+                        Call CoreMessageHandler(message:="header id range with address " & dataarea.HeaderIDAddress & " couldn't be found", messagetype:=otCoreMessageType.ApplicationError, subname:="XLSXChangeMgr.replicate")
+                        '' switch back
+                        If previousDomainid IsNot Nothing AndAlso previousDomainid <> CurrentSession.CurrentDomainID Then
+                            CurrentSession.SwitchToDomain(previousDomainid)
                         End If
-                        Call aMapping.Add(key:=anAttribute.Ordinal.Value, value:=key.Value)
-                        '** add to XMAP
+                        Return False
+                    End Try
+                End If
+            End If
 
+            '*** TODO:here the ordinal should be rearranged to the headerids
+            '*** 
+
+            '*** get the dynamic  IDs from the header area
+            If dataarea.XConfig.AllowDynamicEntries Then
+                If Not dataarea.AddHeaderIDs2XConfig(XCMD:=xcmd) Then
+                    Call CoreMessageHandler(message:="header id range with address " & dataarea.HeaderIDAddress _
+                                            & " couldnot be added to xconfig with name '" & dataarea.XConfigName & "'", _
+                                            messagetype:=otCoreMessageType.ApplicationError, subname:="xlsXChangeMgr.replicate")
+                    '' switch back
+                    If previousDomainid IsNot Nothing AndAlso previousDomainid <> CurrentSession.CurrentDomainID Then
+                        CurrentSession.SwitchToDomain(previousDomainid)
                     End If
-                    ' fill the XMap
-                    aXEnvelope.AddSlotByXID(xid:=key.ID, value:=key.Value)
+                    Return False
+                End If
+            End If
+
+            '*** define the keys
+            Dim keyordinals As New List(Of Ordinal)
+            For Each headerID As String In dataarea.KeyIDs
+                Dim value As Object = dataarea.GetHeaderIDColumn(headerID)
+                Dim anordinal As New Ordinal(value)
+                keyordinals.Add(anordinal)
+            Next
+
+            '*** get the LogColumn
+            If Not String.IsNullOrWhiteSpace(dataarea.TransactionLogID) Then
+                aLogColumn = dataarea.GetHeaderIDColumn(dataarea.TransactionLogID)
+            End If
+            '*** get the Timestamp Column
+            If Not String.IsNullOrWhiteSpace(dataarea.TimestampID) Then
+                aTimestampColumn = dataarea.GetHeaderIDColumn(dataarea.TimestampID)
+            End If
+            '*** get the Status Column
+            If Not String.IsNullOrWhiteSpace(dataarea.StatusID) Then
+                aStatusColumn = dataarea.GetHeaderIDColumn(dataarea.StatusID)
+            End If
+
+            '*** check on selection
+            If Not fullReplication Then
+                If dataarea.SelectionID = "" Then
+                    Call CoreMessageHandler(message:="no selection header id provided although partial replication called", subname:="replicate", messagetype:=otCoreMessageType.ApplicationError)
+                    '' switch back
+                    If previousDomainid IsNot Nothing AndAlso previousDomainid <> CurrentSession.CurrentDomainID Then
+                        CurrentSession.SwitchToDomain(previousDomainid)
+                    End If
+                    Return False
+                Else
+                    If dataarea.HeaderIDRange.Find(What:=dataarea.SelectionID, MatchCase:=False) Is Nothing Then
+                        Call CoreMessageHandler(message:="selection header id '" & dataarea.SelectionID & _
+                                                "' could not be found in header id range " & dataarea.HeaderIDAddress, _
+                                                messagetype:=otCoreMessageType.ApplicationError, subname:="XLSXChangeMgr.replicate")
+                        '' switch back
+                        If previousDomainid IsNot Nothing AndAlso previousDomainid <> CurrentSession.CurrentDomainID Then
+                            CurrentSession.SwitchToDomain(previousDomainid)
+                        End If
+                        Return False
+                    End If
+                    aSelection = dataarea.GetSelectionAsRange(silent:=silent)
+                End If
+            Else
+                '** select the full selection by Key
+                aSelection = dataarea.DataRange.Worksheet.Range(dataarea.DataRange.Worksheet.Cells(dataarea.DataRange.Rows(1).row, CInt(keyordinals(0).Value)), _
+                                                                dataarea.DataRange.Worksheet.Cells(dataarea.DataRange.Rows.Count, CInt(keyordinals(0).Value)))
+            End If
+
+            If aSelection Is Nothing Then
+                Call CoreMessageHandler(message:="No selection could be found", messagetype:=otCoreMessageType.ApplicationError, subname:="XLSXChangeMgr.replicate")
+                '' switch back
+                If previousDomainid IsNot Nothing AndAlso previousDomainid <> CurrentSession.CurrentDomainID Then
+                    CurrentSession.SwitchToDomain(previousDomainid)
+                End If
+                Return False
+            End If
+
+            Globals.ThisAddIn.Application.ScreenUpdating = False
+            Globals.ThisAddIn.Application.EnableEvents = False
+
+            '*** save the Attributes
+            Dim aXBag As New ExcelXBag(dataarea.XConfig)
+            Dim aXEnvelope As XEnvelope = aXBag.AddEnvelope(1) ' only one Envelope -> reuse
+            Dim aMsgLog As New ObjectMessageLog(Nothing)
+            Dim anEntryList As List(Of XChangeObjectEntry) = dataarea.XConfig.GetObjectEntries
+            '** put the level in the mapping
+            Dim anAttributeLevel As XChangeObjectEntry = dataarea.XConfig.GetEntryByXID(XID:="OTLIV4")
+            Dim theDomainXID As String = CurrentSession.Objects.GetObject(objectid:=Domain.ConstObjectID).GetEntry(entryname:=Domain.ConstFNDomainID).XID
+
+            '*** operate on the outline -> makes only sense on a Read !
+            '***
+            '***
+            If fullReplication AndAlso xcmd = otXChangeCommandType.Read AndAlso dataarea.XConfig.Outline IsNot Nothing Then
+                ' cleanup
+                '*** ge tthe outline enumeration -> dynmaic
+                If Not workerthread Is Nothing Then workerthread.ReportProgress(0, "#2 clean up outline")
+
+                ''' set the domain for the outline
+                dataarea.XConfig.Outline.DomainID = domainid
+                ''' clean upg
+                dataarea.XConfig.Outline.CleanUpRevision()
+                ' the row
+                Dim i As Long = 0
+
+                '*** ge tthe outline enumeration -> dynmaic
+                If Not workerthread Is Nothing Then workerthread.ReportProgress(0, "#3 generating outline")
+
+                Dim outLineList As List(Of XOutlineItem) = dataarea.XConfig.Outline.ToList
+                If maximum = 0 Then maximum = outLineList.Count
+
+                '** workerthread progress
+                If Not workerthread Is Nothing Then workerthread.ReportProgress(0, "#3 outline generated")
+
+                '*** step through all lines in the outline 
+                '*** 
+                For Each item As XOutlineItem In outLineList
+                    i += 1
+                    ''' clear the messagelog
+                    aMsgLog.Clear()
+
+                    Dim aRow As Excel.Range = dataarea.DataRange.Rows(i)
+                    '** progress
+                    If Not workerthread Is Nothing Then
+                        progress += 1
+                        workerthread.ReportProgress((progress / maximum) * 100, "#4 replicated progress: " & String.Format("{0:0%}", (progress / maximum)))
+                    End If
+
+                    '** put keys in map
+                    aXEnvelope.Clear()
+
+                    aXEnvelope.ContextIdentifier = dataarea.WorkbookName & ":" & dataarea.Name
+                    aXEnvelope.TupleIdentifier = aRow.Address.ToString
+
+                    '* add the domain
+                    aXEnvelope.AddSlotByXID(xid:=theDomainXID, value:=domainid, isHostValue:=True, extendXConfig:=True)
+                    ' add the Level Attribute
+                    If anAttributeLevel IsNot Nothing Then
+                        aXEnvelope.AddSlotbyXEntry(entry:=anAttributeLevel, value:=item.Level, isHostValue:=True)
+                    End If
+
+                    '** add the ordinals to the envelope
+                    For Each key As XOutlineItem.OutlineKey In item.keys
+                        aXEnvelope.AddSlotByXID(xid:=key.ID, value:=key.Value, isHostValue:=True)
+                    Next
+
+                    '*** run XCHANGE
+                    If aXEnvelope.RunXPreCheck(msglog:=aMsgLog) Then
+                        flag = aXEnvelope.RunXChange(msglog:=aMsgLog)
+                    Else
+                        flag = False
+                    End If
+
+                    If flag Then
+                        ''' 
+                        ''' update output
+                        ''' 
+                        For Each aSlot As XSlot In aXEnvelope
+                            If aSlot.IsXChanged And Not aSlot.IsEmpty AndAlso aSlot.Ordinal IsNot Nothing Then
+                                aNewValue = aSlot.HostValue
+                                column = CLng(aSlot.Ordinal.Value)
+                                If column > 0 And column < 65536 Then
+                                    aValue = aRow.Cells(1, column).Value
+                                    '*substitute
+                                    If aRow.Cells(1, column).HasFormula OrElse (Not IsNull(aNewValue) AndAlso CStr(aNewValue) <> CStr(aValue)) Then
+                                        aRow.Cells(1, column).Value = aNewValue
+                                    End If
+                                End If
+                            End If
+                        Next
+
+                        ''' update additional status fields
+                        ''' 
+                        If aTimestampColumn.HasValue Then
+                            aRow.Cells(1, aTimestampColumn.Value).Value = Converter.DateTime2LocaleDateTimeString(aXEnvelope.ProcessedTimestamp)
+                        End If
+                        If aStatusColumn.HasValue Then
+                            Dim aStatus As Commons.StatusItem = aMsgLog.GetHighesStatusItem(statustype:=ConstStatusType_XEnvelope)
+                            If aStatus IsNot Nothing Then
+                                aRow.Cells(1, aStatusColumn.Value).Value = aStatus.Code
+                                If aStatus.FormatBGColor IsNot Nothing Then aRow.Cells(1, aStatusColumn.Value).Interior.Color = aStatus.FormatBGColor
+                                If aStatus.FormatFGColor IsNot Nothing Then CType(aRow.Cells(1, aStatusColumn.Value), Excel.Range).Font.Color = aStatus.FormatFGColor
+                            End If
+                        End If
+                        If aLogColumn.HasValue Then
+                            Dim height As Object = CType(aRow.Cells(1, aLogColumn.Value), Range).RowHeight
+                            Dim Text As String = aMsgLog.MessageText
+                            If Text IsNot Nothing Then
+                                With CType(aRow.Cells(1, aLogColumn.Value), Range)
+                                    .Value = Text
+                                    .Font.Size = 6
+                                    .Font.Bold = False
+                                    .WrapText = True
+                                End With
+                                aRow.RowHeight = height
+                            End If
+                        End If
+                        'Update
+                        Globals.ThisAddIn.Application.StatusBar = " Updating data area " & dataarea.Name & " in row #" & aRow.Row
+                    End If
                 Next
-                '*** run XCHANGE
-                'flag = aXChangeConfig.RunXChange(aMapping)
-                flag = True
+            Else
+                '**** if not outline is available
+                '**** run through each aRow
+                '**** in selection
+                maximum = aSelection.Rows.Count
 
-                If flag Then
-                    '*** OUTPUT
-                    For Each anAttribute In anAttributesList
+                ''' hack
+                ''' 
+                For Each aXObject As XChangeObject In dataarea.XConfig.XChangeobjects.ToList
+                    aXObject.XChangeCmd = xcmd
+                Next
 
-                        If aMapping.ContainsKey(anAttribute.Ordinal.Value) Then
-                            aNewValue = aMapping.Item(anAttribute.Ordinal.Value)
-                            If (anAttribute.IsCreated Or anAttribute.IsLoaded) _
-                            And anAttribute.IsXChanged And Not anAttribute.IsReadOnly Then
-                                ' current value of cell
-                                column = anAttribute.Ordinal.Value
-                                aValue = aRow.Cells(1, column).Value
+                For Each aCell As Excel.Range In aSelection.Rows
+                    Dim aRow As Excel.Range = aCell.EntireRow
+                    '** progress
+                    If Not workerthread Is Nothing Then
+                        progress += 1
+                        workerthread.ReportProgress((progress / maximum) * 100, "#4 replicated progress: " & String.Format("{0:0%}", (progress / maximum)))
+                    End If
 
-                                If aMapping.ContainsKey(anAttribute.Ordinal.Value) Then
+                    '** put keys in map
+                    aXEnvelope = aXBag.AddEnvelope(key:=progress)
+                    ''' clear the messagelog
+                    aMsgLog.Clear()
+                    ''' add the contextidentifier
+                    ''' 
+                    aMsgLog.ContextIdentifier = dataarea.WorkbookName & ":" & dataarea.Name
+                    aXEnvelope.ContextIdentifier = dataarea.WorkbookName & ":" & dataarea.Name
+                    aXEnvelope.TupleIdentifier = aRow.Address.ToString
+                    aMsgLog.TupleIdentifier = aRow.Address.ToString
 
-                                    'If aXChangeMember.ordinal.value = 55 Then Debug.Assert False
-                                    If aRow.Cells(1, column).HasFormula Or _
-                                    (Not IsNull(aNewValue) And CStr(aNewValue) <> CStr(aValue)) Then
 
-                                        '* change dependent on type
-                                        If aNewValue Is Nothing Then
-                                            aRow.Cells(1, column).value = constMQFClearFieldChar
-                                        ElseIf (anAttribute.ObjectEntryDefinition.Datatype = otDataType.Date Or _
-                                        anAttribute.ObjectEntryDefinition.Datatype = otDataType.Timestamp) And _
-                                        IsDate(aNewValue) Then
-                                            aRow.Cells(1, column).value = CDate(aNewValue)
-                                        ElseIf anAttribute.ObjectEntryDefinition.Datatype = otDataType.Long And _
-                                        IsNumeric(aNewValue) Then
-                                            aRow.Cells(1, column).value = CLng(aNewValue)
-                                        ElseIf anAttribute.ObjectEntryDefinition.Datatype = otDataType.Numeric And _
-                                        IsNumeric(aNewValue) Then
-                                            aRow.Cells(1, column).value = CDbl(aNewValue)
-                                        Else
-                                            aRow.Cells(1, column).value = Trim(CStr(aNewValue))
-                                        End If
-                                        'aRow.Cells(1, column).Value = Trim(aNewValue)
+                    '** Add Values only if not Read -> updated
+                    If (xcmd <> otXChangeCommandType.Read) Then
+                        '* add the domain
+                        aXEnvelope.AddSlotByXID(xid:=theDomainXID, value:=domainid, isHostValue:=True, extendXConfig:=True)
+                        '* all entries
+                        For Each anEntry As XChangeObjectEntry In anEntryList
+                            If anEntry.IsXChanged Then
+                                Dim aColumn As Long = CLng(anEntry.Ordinal.Value)
+                                If aColumn > 0 And aColumn < 65536 Then
+                                    aValue = aRow.Cells(1, aColumn).Value
+                                    aXEnvelope.AddSlotByXID(xid:=anEntry.XID, value:=aValue, isHostValue:=True)
+                                End If
+                            End If
+                        Next
+                    Else
+                        '* add the domain
+                        aXEnvelope.AddSlotByXID(xid:=theDomainXID, value:=domainid, isHostValue:=True, extendXConfig:=True)
+
+                        '*** only the key
+                        For Each ordinal As Object In keyordinals
+                            Dim aColumn As Long = CLng(ordinal)
+                            If aColumn > 0 And aColumn < 65536 Then
+                                aValue = aRow.Cells(1, ordinal).Value
+                                If Not Globals.ThisAddIn.Application.WorksheetFunction.IsError(aValue) Then
+                                    aXEnvelope.SetSlotValue(ordinal:=ordinal, value:=aValue)
+                                Else
+                                    Call CoreMessageHandler(showmsgbox:=True, message:="key for data area '" & dataarea.Name & "' could not be retrieved from column " & ordinal.ToString, _
+                                                            break:=False, subname:="modxlsXchangeMgr.Replicate")
+                                End If
+                            End If
+                           
+                        Next
+                    End If
+
+
+                    '*** run XCHANGE
+                    If aXEnvelope.RunXPreCheck(msglog:=aMsgLog) Then
+                        flag = aXEnvelope.RunXChange(msglog:=aMsgLog)
+                    Else
+                        flag = False
+                    End If
+
+
+                    If flag Then
+                        '''
+                        ''' update row in excel with the output
+                        ''' 
+                        For Each aSlot As XSlot In aXEnvelope
+                            If aSlot.IsXChanged And Not aSlot.IsEmpty Then
+                                aNewValue = aSlot.HostValue
+                                column = aSlot.Ordinal.Value
+                                If column > 0 AndAlso column < 65536 Then
+                                    aValue = aRow.Cells(1, column).Value
+                                    If aRow.Cells(1, column).HasFormula OrElse (Not IsNull(aNewValue) And CStr(aNewValue) <> CStr(aValue)) Then
+                                        ' update
+                                        aRow.Cells(1, column).Value = aNewValue
                                         'Call copyDoc9Format(formatChange, aRow.Cells(1, col), True)
                                     End If
                                 End If
                             End If
-                        End If
 
+                        Next
 
-
-
-                    Next
-
+                        'Update
+                        Globals.ThisAddIn.Application.StatusBar = " Updating data area " & dataarea.Name & " in row #" & aRow.Row
+                    End If
                     'Update
-                    Globals.ThisAddIn.Application.StatusBar = " Updating data area " & dataarea.Name & " in row #" & aRow.Row
-                End If
-            Next
-        Else
-            '**** if not outline is available
-            '**** run through each aRow
-            '**** in selection
-            maximum = aSelection.Rows.Count
+                    Globals.ThisAddIn.Application.StatusBar = " Updated data area " & dataarea.Name & " rows " & aRow.Row
 
-            For Each aCell As Excel.Range In aSelection.Rows
-                Dim aRow As Excel.Range = aCell.EntireRow
-                '**** INPUT
-                aMapping = New Dictionary(Of Object, Object)
-                ' reset the map
-                aXBag.Clear()
 
-                '** Add Values only if not Read -> updated
-                If (xcmd <> otXChangeCommandType.Read) Then
-                    For Each anAttribute In anAttributesList
-
-                        If (anAttribute.IsCreated Or anAttribute.IsLoaded) And anAttribute.IsXChanged Then
-                            ' current value of cell
-                            column = anAttribute.Ordinal.Value
-                            aValue = aRow.Cells(1, column).Value
-                            If aMapping.ContainsKey(anAttribute.Ordinal.Value) Then
-                                Call aMapping.Remove(key:=anAttribute.Ordinal.Value)
-                            End If
-                            Call aMapping.Add(key:=anAttribute.Ordinal.Value, value:=aValue)
-                            '** add to XMAP
-                            aXEnvelope.SetSlotValue(anAttribute.Ordinal.Value, value:=aValue, isHostValue:=True)
+                    ''' update additional status fields
+                    ''' 
+                    If aTimestampColumn.HasValue Then
+                        aRow.Cells(1, aTimestampColumn.Value).Value = Converter.DateTime2LocaleDateTimeString(aXEnvelope.ProcessedTimestamp)
+                    End If
+                    If aStatusColumn.HasValue Then
+                        Dim aStatus As Commons.StatusItem = aMsgLog.GetHighesStatusItem(statustype:=ConstStatusType_XEnvelope)
+                        If aStatus IsNot Nothing Then
+                            aRow.Cells(1, aStatusColumn.Value).Value = aStatus.Code
+                            If aStatus.FormatBGColor IsNot Nothing Then aRow.Cells(1, aStatusColumn.Value).Interior.Color = aStatus.FormatBGColor
+                            If aStatus.FormatFGColor IsNot Nothing Then CType(aRow.Cells(1, aStatusColumn.Value), Excel.Range).Font.Color = aStatus.FormatFGColor
                         End If
-
-                    Next
-                Else
-                    '*** only the key
-                    For Each ordinal As Object In keyordinals
-                        aValue = aRow.Cells(1, ordinal).Value
-                        If Not Globals.ThisAddIn.Application.WorksheetFunction.IsError(aValue) Then
-                            aXEnvelope.SetSlotValue(ordinal, value:=aValue)
-
-
-                            If aMapping.ContainsKey(ordinal.Value) Then
-                                Call aMapping.Remove(key:=ordinal.Value)
-                            End If
-                            Call aMapping.Add(key:=ordinal.Value, value:=aValue)
-                        Else
-                            Call CoreMessageHandler(showmsgbox:=True, message:="key for data area '" & dataarea.Name & "' couldnot be retrieved from column " & ordinal.ToString, _
-                                                    break:=False, subname:="modxlsXchangeMgr.Replicate")
-
-
+                    End If
+                    If aLogColumn.HasValue Then
+                        Dim height As Object = CType(aRow.Cells(1, aLogColumn.Value), Range).RowHeight
+                        Dim Text As String = aMsgLog.MessageText
+                        If Text IsNot Nothing Then
+                            With CType(aRow.Cells(1, aLogColumn.Value), Range)
+                                .Value = Text
+                                .Font.Size = 6
+                                .Font.Bold = False
+                                .WrapText = True
+                            End With
+                            aRow.RowHeight = height
                         End If
-                    Next
-
-
-                End If
-                '** progress
-                If Not workerthread Is Nothing Then
-                    progress += 1
-                    workerthread.ReportProgress((progress / maximum) * 100, "#3 replicating row #" & aRow.Row)
-                End If
-
-                '*** run XCHANGE
-                'flag = aXChangeConfig.RunXChange(aMapping)
-
-                If flag Then
-                    '*** OUTPUT
-                    For Each anAttribute In anAttributesList
-
-                        If Not anAttribute Is Nothing Then
-                            If aMapping.ContainsKey(anAttribute.Ordinal.Value) Then
-                                aNewValue = aMapping.Item(anAttribute.Ordinal.Value)
-                                If (anAttribute.IsCreated Or anAttribute.IsLoaded) _
-                                And anAttribute.IsXChanged And Not anAttribute.IsReadOnly Then
-                                    ' current value of cell
-                                    column = anAttribute.Ordinal.Value
-                                    aValue = aRow.Cells(1, column).Value
-
-                                    If aMapping.ContainsKey(anAttribute.Ordinal.Value) Then
-
-                                        'If aXChangeMember.ordinal.value = 55 Then Debug.Assert False
-                                        If aRow.Cells(1, column).HasFormula Or _
-                                        (Not IsNull(aNewValue) And CStr(aNewValue) <> CStr(aValue)) Then
-
-                                            aRow.Cells(1, column).Value = aNewValue
-                                            'Call copyDoc9Format(formatChange, aRow.Cells(1, col), True)
-                                        End If
-                                    End If
-                                End If
-                            End If
-
-                        End If
-
-
-                    Next
-
-                    'Update
-                    Globals.ThisAddIn.Application.StatusBar = " Updating data area " & dataarea.Name & " in row #" & aRow.Row
-                End If
-
-                '*** TODO: Update from the dataarea the Columns (if selected) for Timestamp and Change-Reset
-                'aRow.Cells(1, ChangeCol).Value = ""
-                'aRow.Cells(1, TimeStampCol).Value = Format(aTimestamp, "dd.mm.yyyy hh:mm:ss")
-
-            Next aCell
-        End If
-
-
-
-
-
-
-        Globals.ThisAddIn.Application.EnableEvents = True
-    End Function
-    ''' <summary>
-    ''' replicates with the excel data area
-    ''' </summary>
-    ''' <param name="dataarea"></param>
-    ''' <param name="xcmd"></param>
-    ''' <param name="fullReplication"></param>
-    ''' <param name="silent"></param>
-    ''' <param name="workspaceID"></param>
-    ''' <param name="workerthread"></param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Public Function Replicate(dataarea As XLSDataArea, _
-    Optional xcmd As otXChangeCommandType = otXChangeCommandType.Read, _
-    Optional ByVal fullReplication As Boolean = False, _
-    Optional ByVal silent As Boolean = True, _
-    Optional ByVal workspaceID As String = "", _
-    Optional ByRef workerthread As BackgroundWorker = Nothing) As Boolean
-
-
-        Dim aSelection As Excel.Range
-        Dim aValue, aNewValue As Object
-        Dim progress As Long = 0
-        Dim maximum As ULong = 0
-        Dim column As UShort
-        Dim flag As Boolean
-
-        Try
-
-       
-
-
-        If xcmd = otXChangeCommandType.Read Then
-            If Not CurrentSession.RequireAccessRight(accessRequest:=otAccessRight.[ReadOnly]) Then
-                Call CoreMessageHandler(message:="Access right READONLY couldnot be granted to this user", subname:="replicate", showmsgbox:=True, _
-                                        messagetype:=otCoreMessageType.ApplicationError)
-                Return False
-            End If
-        Else
-            If Not CurrentSession.RequireAccessRight(accessRequest:=otAccessRight.ReadUpdateData) Then
-                Call CoreMessageHandler(message:="Access right READ UPDATE could not be granted to this user", subname:="replicate", showmsgbox:=True, _
-                                        messagetype:=otCoreMessageType.ApplicationError)
-                Return False
-            End If
-        End If
-
-
-
-        '*** check on workspaceID
-        '***
-        If workspaceID = "" Then
-            workspaceID = CurrentSession.CurrentWorkspaceID
-        End If
-        Dim aWorkspace As Workspace = Workspace.Retrieve(id:=workspaceID)
-
-        If aWorkspace Is Nothing Then
-            Call CoreMessageHandler(message:="workspaceID '" & workspaceID & "' is not defined", subname:="replicate", _
-                                    showmsgbox:=True, _
-                                    messagetype:=otCoreMessageType.ApplicationError)
-            Return False
-        End If
-
-
-        'progress
-        If Not workerthread Is Nothing Then
-            workerthread.ReportProgress(0, "#1 checking data area")
-        End If
-        '** xconfig 
-        If dataarea.XConfigName = "" Then
-            Call CoreMessageHandler(message:="xconfig name must not be empty", _
-                                    messagetype:=otCoreMessageType.ApplicationError, _
-                                    subname:="xlsChangeMgr.replicate")
-            Return False
-        ElseIf dataarea.XConfig Is Nothing Then
-            Call CoreMessageHandler(message:="could not load xchange config by name '" & dataarea.XConfigName & "'", _
-                                    messagetype:=otCoreMessageType.ApplicationError, _
-                                    subname:="replicate")
-            Return False
-
-        End If
-
-        '** datarange
-        If dataarea.DataRange Is Nothing Then
-            If dataarea.DataRangeAddress IsNot Nothing AndAlso dataarea.DataRangeAddress <> "" Then
-                Try
-                    dataarea.DataRange = Globals.ThisAddIn.Application.Range(dataarea.DataRangeAddress)
-                Catch ex As Exception
-                    Call CoreMessageHandler(message:="data range with address " & dataarea.DataRangeAddress & " couldn't be found", _
-                                            messagetype:=otCoreMessageType.ApplicationError, subname:="XLSXchangeMGr.replicate")
-                    Return False
-                End Try
-            Else
-                Call CoreMessageHandler(message:="data range in dataarea " & dataarea.Name & "' has no address ", _
-                                           messagetype:=otCoreMessageType.ApplicationError, subname:="XLSXchangeMGr.replicate")
-                Return False
-            End If
-        End If
-
-
-        '** headerids
-        'System.Diagnostics.Debug.WriteLine(Globals.ThisAddIn.Application.Range(dataarea.DataRangeAddress).Address.ToString)
-        If dataarea.HeaderIDRange Is Nothing Then
-            If dataarea.HeaderIDAddress <> " then" Then
-                Try
-                    dataarea.HeaderIDRange = Globals.ThisAddIn.Application.Range(dataarea.HeaderIDAddress)
-                Catch ex As Exception
-                    Call CoreMessageHandler(message:="header id range with address " & dataarea.HeaderIDAddress & " couldn't be found", messagetype:=otCoreMessageType.ApplicationError, subname:="XLSXChangeMgr.replicate")
-                    Return False
-                End Try
-            End If
-        End If
-
-        '*** TODO:here the ordinal should be rearranged to the headerids
-
-        '*** 
-
-        '*** get the dynamic  IDs from the header area
-        If dataarea.XConfig.AllowDynamicEntries Then
-            If Not dataarea.AddHeaderIDs2XConfig(XCMD:=xcmd) Then
-                Call CoreMessageHandler(message:="header id range with address " & dataarea.HeaderIDAddress _
-                                        & " couldnot be added to xconfig with name '" & dataarea.XConfigName & "'", _
-                                        messagetype:=otCoreMessageType.ApplicationError, subname:="xlsXChangeMgr.replicate")
-                Return False
-            End If
-        End If
-
-        '*** define the keys
-        Dim keyordinals As New List(Of Ordinal)
-        For Each headerID As String In dataarea.KeyIDs
-            Dim value As Object = dataarea.GetHeaderIDColumn(headerID)
-            Dim anordinal As New Ordinal(value)
-            keyordinals.Add(anordinal)
-        Next
-
-        '*** check on selection
-        If Not fullReplication Then
-            If dataarea.SelectionID = "" Then
-                Call CoreMessageHandler(message:="no selection header id provided although partial replication called", subname:="replicate", messagetype:=otCoreMessageType.ApplicationError)
-                Return False
-            Else
-                If dataarea.HeaderIDRange.Find(What:=dataarea.SelectionID, MatchCase:=False) Is Nothing Then
-                    Call CoreMessageHandler(message:="selection header id '" & dataarea.SelectionID & _
-                                            "' could not be found in header id range " & dataarea.HeaderIDAddress, _
-                                            messagetype:=otCoreMessageType.ApplicationError, subname:="XLSXChangeMgr.replicate")
-                    Return False
-                End If
-                aSelection = dataarea.GetSelectionAsRange(silent:=silent)
-            End If
-        Else
-            '** select the full selection by Key
-            aSelection = dataarea.DataRange.Worksheet.Range(dataarea.DataRange.Worksheet.Cells(dataarea.DataRange.Rows(1).row, CInt(keyordinals(0).Value)), _
-                                                            dataarea.DataRange.Worksheet.Cells(dataarea.DataRange.Rows.Count, CInt(keyordinals(0).Value)))
-        End If
-
-        If aSelection Is Nothing Then
-            Call CoreMessageHandler(message:="No selection could be found", messagetype:=otCoreMessageType.ApplicationError, subname:="XLSXChangeMgr.replicate")
-            Return False
-        End If
-
-        Globals.ThisAddIn.Application.ScreenUpdating = False
-        Globals.ThisAddIn.Application.EnableEvents = False
-
-        '*** save the Attributes
-        Dim aXBag As New ExcelXBag(dataarea.XConfig)
-        Dim aXEnvelope As XEnvelope = aXBag.AddEnvelope(1) ' only one Envelope -> reuse
-        Dim aMsgLog As New ObjectMessageLog(Nothing)
-        Dim anEntryList As List(Of XChangeObjectEntry) = dataarea.XConfig.GetObjectEntries
-        '** put the level in the mapping
-        Dim anAttributeLevel As XChangeObjectEntry = dataarea.XConfig.GetEntryByXID(XID:="OTLIV4")
-        '*** operate on the outline -> makes only sense on a Read !
-        '***
-        '***
-        If fullReplication AndAlso xcmd = otXChangeCommandType.Read AndAlso dataarea.XConfig.Outline IsNot Nothing Then
-            ' cleanup
-            '*** ge tthe outline enumeration -> dynmaic
-            If Not workerthread Is Nothing Then
-                workerthread.ReportProgress(0, "#2 clean up outline")
-            End If
-            Call dataarea.XConfig.Outline.CleanUpRevision()
-            ' the row
-            Dim i As Long = 0
-
-            '*** ge tthe outline enumeration -> dynmaic
-            If Not workerthread Is Nothing Then
-                workerthread.ReportProgress(0, "#3 generating outline")
+                    End If
+                Next aCell
             End If
 
-            Dim outLineList As List(Of XOutlineItem) = dataarea.XConfig.Outline.ToList
-            If maximum = 0 Then
-                maximum = outLineList.Count
+            '' switch back
+            If previousDomainid IsNot Nothing AndAlso previousDomainid <> CurrentSession.CurrentDomainID Then
+                CurrentSession.SwitchToDomain(previousDomainid)
             End If
 
-            '** workerthread progress
-            If Not workerthread Is Nothing Then
-                workerthread.ReportProgress(0, "#3 outline generated")
-            End If
-
-            '*** step through all lines in the outline 
-            '*** 
-            For Each item As XOutlineItem In outLineList
-                i += 1
-
-                Dim aRow As Excel.Range = dataarea.DataRange.Rows(i)
-                '** progress
-                If Not workerthread Is Nothing Then
-                    progress += 1
-                    workerthread.ReportProgress((progress / maximum) * 100, "#4 replicated progress: " & String.Format("{0:0%}", (progress / maximum)))
-                End If
-
-                '** put keys in map
-                aXEnvelope.Clear()
-                ' add the Level Attribute
-                If anAttributeLevel IsNot Nothing Then
-                    aXEnvelope.AddSlotbyXEntry(entry:=anAttributeLevel, value:=item.Level, isHostValue:=True)
-                End If
-
-                '** add the ordinals to the envelope
-                For Each key As XOutlineItem.OutlineKey In item.keys
-                    aXEnvelope.AddSlotByXID(xid:=key.ID, value:=key.Value, isHostValue:=True)
-                Next
-
-                '*** run XCHANGE
-                'flag = aXEnvelope.RunXChange(msglog:=aMsgLog)
-                If aXEnvelope.RunXPreCheck(msglog:=aMsgLog) Then
-                    flag = aXEnvelope.RunXChange(msglog:=aMsgLog)
-                Else
-                    flag = False
-                End If
-
-                If flag Then
-                    '*** OUTPUT
-                    For Each aSlot As XSlot In aXEnvelope
-                        If aSlot.IsXChanged And Not aSlot.IsEmpty Then
-                            aNewValue = aSlot.HostValue
-                            column = aSlot.ordinal.Value
-                            If column > 0 Then
-                                aValue = aRow.Cells(1, column).Value
-
-                                If aRow.Cells(1, column).HasFormula OrElse (Not IsNull(aNewValue) AndAlso CStr(aNewValue) <> CStr(aValue)) Then
-                                    'update
-                                    aRow.Cells(1, column).Value = aNewValue
-                                    'Call copyDoc9Format(formatChange, aRow.Cells(1, col), True)
-                                End If
-                            End If
-                        End If
-
-                    Next
-
-                    'Update
-                    Globals.ThisAddIn.Application.StatusBar = " Updating data area " & dataarea.Name & " in row #" & aRow.Row
-                End If
-            Next
-        Else
-            '**** if not outline is available
-            '**** run through each aRow
-            '**** in selection
-            maximum = aSelection.Rows.Count
-
-            ''' hack
-            ''' 
-            For Each aXObject As XChangeObject In dataarea.XConfig.XChangeobjects.ToList
-                aXObject.XChangeCmd = xcmd
-            Next
-
-            For Each aCell As Excel.Range In aSelection.Rows
-                Dim aRow As Excel.Range = aCell.EntireRow
-                '** progress
-                If Not workerthread Is Nothing Then
-                    progress += 1
-                    workerthread.ReportProgress((progress / maximum) * 100, "#4 replicated progress: " & String.Format("{0:0%}", (progress / maximum)))
-                End If
-
-                '** put keys in map
-                aXEnvelope = aXBag.AddEnvelope(key:=progress)
-
-                '** Add Values only if not Read -> updated
-                If (xcmd <> otXChangeCommandType.Read) Then
-                    For Each anEntry As XChangeObjectEntry In anEntryList
-                        If anEntry.IsXChanged Then
-                            aValue = aRow.Cells(1, anEntry.Ordinal.Value).Value
-                            aXEnvelope.AddSlotByXID(xid:=anEntry.XID, value:=aValue, isHostValue:=True)
-                        End If
-
-                    Next
-                Else
-                    '*** only the key
-                    For Each ordinal As Object In keyordinals
-                        aValue = aRow.Cells(1, ordinal).Value
-                        If Not Globals.ThisAddIn.Application.WorksheetFunction.IsError(aValue) Then
-                            aXEnvelope.SetSlotValue(ordinal:=ordinal, value:=aValue)
-                        Else
-                            Call CoreMessageHandler(showmsgbox:=True, message:="key for data area '" & dataarea.Name & "' could not be retrieved from column " & ordinal.ToString, _
-                                                    break:=False, subname:="modxlsXchangeMgr.Replicate")
-                        End If
-                    Next
-                End If
-
-
-                '*** run XCHANGE
-                If aXEnvelope.RunXPreCheck(msglog:=aMsgLog) Then
-                    flag = aXEnvelope.RunXChange(msglog:=aMsgLog)
-                Else
-                    flag = False
-
-                End If
-
-
-                If flag Then
-                    '*** OUTPUT
-                    For Each aSlot As XSlot In aXEnvelope
-                        If aSlot.IsXChanged And Not aSlot.IsEmpty Then
-                            aNewValue = aSlot.HostValue
-                            column = aSlot.Ordinal.Value
-                            aValue = aRow.Cells(1, column).Value
-                            'If aXChangeMember.ordinal.value = 55 Then Debug.Assert False
-                            If aRow.Cells(1, column).HasFormula OrElse (Not IsNull(aNewValue) And CStr(aNewValue) <> CStr(aValue)) Then
-                                ' update
-                                aRow.Cells(1, column).Value = aNewValue
-                                'Call copyDoc9Format(formatChange, aRow.Cells(1, col), True)
-                            End If
-                        End If
-
-                    Next
-
-                    'Update
-                    Globals.ThisAddIn.Application.StatusBar = " Updating data area " & dataarea.Name & " in row #" & aRow.Row
-                End If
-                'Update
-                Globals.ThisAddIn.Application.StatusBar = " Updated data area " & dataarea.Name & " rows " & aRow.Row
-
-                '*** TODO: Update from the dataarea the Columns (if selected) for Timestamp and Change-Reset
-                'aRow.Cells(1, ChangeCol).Value = ""
-                'aRow.Cells(1, TimeStampCol).Value = Format(aTimestamp, "dd.mm.yyyy hh:mm:ss")
-
-            Next aCell
-        End If
-
-
-        Globals.ThisAddIn.Application.EnableEvents = True
-        Globals.ThisAddIn.Application.ScreenUpdating = True
-            Return True
-        Catch ex As Exception
-            CoreMessageHandler(showmsgbox:=True, exception:=ex, subname:="XLSXChangeMgr.Replicate")
             Globals.ThisAddIn.Application.EnableEvents = True
             Globals.ThisAddIn.Application.ScreenUpdating = True
+
+            Return True
+
+
+        Catch ex As Exception
+            CoreMessageHandler(showmsgbox:=True, exception:=ex, subname:="XLSXChangeMgr.Replicate")
+            '' switch back
+            If previousDomainid IsNot Nothing AndAlso previousDomainid <> CurrentSession.CurrentDomainID Then
+                CurrentSession.SwitchToDomain(previousDomainid)
+            End If
+
+            Globals.ThisAddIn.Application.EnableEvents = True
+            Globals.ThisAddIn.Application.ScreenUpdating = True
+
             Return False
         End Try
     End Function

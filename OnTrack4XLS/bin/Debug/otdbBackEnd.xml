@@ -116,6 +116,21 @@ otdbBackEnd
  oleDBDriver is the database driver for ADO.NET OLEDB drivers
  </summary>
 	<remarks></remarks>
+</member><member name="M:OnTrack.Database.oledbConnection.OLEDBConnection_OnConnected(System.Object,OnTrack.Database.ormConnectionEventArgs)">
+	<summary>
+ Propagate Connected Event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.oledbConnection.OLEDBConnection_DisConnected(System.Object,OnTrack.Database.ormConnectionEventArgs)">
+	<summary>
+ propagates the disconnected event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="P:OnTrack.Database.oledbConnection.NativeConnection">
 	<summary>
  gets the native connection
@@ -359,6 +374,13 @@ otdbBackEnd
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectProperty.ObjectProperty_OnCreateDefaultValuesNeeded(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+	<summary>
+ set the default values for the create event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
 </member><member name="M:OnTrack.ObjectProperties.ObjectProperty.ObjectProperty_OnPersisted(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
 	<summary>
  OnPersisted Handler to add the Properties as Compounds to the ObjectIDs
@@ -369,6 +391,13 @@ otdbBackEnd
 </member><member name="M:OnTrack.ObjectProperties.ObjectProperty.ObjectProperty_OnDeleted(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
 	<summary>
  OnDeleted Handler to add the Properties as Compounds to the ObjectIDs
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectProperty.ObjectProperty_OnDefaultValueNeeded(System.Object,OnTrack.Database.ormDataObjectEntryEventArgs)">
+	<summary>
+ set default value event for object entry
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
@@ -467,7 +496,7 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyLink.SetPropertyValue(System.String,System.Object)">
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyLink.SetPropertyValue(System.String,System.Object,System.String)">
 	<summary>
  operation to set a PropertyValue - here we must change to next version (updc) of the 
  </summary>
@@ -572,14 +601,14 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyValueLot.GetPropertyValue(System.String,System.Object@)">
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyValueLot.GetPropertyValue(System.String,System.Object@,System.String)">
 	<summary>
  operation to Access the Compound's Value
  </summary>
 	<param name="id"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyValueLot.SetPropertyValue(System.String,System.Object)">
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyValueLot.SetPropertyValue(System.String,System.Object,System.String)">
 	<summary>
  operation to set a PropertyValue
  </summary>
@@ -608,12 +637,12 @@ otdbBackEnd
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
-</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyValueLot.Clone(System.Object[],System.Nullable{System.Boolean})">
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyValueLot.ObjectPropertyValueLot_OnCloned(System.Object,OnTrack.Database.ormDataObjectCloneEventArgs)">
 	<summary>
- clones an object
+ Clone Handler to clone the related objects as well
  </summary>
-	<param name="pkarray"></param>
-	<returns></returns>
+	<param name="sender"></param>
+	<param name="e"></param>
 	<remarks></remarks>
 </member><member name="T:OnTrack.ObjectProperties.ObjectPropertyValueLot">
 	<summary>
@@ -1197,23 +1226,51 @@ otdbBackEnd
 	<param name="runtimeOnly"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.Converter.String2Array(System.String)">
+</member><member name="M:OnTrack.Database.Converter.Int2ARGB(System.Int64)">
+	<summary>
+ translates an hex integer to argb presentation integer RGB(FF,00,00) = FF but integer = FF0000
+ </summary>
+	<param name="value"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.Converter.RGB2Color(System.Int64)">
+	<summary>
+ returns a color value in rgb to system.drawing.color
+ </summary>
+	<param name="value"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.Converter.otString2Array(System.String)">
 	<summary>
  Converts String to Array
  </summary>
 	<param name="input"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.Converter.Array2String(System.Object[])">
+</member><member name="M:OnTrack.Database.Converter.Array2otString(System.Object[])">
 	<summary>
- Converts Array to String
+ Converts Array to String in otdb Array representation
  </summary>
 	<param name="input"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.Converter.Enumerable2String(System.Collections.IEnumerable)">
+</member><member name="M:OnTrack.Database.Converter.Array2StringList(System.Object[],System.Char)">
 	<summary>
- Converts iEnumerable to String
+ Converts Array to String in list representation
+ </summary>
+	<param name="input"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.Converter.Enumerable2otString(System.Collections.IEnumerable)">
+	<summary>
+ Converts iEnumerable to String in otdb Array representation
+ </summary>
+	<param name="input"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.Converter.Enumerable2StringList(System.Collections.IEnumerable,System.Char)">
+	<summary>
+ Converts iEnumerable to String in list representation
  </summary>
 	<param name="input"></param>
 	<returns></returns>
@@ -1225,6 +1282,27 @@ otdbBackEnd
  </summary>
 	<param name="input"></param>
 	<param name="datatype"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.Converter.DateTime2LocaleDateTimeString(System.DateTime)">
+	<summary>
+ return a timestamp in the localTime
+ </summary>
+	<param name="datevalue"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.Converter.DateTime2UniversalDateTimeString(System.DateTime)">
+	<summary>
+ return a date in the date localTime
+ </summary>
+	<param name="datevalue"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.Converter.Date2LocaleShortDateString(System.DateTime)">
+	<summary>
+ return a date in the date localTime
+ </summary>
+	<param name="datevalue"></param>
 	<returns></returns>
 	<remarks></remarks>
 </member><member name="T:OnTrack.Database.Converter">
@@ -1476,7 +1554,7 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="P:OnTrack.Xchange.MessageQueue.Comment">
+</member><member name="P:OnTrack.Xchange.MessageQueue.Description">
 	<summary>
  sets or gets the Comment
  </summary>
@@ -1525,6 +1603,13 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="P:OnTrack.Xchange.MessageQueue.DomainID">
+	<summary>
+ set the domainid for all messages in which the message queue is run
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="M:OnTrack.Xchange.MessageQueue.ProcessStatusCode">
 	<summary>
  returns the status Code of the ProcessStatus
@@ -1543,7 +1628,7 @@ otdbBackEnd
  </summary>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Xchange.MessageQueue.Create(System.String)">
+</member><member name="M:OnTrack.Xchange.MessageQueue.Create(System.String,System.Boolean)">
 	<summary>
  create a persistable message queue object
  </summary>
@@ -1569,7 +1654,7 @@ otdbBackEnd
  </summary>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Xchange.MessageQueue.Precheck(System.ComponentModel.BackgroundWorker@)">
+</member><member name="M:OnTrack.Xchange.MessageQueue.Precheck(System.ComponentModel.BackgroundWorker@,System.String)">
 	<summary>
  precheck -&gt; check the MQF
  </summary>
@@ -1777,6 +1862,13 @@ otdbBackEnd
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
+</member><member name="M:OnTrack.Xchange.MQMessage.MQMessage_OnSlotValueChanged(System.Object,OnTrack.XChange.XSlot.EventArgs)">
+	<summary>
+ Handler for the SlotValueChanged Event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
 </member><member name="T:OnTrack.Xchange.MQMessage">
 	<summary>
  MQMessage is a message object to the Database
@@ -1790,7 +1882,13 @@ otdbBackEnd
  
  3) the message consists out of multiples slots - create them by the .CreateSlot method
  
- 4) the message is been used to build an XEnvelope at runtime
+ 4) the message is been used to build an (XBag) XEnvelope at runtime
+ 
+ 5) the message has special commands which will be processed on the mqf level
+ 
+ 6) message processing is required in 2 steps:
+    6.1 Prechecking
+    6.2 Processing
  
  </remarks>
 </member><member name="F:OnTrack.Xchange.MQXSlot.ConstTableID">
@@ -2033,6 +2131,13 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="P:OnTrack.XChange.IXChangeConfigEntry.xobjectdefinition">
+	<summary>
+ gets the xchange object object definition
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="P:OnTrack.XChange.IXChangeConfigEntry.IDNO">
 	<summary>
  Primary Key Indexno
@@ -2132,6 +2237,13 @@ otdbBackEnd
 </member><member name="P:OnTrack.XChange.XChangeObject.IsObject">
 	<summary>
  gets True if this is an Object Entry
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.XChange.XChangeObject.XChangeCmd">
+	<summary>
+ gets or sets the Xchange Command
  </summary>
 	<value></value>
 	<returns></returns>
@@ -2291,6 +2403,13 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="P:OnTrack.XChange.XChangeConfigAbstractEntry.Domainid">
+	<summary>
+ gets or sets the domain ID - set it to nothing alwyas the currentdomainId will apply
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="P:OnTrack.XChange.XChangeConfigAbstractEntry.ObjectEntryDefinition">
 	<summary>
  gets the ObjectEntry Definition for the XChange Member
@@ -2298,9 +2417,9 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="P:OnTrack.XChange.XChangeConfigAbstractEntry.ObjectDefinition">
+</member><member name="P:OnTrack.XChange.XChangeConfigAbstractEntry.XObjectDefinition">
 	<summary>
- Object Definition
+ return the ObjectDefinition of the associated XObject (not the XObjectEntry - nor the Objectdefinition of the XchangeConfig itself)
  </summary>
 	<value></value>
 	<returns></returns>
@@ -2371,6 +2490,13 @@ otdbBackEnd
 </member><member name="P:OnTrack.XChange.XChangeConfigAbstractEntry.Orderno">
 	<summary>
  Gets or sets the Order ordinal
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.XChange.XChangeConfigAbstractEntry.XChangeConfig">
+	<summary>
+ returns the the xchange config of this entry
  </summary>
 	<value></value>
 	<returns></returns>
@@ -2494,7 +2620,14 @@ otdbBackEnd
 	<param name="xchangecommand"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.XChange.XChangeConfiguration.AddObjectByName(System.String,System.Int64,OnTrack.XChange.otXChangeCommandType)">
+</member><member name="M:OnTrack.XChange.XChangeConfiguration.RefreshObjects(System.String)">
+	<summary>
+ refresh all ObjectLoads
+ </summary>
+	<param name="domainid"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.XChange.XChangeConfiguration.AddObjectByName(System.String,System.String,System.Int64,OnTrack.XChange.otXChangeCommandType)">
 	<summary>
  Adds an object to exchange by name and orderno
  </summary>
@@ -2503,7 +2636,7 @@ otdbBackEnd
 	<param name="xcmd"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.XChange.XChangeConfiguration.AddEntryByObjectEntry(System.String@,System.String,System.Object,System.Boolean,OnTrack.XChange.otXChangeCommandType,System.Boolean)">
+</member><member name="M:OnTrack.XChange.XChangeConfiguration.AddEntryByObjectEntry(System.String@,System.String,System.Object,System.Boolean,OnTrack.XChange.otXChangeCommandType,System.Boolean,System.String)">
 	<summary>
  Adds an xchange entry by object- and entryname
  </summary>
@@ -2515,7 +2648,7 @@ otdbBackEnd
 	<param name="READONLY"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.XChange.XChangeConfiguration.AddEntryByObjectEntry(OnTrack.Database.iormObjectEntry@,System.Object,System.String,System.Boolean,OnTrack.XChange.otXChangeCommandType,System.Boolean)">
+</member><member name="M:OnTrack.XChange.XChangeConfiguration.AddEntryByObjectEntry(OnTrack.Database.iormObjectEntry@,System.Object,System.String,System.Boolean,OnTrack.XChange.otXChangeCommandType,System.Boolean,System.String)">
 	<summary>
  adds an xchange entry by the objectentry from the repository
  </summary>
@@ -2857,6 +2990,11 @@ otdbBackEnd
  fields
  </summary>
 	<remarks></remarks>
+</member><member name="P:OnTrack.XChange.XOutlineItem.DeliverableUid">
+	<summary>
+ Gets or sets the deliverable uid.
+ </summary>
+	<value>The deliverable uid.</value>
 </member><member name="P:OnTrack.XChange.XOutlineItem.Text">
 	<summary>
  Gets or sets the text.
@@ -3571,6 +3709,31 @@ otdbBackEnd
  interface describes a queriable object class
  </summary>
 	<remarks></remarks>
+</member><member name="P:OnTrack.Database.iormPersistable.ObjectDefinition">
+	<summary>
+ get the persistable object definition
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.iormPersistable.IsAlive(System.String,System.Boolean)">
+	<summary>
+ retruns true or throws error if the dataobject is alive (created, retrieved, infused)
+ </summary>
+	<param name="subname"></param>
+	<param name="throwError"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.iormPersistable.Create(OnTrack.Database.ormRecord@,System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
+	<summary>
+ create the dataobject as persistable object in the data store
+ </summary>
+	<param name="record"></param>
+	<param name="domainID"></param>
+	<param name="checkUnique"></param>
+	<param name="runtimeOnly"></param>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="P:OnTrack.Database.iormPersistable.PrimaryTableStore">
 	<summary>
  Tablestore associated with this data object
@@ -3640,7 +3803,7 @@ otdbBackEnd
 	<param name="pkArray"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.iormPersistable.Create(System.Object[]@,System.String,System.Boolean,System.Boolean)">
+</member><member name="M:OnTrack.Database.iormPersistable.Create(System.Object[]@,System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
 	<summary>
  create a persistable dataobject
  </summary>
@@ -3898,35 +4061,35 @@ otdbBackEnd
  Interface for Object Entries
  </summary>
 	<remarks></remarks>
-</member><member name="P:OnTrack.ormLoggable.ContextIdentifier">
+</member><member name="P:OnTrack.iormLoggable.ContextIdentifier">
 	<summary>
  sets or gets the context identifier for the message in the context
  </summary>
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="P:OnTrack.ormLoggable.TupleIdentifier">
+</member><member name="P:OnTrack.iormLoggable.TupleIdentifier">
 	<summary>
  sets or gets the tuple identifier for the message in the context
  </summary>
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="P:OnTrack.ormLoggable.EntityIdentifier">
+</member><member name="P:OnTrack.iormLoggable.EntityIdentifier">
 	<summary>
  sets or gets the entity identifier for the message in the context
  </summary>
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="P:OnTrack.ormLoggable.ObjectMessageLog">
+</member><member name="P:OnTrack.iormLoggable.ObjectMessageLog">
 	<summary>
  returns the ObjectMessageLog
  </summary>
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="T:OnTrack.ormLoggable">
+</member><member name="T:OnTrack.iormLoggable">
 	<summary>
  Interface for objects which are loggable - have a object message log
  </summary>
@@ -4111,6 +4274,13 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:modHelperVBA.IsEmpty(System.Object@)">
+	<summary>
+ returns True if the object is empty - nothing or "" or Whitespace
+ </summary>
+	<param name="value"></param>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="E:OnTrack.Database.ormDataObject.PropertyChanged">
 	<summary>
  Events
@@ -4157,6 +4327,46 @@ otdbBackEnd
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.ormDataObjectOverloadedEventArgs.#ctor(System.Object[],System.Object[],OnTrack.Database.ormDataObject,System.Boolean,OnTrack.ObjectMessageLog@,System.Nullable{System.DateTime})">
+	<summary>
+ constructor
+ </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Database.ormDataObjectOverloadedEventArgs.GlobalPKArray">
+	<summary>
+ Gets or sets the old object.
+ </summary>
+	<value>The old object.</value>
+</member><member name="P:OnTrack.Database.ormDataObjectOverloadedEventArgs.DomainPKArray">
+	<summary>
+ Gets or sets the old object.
+ </summary>
+	<value>The old object.</value>
+</member><member name="T:OnTrack.Database.ormDataObjectOverloadedEventArgs">
+	<summary>
+ Event Class for the substitute event
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.ormDataObjectCloneEventArgs.#ctor(OnTrack.Database.ormDataObject,OnTrack.Database.ormDataObject,OnTrack.ObjectMessageLog@,System.Nullable{System.DateTime})">
+	<summary>
+ constructor
+ </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Database.ormDataObjectCloneEventArgs.OldObject">
+	<summary>
+ Gets or sets the old object.
+ </summary>
+	<value>The old object.</value>
+</member><member name="P:OnTrack.Database.ormDataObjectCloneEventArgs.NewObject">
+	<summary>
+ Gets or sets the old object.
+ </summary>
+	<value>The old object.</value>
+</member><member name="T:OnTrack.Database.ormDataObjectCloneEventArgs">
+	<summary>
+ Event Class for the clone event
+ </summary>
 	<remarks></remarks>
 </member><member name="M:OnTrack.Database.ormDataObjectEventArgs.#ctor(OnTrack.Database.ormDataObject,OnTrack.Database.ormRecord,System.Boolean,System.Collections.Generic.List{System.String},System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Object[],System.Boolean,System.Nullable{OnTrack.Database.otInfuseMode},OnTrack.ObjectMessageLog@,System.Nullable{System.DateTime})">
 	<summary>
@@ -4373,6 +4583,22 @@ otdbBackEnd
  Finalize
  </summary>
 	<remarks></remarks>
+</member><member name="P:OnTrack.Session.DeliverableOnCloningResetEntries">
+	<summary>
+ Gets or sets an array of entry names of the deliverable object which should be reseted on cloning
+ </summary>
+	<value>The deliverable on clone reset entries.</value>
+</member><member name="P:OnTrack.Session.DeliverableOnCloningCloneAlso">
+	<summary>
+ Gets or sets an array of object ids which should be cloned also if clonening the deliverable object
+ </summary>
+	<value>The deliverable on cloning clone also objects.</value>
+</member><member name="P:OnTrack.Session.DeliverableUniqueEntries">
+	<summary>
+ Gets or sets the unique entries per deliverables as array of strings. These Entries will be checked if
+ creating or cloneing deliverables
+ </summary>
+	<value>The deliverable unique entires.</value>
 </member><member name="P:OnTrack.Session.CurrentDomainID">
 	<summary>
  Gets or sets the domain ID (if setting then the domains will be switched).
@@ -4398,11 +4624,40 @@ otdbBackEnd
  Gets or sets the access level.
  </summary>
 	<value>The access level.</value>
-</member><member name="P:OnTrack.Session.Objects">
+</member><member name="P:OnTrack.Session.Objects(System.String)">
 	<summary>
- Gets or sets the Objects.
+ Gets or sets the Objects for an optional domainid
  </summary>
 	<value>The Objects.</value>
+</member><member name="P:OnTrack.Session.ValueListIDs">
+	<summary>
+ returns a list of all cached Valuelists names
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Session.ValueLists">
+	<summary>
+ returns a list of all cached Valuelists
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Session.ValueList(System.String)">
+	<summary>
+ returns a list of all cached Valuelists
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Session.ValueListValues(System.String)">
+	<summary>
+ returns the Values of a ValueList
+ </summary>
+	<param name="name"></param>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="P:OnTrack.Session.Username">
 	<summary>
  Gets the user name.
@@ -4458,6 +4713,11 @@ otdbBackEnd
  </summary>
 	<value>The is bootstrapping installation.</value>
 </member><member name="P:OnTrack.Session.IsStartingUp">
+	<summary>
+ Gets or sets the is statup Mode
+ </summary>
+	<value></value>
+</member><member name="P:OnTrack.Session.IsDomainSwitching">
 	<summary>
  Gets or sets the is statup Mode
  </summary>
@@ -4592,6 +4852,13 @@ otdbBackEnd
  </summary>
 	<param name="FORCE">true if to do it even not initialized</param>
 	<returns>True if successfully reseted</returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Session.Session_OnDomainChanged(System.Object,OnTrack.SessionEventArgs)">
+	<summary>
+ handler for domain switched
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
 	<remarks></remarks>
 </member><member name="T:OnTrack.Session">
 	<summary>
@@ -4895,6 +5162,11 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectMessageLog.Clear">
+	<summary>
+ Clear the ObjectMessagelog from all Messages
+ </summary>
+	<remarks></remarks>
 </member><member name="M:OnTrack.ObjectMessageLog.ObjectMessageLog_OnInfused(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
 	<summary>
  event handler for tag
@@ -4915,9 +5187,9 @@ otdbBackEnd
  </summary>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.ObjectMessageLog.CopyFrom(OnTrack.ObjectMessage)">
+</member><member name="M:OnTrack.ObjectMessageLog.Add(OnTrack.ObjectMessage)">
 	<summary>
- copy an existing message to this log
+ Add an existing message (basically copy it and add it)
  </summary>
 	<param name="message"></param>
 	<returns></returns>
@@ -4987,6 +5259,36 @@ otdbBackEnd
  runtime dynamic members
  </summary>
 	<remarks></remarks>
+</member><member name="P:OnTrack.ObjectMessage.IsPersisted">
+	<summary>
+ Gets or sets the persistflag.
+ </summary>
+	<value>The persistflag.</value>
+</member><member name="P:OnTrack.ObjectMessage.Sender">
+	<summary>
+ Gets or sets the sender.
+ </summary>
+	<value>The sender.</value>
+</member><member name="P:OnTrack.ObjectMessage.Username">
+	<summary>
+ Gets or sets the username.
+ </summary>
+	<value>The username.</value>
+</member><member name="P:OnTrack.ObjectMessage.LoggableKeyValues">
+	<summary>
+ Gets or sets the primary key values of the loggable sender object .
+ </summary>
+	<value>The objpkvalues.</value>
+</member><member name="P:OnTrack.ObjectMessage.Entryname">
+	<summary>
+ Gets or sets the entryname.
+ </summary>
+	<value>The entryname.</value>
+</member><member name="P:OnTrack.ObjectMessage.Objectname">
+	<summary>
+ Gets or sets the objectname.
+ </summary>
+	<value>The objectname.</value>
 </member><member name="P:OnTrack.ObjectMessage.IsDataObject">
 	<summary>
  returns true if data object has primary keys and is alive
@@ -5463,7 +5765,7 @@ otdbBackEnd
 	<param name="datatype"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.ot.CoreMessageHandler(System.Boolean,System.Exception,System.Object,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean,OnTrack.otCoreMessageType,OnTrack.ObjectMessageLog@,System.String)">
+</member><member name="M:OnTrack.ot.CoreMessageHandler(System.String,System.Exception,System.Object,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean,System.Boolean,OnTrack.otCoreMessageType,OnTrack.ObjectMessageLog@,System.String)">
 	<summary>
  central error handler .. all messages and error conditions are fed here
  </summary>
@@ -5506,7 +5808,9 @@ otdbBackEnd
 	<summary>
  constructors
  </summary>
-	<remarks></remarks>
+	<remarks>
+ set domainid if bound to a domain otherwise currentdomain
+ </remarks>
 </member><member name="P:OnTrack.Database.ormQueriedEnumeration.QryElapsedMilliseconds">
 	<summary>
  returns the elapsed timespan in milliseconds for the query to fetch all records
@@ -5573,7 +5877,7 @@ otdbBackEnd
 	<value>The where.</value>
 </member><member name="P:OnTrack.Database.ormQueriedEnumeration.Domainid">
 	<summary>
- Gets or sets the domainid.
+ Gets or sets the static domainid in this query.
  </summary>
 	<value>The domainid.</value>
 </member><member name="P:OnTrack.Database.ormQueriedEnumeration.Id">
@@ -5679,7 +5983,7 @@ otdbBackEnd
 	<param name="no"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.ormQueriedEnumeration.Run">
+</member><member name="M:OnTrack.Database.ormQueriedEnumeration.Run(System.String)">
 	<summary>
  run the query
  </summary>
@@ -7324,7 +7628,7 @@ otdbBackEnd
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.ormRelationNewableCollection`1.AddCreate(System.Object[])">
+</member><member name="M:OnTrack.Database.ormRelationNewableCollection`1.AddCreate(System.Object[],System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
 	<summary>
  create a new item already stored in this collection
  </summary>
@@ -7853,6 +8157,27 @@ otdbBackEnd
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
+</member><member name="M:OnTrack.Database.iormObjectCacheManager.OnInfusedDataObject(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+	<summary>
+ after infusion of dataobject
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.iormObjectCacheManager.OnInfusingDataObject(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+	<summary>
+ starting infusion of dataobject
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.iormObjectCacheManager.OnOverloadedDataObject(System.Object,OnTrack.Database.ormDataObjectOverloadedEventArgs)">
+	<summary>
+ after Overloaded a domain specific dataobject with a global domain event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
 </member><member name="T:OnTrack.Database.iormObjectCacheManager">
 	<summary>
  Interface for Cache Manager
@@ -7935,9 +8260,15 @@ otdbBackEnd
  registered object classes
  </summary>
 	<remarks></remarks>
-</member><member name="F:OnTrack.Database.ormObjectCacheManager._cachedObjects">
+</member><member name="F:OnTrack.Database.ormObjectCacheManager._cachedOverloadedObjects">
 	<summary>
- the Object Cache
+ the Object Cache of overloaded objects per object id  
+ and the primary key of the domain specific object but the object of the overload
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.Database.ormObjectCacheManager._cachedLoadedObjects">
+	<summary>
+ the Object Cache per objectid and then the primary key of the objects of loaded objects
  </summary>
 	<remarks></remarks>
 </member><member name="F:OnTrack.Database.ormObjectCacheManager._isInitialized">
@@ -7949,11 +8280,18 @@ otdbBackEnd
  Define the Assignments of shared iorm persistable Events to the Cache Methods
  IMPORTANT !
 
-</member><member name="M:OnTrack.Database.ormObjectCacheManager.#ctor(OnTrack.Session)">
+</member><member name="M:OnTrack.Database.ormObjectCacheManager.#ctor(OnTrack.Session,System.String)">
 	<summary>
  constructor
  </summary>
 	<param name="session"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.ormObjectCacheManager._session_OnDomainChanged(System.Object,OnTrack.SessionEventArgs)">
+	<summary>
+ DomainHandler for DomainChanging
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
 	<remarks></remarks>
 </member><member name="M:OnTrack.Database.ormObjectCacheManager.Start(System.Boolean)">
 	<summary>
@@ -8048,6 +8386,21 @@ otdbBackEnd
 </member><member name="M:OnTrack.Database.ormObjectCacheManager.OnPersistedDataObject(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
 	<summary>
  OnPersisted Event Handler for the ORM Data Object - check if object needs to be added and set persistance timestamp
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.ormObjectCacheManager.EndOverloading(OnTrack.Database.ormPrimaryKey{OnTrack.Database.iormPersistable},OnTrack.Database.ormDataObject)">
+	<summary>
+ checks and deletes an overloading object
+ </summary>
+	<param name="searchkeys"></param>
+	<param name="dataobject"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.ormObjectCacheManager.OnOverloadedDataObject(System.Object,OnTrack.Database.ormDataObjectOverloadedEventArgs)">
+	<summary>
+ OnRetrieving Event Handler for the ORM Data Object - add to cache the overloading of domain specific
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
@@ -8202,9 +8555,23 @@ otdbBackEnd
  </summary>
 	<returns>True if successful</returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.ObjectRepository.Initialize">
+</member><member name="M:OnTrack.Database.ObjectRepository.OnDomainChanging(System.Object,OnTrack.SessionEventArgs)">
 	<summary>
- Initialize
+ Handler for the Domain changing event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.ObjectRepository.OnDomainChanged(System.Object,OnTrack.SessionEventArgs)">
+	<summary>
+ handler for the domain Changed Event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.ObjectRepository.Initialize(System.Boolean)">
+	<summary>
+ Initialize the repository and load the minimum objects
  </summary>
 	<returns></returns>
 	<remarks></remarks>
@@ -9907,6 +10274,13 @@ otdbBackEnd
  relation to the columndefinition - will be always created on create
  </summary>
 	<remarks></remarks>
+</member><member name="E:OnTrack.Database.ObjectColumnEntry.PropertyChanged">
+	<summary>
+ Events
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
 </member><member name="M:OnTrack.Database.ObjectColumnEntry.#ctor">
 	<summary>
  constructor 
@@ -10448,14 +10822,14 @@ otdbBackEnd
  Gets or sets the table ID.
  </summary>
 	<value>The table ID.</value>
-</member><member name="P:OnTrack.Database.ormSchemaTableColumnAttribute.Typeid">
+</member><member name="P:OnTrack.Database.ormSchemaTableColumnAttribute.DataType">
 	<summary>
- Gets or sets the typeid.
+ Gets or sets the Datatype.
  </summary>
 	<value>The typeid.</value>
-</member><member name="P:OnTrack.Database.ormSchemaTableColumnAttribute.InnerTypeid">
+</member><member name="P:OnTrack.Database.ormSchemaTableColumnAttribute.InnerDataType">
 	<summary>
- Gets or sets the inner typeid of list.
+ Gets or sets the nested inner Datatype of Datatype list.
  </summary>
 	<value>The typeid.</value>
 </member><member name="P:OnTrack.Database.ormSchemaTableColumnAttribute.Size">
@@ -10641,9 +11015,19 @@ otdbBackEnd
  Gets or sets the validation properties.
  </summary>
 	<value>The validation properties.</value>
+</member><member name="P:OnTrack.Database.ormObjectEntryAttribute.PossibleValues">
+	<summary>
+ Gets or sets the possible values in string presentation as list
+ </summary>
+	<value>The values.</value>
+</member><member name="P:OnTrack.Database.ormObjectEntryAttribute.Description">
+	<summary>
+ Gets or sets the description.
+ </summary>
+	<value>The description.</value>
 </member><member name="P:OnTrack.Database.ormObjectEntryAttribute.Values">
 	<summary>
- Gets or sets the values.
+ Gets or sets the possible values in string presentation as array.
  </summary>
 	<value>The values.</value>
 </member><member name="P:OnTrack.Database.ormObjectEntryAttribute.UpperRange">
@@ -10651,6 +11035,16 @@ otdbBackEnd
  Gets or sets the upper range.
  </summary>
 	<value>The upper range.</value>
+</member><member name="P:OnTrack.Database.ormObjectEntryAttribute.UpperRangeValue">
+	<summary>
+ Gets or sets the upper range as nullable
+ </summary>
+	<value>The upper range.</value>
+</member><member name="P:OnTrack.Database.ormObjectEntryAttribute.LowerRangeValue">
+	<summary>
+ Gets or sets the lower range as nullable.
+ </summary>
+	<value>The lower range.</value>
 </member><member name="P:OnTrack.Database.ormObjectEntryAttribute.LowerRange">
 	<summary>
  Gets or sets the lower range.
@@ -10725,6 +11119,74 @@ otdbBackEnd
  returns a String presentation of an ObjEctEntry Attribute
  </summary>
 	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Database.ormObjectEntryAttribute.Datatype">
+	<summary>
+ set the datatype for the objectentry attribute (stub)
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Database.ormObjectEntryAttribute.IsMapped">
+	<summary>
+ returns true if the Entry is mapped to a class member field
+ </summary>
+ Inherits iormPersistable -&gt; ObjectEntryAttribute is also covering this
+ Inherits System.ComponentModel.INotifyPropertyChanged
+ <returns></returns>
+	<remarks></remarks>
+	<value></value>
+</member><member name="P:OnTrack.Database.ormObjectEntryAttribute.IsColumn">
+	<summary>
+ returns True if the Entry is a Column
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+	<value></value>
+</member><member name="P:OnTrack.Database.ormObjectEntryAttribute.IsCompound">
+	<summary>
+ returns true if the Entry is a Compound entry
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+	<value></value>
+</member><member name="P:OnTrack.Database.ormObjectEntryAttribute.Size">
+	<summary>
+ Gets or sets the size.
+ </summary>
+	<value>The size.</value>
+</member><member name="P:OnTrack.Database.ormObjectEntryAttribute.SizeValue">
+	<summary>
+ Gets or sets the size as nullable.
+ </summary>
+	<value>The size.</value>
+</member><member name="P:OnTrack.Database.ormObjectEntryAttribute.IsNullable">
+	<summary>
+ Gets or sets the is nullable.
+ </summary>
+	<value>The is nullable.</value>
+</member><member name="P:OnTrack.Database.ormObjectEntryAttribute.InnerDatatype">
+	<summary>
+ Gets or sets the inner datatype.
+ </summary>
+	<value>The inner datatype.</value>
+</member><member name="P:OnTrack.Database.ormObjectEntryAttribute.InnerDatatypeValue">
+	<summary>
+ Gets or sets the inner datatype as nullable.
+ </summary>
+	<value>The inner datatype.</value>
+</member><member name="M:OnTrack.Database.ormObjectEntryAttribute.AbstractEntryDefinition_SetByAttribute(OnTrack.Database.ormObjectEntryAttribute)">
+	<summary>
+ Abstracts the entry definition_ set by attribute.
+ </summary>
+	<param name="attribute">The attribute.</param>
+	<returns></returns>
+</member><member name="M:OnTrack.Database.ormObjectEntryAttribute.OnswitchRuntimeOff(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+	<summary>
+ handler for the OnSwitchRuntimeOff event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
 	<remarks></remarks>
 </member><member name="T:OnTrack.Database.ormObjectEntryAttribute">
 	<summary>
@@ -11172,6 +11634,14 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="P:OnTrack.Database.ormDataObject.ObjectEntryDefaultValue(System.String)">
+	<summary>
+ returns the default value for an Entry of this Object
+ </summary>
+	<param name="entryname"></param>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="P:OnTrack.Database.ormDataObject.ObjectClassDescription">
 	<summary>
  returns the object class description associated with this data object
@@ -11307,6 +11777,13 @@ otdbBackEnd
  Gets or sets the OTDB record.
  </summary>
 	<value>The OTDB record.</value>
+</member><member name="P:OnTrack.Database.ormDataObject.PrimaryKeyEntrynames">
+	<summary>
+ returns an array of the primarykey entry names
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="P:OnTrack.Database.ormDataObject.PrimaryKeyValues">
 	<summary>
  returns the primaryKeyvalues
@@ -11796,6 +12273,14 @@ otdbBackEnd
 	<param name="entryname"></param>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:OnTrack.Database.ormDataObject.NormalizeValue(System.String,System.Object@)">
+	<summary>
+ normalize a value and apply EntryProperties
+ </summary>
+	<param name="entryname"></param>
+	<param name="value"></param>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="M:OnTrack.Database.ormDataObject.MergeRecord(OnTrack.Database.ormRecord)">
 	<summary>
  Merge Values of an record in own record
@@ -11859,7 +12344,7 @@ otdbBackEnd
  set the dataobject to Runtime
  </summary>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.ormDataObject.CreateDataObject(System.Object[]@,System.Type,System.String,System.Boolean,System.Boolean)">
+</member><member name="M:OnTrack.Database.ormDataObject.CreateDataObject(System.Object[]@,System.Type,System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
 	<summary>
  create a dataobject from a type
  </summary>
@@ -11870,7 +12355,7 @@ otdbBackEnd
 	<param name="runtimeOnly"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.ormDataObject.CreateDataObject``1(System.Object[]@,System.String,System.Boolean,System.Boolean)">
+</member><member name="M:OnTrack.Database.ormDataObject.CreateDataObject``1(System.Object[]@,System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
 	<summary>
  create a persistable dataobject of type T 
  </summary>
@@ -11901,7 +12386,7 @@ otdbBackEnd
 	<param name="runtimeOnly"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.ormDataObject.Retrieve``1(System.Object[],System.String,OnTrack.Database.iormDatabaseDriver,System.Boolean,System.Boolean)">
+</member><member name="M:OnTrack.Database.ormDataObject.Retrieve``1(System.Object[],System.String,OnTrack.Database.iormDatabaseDriver,System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
 	<summary>
  Retrieve a data object from the cache or load it
  </summary>
@@ -11918,7 +12403,7 @@ otdbBackEnd
 	<param name="newpkarray"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.ormDataObject.Clone(System.Object[],System.Nullable{System.Boolean})">
+</member><member name="M:OnTrack.Database.ormDataObject.CloneObject(System.Object[],System.Nullable{System.Boolean})">
 	<summary>
  this method must be overritten
  </summary>
@@ -13596,7 +14081,7 @@ otdbBackEnd
 	<param name="workspaceID"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Scheduling.WorkspaceSchedule.Create(System.Int64,System.String,System.String)">
+</member><member name="M:OnTrack.Scheduling.WorkspaceSchedule.Create(System.Int64,System.String,System.String,System.String)">
 	<summary>
  create the persistable WorkspaceSchedule object
  </summary>
@@ -14427,30 +14912,58 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="P:OnTrack.Commons.StatusItem.FormatBGColor">
+</member><member name="P:OnTrack.Commons.StatusItem.FormatBGColorHex">
 	<summary>
  sets or gets the Background Colour for rendering the status
  </summary>
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="P:OnTrack.Commons.StatusItem.Formatkpibgcolor">
+</member><member name="P:OnTrack.Commons.StatusItem.FormatBGColor">
+	<summary>
+ sets or gets the Background Color for rendering the status
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Commons.StatusItem.FormatkpiBGColorHex">
 	<summary>
  sets or gets the KPI Background Colour for rendering the status
  </summary>
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="P:OnTrack.Commons.StatusItem.FormatFGColor">
+</member><member name="P:OnTrack.Commons.StatusItem.FormatKPIBGColor">
+	<summary>
+ sets or gets the KPI Background Color for rendering the status
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Commons.StatusItem.FormatFGColorHex">
 	<summary>
  sets or gets the foreground color for rendering the status
  </summary>
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="P:OnTrack.Commons.StatusItem.FormatKPIfgcolor">
+</member><member name="P:OnTrack.Commons.StatusItem.FormatFGColor">
+	<summary>
+ sets or gets the Foreground Color for rendering the status
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Commons.StatusItem.FormatKPIGFColorHex">
 	<summary>
  sets or gets the kpi foreground color for rendering the status
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Commons.StatusItem.FormatKPIFGColor">
+	<summary>
+ sets or gets the Foreground Color for rendering the status
  </summary>
 	<value></value>
 	<returns></returns>
@@ -15398,7 +15911,7 @@ otdbBackEnd
 	<param name="targetUPDC"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Deliverables.Track.Create(System.Int64,System.Int64,System.Int64,System.Int64)">
+</member><member name="M:OnTrack.Deliverables.Track.Create(System.Int64,System.Int64,System.Int64,System.Int64,System.String)">
 	<summary>
  create the data object by primary key
  </summary>
@@ -15578,11 +16091,16 @@ otdbBackEnd
  Operations
  </summary>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Deliverables.Deliverable.#ctor">
+</member><member name="F:OnTrack.Deliverables.Deliverable._UniqueEntriesAreTouched">
 	<summary>
- constructor
+ dynamic runtime members
  </summary>
 	<remarks></remarks>
+</member><member name="P:OnTrack.Deliverables.Deliverable.DomainID">
+	<summary>
+ Gets or sets the domain ID.
+ </summary>
+	<value>The domain ID.</value>
 </member><member name="P:OnTrack.Deliverables.Deliverable.Uid">
 	<summary>
  gets the UID of the deliverable (unique)
@@ -15737,7 +16255,7 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="P:OnTrack.Deliverables.Deliverable.function">
+</member><member name="P:OnTrack.Deliverables.Deliverable.Function">
 	<summary>
  gets or sets the function
  </summary>
@@ -15769,6 +16287,13 @@ otdbBackEnd
  returns the PropertyLink object in relation
  </summary>
 	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Deliverables.Deliverable.Deliverable_OnInitialized(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+	<summary>
+ OnInitialized Event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
 	<remarks></remarks>
 </member><member name="M:OnTrack.Deliverables.Deliverable.Deliverable_OnRelationRetrieveNeeded(System.Object,OnTrack.Database.ormDataObjectRelationEventArgs)">
 	<summary>
@@ -15865,7 +16390,21 @@ otdbBackEnd
 	<param name="workspaceID">optional workspaceID id</param>
 	<returns>the data object or nothing</returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Deliverables.Deliverable.Deliverable_OnDefaultValuesNeeded(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+</member><member name="M:OnTrack.Deliverables.Deliverable.Deliverable_OnEntryChanged(System.Object,OnTrack.Database.ormDataObjectEntryEventArgs)">
+	<summary>
+ On Entry Changed Event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Deliverables.Deliverable.Deliverable_OnDefaultValueNeeded(System.Object,OnTrack.Database.ormDataObjectEntryEventArgs)">
+	<summary>
+ handler for default Value for an entry needed
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Deliverables.Deliverable.Deliverable_OnCreateDefaultValuesNeeded(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
 	<summary>
  Handles the On DefaultValues Needed
  </summary>
@@ -15886,21 +16425,12 @@ otdbBackEnd
 	<param name="uid"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Deliverables.Deliverable.AddRevision(System.Int64,System.String,System.Boolean)">
+</member><member name="M:OnTrack.Deliverables.Deliverable.Deliverable_OnCloned(System.Object,OnTrack.Database.ormDataObjectCloneEventArgs)">
 	<summary>
- clones the deliverable and inserts a new revision
+ Handler for the On Cloned Event
  </summary>
-	<param name="UID"></param>
-	<param name="newRevision"></param>
-	<param name="persist"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.Deliverables.Deliverable.Clone(System.Object[],System.Nullable{System.Boolean})">
-	<summary>
- Clone the object with its primary key array. if {uid} = {0} generate a new uid
- </summary>
-	<param name="pkArray"></param>
-	<returns>the new object or nothing</returns>
+	<param name="sender"></param>
+	<param name="e"></param>
 	<remarks></remarks>
 </member><member name="M:OnTrack.Deliverables.Deliverable.Clone(System.Int64)">
 	<summary>
@@ -15908,6 +16438,34 @@ otdbBackEnd
  </summary>
 	<param name="UID">new uid If 0 then generate a new uid</param>
 	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Deliverables.Deliverable.AddRevisionClone(System.Int64)">
+	<summary>
+ Clone the deliverable to a revision
+ </summary>
+	<param name="UID">new uid If 0 then generate a new uid</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Deliverables.Deliverable.CheckUniqueEntries(OnTrack.ObjectMessageLog)">
+	<summary>
+ Check if the additional UniqueIDs are unique 
+ </summary>
+	<param name="msglog"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Deliverables.Deliverable.Deliverable_OnValidated(System.Object,OnTrack.Database.ormDataObjectValidationEventArgs)">
+	<summary>
+ Validated Event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Deliverables.Deliverable.Deliverable_OnPersisted(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+	<summary>
+ Event Handler for OnPersisted Event to reset the UniqueEntries are Touched Flag
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
 	<remarks></remarks>
 </member><member name="T:OnTrack.Deliverables.Deliverable">
 	<summary>
@@ -16385,6 +16943,13 @@ otdbBackEnd
  </summary>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="P:OnTrack.Database.DataObjectRelationMgr.ObjectMessageLog">
+	<summary>
+ returns a ObjectMessageLog
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="P:OnTrack.Database.DataObjectRelationMgr.Relationnames">
 	<summary>
  gets the Relation Names of this data object
@@ -16436,6 +17001,13 @@ otdbBackEnd
  returns dataobjects from a Container-Data Structure
  </summary>
 	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.DataObjectRelationMgr.DataObject_OnObjectMessageAdded(System.Object,OnTrack.ObjectMessageLog.EventArgs)">
+	<summary>
+ Event Handler for ObjectMessageLogs propagate
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
 	<remarks></remarks>
 </member><member name="M:OnTrack.Database.DataObjectRelationMgr.GetRelatedObjectsByOperation(System.String,System.String)">
 	<summary>
@@ -16936,7 +17508,7 @@ otdbBackEnd
  Gets or sets the msglog.
  </summary>
 	<value>The msglog.</value>
-</member><member name="P:OnTrack.XChange.ConvertRequestEventArgs.ConvertSucceeded">
+</member><member name="P:OnTrack.XChange.ConvertRequestEventArgs.result">
 	<summary>
  Gets or sets the convert succeeded.
  </summary>
@@ -17185,9 +17757,35 @@ otdbBackEnd
 	<remarks></remarks>
 </member><member name="T:OnTrack.XChange.XBag">
 	<summary>
- XBag is an arbitary XChange Data Object which constists of different XEnvelopes ordered by
+ XBag is an arbitary runtime and non persistable XChange Data Object which constists of different XEnvelopes ordered by
  ordinals.
  An XBag an Default persistable XChangeConfig
+ </summary>
+	<remarks>
+ design principles:
+ 
+ the XBag consists of XEnvelopes which are the record or line by line based elements
+ Processing the XBag means processing all the envelopes in the bag
+ 
+ prechecking is necessary to process the elements
+ 
+ ''' for transformation of data values of the slots especially in the case of special values of the exchanging sub system
+ the events 
+ 
+ ConvertRequest2HostValue
+ ConvertRequest2DBValue 
+ 
+ can be used. These are propagated to the XBAG level
+ 
+ </remarks>
+</member><member name="P:OnTrack.XChange.XSlot.EventArgs.XSlot">
+	<summary>
+ Gets the xchang config slot.
+ </summary>
+	<value>The slot.</value>
+</member><member name="T:OnTrack.XChange.XSlot.EventArgs">
+	<summary>
+  Event Argument Class
  </summary>
 	<remarks></remarks>
 </member><member name="P:OnTrack.XChange.XSlot.ContextIdentifier">
@@ -17274,6 +17872,34 @@ otdbBackEnd
 	<summary>
  a XSlot represents a Slot in an XEnvelope
  </summary>
+	<remarks>
+ Design principles:
+ 
+ the xslot is a non-persistable data container of an envelope to which it belongs. Basically the xslot is also assigned to one or many otdb
+ object entries but is ordered by the ordering ordinal (which is a column or something the like).
+ 
+ an xslot holds the data in the host value presentation which is the value presentation of the exchanging sub system.
+ the data will be transformed to the otdb datatype by the property dbvalue which is used to store the data value in OnTrack
+ 
+ setting a hostvalue or a dbvalue should also be combined with setting the special values
+ isEmpty which means that the slot has not value at all and is by intention an empty slot which cannot be used to store data
+ IsNull which means the slot has the NOTHING  or NULL value by intention and can be used to set also the database value to null
+ 
+ for transformation of data values especially in the case of special values of the exchanging sub system
+ the events 
+ 
+ ConvertRequest2HostValue
+ ConvertRequest2DBValue 
+ 
+ can be used. These are propagated to the XBAG level
+ 
+ the Event OnSlotValueChanged can be used to be informed if the slot value changes
+ 
+ </remarks>
+</member><member name="F:OnTrack.XChange.XEnvelope._trackmessagelog">
+	<summary>
+ track messagelog as objectmessagelog to track the events of this additional messagelog and propagate
+ </summary>
 	<remarks></remarks>
 </member><member name="F:OnTrack.XChange.XEnvelope._contextid">
 	<summary>
@@ -17344,6 +17970,13 @@ otdbBackEnd
  Gets the xchangeconfig.
  </summary>
 	<value>The xchangeconfig.</value>
+</member><member name="P:OnTrack.XChange.XEnvelope.trackMessageLog">
+	<summary>
+ sets an interim Messagelog to track 
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="M:OnTrack.XChange.XEnvelope.RemoveSlot(System.Int64)">
 	<summary>
  remove the slot by ordinal
@@ -17477,6 +18110,13 @@ otdbBackEnd
 	<param name="asHostvalue"></param>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:OnTrack.XChange.XEnvelope.XEnvelope_OnSlotValueChanged(System.Object,OnTrack.XChange.XSlot.EventArgs)">
+	<summary>
+ Eventhandler for the Slots OnSlotValueChanged
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
 </member><member name="M:OnTrack.XChange.XEnvelope.OnRequestConvert2HostValue(System.Object,OnTrack.XChange.ConvertRequestEventArgs)">
 	<summary>
  Eventhandler for the Slots OnRequestConvert2Hostvalue
@@ -17506,6 +18146,13 @@ otdbBackEnd
 	<param name="suspendoverload"></param>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:OnTrack.XChange.XEnvelope.XEnvelope_OnObjectMessageAdded(System.Object,OnTrack.ObjectMessageLog.EventArgs)">
+	<summary>
+ Event Handler for ObjectMessageLogs propagate
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
 </member><member name="M:OnTrack.XChange.XEnvelope.XEnvelope_OnXSlotMessage(System.Object,OnTrack.ObjectMessageLog.EventArgs)">
 	<summary>
  Handler for OnObjectMessage Added Event on one of the slots
@@ -17517,7 +18164,31 @@ otdbBackEnd
 	<summary>
  XChange Envelope is a Member of a Bag and Contains Pairs of ordinal, XSlot
  </summary>
-	<remarks></remarks>
+	<remarks>
+ Design principles:
+ an envelope is an arbitary and non persistable xchange class which is used to put together all related entries of otdb dataobjects in xslots
+ the data exchange is done in 2 steps: 
+ 
+ 1. Prechecking and validating the slots
+ 2. Exchanging and persisting the changes
+ 
+ the envelope constist of xslots which can be adressed by ordinals (of the exchange structure e.g columns), 
+ otdb objectnames and entrynames or otdb entry exchange ids or otdb exchange aliases.
+ 
+ prechecking is necessary to process the elements !
+ 
+ An envelope has a xcmd whch is a operation to be carried out. the xcmd is assigned to the different otdb dataobjects (xobjects)
+ and xslots.
+ 
+ Events:
+ for transformation of data values of the slots especially in the case of special values of the exchanging sub system
+ the events 
+ 
+ ConvertRequest2HostValue
+ ConvertRequest2DBValue 
+ 
+ can be used. These are propagated to the XBAG level
+ </remarks>
 </member><member name="M:OnTrack.XChange.CSVXChangeManager.FeedInCSV(System.String,System.Char,System.Char)">
 	<summary>
  Feeds in a csv file from the file system - the first headerids must be the key of the first objectnames

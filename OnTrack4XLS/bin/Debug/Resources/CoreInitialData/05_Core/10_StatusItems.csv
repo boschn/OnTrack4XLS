@@ -26,55 +26,55 @@ SI1;SI2;DM1;SI3;SI4;SI5;SI6;SI14;SI11;SI12;SI13;SI21;SI22;SI23;SI24
 #
 # MQF
 #
-MQF;R1;@;"FAILED";"The message queue file failed processing";"";90;True;False;False;False;15794175;2037680;15794175;2037680;
-MQF;Y1;@;"WARNING";"The message queue file issued warnings";"";50;False;False;False;False;15794175;2474495;15794175;2474495;
-MQF;G1;@;"SUCCEEDED";"The message queue file succeeded processing";"";10;False;False;False;False;15794175;5737262;15794175;5737262;
-MQF;G2;@;"SUCCEEDED";"The message queue file succeeded processing with additional information";"";20;False;False;False;False;15794175;5737262;15794175;5737262;
+MQF;R1;@;"FAILED";"The message queue file failed processing";;90;True;False;False;False;16777215;255;16777215;255;
+MQF;Y1;@;"WARNING";"The message queue file issued warnings";;50;False;False;False;False;16777215;55295;16777215;55295;
+MQF;G1;@;"SUCCEEDED";"The message queue file succeeded processing";;10;False;False;False;False;16777215;32768;16777215;32768;
+MQF;G2;@;"SUCCEEDED";"The message queue file succeeded processing with additional information";;20;False;False;False;False;16777215;32768;16777215;32768;
 #
 # MQMessage
 #
-MQMESSAGE;R1;@;"FAILED";"The mq message failed processing";"";90;True;False;False;False;15794175;2037680;15794175;2037680;
-MQMESSAGE;Y1;@;"WARNING";"The mq message issued warnings";"";50;False;False;False;False;15794175;2474495;15794175;2474495;
-MQMESSAGE;G1;@;"SUCCEEDED";"The mq message succeeded processing";"";10;False;False;False;False;15794175;5737262;15794175;5737262;
-MQMESSAGE;G2;@;"SUCCEEDED";"The mq message succeeded processing with additional information";"";20;False;False;False;False;15794175;5737262;15794175;5737262;
-MQMESSAGE;S1;@;"SKIPPED";"The mq message was skipped";"";99;True;False;False;False;15794175;13421772;15794175;13421772;
+MQMESSAGE;R1;@;"FAILED";"The mq message failed processing";;90;True;False;False;False;16777215;255;16777215;255;
+MQMESSAGE;Y1;@;"WARNING";"The mq message issued warnings";;50;False;False;False;False;16777215;55295;16777215;55295;
+MQMESSAGE;G1;@;"SUCCEEDED";"The mq message succeeded processing";;10;False;False;False;False;16777215;32768;16777215;32768;
+MQMESSAGE;G2;@;"SUCCEEDED";"The mq message succeeded processing with additional information";;20;False;False;False;False;16777215;32768;16777215;32768;
+MQMESSAGE;S1;@;"SKIPPED";"The mq message was skipped";;01;True;False;False;False;16777215;13421772;16777215;13421772;
 #
 # XCHANGE ENVELOPE
 #
-XCHANGEENVELOPE;R1;@;"FAILED";"The xchange enveloped failed prechecking";"";90;True;False;False;False;15794175;2037680;15794175;2037680;
-XCHANGEENVELOPE;Y1;@;"WARNING";"The xchange enveloped precheck run issued warnings";"";50;False;False;False;False;15794175;2474495;15794175;2474495;
-XCHANGEENVELOPE;G1;@;"SUCCEEDED";"The xchange enveloped succeeded prechecking";"";10;False;False;False;False;15794175;5737262;15794175;5737262;
-XCHANGEENVELOPE;G2;@;"SUCCEEDED";"The xchange enveloped succeeded prechecking with additional information";"";20;False;False;False;False;15794175;5737262;15794175;5737262;
+XCHANGEENVELOPE;R1;@;"FAILED";"The xchange enveloped failed prechecking";;90;True;False;False;False;16777215;255;16777215;255;
+XCHANGEENVELOPE;Y1;@;"WARNING";"The xchange enveloped precheck run issued warnings";;50;False;False;False;False;16777215;55295;16777215;55295;
+XCHANGEENVELOPE;G1;@;"SUCCEEDED";"The xchange enveloped succeeded prechecking";;10;False;False;False;False;16777215;32768;16777215;32768;
+XCHANGEENVELOPE;G2;@;"SUCCEEDED";"The xchange enveloped succeeded prechecking with additional information";;20;False;False;False;False;16777215;32768;16777215;32768;
 #
 # ENTRYVALIDATOR
 #
-ENTRYVALIDATOR;R1;@;"FAILED";"entry validation failed";"";90;TRrue;False;False;False;15794175;2037680;15794175;2037680;
-ENTRYVALIDATOR;Y1;@;"WARNING";"entry validation succeeded with warnings";"";50;False;False;False;False;15794175;2474495;15794175;2474495;
-ENTRYVALIDATOR;G1;@;"SUCCEEDED";"entry validation succeeded";"";10;False;False;False;False;15794175;5737262;15794175;5737262;
-ENTRYVALIDATOR;G2;@;"SUCCEEDED";"entry validation succeeded - corrections were made";"";20;False;False;False;False;15794175;5737262;15794175;5737262;
+ENTRYVALIDATOR;R1;@;"FAILED";"entry validation failed";;90;TRrue;False;False;False;16777215;255;16777215;255;
+ENTRYVALIDATOR;Y1;@;"WARNING";"entry validation succeeded with warnings";;50;False;False;False;False;16777215;55295;16777215;55295;
+ENTRYVALIDATOR;G1;@;"SUCCEEDED";"entry validation succeeded";;10;False;False;False;False;16777215;32768;16777215;32768;
+ENTRYVALIDATOR;G2;@;"SUCCEEDED";"entry validation succeeded - corrections were made";;20;False;False;False;False;16777215;32768;16777215;32768;
 #
 # OBJECTVALIDATOR
 #
-OBJECTVALIDATOR;R1;@;"FAILED";"data object validation failed";"";90;TRrue;False;False;False;15794175;2037680;15794175;2037680;
-OBJECTVALIDATOR;Y1;@;"WARNING";"data object validation succeeded with warnings";"";50;False;False;False;False;15794175;2474495;15794175;2474495;
-OBJECTVALIDATOR;G1;@;"SUCCEEDED";"data object validation succeeded";"";10;False;False;False;False;15794175;5737262;15794175;5737262;
-OBJECTVALIDATOR;G2;@;"SUCCEEDED";"data object validation succeeded - corrections were made";"";20;False;False;False;False;15794175;5737262;15794175;5737262;
+OBJECTVALIDATOR;R1;@;"FAILED";"data object validation failed";;90;TRrue;False;False;False;16777215;255;16777215;255;
+OBJECTVALIDATOR;Y1;@;"WARNING";"data object validation succeeded with warnings";;50;False;False;False;False;16777215;55295;16777215;55295;
+OBJECTVALIDATOR;G1;@;"SUCCEEDED";"data object validation succeeded";;10;False;False;False;False;16777215;32768;16777215;32768;
+OBJECTVALIDATOR;G2;@;"SUCCEEDED";"data object validation succeeded - corrections were made";;20;False;False;False;False;16777215;32768;16777215;32768;
 #
 # SCHEDULE LIFECYCLE
 #
-SCHEDULINGLFCL;R1;@;"FAILED";"failed schedule lifecycle check - schedule is not alive";"";90;True;False;False;False;15794175;2037680;15794175;2037680;
-SCHEDULINGLFCL;Y1;@;"WARNING";"schedule lifecycle check has warnings but will go alive";"";50;False;False;False;False;15794175;2474495;15794175;2474495;
-SCHEDULINGLFCL;G1;@;"SUCCEEDED";"succeeded schedule lifecycle check - schedule is alive";"";10;False;False;False;False;15794175;5737262;15794175;5737262;
-SCHEDULINGLFCL;G2;@;"SUCCEEDED W/INFO";"succeeded schedule lifecycle check with additional information - schedule is alive";"";11;False;False;False;False;15794175;5737262;15794175;5737262;
+SCHEDULINGLFCL;R1;@;"FAILED";"failed schedule lifecycle check - schedule is not alive";;90;True;False;False;False;16777215;255;16777215;255;
+SCHEDULINGLFCL;Y1;@;"WARNING";"schedule lifecycle check has warnings but will go alive";;50;False;False;False;False;16777215;55295;16777215;55295;
+SCHEDULINGLFCL;G1;@;"SUCCEEDED";"succeeded schedule lifecycle check - schedule is alive";;10;False;False;False;False;16777215;32768;16777215;32768;
+SCHEDULINGLFCL;G2;@;"SUCCEEDED W/INFO";"succeeded schedule lifecycle check with additional information - schedule is alive";;11;False;False;False;False;16777215;32768;16777215;32768;
 #
 # SCHEDULE PROCESS
 #
-SCHEDULINGPROC;R2;@;"OVERDUE";"current date is later than target date";"";90;True;False;False;False;15794175;2037680;15794175;2037680;
-SCHEDULINGPROC;Y1;@;"WARNING";"entry validation succeeded with warnings";"";50;False;False;False;False;15794175;2474495;15794175;2474495;
-SCHEDULINGPROC;G1;@;"SUCCEEDED";"succeeded schedule lifecycle check - schedule is alive";"";20;False;False;False;False;15794175;5737262;15794175;5737262;
+SCHEDULINGPROC;R2;@;"OVERDUE";"current date is later than target date";;90;True;False;False;False;16777215;255;16777215;255;
+SCHEDULINGPROC;Y1;@;"WARNING";"entry validation succeeded with warnings";;50;False;False;False;False;16777215;55295;16777215;55295;
+SCHEDULINGPROC;G1;@;"SUCCEEDED";"succeeded schedule lifecycle check - schedule is alive";;20;False;False;False;False;16777215;32768;16777215;32768;
 #
 # DELIVERABLE TRACKING
 #
-TRACKING;R1;@;"OVERDUE";"current date is later than target date";"";90;True;False;False;False;15794175;2037680;15794175;2037680;
-TRACKING;R2;@;"FAILED";"schedule is not alive or has error - unable to track";"";91;True;False;False;False;15794175;2037680;15794175;2037680;
-TRACKING;G1;@;"ONTRACK";"schedule is on track";"";20;False;False;False;False;15794175;5737262;15794175;5737262;
+TRACKING;R1;@;"OVERDUE";"current date is later than target date";;90;True;False;False;False;16777215;255;16777215;255;
+TRACKING;R2;@;"FAILED";"schedule is not alive or has error - unable to track";;91;True;False;False;False;16777215;255;16777215;255;
+TRACKING;G1;@;"ONTRACK";"schedule is on track";;20;False;False;False;False;16777215;32768;16777215;32768;

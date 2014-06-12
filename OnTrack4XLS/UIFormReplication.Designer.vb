@@ -41,9 +41,12 @@ Partial Class UIFormReplication
         Me.RadLabel2 = New Telerik.WinControls.UI.RadLabel()
         Me.RadLabel3 = New Telerik.WinControls.UI.RadLabel()
         Me.WorkspaceDropDownList = New Telerik.WinControls.UI.RadMultiColumnComboBox()
+        Me.RadMultiColumnComboBox2 = New Telerik.WinControls.UI.RadMultiColumnComboBox()
         Me.RadMultiColumnComboBox1 = New Telerik.WinControls.UI.RadMultiColumnComboBox()
         Me.DataAreaComboBox = New Telerik.WinControls.UI.RadMultiColumnComboBox()
         Me.RadLabel4 = New Telerik.WinControls.UI.RadLabel()
+        Me.RadLabel5 = New Telerik.WinControls.UI.RadLabel()
+        Me.DomainCombo = New Telerik.WinControls.UI.RadMultiColumnComboBox()
         CType(Me.CancelButton, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ReplicateButton, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.StatusStrip, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -57,7 +60,11 @@ Partial Class UIFormReplication
         CType(Me.WorkspaceDropDownList, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.WorkspaceDropDownList.EditorControl, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.WorkspaceDropDownList.EditorControl.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.WorkspaceDropDownList.EditorControl.SuspendLayout()
+        Me.WorkspaceDropDownList.SuspendLayout()
+        CType(Me.RadMultiColumnComboBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadMultiColumnComboBox2.EditorControl, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadMultiColumnComboBox2.EditorControl.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadMultiColumnComboBox2.EditorControl.SuspendLayout()
         CType(Me.RadMultiColumnComboBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMultiColumnComboBox1.EditorControl, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMultiColumnComboBox1.EditorControl.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -65,6 +72,10 @@ Partial Class UIFormReplication
         CType(Me.DataAreaComboBox.EditorControl, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DataAreaComboBox.EditorControl.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DomainCombo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DomainCombo.EditorControl, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DomainCombo.EditorControl.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -125,9 +136,7 @@ Partial Class UIFormReplication
         '
         'StatusStrip
         '
-        Me.StatusStrip.AutoSize = True
         Me.StatusStrip.Items.AddRange(New Telerik.WinControls.RadItem() {Me.StatusLabel, Me.StatusProgress})
-        Me.StatusStrip.LayoutStyle = Telerik.WinControls.UI.RadStatusBarLayoutStyle.Stack
         Me.StatusStrip.Location = New System.Drawing.Point(0, 397)
         Me.StatusStrip.Name = "StatusStrip"
         Me.StatusStrip.Size = New System.Drawing.Size(485, 25)
@@ -221,11 +230,11 @@ Partial Class UIFormReplication
         'RadLabel2
         '
         Me.RadLabel2.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel2.Location = New System.Drawing.Point(141, 130)
+        Me.RadLabel2.Location = New System.Drawing.Point(141, 143)
         Me.RadLabel2.Name = "RadLabel2"
-        Me.RadLabel2.Size = New System.Drawing.Size(195, 30)
+        Me.RadLabel2.Size = New System.Drawing.Size(199, 30)
         Me.RadLabel2.TabIndex = 9
-        Me.RadLabel2.Text = "Choose a workspaceID"
+        Me.RadLabel2.Text = "Choose a Workspace"
         '
         'RadLabel3
         '
@@ -238,11 +247,12 @@ Partial Class UIFormReplication
         '
         'WorkspaceDropDownList
         '
-        Me.WorkspaceDropDownList.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.WorkspaceDropDownList.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.WorkspaceDropDownList.AutoFilter = True
-        Me.WorkspaceDropDownList.AutoScroll = True
         Me.WorkspaceDropDownList.AutoSizeDropDownHeight = True
         Me.WorkspaceDropDownList.AutoSizeDropDownToBestFit = True
+        Me.WorkspaceDropDownList.Controls.Add(Me.RadMultiColumnComboBox2)
         Me.WorkspaceDropDownList.DblClickRotate = True
         Me.WorkspaceDropDownList.DropDownSizingMode = Telerik.WinControls.UI.SizingMode.RightBottom
         Me.WorkspaceDropDownList.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
@@ -250,12 +260,11 @@ Partial Class UIFormReplication
         'WorkspaceDropDownList.NestedRadGridView
         '
         Me.WorkspaceDropDownList.EditorControl.BackColor = System.Drawing.SystemColors.Window
-        Me.WorkspaceDropDownList.EditorControl.Controls.Add(Me.RadMultiColumnComboBox1)
         Me.WorkspaceDropDownList.EditorControl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.WorkspaceDropDownList.EditorControl.ForeColor = System.Drawing.SystemColors.ControlText
         Me.WorkspaceDropDownList.EditorControl.Location = New System.Drawing.Point(0, 0)
         '
-        'WorkspaceDropDownList.NestedRadGridView
+        '
         '
         Me.WorkspaceDropDownList.EditorControl.MasterTemplate.AllowAddNewRow = False
         Me.WorkspaceDropDownList.EditorControl.MasterTemplate.AllowCellContextMenu = False
@@ -271,17 +280,64 @@ Partial Class UIFormReplication
         Me.WorkspaceDropDownList.EditorControl.Size = New System.Drawing.Size(240, 150)
         Me.WorkspaceDropDownList.EditorControl.TabIndex = 0
         Me.WorkspaceDropDownList.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.WorkspaceDropDownList.Location = New System.Drawing.Point(305, 166)
+        Me.WorkspaceDropDownList.Location = New System.Drawing.Point(346, 166)
         Me.WorkspaceDropDownList.Name = "WorkspaceDropDownList"
         '
         '
         '
         Me.WorkspaceDropDownList.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
-        Me.WorkspaceDropDownList.Size = New System.Drawing.Size(168, 31)
+        Me.WorkspaceDropDownList.Size = New System.Drawing.Size(127, 30)
         Me.WorkspaceDropDownList.TabIndex = 3
         Me.WorkspaceDropDownList.TabStop = False
         Me.WorkspaceDropDownList.Text = "Select .."
         Me.WorkspaceDropDownList.ThemeName = "TelerikMetroBlue"
+        '
+        'RadMultiColumnComboBox2
+        '
+        Me.RadMultiColumnComboBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadMultiColumnComboBox2.AutoFilter = True
+        Me.RadMultiColumnComboBox2.AutoScroll = True
+        Me.RadMultiColumnComboBox2.AutoSizeDropDownHeight = True
+        Me.RadMultiColumnComboBox2.AutoSizeDropDownToBestFit = True
+        Me.RadMultiColumnComboBox2.DblClickRotate = True
+        Me.RadMultiColumnComboBox2.DropDownSizingMode = Telerik.WinControls.UI.SizingMode.RightBottom
+        Me.RadMultiColumnComboBox2.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        '
+        'RadMultiColumnComboBox2.NestedRadGridView
+        '
+        Me.RadMultiColumnComboBox2.EditorControl.BackColor = System.Drawing.SystemColors.Window
+        Me.RadMultiColumnComboBox2.EditorControl.Controls.Add(Me.RadMultiColumnComboBox1)
+        Me.RadMultiColumnComboBox2.EditorControl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadMultiColumnComboBox2.EditorControl.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.RadMultiColumnComboBox2.EditorControl.Location = New System.Drawing.Point(-197, -91)
+        '
+        '
+        '
+        Me.RadMultiColumnComboBox2.EditorControl.MasterTemplate.AllowAddNewRow = False
+        Me.RadMultiColumnComboBox2.EditorControl.MasterTemplate.AllowCellContextMenu = False
+        Me.RadMultiColumnComboBox2.EditorControl.MasterTemplate.AllowColumnChooser = False
+        Me.RadMultiColumnComboBox2.EditorControl.MasterTemplate.AllowDeleteRow = False
+        Me.RadMultiColumnComboBox2.EditorControl.MasterTemplate.AllowEditRow = False
+        Me.RadMultiColumnComboBox2.EditorControl.MasterTemplate.EnableFiltering = True
+        Me.RadMultiColumnComboBox2.EditorControl.MasterTemplate.EnableGrouping = False
+        Me.RadMultiColumnComboBox2.EditorControl.MasterTemplate.ShowFilteringRow = False
+        Me.RadMultiColumnComboBox2.EditorControl.Name = "NestedRadGridView"
+        Me.RadMultiColumnComboBox2.EditorControl.ReadOnly = True
+        Me.RadMultiColumnComboBox2.EditorControl.ShowGroupPanel = False
+        Me.RadMultiColumnComboBox2.EditorControl.Size = New System.Drawing.Size(240, 150)
+        Me.RadMultiColumnComboBox2.EditorControl.TabIndex = 4
+        Me.RadMultiColumnComboBox2.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadMultiColumnComboBox2.Location = New System.Drawing.Point(68, 75)
+        Me.RadMultiColumnComboBox2.Name = "RadMultiColumnComboBox2"
+        '
+        '
+        '
+        Me.RadMultiColumnComboBox2.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
+        Me.RadMultiColumnComboBox2.Size = New System.Drawing.Size(168, 31)
+        Me.RadMultiColumnComboBox2.TabIndex = 5
+        Me.RadMultiColumnComboBox2.TabStop = False
+        Me.RadMultiColumnComboBox2.Text = "Select .."
+        Me.RadMultiColumnComboBox2.ThemeName = "TelerikMetroBlue"
         '
         'RadMultiColumnComboBox1
         '
@@ -293,7 +349,7 @@ Partial Class UIFormReplication
         Me.RadMultiColumnComboBox1.EditorControl.ForeColor = System.Drawing.SystemColors.ControlText
         Me.RadMultiColumnComboBox1.EditorControl.Location = New System.Drawing.Point(0, 0)
         '
-        'RadMultiColumnComboBox1.NestedRadGridView
+        '
         '
         Me.RadMultiColumnComboBox1.EditorControl.MasterTemplate.AllowAddNewRow = False
         Me.RadMultiColumnComboBox1.EditorControl.MasterTemplate.AllowCellContextMenu = False
@@ -318,6 +374,8 @@ Partial Class UIFormReplication
         '
         'DataAreaComboBox
         '
+        Me.DataAreaComboBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataAreaComboBox.AutoScroll = True
         Me.DataAreaComboBox.AutoSizeDropDownHeight = True
         Me.DataAreaComboBox.AutoSizeDropDownToBestFit = True
@@ -330,7 +388,7 @@ Partial Class UIFormReplication
         Me.DataAreaComboBox.EditorControl.ForeColor = System.Drawing.SystemColors.ControlText
         Me.DataAreaComboBox.EditorControl.Location = New System.Drawing.Point(0, 0)
         '
-        'DataAreaComboBox.NestedRadGridView
+        '
         '
         Me.DataAreaComboBox.EditorControl.MasterTemplate.AllowAddNewRow = False
         Me.DataAreaComboBox.EditorControl.MasterTemplate.AllowCellContextMenu = False
@@ -343,14 +401,14 @@ Partial Class UIFormReplication
         Me.DataAreaComboBox.EditorControl.Size = New System.Drawing.Size(240, 150)
         Me.DataAreaComboBox.EditorControl.TabIndex = 0
         Me.DataAreaComboBox.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.DataAreaComboBox.Location = New System.Drawing.Point(305, 48)
+        Me.DataAreaComboBox.Location = New System.Drawing.Point(313, 48)
         Me.DataAreaComboBox.Name = "DataAreaComboBox"
         '
         '
         '
         Me.DataAreaComboBox.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
-        Me.DataAreaComboBox.Size = New System.Drawing.Size(168, 31)
-        Me.DataAreaComboBox.TabIndex = 11
+        Me.DataAreaComboBox.Size = New System.Drawing.Size(160, 30)
+        Me.DataAreaComboBox.TabIndex = 1
         Me.DataAreaComboBox.TabStop = False
         Me.DataAreaComboBox.Text = "Select .."
         Me.DataAreaComboBox.ThemeName = "TelerikMetroBlue"
@@ -366,15 +424,67 @@ Partial Class UIFormReplication
         Me.RadLabel4.Text = "To replicate with the OnTrack database please make the following settings and pre" & _
     "ss ""replicate""."
         '
+        'RadLabel5
+        '
+        Me.RadLabel5.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel5.Location = New System.Drawing.Point(141, 80)
+        Me.RadLabel5.Name = "RadLabel5"
+        Me.RadLabel5.Size = New System.Drawing.Size(170, 30)
+        Me.RadLabel5.TabIndex = 10
+        Me.RadLabel5.Text = "Choose a Domain"
+        '
+        'DomainCombo
+        '
+        Me.DomainCombo.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DomainCombo.AutoFilter = True
+        Me.DomainCombo.AutoSizeDropDownHeight = True
+        Me.DomainCombo.AutoSizeDropDownToBestFit = True
+        Me.DomainCombo.DblClickRotate = True
+        Me.DomainCombo.DropDownSizingMode = Telerik.WinControls.UI.SizingMode.RightBottom
+        Me.DomainCombo.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        '
+        'DomainCombo.NestedRadGridView
+        '
+        Me.DomainCombo.EditorControl.BackColor = System.Drawing.SystemColors.Window
+        Me.DomainCombo.EditorControl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DomainCombo.EditorControl.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.DomainCombo.EditorControl.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.DomainCombo.EditorControl.MasterTemplate.AllowAddNewRow = False
+        Me.DomainCombo.EditorControl.MasterTemplate.AllowCellContextMenu = False
+        Me.DomainCombo.EditorControl.MasterTemplate.AllowColumnChooser = False
+        Me.DomainCombo.EditorControl.MasterTemplate.EnableFiltering = True
+        Me.DomainCombo.EditorControl.MasterTemplate.EnableGrouping = False
+        Me.DomainCombo.EditorControl.MasterTemplate.ShowFilteringRow = False
+        Me.DomainCombo.EditorControl.Name = "NestedRadGridView"
+        Me.DomainCombo.EditorControl.ReadOnly = True
+        Me.DomainCombo.EditorControl.ShowGroupPanel = False
+        Me.DomainCombo.EditorControl.Size = New System.Drawing.Size(240, 150)
+        Me.DomainCombo.EditorControl.TabIndex = 0
+        Me.DomainCombo.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DomainCombo.Location = New System.Drawing.Point(346, 110)
+        Me.DomainCombo.Name = "DomainCombo"
+        Me.DomainCombo.NullText = "Select ..."
+        Me.DomainCombo.Size = New System.Drawing.Size(127, 30)
+        Me.DomainCombo.TabIndex = 2
+        Me.DomainCombo.TabStop = False
+        Me.DomainCombo.Text = "Select ..."
+        Me.DomainCombo.ThemeName = "TelerikMetroBlue"
+        '
         'UIFormReplication
         '
         Me.AcceptButton = Me.IncrementalReplicationMenuItem
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(485, 422)
+        Me.Controls.Add(Me.DomainCombo)
+        Me.Controls.Add(Me.WorkspaceDropDownList)
+        Me.Controls.Add(Me.RadLabel5)
         Me.Controls.Add(Me.RadLabel4)
         Me.Controls.Add(Me.DataAreaComboBox)
-        Me.Controls.Add(Me.WorkspaceDropDownList)
         Me.Controls.Add(Me.RadLabel3)
         Me.Controls.Add(Me.RadLabel2)
         Me.Controls.Add(Me.RadLabel1)
@@ -407,9 +517,13 @@ Partial Class UIFormReplication
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.WorkspaceDropDownList.EditorControl.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.WorkspaceDropDownList.EditorControl, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.WorkspaceDropDownList.EditorControl.ResumeLayout(False)
-        Me.WorkspaceDropDownList.EditorControl.PerformLayout()
         CType(Me.WorkspaceDropDownList, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.WorkspaceDropDownList.ResumeLayout(False)
+        Me.WorkspaceDropDownList.PerformLayout()
+        CType(Me.RadMultiColumnComboBox2.EditorControl.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadMultiColumnComboBox2.EditorControl, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadMultiColumnComboBox2.EditorControl.ResumeLayout(False)
+        CType(Me.RadMultiColumnComboBox2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMultiColumnComboBox1.EditorControl.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMultiColumnComboBox1.EditorControl, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMultiColumnComboBox1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -417,6 +531,10 @@ Partial Class UIFormReplication
         CType(Me.DataAreaComboBox.EditorControl, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DataAreaComboBox, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DomainCombo.EditorControl.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DomainCombo.EditorControl, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DomainCombo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -440,8 +558,11 @@ Partial Class UIFormReplication
     Friend WithEvents RadLabel2 As Telerik.WinControls.UI.RadLabel
     Friend WithEvents RadLabel3 As Telerik.WinControls.UI.RadLabel
     Friend WithEvents WorkspaceDropDownList As Telerik.WinControls.UI.RadMultiColumnComboBox
-    Friend WithEvents RadMultiColumnComboBox1 As Telerik.WinControls.UI.RadMultiColumnComboBox
     Friend WithEvents DataAreaComboBox As Telerik.WinControls.UI.RadMultiColumnComboBox
     Friend WithEvents RadLabel4 As Telerik.WinControls.UI.RadLabel
+    Friend WithEvents RadLabel5 As Telerik.WinControls.UI.RadLabel
+    Friend WithEvents RadMultiColumnComboBox2 As Telerik.WinControls.UI.RadMultiColumnComboBox
+    Friend WithEvents RadMultiColumnComboBox1 As Telerik.WinControls.UI.RadMultiColumnComboBox
+    Friend WithEvents DomainCombo As Telerik.WinControls.UI.RadMultiColumnComboBox
 End Class
 

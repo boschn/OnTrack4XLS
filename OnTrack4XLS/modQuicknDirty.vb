@@ -714,6 +714,7 @@ Module modQuicknDirty
         Call aXChangeConfig.AddObjectByName(Deliverables.Deliverable.ConstObjectID, xcmd:=XCMD)
         'Call aXChangeConfig.AddObjectByName(XChange.XOutline.constobjectid, xcmd:=XCMD)
 
+        aXChangeConfig.OutlineID = "FBL"
         aXChangeConfig.AllowDynamicEntries = True
         aXChangeConfig.Description = "a dynamic xchange configuration for the config doc"
 

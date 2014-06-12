@@ -211,6 +211,7 @@ Public Class UIMQFDataModel
                 End Select
             Next
             AddHandler aMessage.PropertyChanged, AddressOf Me.OnPropertyChanged
+            AddHandler aMessage.OnSlotValueChanged, AddressOf Me.OnSlotValueChanged
             AddHandler aMessage.OnPreChecked, AddressOf Me.OnMessagePrechecked
             AddHandler aMessage.OnProcessed, AddressOf Me.OnMessageProcessed
             Me.Rows.Add(aRow)
@@ -312,16 +313,26 @@ Public Class UIMQFDataModel
     ''' <remarks></remarks>
     Public Sub OnPropertyChanged(sender As Object, e As ComponentModel.PropertyChangedEventArgs)
 
-        If sender Is GetType(MQMessage) Then
+        If sender.GetType Is GetType(MQMessage) Then
             Dim msgid As Long = TryCast(sender, MQMessage).IDNO
             Dim aRow As DataRow() = Me.Select(ConstFNMessageID & "=" & msgid.ToString)
             If aRow IsNot Nothing AndAlso aRow.Count > 0 Then
+
                 Select Case e.PropertyName
                     Case MQMessage.ConstFNProcStatus
+                        aRow(0).Table.Columns.Item(ConstFNMQFStatus).ReadOnly = False
                         aRow(0).Item(ConstFNMQFStatus) = TryCast(sender, MQMessage).Statuscode
+                        aRow(0).Table.Columns.Item(ConstFNMQFStatus).ReadOnly = True
                         RaiseEvent PropertyChanged(aRow, New System.ComponentModel.PropertyChangedEventArgs(e.PropertyName))
                     Case MQMessage.ConstFNPROCSTAMP
-                        aRow(0).Item(ConstFNMQFTimestamp) = TryCast(sender, MQMessage).ProcessedOn
+                        aRow(0).Table.Columns.Item(ConstFNMQFTimestamp).ReadOnly = False
+                        If TryCast(sender, MQMessage).ProcessedOn IsNot Nothing Then
+                            aRow(0).Item(ConstFNMQFTimestamp) = TryCast(sender, MQMessage).ProcessedOn
+                        Else
+                            aRow(0).Item(ConstFNMQFTimestamp) = DBNull.Value
+                        End If
+
+                        aRow(0).Table.Columns.Item(ConstFNMQFTimestamp).ReadOnly = True
                         RaiseEvent PropertyChanged(aRow, New System.ComponentModel.PropertyChangedEventArgs(e.PropertyName))
                     Case MQMessage.ConstFNProcessed
                         'aRow(0).Item(ConstFNMQFStatus) = TryCast(sender, MQMessage).Statuscode
@@ -330,10 +341,32 @@ Public Class UIMQFDataModel
                         'aRow(0).Item(ConstFNMQFStatus) = TryCast(sender, MQMessage).Statuscode
                         ' RaiseEvent PropertyChanged(aRow, New System.ComponentModel.PropertyChangedEventArgs(e.PropertyName))
                 End Select
+
             End If
 
         End If
     End Sub
 
+    ''' <summary>
+    ''' event handler if a slot value changed from the associated message queue message
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Public Sub OnSlotValueChanged(sender As Object, e As XSlot.EventArgs)
 
+        If sender.GetType Is GetType(MQMessage) Then
+            Dim msgid As Long = TryCast(sender, MQMessage).IDNO
+            Dim aRow As DataRow() = Me.Select(ConstFNMessageID & "=" & msgid.ToString)
+            If aRow IsNot Nothing AndAlso aRow.Count > 0 Then
+                Dim anEntryname As String = e.XSlot.XChangeEntry.ObjectEntryname
+                If aRow(0).Table.Columns.Contains(e.XSlot.XChangeEntry.Ordinal.ToString) Then
+                    If Not aRow(0).Table.Columns(e.XSlot.XChangeEntry.Ordinal.ToString).ReadOnly Then
+                        aRow(0).Item(e.XSlot.XChangeEntry.Ordinal.ToString) = e.XSlot.HostValue
+                        RaiseEvent PropertyChanged(aRow, New System.ComponentModel.PropertyChangedEventArgs(e.XSlot.XChangeEntry.Ordinal.ToString))
+                    End If
+                End If
+            End If
+        End If
+    End Sub
 End Class
