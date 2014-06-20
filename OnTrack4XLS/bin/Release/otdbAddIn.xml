@@ -37,9 +37,58 @@ otdbAddIn
  Gets or sets the session.
  </summary>
 	<value>The session.</value>
+</member><member name="M:OnTrack.AddIn.UIFormMessageLog.OnConnected(System.Object,System.EventArgs)">
+	<summary>
+ On Session start
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormMessageLog.AddErrorEvent(System.Object,OnTrack.Database.ormErrorEventArgs)">
+	<summary>
+ OnError Raised
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormMessageLog.ClearToolStripMenuItem_Click(System.Object,System.EventArgs)">
+	<summary>
+  cleear log
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormMessageLog.CloseButton_Click(System.Object,System.EventArgs)">
+	<summary>
+ Close
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormMessageLog.MessageLogForm_Load(System.Object,System.EventArgs)">
+	<summary>
+ On Load
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormMessageLog.RefreshToolStripMenuItem_Click(System.Object,System.EventArgs)">
+	<summary>
+ Refresh
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormMessageLog.ExportStripMenuItem_Click(System.Object,System.EventArgs)">
+	<summary>
+ Export
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
 </member><member name="T:OnTrack.AddIn.UIFormMessageLog">
 	<summary>
- UserInterface Form for MessageLog
+  Form for MessageLog
  </summary>
 	<remarks></remarks>
 </member><member name="P:OnTrack.AddIn.My.Resources.Resources.ResourceManager">
@@ -199,6 +248,10 @@ otdbAddIn
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
+</member><member name="P:OnTrack.AddIn.My.Resources.Resources.progress_radar">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:OnTrack.AddIn.My.Resources.Resources.rail_metro_24_2x">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
@@ -235,6 +288,16 @@ otdbAddIn
 	<summary>
   A strongly-typed resource class, for looking up localized strings, etc.
 </summary>
+</member><member name="P:OnTrack.UI.UIControlDataGridView.ProgressPictureBox">
+	<summary>
+ Gets or sets the progress picture box.
+ </summary>
+	<value>The progress picture box.</value>
+</member><member name="P:OnTrack.UI.UIControlDataGridView.SelectedDataObjects">
+	<summary>
+ Gets or sets the selected data object.
+ </summary>
+	<value>The selected data object.</value>
 </member><member name="P:OnTrack.UI.UIControlDataGridView.Status">
 	<summary>
  Gets or sets the status.
@@ -349,9 +412,16 @@ otdbAddIn
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
-</member><member name="M:OnTrack.UI.UIControlDataGridView.OnDatabindingComplete(System.Object,Telerik.WinControls.UI.GridViewBindingCompleteEventArgs)">
+</member><member name="M:OnTrack.UI.UIControlDataGridView.UIConTrolDataGrid_OnDatabindingComplete(System.Object,Telerik.WinControls.UI.GridViewBindingCompleteEventArgs)">
 	<summary>
  Handles the DataBinding Complete Event to setup different Models
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.UICOntrolDataGridView_EditorRequired(System.Object,Telerik.WinControls.UI.EditorRequiredEventArgs)">
+	<summary>
+ EdtorRequired Event Handler
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
@@ -368,6 +438,11 @@ otdbAddIn
  ModelConverter for the ConfigSet 
  </summary>
 	<remarks></remarks>
+</member><member name="P:OnTrack.AddIn.UIFormSetting.ConfigSetModel.Usemars">
+	<summary>
+ Gets or sets the usemars.
+ </summary>
+	<value>The usemars.</value>
 </member><member name="P:OnTrack.AddIn.UIFormSetting.ConfigSetModel.Logagent">
 	<summary>
  Gets or sets the logagent.
@@ -606,9 +681,37 @@ otdbAddIn
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormDBExplorer.UIFormDBExplorer_OperationMenuOnClick(System.Object,System.EventArgs)">
+	<summary>
+ Handler for the Operation Menu Item
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
 </member><member name="M:OnTrack.AddIn.UIFormDBExplorer.ObjectTree_NodeFormatting(System.Object,Telerik.WinControls.UI.TreeNodeFormattingEventArgs)">
 	<summary>
  NodeFormatting
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormDBExplorer.uiformDBExplorer_CloseClicked(System.Object,System.EventArgs)">
+	<summary>
+ Close Button Handler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormDBExplorer.RadPageView_SelectedPageChanged(System.Object,Telerik.WinControls.UI.RadPageViewCancelEventArgs)">
+	<summary>
+ Handler for selected Page changed
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormDBExplorer.RefreshMenu_Click(System.Object,System.EventArgs)">
+	<summary>
+ Click Hander for the RefreshButton
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>

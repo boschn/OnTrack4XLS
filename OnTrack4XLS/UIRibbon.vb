@@ -255,11 +255,11 @@ Public Class OnTrackRibbon
         End If
         If Me.LogButton.Checked = True Then
             _logFormThread = New Threading.Thread(AddressOf _logForm.ShowDialog)
-            '_logFormThread.SetApartmentState(Threading.ApartmentState.STA)
+            _logFormThread.SetApartmentState(Threading.ApartmentState.STA)
             _logFormThread.Start()
-            'Call _logForm.Show()
+
         Else
-            'Call _logForm.Close()
+
             _logFormThread.Abort()
         End If
     End Sub

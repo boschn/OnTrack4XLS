@@ -1,16 +1,17 @@
-# Customizaton for Property Set
+# Customizaton for Current Property Set (-> will create  PropertySet)
 #
 # --- BOMBARDIER TRANSPORTATION FUNCTIONAL DESIGN BASELINE ---
 #
 # Exchange IDs
 #
-#DM1;PROPERTYSET;DOMAINID;domain identifier;3;
-#OPS1;PROPERTYSET;SETID;ID of the property set;3;
-#OPS3;PROPERTYSET;DESC;description of the property section;3;
-#OPS4;PROPERTYSET;PROPERTIES;properties of the object property section;2;
-#OPS5;PROPERTYSET;OBJECTS;applicable business objects for this section;2;
-#OPS6;PROPERTYSET;ORDINAL;ordinal of the set;7;
+#xid	id	entry	datatype	desc
+#OPCS2	PROPERTYCURRENTSET	ALIVEUPDC	7	update count of the alive property set properties
+#OPCS10	PROPERTYCURRENTSET	DESC	3	description of the property set
+#DM1	PROPERTYCURRENTSET	DOMAINID	3	domain identifier
+#OLOG1	PROPERTYCURRENTSET	MSGLOGTAG	3	tag to the object message log
+#OPCS1	PROPERTYCURRENTSET	SETID	3	ID of the property set
+#OPCS3	PROPERTYCURRENTSET	WORKUPDC	7	update count of the working property set properties
 #
-OPS1;DM1;OPS3;OPS4;OPS5;OPS6
-FBLSBB;SBB;Functional Baseline SBB;;|DELIVERABLE|;10;
-FBLDOSTO2010;DOSTO2010;Functional Baseline DOSTO2010;;|DELIVERABLE|;10;
+PROPERTYCURRENTSET.OPCS1;DM1;OPCS10;OPCS5;OPCS6
+FBLSBB;SBB;Functional Baseline SBB;|DELIVERABLE|;10
+FBLDOSTO2010;DOSTO2010;Functional Baseline DOSTO2010;|DELIVERABLE|;10

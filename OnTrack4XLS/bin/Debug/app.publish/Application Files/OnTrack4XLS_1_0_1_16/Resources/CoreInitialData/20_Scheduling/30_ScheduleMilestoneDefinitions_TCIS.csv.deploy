@@ -1,0 +1,23 @@
+# Customizaton for SCHEDULE MILESTONE DEFINITION
+#
+# --- BOMBARDIER TRANSPORTATION FUNCTIONAL DESIGN BASELINE ---
+#
+# Exchange IDs
+#
+#BSD2;SCHEDULEMILESTONEDEFINITION;ID;id of milestone in schedule;3;;;;;;
+#BSD11;SCHEDULEMILESTONEDEFINITION;ISINPUT;milestone is input deliverable in schedule;9;;;;;;
+#BSD12;SCHEDULEMILESTONEDEFINITION;ISOUTPUT;milestone is output deliverable in schedule;9;;;;;;
+#BSD13;SCHEDULEMILESTONEDEFINITION;ISFINISH;milestone is end of schedule;9;;;;;;
+#BSD14;SCHEDULEMILESTONEDEFINITION;DEFAULT;milestone default value in this schedule;3;;;;;;
+#BSD3;SCHEDULEMILESTONEDEFINITION;DESC;description of milestone in schedule;3;;;;;;
+#BSD4;SCHEDULEMILESTONEDEFINITION;ORDINAL;ordinal of milestone in schedule;7;;;;;;
+#BSD5;SCHEDULEMILESTONEDEFINITION;ACTUALID;actual id of this milestone in schedule;3;;;;;;
+#BSD6;SCHEDULEMILESTONEDEFINITION;ISFC;milestone is forecast in schedule;9;;;;;;
+#BSD7;SCHEDULEMILESTONEDEFINITION;ISFACULTATIVE;milestone is facilitative in schedule;9;;;;;;
+#BSD8;SCHEDULEMILESTONEDEFINITION;ISPROHIBITED;milestone is prohibited in schedule;9;;;;;;
+#BSD9;SCHEDULEMILESTONEDEFINITION;ISMANDATORY;milestone is mandatory in schedule;9;;;;;;
+#DM1;SCHEDULEMILESTONEDEFINITION;DOMAINID;domain identifier;3;;;;;;
+#BSD1;SCHEDULEMILESTONEDEFINITION;SCHEDULETYPE;type of schedule definition;3;;;;;;
+BSD2;BSD1;DM1;BSD4;BSD6;BSD7;BSD8;BSD9;BSD5;BSD13;BSD12
+BP9;PDM;@;90;True;false;False;True;BP10;True;True
+BP10;PDM;@;100;False;False;False;True;;True;True

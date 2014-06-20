@@ -97,6 +97,15 @@ otdbBackEnd
 	<param name="silent"></param>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:OnTrack.Database.oleDBDriver.HasView(System.String,OnTrack.Database.iormConnection@,System.Object)">
+	<summary>
+ returns true if the datastore has the view by viewname
+ </summary>
+	<param name="name"></param>
+	<param name="connection"></param>
+	<param name="nativeConnection"></param>
+	<remarks></remarks>
+	<returns></returns>
 </member><member name="M:OnTrack.Database.oleDBDriver.Connection_onConnection(System.Object,OnTrack.Database.ormConnectionEventArgs)">
 	<summary>
  EventHandler for onConnect
@@ -198,6 +207,177 @@ otdbBackEnd
  </summary>
 	<remarks>
 	</remarks>
+</member><member name="F:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.ConstObjectID">
+	<summary>
+ constants
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.constTableID">
+	<summary>
+ Table Definition
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.constFNAliveUpdc">
+	<summary>
+ field members
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ObjectProperties.ObjectPropertyCurrentSet._id">
+	<summary>
+ Mappings
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.ConstRProperties">
+	<summary>
+ Relations
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.ConstRWorkSet">
+	<summary>
+  Work Set
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.ConstRAliveSet">
+	<summary>
+  Alive Set
+ </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.Ordinal">
+	<summary>
+ Gets or sets the ordinal.
+ </summary>
+	<value>The ordinal.</value>
+</member><member name="P:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.Description">
+	<summary>
+ Gets or sets the description.
+ </summary>
+	<value>The description.</value>
+</member><member name="P:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.AliveSet">
+	<summary>
+ Gets or sets the alive property set.
+ </summary>
+	<value>The workset.</value>
+</member><member name="P:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.Workset">
+	<summary>
+ Gets or sets the work property set.
+ </summary>
+	<value>The workset.</value>
+</member><member name="P:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.Workupdc">
+	<summary>
+ Gets or sets the workupdc.
+ </summary>
+	<value>The workupdc.</value>
+</member><member name="P:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.AliveUpdc">
+	<summary>
+ Gets or sets the alive updc of the set.
+ </summary>
+	<value>The updc.</value>
+</member><member name="P:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.ID">
+	<summary>
+ returns the ID of the set
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.Sets">
+	<summary>
+ returns the collection of Property sets
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.Retrieve(System.String,System.String)">
+	<summary>
+ retrieve  the current property set from store
+ </summary>
+	<param name="id"></param>
+	<param name="domainid"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.Create(System.String,System.String)">
+	<summary>
+ creates a persistable current property set
+ </summary>
+	<param name="id"></param>
+	<param name="domainid"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.Publish(OnTrack.ObjectMessageLog@,System.Nullable{System.DateTime})">
+	<summary>
+ Publish and persist the working PropertySet to the alive Set
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.CreatePropertyValueView(OnTrack.ObjectProperties.ObjectPropertySet)">
+	<summary>
+ Create an SQLView for the PropertyValueLot
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.SetCollection_OnAdded(System.Object,OnTrack.Database.ormRelationCollection{OnTrack.ObjectProperties.ObjectPropertySet}.EventArgs)">
+	<summary>
+ Handler for the OnAdded event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.CurrentPropertySet_OnPersistedProperty(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+	<summary>
+ Event Handler for ObjectProperty OnPersisted Event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.CurrentPropertySet_OnCreatedProperty(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+	<summary>
+ Event Handler for ObjectProperty OnCreated Event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.CurrentPropertySet_OnDeletedProperty(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+	<summary>
+ Event Handler for ObjectProperty OnDeleted Event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.ObjectPropertySet_OnCreated(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+	<summary>
+ Handler for OnCreated Event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.SetCollection_OnRequestKeys(System.Object,OnTrack.Database.ormRelationNewableCollection{OnTrack.ObjectProperties.ObjectPropertySet}.EventArgs)">
+	<summary>
+ OnNew EventHandler of the PropertySet Key
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.ObjectPropertyCurrentSet_OnEntryChanged(System.Object,OnTrack.Database.ormDataObjectEntryEventArgs)">
+	<summary>
+ OnEntryChanged Event to set the defaults for all the sets
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="T:OnTrack.ObjectProperties.ObjectPropertyCurrentSet">
+	<summary>
+ class to define an current or alive set of properties 
+ </summary>
+	<remarks>
+ 
+ Design Principles:
+ 
+ 1. Property sets are stand-alone and must exist before a property can be created.
+ 
+ 2. Properties are added by creating themselves e.g. Property.Create(setid:= ...). It will be added automatically to the set
+ 
+ 3. On loading the set all the properties will be retrieved as well due to relation.
+ 
+ </remarks>
 </member><member name="F:OnTrack.ObjectProperties.ObjectPropertySet.constTableID">
 	<summary>
  Table Definition
@@ -213,6 +393,43 @@ otdbBackEnd
  Relations
  </summary>
 	<remarks></remarks>
+</member><member name="F:OnTrack.ObjectProperties.ObjectPropertySet._propertiesChanged">
+	<summary>
+ Dynamic Members
+ </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ObjectProperties.ObjectPropertySet.PropertiesChanged">
+	<summary>
+ Gets or sets the properties changed.
+ </summary>
+	<value>The properties changed.</value>
+</member><member name="P:OnTrack.ObjectProperties.ObjectPropertySet.PropertyCurrentSet">
+	<summary>
+ returns the PropertyCurrentSet of this PropertySet
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ObjectProperties.ObjectPropertySet.ValidUntil">
+	<summary>
+ Gets or sets the valid until timestamp.
+ </summary>
+	<value>The valid to.</value>
+</member><member name="P:OnTrack.ObjectProperties.ObjectPropertySet.ValidFrom">
+	<summary>
+ Gets or sets the valid from timestamp.
+ </summary>
+	<value>The valid from.</value>
+</member><member name="P:OnTrack.ObjectProperties.ObjectPropertySet.LastPropertyChangedOn">
+	<summary>
+ Gets or sets the last property changed on.
+ </summary>
+	<value>The last property changed on.</value>
+</member><member name="P:OnTrack.ObjectProperties.ObjectPropertySet.Updc">
+	<summary>
+ Gets or sets the updc.
+ </summary>
+	<value>The updc.</value>
 </member><member name="P:OnTrack.ObjectProperties.ObjectPropertySet.Ordinal">
 	<summary>
  Gets or sets the ordinal.
@@ -242,17 +459,23 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.ObjectProperties.ObjectPropertySet.Retrieve(System.String,System.String)">
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertySet.UpdateLots(System.Nullable{System.DateTime})">
 	<summary>
- retrieve  the property section from store
+ Update and initialize the linked value lots of  former versions of the set to this one
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertySet.Retrieve(System.String,System.Int64,System.String)">
+	<summary>
+ retrieve  the property set from store
  </summary>
 	<param name="id"></param>
 	<param name="domainid"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.ObjectProperties.ObjectPropertySet.Create(System.String,System.String)">
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertySet.Create(System.String,System.Nullable{System.Int64},System.String)">
 	<summary>
- creates a persistable property section
+ creates a persistable property set
  </summary>
 	<param name="id"></param>
 	<param name="domainid"></param>
@@ -261,6 +484,41 @@ otdbBackEnd
 </member><member name="M:OnTrack.ObjectProperties.ObjectPropertySet.PropertiesCollection_OnAdded(System.Object,OnTrack.Database.ormRelationCollection{OnTrack.ObjectProperties.ObjectProperty}.EventArgs)">
 	<summary>
  Handler for the OnAdded event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertySet.PropertySet_OnCreatedProperty(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+	<summary>
+ Event Handler for ObjectProperty OnCreated Event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertySet.PropertySet_OnDeletedProperty(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+	<summary>
+ Event Handler for ObjectProperty OnDeleted Event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertySet.ObjectPropertySet_OnCreated(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+	<summary>
+ OnCreated Handler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertySet.ObjectPropertySet_OnCreating(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+	<summary>
+ Handler for OnCreating Event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertySet.ObjectPropertySet_OnFed(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+	<summary>
+ OnFed Handler for some updating
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
@@ -280,6 +538,35 @@ otdbBackEnd
  3. On loading the set all the properties will be retrieved as well due to relation.
  
  </remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyExtProperty.#ctor(System.String)">
+	<summary>
+ constructor
+ </summary>
+	<param name="propertystring"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyExtProperty.Validate(OnTrack.ObjectProperties.ObjectPropertyExtProperty)">
+	<summary>
+ validates the property
+ </summary>
+	<param name="property"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyExtProperty.ToEnum">
+	<summary>
+ returns the enumeration value
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="T:OnTrack.ObjectProperties.ObjectPropertyExtProperty">
+	<summary>
+ class for ObjectProperty Extended properties (special settings for ObjectProperty)
+ </summary>
+	<remarks></remarks>
+</member><member name="T:OnTrack.ObjectProperties.otObjectPropertyExtProperty">
+	<summary>
+ Enumeration of the validation properties
+ </summary>
+	<remarks></remarks>
 </member><member name="F:OnTrack.ObjectProperties.ObjectProperty.ConstTableID">
 	<summary>
  Table Definition
@@ -324,11 +611,21 @@ otdbBackEnd
  Disabled
  </summary>
 	<remarks></remarks>
+</member><member name="F:OnTrack.ObjectProperties.ObjectProperty._extendedProperties">
+	<summary>
+ Dynamic members
+ </summary>
+	<remarks></remarks>
 </member><member name="M:OnTrack.ObjectProperties.ObjectProperty.#ctor">
 	<summary>
  constructor
  </summary>
 	<remarks></remarks>
+</member><member name="P:OnTrack.ObjectProperties.ObjectProperty.Setupdc">
+	<summary>
+ Gets or sets the Updc of the set.
+ </summary>
+	<value>The setupdc.</value>
 </member><member name="P:OnTrack.ObjectProperties.ObjectProperty.ID">
 	<summary>
  Gets the entity ID.
@@ -336,7 +633,7 @@ otdbBackEnd
 	<value>The entity.</value>
 </member><member name="P:OnTrack.ObjectProperties.ObjectProperty.SetID">
 	<summary>
- returns the ID of the section
+ returns the ID of the set
  </summary>
 	<value></value>
 	<returns></returns>
@@ -348,11 +645,18 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="P:OnTrack.ObjectProperties.ObjectProperty.ExtendedProperties">
+</member><member name="P:OnTrack.ObjectProperties.ObjectProperty.ExtendedPropertyStrings">
 	<summary>
  Gets or sets the properties of the object property definition.
  </summary>
 	<value>The properties.</value>
+</member><member name="P:OnTrack.ObjectProperties.ObjectProperty.ExtendedProperties">
+	<summary>
+ gets or sets the validation properties
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="M:OnTrack.ObjectProperties.ObjectProperty.ObjectProperty_OnCreating(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
 	<summary>
  Handles OnCreating 
@@ -369,7 +673,7 @@ otdbBackEnd
 	<remarks></remarks>
 </member><member name="M:OnTrack.ObjectProperties.ObjectProperty.ObjectProperty_OnInfused(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
 	<summary>
- Handles OnCreating and Relation to ConfigSection
+ Handles OnCreating and Relation to Configset
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
@@ -380,6 +684,18 @@ otdbBackEnd
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectProperty.DeleteCompoundStructure">
+	<summary>
+ Delete the compound structure of this Property
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectProperty.CreateCompoundStructure">
+	<summary>
+ Create the Compound on each layer of the property
+ </summary>
+	<returns></returns>
 	<remarks></remarks>
 </member><member name="M:OnTrack.ObjectProperties.ObjectProperty.ObjectProperty_OnPersisted(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
 	<summary>
@@ -417,7 +733,7 @@ otdbBackEnd
  </remarks>
 </member><member name="F:OnTrack.ObjectProperties.ObjectPropertyLink.ConstFNFromObjectID">
 	<summary>
- Primary key of the CONFIG link object
+ Primary key of the property link object
  FROM an ObjectID, UID, UPDC (KEY)
  TO   an OBJECTID, UID, UPDC
  
@@ -496,6 +812,21 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyLink.AllBySet(System.String)">
+	<summary>
+ return a list of all ValueLots having the setid
+ </summary>
+	<param name="setid"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyLink.UpdateValueLot2Set(System.String,System.Int64,System.Nullable{System.DateTime},System.String)">
+	<summary>
+ Update the link to the setid and setupdc
+ </summary>
+	<param name="setid"></param>
+	<param name="setupdc"></param>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="M:OnTrack.ObjectProperties.ObjectPropertyLink.SetPropertyValue(System.String,System.Object,System.String)">
 	<summary>
  operation to set a PropertyValue - here we must change to next version (updc) of the 
@@ -552,7 +883,7 @@ otdbBackEnd
 	<remarks></remarks>
 </member><member name="F:OnTrack.ObjectProperties.ObjectPropertyValueLot.ConstRValues">
 	<summary>
- Relations of compound
+ Relations of values
  </summary>
 	<remarks></remarks>
 </member><member name="F:OnTrack.ObjectProperties.ObjectPropertyValueLot.ConstOPGetCompoundValue">
@@ -565,6 +896,11 @@ otdbBackEnd
  dynamic members
  </summary>
 	<remarks></remarks>
+</member><member name="P:OnTrack.ObjectProperties.ObjectPropertyValueLot.Setsupdc">
+	<summary>
+ Gets or sets the UPDC of the Sets as Array of Long.
+ </summary>
+	<value>The setsupdc.</value>
 </member><member name="P:OnTrack.ObjectProperties.ObjectPropertyValueLot.ValidUntil">
 	<summary>
  Gets or sets the validto date.
@@ -596,9 +932,23 @@ otdbBackEnd
 	<remarks></remarks>
 </member><member name="P:OnTrack.ObjectProperties.ObjectPropertyValueLot.Values">
 	<summary>
- returns the Entities of this Section
+ returns the Entities of this set
  </summary>
 	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ObjectProperties.ObjectPropertyValueLot.PropertySets">
+	<summary>
+ gets the property sets of this value lot
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyValueLot.AllBySet(System.String)">
+	<summary>
+ return a list of all ValueLots having the setid
+ </summary>
+	<param name="setid"></param>
 	<returns></returns>
 	<remarks></remarks>
 </member><member name="M:OnTrack.ObjectProperties.ObjectPropertyValueLot.GetPropertyValue(System.String,System.Object@,System.String)">
@@ -616,6 +966,23 @@ otdbBackEnd
 	<param name="value"></param>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyValueLot.UpdateSet(System.String,System.Nullable{System.Int64},System.String)">
+	<summary>
+ Update the lot with the set
+ </summary>
+	<param name="setid"></param>
+	<param name="setupdc"></param>
+	<param name="domainid"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyValueLot.AddPropertyValue(System.String,System.String,System.Nullable{System.Int64},System.Boolean,System.Object)">
+	<summary>
+ Add APropertyValue to the Lot
+ </summary>
+	<param name="setid"></param>
+	<param name="propertyid"></param>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="M:OnTrack.ObjectProperties.ObjectPropertyValueLot.PropertySet_OnCreating(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
 	<summary>
  handler for onCreating Event - generates unique primary key values
@@ -623,7 +990,14 @@ otdbBackEnd
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
-</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyValueLot.valuesCollection_OnAdded(System.Object,OnTrack.Database.ormRelationCollection{OnTrack.ObjectProperties.ObjectPropertyValue}.EventArgs)">
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyValueLot.ValuesCollection_OnAdded(System.Object,OnTrack.Database.ormRelationCollection{OnTrack.ObjectProperties.ObjectPropertyValue}.EventArgs)">
+	<summary>
+ Handler for added PropertyValues
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyValueLot.ValuesCollection_OnRemoved(System.Object,OnTrack.Database.ormRelationCollection{OnTrack.ObjectProperties.ObjectPropertyValue}.EventArgs)">
 	<summary>
  Handler for added PropertyValues
  </summary>
@@ -640,6 +1014,26 @@ otdbBackEnd
 </member><member name="M:OnTrack.ObjectProperties.ObjectPropertyValueLot.ObjectPropertyValueLot_OnCloned(System.Object,OnTrack.Database.ormDataObjectCloneEventArgs)">
 	<summary>
  Clone Handler to clone the related objects as well
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyValueLot.ObjectPropertyValueLot_OnRelationLoad(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+	<summary>
+ Event Handler for OnRelationLoad. Check if all Properties of the set are included - if not (added or deleted) than add or drop values
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyValueLot.LoadPropertySets">
+	<summary>
+ load the PropertySets into dynamic internal structure
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyValueLot.ObjectPropertyValueLot_OnInfused(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+	<summary>
+ Handler for the OnInfused Event 
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
@@ -687,6 +1081,19 @@ otdbBackEnd
  Relations
  </summary>
 	<remarks></remarks>
+</member><member name="P:OnTrack.ObjectProperties.ObjectPropertyValue.PropertySet(System.String)">
+	<summary>
+ returns the PropertySet this PropertyValue Belongs to
+ </summary>
+	<param name="domainid"></param>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ObjectProperties.ObjectPropertyValue.Setupdc">
+	<summary>
+ Gets or sets the setupdc.
+ </summary>
+	<value>The setupdc.</value>
 </member><member name="P:OnTrack.ObjectProperties.ObjectPropertyValue.Datatype">
 	<summary>
  Gets or sets the datatype of the property.
@@ -1061,6 +1468,25 @@ otdbBackEnd
 	<param name="datatype">otdb datatype</param>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:OnTrack.Database.mssqlDBDriver.HasView(System.String,OnTrack.Database.iormConnection@,System.Object)">
+	<summary>
+ returns true if the datastore has the view by viewname
+ </summary>
+	<param name="name"></param>
+	<param name="connection"></param>
+	<param name="nativeConnection"></param>
+	<remarks></remarks>
+	<returns></returns>
+</member><member name="M:OnTrack.Database.mssqlDBDriver.GetView(System.String,System.String,System.Boolean,OnTrack.Database.iormConnection@)">
+	<summary>
+ returns or creates a view in the data store
+ </summary>
+	<param name="name"></param>
+	<param name="sqlselect"></param>
+	<param name="createOrAlter"></param>
+	<param name="connection"></param>
+	<remarks></remarks>
+	<returns></returns>
 </member><member name="M:OnTrack.Database.mssqlDBDriver.RunSqlStatement(System.String,System.Collections.Generic.List{OnTrack.Database.ormSqlCommandParameter}@,System.Boolean,System.Object)">
 	<summary>
  Runs the SQL Command
@@ -1144,14 +1570,6 @@ otdbBackEnd
 	<param name="connection"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.mssqlConnection.OnInternalConnection(System.Object,OnTrack.Database.InternalConnectionEventArgs)">
-	<summary>
- Event Handler onInternalConnection
- </summary>
-	<param name="sender"></param>
-	<param name="arguments"></param>
-	<returns></returns>
-	<remarks></remarks>
 </member><member name="P:OnTrack.Database.mssqlConnection.SqlConnection">
 	<summary>
  Gets or sets the connection.
@@ -1208,7 +1626,7 @@ otdbBackEnd
 	<param name="datatable"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.Shuffle.SubstituteDomainIDinTablePrimaryKey(System.String,System.Object[]@,System.String,System.Boolean)">
+</member><member name="M:OnTrack.Database.Shuffle.SubstituteDomainIDinTablePrimaryKey(System.String,System.Object[]@,System.String,System.Boolean,System.Boolean)">
 	<summary>
  substitutes in a primary key array (of a table) the domainid with the current domainid
  </summary>
@@ -1218,7 +1636,7 @@ otdbBackEnd
 	<param name="runtimeOnly"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.Shuffle.ChecknFixPimaryKey(System.String,System.Object[]@,System.String,System.Boolean)">
+</member><member name="M:OnTrack.Database.Shuffle.ChecknFixPimaryKey(System.String,System.Object[]@,System.String,System.Boolean,System.Boolean)">
 	<summary>
  helper routine to check and fix the primary key on length, datatype and domain substitution
  </summary>
@@ -3138,7 +3556,7 @@ otdbBackEnd
  Data Types for OnTrack Database Fields
  </summary>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.iormDatabaseDriver.validateUser(System.String,System.String,OnTrack.Database.otAccessRight,System.String)">
+</member><member name="M:OnTrack.Database.iormDatabaseDriver.ValidateUser(System.String,System.String,OnTrack.Database.otAccessRight,System.String)">
 	<summary>
  validates the User against the Database with a accessrequest
  </summary>
@@ -3811,13 +4229,13 @@ otdbBackEnd
 	<param name="checkUnique"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.iormPersistable.Delete(System.DateTime)">
+</member><member name="M:OnTrack.Database.iormPersistable.Delete(System.Nullable{System.DateTime})">
 	<summary>
  deletes a persistable object in the datastore
  </summary>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.iormPersistable.Persist(System.DateTime,System.Boolean)">
+</member><member name="M:OnTrack.Database.iormPersistable.Persist(System.Nullable{System.DateTime},System.Boolean)">
 	<summary>
  Perists the object in the datastore
  </summary>
@@ -4936,6 +5354,16 @@ otdbBackEnd
  constructor
  </summary>
 	<remarks></remarks>
+</member><member name="P:OnTrack.SessionMessage.Domainid">
+	<summary>
+ Gets or sets the domainid.
+ </summary>
+	<value>The domainid.</value>
+</member><member name="P:OnTrack.SessionMessage.Objecttag">
+	<summary>
+ Gets or sets the objecttag.
+ </summary>
+	<value>The objecttag.</value>
 </member><member name="P:OnTrack.SessionMessage.StackTrace">
 	<summary>
  Gets or sets the stack trace.
@@ -5765,7 +6193,7 @@ otdbBackEnd
 	<param name="datatype"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.ot.CoreMessageHandler(System.String,System.Exception,System.Object,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean,System.Boolean,OnTrack.otCoreMessageType,OnTrack.ObjectMessageLog@,System.String)">
+</member><member name="M:OnTrack.ot.CoreMessageHandler(System.String,System.Exception,System.Object,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean,System.Boolean,OnTrack.otCoreMessageType,OnTrack.ObjectMessageLog@,System.String,System.Object,System.String,OnTrack.Database.iormPersistable)">
 	<summary>
  central error handler .. all messages and error conditions are fed here
  </summary>
@@ -6378,6 +6806,25 @@ otdbBackEnd
 	<param name="connection"></param>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:OnTrack.Database.ormDatabaseDriver.HasView(System.String,OnTrack.Database.iormConnection@,System.Object)">
+	<summary>
+ returns true if the datastore has the view by viewname
+ </summary>
+	<param name="name"></param>
+	<param name="connection"></param>
+	<param name="nativeConnection"></param>
+	<remarks></remarks>
+	<returns></returns>
+</member><member name="M:OnTrack.Database.ormDatabaseDriver.GetView(System.String,System.String,System.Boolean,OnTrack.Database.iormConnection@)">
+	<summary>
+ returns or creates a Table in the data store
+ </summary>
+	<param name="name"></param>
+	<param name="sqlselect"></param>
+	<param name="createOrAlter"></param>
+	<param name="connection"></param>
+	<remarks></remarks>
+	<returns></returns>
 </member><member name="M:OnTrack.Database.ormDatabaseDriver.HasColumn(System.String,System.String,OnTrack.Database.iormConnection@)">
 	<summary>
  returns True if the column exists in the table 
@@ -7248,7 +7695,7 @@ otdbBackEnd
 	<param name="columnname"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.UI.ormModelTable.Load">
+</member><member name="M:OnTrack.UI.ormModelTable.Load(System.Boolean)">
 	<summary>
  loads data from the QryEnumeration in the table
  </summary>
@@ -11328,6 +11775,16 @@ otdbBackEnd
  Attribute for Const fields to describe an object operation
  </summary>
 	<remarks></remarks>
+</member><member name="P:OnTrack.Database.ormObjectOperationMethodAttribute.ClassDescription">
+	<summary>
+ Gets or sets the A class description.
+ </summary>
+	<value>The A class description.</value>
+</member><member name="P:OnTrack.Database.ormObjectOperationMethodAttribute.UIVisible">
+	<summary>
+ Gets or sets the UI visible.
+ </summary>
+	<value>The UI visible.</value>
 </member><member name="P:OnTrack.Database.ormObjectOperationMethodAttribute.Properties">
 	<summary>
  Gets or sets the Properties
@@ -12314,7 +12771,7 @@ otdbBackEnd
 	<param name="pkArray"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.ormDataObject.Persist(System.DateTime,System.Boolean)">
+</member><member name="M:OnTrack.Database.ormDataObject.Persist(System.Nullable{System.DateTime},System.Boolean)">
 	<summary>
  Persist the object to the datastore
  </summary>
@@ -12417,7 +12874,7 @@ otdbBackEnd
  </summary>
 	<returns>True if successful</returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.ormDataObject.Delete(System.DateTime)">
+</member><member name="M:OnTrack.Database.ormDataObject.Delete(System.Nullable{System.DateTime})">
 	<summary>
  Delete the object and its persistancy
  </summary>
@@ -14044,7 +14501,7 @@ otdbBackEnd
 	<param name="timestamp"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Scheduling.WorkspaceSchedule.Persist(System.DateTime,System.Boolean)">
+</member><member name="M:OnTrack.Scheduling.WorkspaceSchedule.Persist(System.Nullable{System.DateTime},System.Boolean)">
 	<summary>
  Persist with checking on publish
  </summary>
@@ -15409,7 +15866,7 @@ otdbBackEnd
 	<param name="timestamp"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Deliverables.WorkspaceTarget.Persist(System.DateTime,System.Boolean)">
+</member><member name="M:OnTrack.Deliverables.WorkspaceTarget.Persist(System.Nullable{System.DateTime},System.Boolean)">
 	<summary>
  Persist with checking on publish
  </summary>

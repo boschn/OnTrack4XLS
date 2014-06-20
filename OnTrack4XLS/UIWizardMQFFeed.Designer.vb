@@ -26,9 +26,7 @@ Partial Class UIWizardMQFFeed
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UIWizardMQFFeed))
         Me.TelerikMetroBlueTheme1 = New Telerik.WinControls.Themes.TelerikMetroBlueTheme()
         Me.WorkbookListContextmenu = New Telerik.WinControls.UI.RadContextMenu(Me.components)
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.workbookListContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.MQFWizard = New Telerik.WinControls.UI.RadWizard()
         Me.WizardCompletionPage1 = New Telerik.WinControls.UI.WizardCompletionPage()
@@ -90,6 +88,8 @@ Partial Class UIWizardMQFFeed
         Me.WizardWelcomePage1 = New Telerik.WinControls.UI.WizardWelcomePage()
         Me.WizardPage1 = New Telerik.WinControls.UI.WizardPage()
         Me.WizardPage3 = New Telerik.WinControls.UI.WizardPage()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.workbookListContextMenuStrip.SuspendLayout()
         CType(Me.MQFWizard, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MQFWizard.SuspendLayout()
@@ -154,16 +154,6 @@ Partial Class UIWizardMQFFeed
         Me.WorkbookListContextmenu.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.WorkbookListContextmenu.ThemeName = "TelerikMetroBlue"
         '
-        'RadMenuItem1
-        '
-        Me.RadMenuItem1.AccessibleDescription = "Open new MQF"
-        Me.RadMenuItem1.AccessibleName = "Open new MQF"
-        Me.RadMenuItem1.DescriptionText = "Open an additional Excel Workbook"
-        Me.RadMenuItem1.Image = Global.OnTrack.Addin.My.Resources.Resources.bt_add
-        Me.RadMenuItem1.Name = "RadMenuItem1"
-        Me.RadMenuItem1.Text = "Open new MQF"
-        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
-        '
         'workbookListContextMenuStrip
         '
         Me.workbookListContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem})
@@ -171,16 +161,9 @@ Partial Class UIWizardMQFFeed
         Me.workbookListContextMenuStrip.Size = New System.Drawing.Size(155, 26)
         Me.workbookListContextMenuStrip.Text = "Load Workbook"
         '
-        'ToolStripMenuItem
-        '
-        Me.ToolStripMenuItem.Image = Global.OnTrack.Addin.My.Resources.Resources.bt_add
-        Me.ToolStripMenuItem.Name = "ToolStripMenuItem"
-        Me.ToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
-        Me.ToolStripMenuItem.Text = "Add Workbook"
-        '
         'MQFWizard
         '
-        Me.MQFWizard.CompletionImage = Global.OnTrack.Addin.My.Resources.Resources.fasttrack
+        Me.MQFWizard.CompletionImage = Global.OnTrack.AddIn.My.Resources.Resources.fasttrack
         Me.MQFWizard.CompletionPage = Me.WizardCompletionPage1
         Me.MQFWizard.Controls.Add(Me.SelectPanel)
         Me.MQFWizard.Controls.Add(Me.ProcessPanel)
@@ -251,7 +234,7 @@ Partial Class UIWizardMQFFeed
         '
         'PBDocument
         '
-        Me.PBDocument.Image = Global.OnTrack.Addin.My.Resources.Resources.doc_lines
+        Me.PBDocument.Image = Global.OnTrack.AddIn.My.Resources.Resources.doc_lines
         Me.PBDocument.Location = New System.Drawing.Point(3, 234)
         Me.PBDocument.Name = "PBDocument"
         Me.PBDocument.Size = New System.Drawing.Size(48, 48)
@@ -315,7 +298,7 @@ Partial Class UIWizardMQFFeed
         Me.OpenWorkbookButton.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.OpenWorkbookButton.DisplayStyle = Telerik.WinControls.DisplayStyle.Image
         Me.OpenWorkbookButton.EnableKeyMap = True
-        Me.OpenWorkbookButton.Image = Global.OnTrack.Addin.My.Resources.Resources.plus
+        Me.OpenWorkbookButton.Image = Global.OnTrack.AddIn.My.Resources.Resources.plus
         Me.OpenWorkbookButton.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.OpenWorkbookButton.Location = New System.Drawing.Point(529, 96)
         Me.OpenWorkbookButton.Name = "OpenWorkbookButton"
@@ -451,7 +434,7 @@ Partial Class UIWizardMQFFeed
         'ProcessButton
         '
         Me.ProcessButton.DisplayStyle = Telerik.WinControls.DisplayStyle.Image
-        Me.ProcessButton.Image = Global.OnTrack.Addin.My.Resources.Resources.mono_cog_48_48
+        Me.ProcessButton.Image = Global.OnTrack.AddIn.My.Resources.Resources.mono_cog_48_48
         Me.ProcessButton.Location = New System.Drawing.Point(70, 4)
         Me.ProcessButton.Name = "ProcessButton"
         Me.ProcessButton.Size = New System.Drawing.Size(52, 52)
@@ -475,7 +458,7 @@ Partial Class UIWizardMQFFeed
         Me.PreProcessButton.BackColor = System.Drawing.Color.Transparent
         Me.PreProcessButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.PreProcessButton.DisplayStyle = Telerik.WinControls.DisplayStyle.Image
-        Me.PreProcessButton.Image = Global.OnTrack.Addin.My.Resources.Resources.mono_lightbulb_48_48
+        Me.PreProcessButton.Image = Global.OnTrack.AddIn.My.Resources.Resources.mono_lightbulb_48_48
         Me.PreProcessButton.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.PreProcessButton.Location = New System.Drawing.Point(12, 3)
         Me.PreProcessButton.Name = "PreProcessButton"
@@ -497,41 +480,41 @@ Partial Class UIWizardMQFFeed
         '
         '
         '
-        Me.MQFViewGrid.MasterTemplate.AllowAddNewRow = false
-        Me.MQFViewGrid.MasterTemplate.AllowDeleteRow = false
-        Me.MQFViewGrid.MasterTemplate.AllowDragToGroup = false
-        Me.MQFViewGrid.MasterTemplate.AllowEditRow = false
-        Me.MQFViewGrid.MasterTemplate.EnableAlternatingRowColor = true
-        Me.MQFViewGrid.MasterTemplate.EnableFiltering = true
-        Me.MQFViewGrid.MasterTemplate.EnableGrouping = false
-        Me.MQFViewGrid.MasterTemplate.MultiSelect = true
-        Me.MQFViewGrid.MasterTemplate.ShowFilteringRow = false
+        Me.MQFViewGrid.MasterTemplate.AllowAddNewRow = False
+        Me.MQFViewGrid.MasterTemplate.AllowDeleteRow = False
+        Me.MQFViewGrid.MasterTemplate.AllowDragToGroup = False
+        Me.MQFViewGrid.MasterTemplate.AllowEditRow = False
+        Me.MQFViewGrid.MasterTemplate.EnableAlternatingRowColor = True
+        Me.MQFViewGrid.MasterTemplate.EnableFiltering = True
+        Me.MQFViewGrid.MasterTemplate.EnableGrouping = False
+        Me.MQFViewGrid.MasterTemplate.MultiSelect = True
+        Me.MQFViewGrid.MasterTemplate.ShowFilteringRow = False
         Me.MQFViewGrid.Name = "MQFViewGrid"
-        Me.MQFViewGrid.ShowGroupPanel = false
-        Me.MQFViewGrid.ShowNoDataText = false
+        Me.MQFViewGrid.ShowGroupPanel = False
+        Me.MQFViewGrid.ShowNoDataText = False
         Me.MQFViewGrid.Size = New System.Drawing.Size(712, 228)
         Me.MQFViewGrid.TabIndex = 0
         Me.MQFViewGrid.Text = "preprocessed Messages "
         Me.MQFViewGrid.ThemeName = "TelerikMetroBlue"
-        Me.MQFViewGrid.Visible = false
+        Me.MQFViewGrid.Visible = False
         '
         'ProgressPictureBox
         '
         Me.ProgressPictureBox.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ProgressPictureBox.Image = Global.OnTrack.Addin.My.Resources.Resources.progress_radar
+        Me.ProgressPictureBox.Image = Global.OnTrack.AddIn.My.Resources.Resources.progress_radar
         Me.ProgressPictureBox.Location = New System.Drawing.Point(0, 0)
         Me.ProgressPictureBox.Name = "ProgressPictureBox"
         Me.ProgressPictureBox.Size = New System.Drawing.Size(712, 228)
         Me.ProgressPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
         Me.ProgressPictureBox.TabIndex = 0
-        Me.ProgressPictureBox.TabStop = false
+        Me.ProgressPictureBox.TabStop = False
         '
         'UpdateXLSPanel
         '
-        Me.UpdateXLSPanel.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
-            Or System.Windows.Forms.AnchorStyles.Left)  _
-            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.UpdateXLSPanel.AutoScroll = true
+        Me.UpdateXLSPanel.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.UpdateXLSPanel.AutoScroll = True
         Me.UpdateXLSPanel.BackColor = System.Drawing.Color.White
         Me.UpdateXLSPanel.Controls.Add(Me.XLSProcessComments)
         Me.UpdateXLSPanel.Controls.Add(Me.RadLabel14)
@@ -570,11 +553,11 @@ Partial Class UIWizardMQFFeed
         '
         'XLSProcessComments
         '
-        Me.XLSProcessComments.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
-            Or System.Windows.Forms.AnchorStyles.Left)  _
-            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.XLSProcessComments.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.XLSProcessComments.Location = New System.Drawing.Point(398, 260)
-        Me.XLSProcessComments.Multiline = true
+        Me.XLSProcessComments.Multiline = True
         Me.XLSProcessComments.Name = "XLSProcessComments"
         Me.XLSProcessComments.NullText = "<Comments>"
         Me.XLSProcessComments.Size = New System.Drawing.Size(292, 47)
@@ -583,7 +566,7 @@ Partial Class UIWizardMQFFeed
         '
         'RadLabel14
         '
-        Me.RadLabel14.Font = New System.Drawing.Font("Segoe UI", 9!)
+        Me.RadLabel14.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.RadLabel14.Location = New System.Drawing.Point(317, 263)
         Me.RadLabel14.Name = "RadLabel14"
         Me.RadLabel14.Size = New System.Drawing.Size(66, 19)
@@ -592,7 +575,7 @@ Partial Class UIWizardMQFFeed
         '
         'RadLabel13
         '
-        Me.RadLabel13.Font = New System.Drawing.Font("Segoe UI", 9!)
+        Me.RadLabel13.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.RadLabel13.Location = New System.Drawing.Point(317, 235)
         Me.RadLabel13.Name = "RadLabel13"
         Me.RadLabel13.Size = New System.Drawing.Size(40, 19)
@@ -601,7 +584,7 @@ Partial Class UIWizardMQFFeed
         '
         'RadLabel12
         '
-        Me.RadLabel12.Font = New System.Drawing.Font("Segoe UI", 9!)
+        Me.RadLabel12.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.RadLabel12.Location = New System.Drawing.Point(12, 263)
         Me.RadLabel12.Name = "RadLabel12"
         Me.RadLabel12.Size = New System.Drawing.Size(77, 19)
@@ -610,12 +593,12 @@ Partial Class UIWizardMQFFeed
         '
         'XLSProcessedDate
         '
-        Me.XLSProcessedDate.Enabled = false
+        Me.XLSProcessedDate.Enabled = False
         Me.XLSProcessedDate.Location = New System.Drawing.Point(546, 232)
         Me.XLSProcessedDate.Name = "XLSProcessedDate"
         Me.XLSProcessedDate.Size = New System.Drawing.Size(144, 22)
         Me.XLSProcessedDate.TabIndex = 12
-        Me.XLSProcessedDate.TabStop = false
+        Me.XLSProcessedDate.TabStop = False
         Me.XLSProcessedDate.Text = "Saturday, May 24, 2014"
         Me.XLSProcessedDate.ThemeName = "TelerikMetroBlue"
         Me.XLSProcessedDate.Value = New Date(2014, 5, 24, 12, 29, 42, 484)
@@ -632,7 +615,7 @@ Partial Class UIWizardMQFFeed
         '
         'RadLabel9
         '
-        Me.RadLabel9.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Bold)
+        Me.RadLabel9.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.RadLabel9.Location = New System.Drawing.Point(12, 184)
         Me.RadLabel9.Name = "RadLabel9"
         Me.RadLabel9.Size = New System.Drawing.Size(76, 19)
@@ -641,7 +624,7 @@ Partial Class UIWizardMQFFeed
         '
         'RadLabel10
         '
-        Me.RadLabel10.Font = New System.Drawing.Font("Segoe UI", 9!)
+        Me.RadLabel10.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.RadLabel10.Location = New System.Drawing.Point(521, 235)
         Me.RadLabel10.Name = "RadLabel10"
         Me.RadLabel10.Size = New System.Drawing.Size(21, 19)
@@ -650,7 +633,7 @@ Partial Class UIWizardMQFFeed
         '
         'XLSRequestFor
         '
-        Me.XLSRequestFor.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Bold)
+        Me.XLSRequestFor.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.XLSRequestFor.Location = New System.Drawing.Point(98, 181)
         Me.XLSRequestFor.Name = "XLSRequestFor"
         Me.XLSRequestFor.NullText = "<RequestDescription>"
@@ -661,8 +644,8 @@ Partial Class UIWizardMQFFeed
         '
         'XLSProcessStatus
         '
-        Me.XLSProcessStatus.Enabled = false
-        Me.XLSProcessStatus.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Bold)
+        Me.XLSProcessStatus.Enabled = False
+        Me.XLSProcessStatus.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.XLSProcessStatus.ForeColor = System.Drawing.Color.White
         Me.XLSProcessStatus.ImeMode = System.Windows.Forms.ImeMode.Off
         Me.XLSProcessStatus.Location = New System.Drawing.Point(398, 232)
@@ -673,7 +656,7 @@ Partial Class UIWizardMQFFeed
         '
         'RadLabel11
         '
-        Me.RadLabel11.Font = New System.Drawing.Font("Segoe UI", 9!)
+        Me.RadLabel11.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.RadLabel11.Location = New System.Drawing.Point(12, 235)
         Me.RadLabel11.Name = "RadLabel11"
         Me.RadLabel11.Size = New System.Drawing.Size(78, 19)
@@ -682,7 +665,7 @@ Partial Class UIWizardMQFFeed
         '
         'RadLabel7
         '
-        Me.RadLabel7.Font = New System.Drawing.Font("Segoe UI", 9!)
+        Me.RadLabel7.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.RadLabel7.Location = New System.Drawing.Point(521, 157)
         Me.RadLabel7.Name = "RadLabel7"
         Me.RadLabel7.Size = New System.Drawing.Size(78, 19)
@@ -691,7 +674,7 @@ Partial Class UIWizardMQFFeed
         '
         'XLSProcessedBy
         '
-        Me.XLSProcessedBy.Enabled = false
+        Me.XLSProcessedBy.Enabled = False
         Me.XLSProcessedBy.Location = New System.Drawing.Point(98, 232)
         Me.XLSProcessedBy.Name = "XLSProcessedBy"
         Me.XLSProcessedBy.NullText = "<Processor>"
@@ -711,7 +694,7 @@ Partial Class UIWizardMQFFeed
         '
         'RadLabel4
         '
-        Me.RadLabel4.Font = New System.Drawing.Font("Segoe UI", 9!)
+        Me.RadLabel4.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.RadLabel4.Location = New System.Drawing.Point(317, 111)
         Me.RadLabel4.Name = "RadLabel4"
         Me.RadLabel4.Size = New System.Drawing.Size(72, 19)
@@ -720,7 +703,7 @@ Partial Class UIWizardMQFFeed
         '
         'RadLabel8
         '
-        Me.RadLabel8.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Bold)
+        Me.RadLabel8.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.RadLabel8.Location = New System.Drawing.Point(12, 156)
         Me.RadLabel8.Name = "RadLabel8"
         Me.RadLabel8.Size = New System.Drawing.Size(32, 19)
@@ -733,14 +716,14 @@ Partial Class UIWizardMQFFeed
         Me.XLSRequestedOn.Name = "XLSRequestedOn"
         Me.XLSRequestedOn.Size = New System.Drawing.Size(144, 22)
         Me.XLSRequestedOn.TabIndex = 6
-        Me.XLSRequestedOn.TabStop = false
+        Me.XLSRequestedOn.TabStop = False
         Me.XLSRequestedOn.Text = "Saturday, May 24, 2014"
         Me.XLSRequestedOn.ThemeName = "TelerikMetroBlue"
         Me.XLSRequestedOn.Value = New Date(2014, 5, 24, 12, 29, 42, 484)
         '
         'XlsTitel
         '
-        Me.XlsTitel.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Bold)
+        Me.XlsTitel.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.XlsTitel.Location = New System.Drawing.Point(98, 153)
         Me.XlsTitel.Name = "XlsTitel"
         Me.XlsTitel.NullText = "<Title>"
@@ -751,7 +734,7 @@ Partial Class UIWizardMQFFeed
         '
         'RadLabel3
         '
-        Me.RadLabel3.Font = New System.Drawing.Font("Segoe UI", 9!)
+        Me.RadLabel3.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.RadLabel3.Location = New System.Drawing.Point(317, 84)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(72, 19)
@@ -760,7 +743,7 @@ Partial Class UIWizardMQFFeed
         '
         'RadLabel5
         '
-        Me.RadLabel5.Font = New System.Drawing.Font("Segoe UI", 9!)
+        Me.RadLabel5.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.RadLabel5.Location = New System.Drawing.Point(521, 108)
         Me.RadLabel5.Name = "RadLabel5"
         Me.RadLabel5.Size = New System.Drawing.Size(23, 19)
@@ -773,7 +756,7 @@ Partial Class UIWizardMQFFeed
         Me.XLSCreatedOn.Name = "XLSCreatedOn"
         Me.XLSCreatedOn.Size = New System.Drawing.Size(144, 22)
         Me.XLSCreatedOn.TabIndex = 3
-        Me.XLSCreatedOn.TabStop = false
+        Me.XLSCreatedOn.TabStop = False
         Me.XLSCreatedOn.Text = "Saturday, May 24, 2014"
         Me.XLSCreatedOn.ThemeName = "TelerikMetroBlue"
         Me.XLSCreatedOn.Value = New Date(2014, 5, 24, 12, 29, 42, 484)
@@ -789,7 +772,7 @@ Partial Class UIWizardMQFFeed
         '
         'RadLabel2
         '
-        Me.RadLabel2.Font = New System.Drawing.Font("Segoe UI", 9!)
+        Me.RadLabel2.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.RadLabel2.Location = New System.Drawing.Point(521, 84)
         Me.RadLabel2.Name = "RadLabel2"
         Me.RadLabel2.Size = New System.Drawing.Size(23, 19)
@@ -798,7 +781,7 @@ Partial Class UIWizardMQFFeed
         '
         'RadLabel6
         '
-        Me.RadLabel6.Font = New System.Drawing.Font("Segoe UI", 9!)
+        Me.RadLabel6.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.RadLabel6.Location = New System.Drawing.Point(12, 111)
         Me.RadLabel6.Name = "RadLabel6"
         Me.RadLabel6.Size = New System.Drawing.Size(81, 19)
@@ -826,7 +809,7 @@ Partial Class UIWizardMQFFeed
         '
         'RadLabel1
         '
-        Me.RadLabel1.Font = New System.Drawing.Font("Segoe UI", 9!)
+        Me.RadLabel1.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.RadLabel1.Location = New System.Drawing.Point(12, 84)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(66, 19)
@@ -845,8 +828,8 @@ Partial Class UIWizardMQFFeed
         '
         'UpdateXLSCommandPanel
         '
-        Me.UpdateXLSCommandPanel.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
-            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.UpdateXLSCommandPanel.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.UpdateXLSCommandPanel.Controls.Add(Me.UpdateXLSButton)
         Me.UpdateXLSCommandPanel.Location = New System.Drawing.Point(3, 3)
         Me.UpdateXLSCommandPanel.Name = "UpdateXLSCommandPanel"
@@ -857,7 +840,7 @@ Partial Class UIWizardMQFFeed
         'UpdateXLSButton
         '
         Me.UpdateXLSButton.DisplayStyle = Telerik.WinControls.DisplayStyle.Image
-        Me.UpdateXLSButton.Image = Global.OnTrack.Addin.My.Resources.Resources.mono_doc_edit_48_48
+        Me.UpdateXLSButton.Image = Global.OnTrack.AddIn.My.Resources.Resources.mono_doc_edit_48_48
         Me.UpdateXLSButton.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.UpdateXLSButton.Location = New System.Drawing.Point(9, 3)
         Me.UpdateXLSButton.Name = "UpdateXLSButton"
@@ -869,7 +852,7 @@ Partial Class UIWizardMQFFeed
         'WizardWelcomePage1
         '
         Me.WizardWelcomePage1.ContentArea = Me.SelectPanel
-        Me.WizardWelcomePage1.CustomizePageHeader = true
+        Me.WizardWelcomePage1.CustomizePageHeader = True
         Me.WizardWelcomePage1.Header = "Provide what to feed to the database"
         Me.WizardWelcomePage1.Icon = Nothing
         Me.WizardWelcomePage1.Image = Nothing
@@ -878,13 +861,13 @@ Partial Class UIWizardMQFFeed
         Me.WizardWelcomePage1.Title = "Select the message queue files"
         Me.WizardWelcomePage1.ToolTipText = "select the message queue files to be fed into the database"
         Me.WizardWelcomePage1.Visibility = Telerik.WinControls.ElementVisibility.Visible
-        Me.WizardWelcomePage1.WelcomeImage = CType(resources.GetObject("WizardWelcomePage1.WelcomeImage"),System.Drawing.Image)
+        Me.WizardWelcomePage1.WelcomeImage = CType(resources.GetObject("WizardWelcomePage1.WelcomeImage"), System.Drawing.Image)
         '
         'WizardPage1
         '
         Me.WizardPage1.ContentArea = Me.ProcessPanel
         Me.WizardPage1.Header = "feed data to the OnTrack Database"
-        Me.WizardPage1.Icon = CType(resources.GetObject("WizardPage1.Icon"),System.Drawing.Image)
+        Me.WizardPage1.Icon = CType(resources.GetObject("WizardPage1.Icon"), System.Drawing.Image)
         Me.WizardPage1.Name = "WizardPage1"
         Me.WizardPage1.Title = "Process"
         Me.WizardPage1.Visibility = Telerik.WinControls.ElementVisibility.Visible
@@ -896,6 +879,23 @@ Partial Class UIWizardMQFFeed
         Me.WizardPage3.Name = "WizardPage3"
         Me.WizardPage3.Title = "Update Excel"
         Me.WizardPage3.Visibility = Telerik.WinControls.ElementVisibility.Visible
+        '
+        'RadMenuItem1
+        '
+        Me.RadMenuItem1.AccessibleDescription = "Open new MQF"
+        Me.RadMenuItem1.AccessibleName = "Open new MQF"
+        Me.RadMenuItem1.DescriptionText = "Open an additional Excel Workbook"
+        Me.RadMenuItem1.Image = Global.OnTrack.AddIn.My.Resources.Resources.bt_add
+        Me.RadMenuItem1.Name = "RadMenuItem1"
+        Me.RadMenuItem1.Text = "Open new MQF"
+        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
+        '
+        'ToolStripMenuItem
+        '
+        Me.ToolStripMenuItem.Image = Global.OnTrack.AddIn.My.Resources.Resources.bt_add
+        Me.ToolStripMenuItem.Name = "ToolStripMenuItem"
+        Me.ToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
+        Me.ToolStripMenuItem.Text = "Add Workbook"
         '
         'UIWizardMQFFeed
         '

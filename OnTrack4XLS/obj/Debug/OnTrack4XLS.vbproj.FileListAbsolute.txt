@@ -52,3 +52,12 @@ C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\30_Deliverables\10_DeliverableTypes_TCIS.csv
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\05_Core\07_DomainSettings_TCIS.csv
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Resources\CoreInitialData\05_Core\06_Domain_TCIS.csv
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Microsoft.Office.Tools.Excel.dll
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Microsoft.SqlServer.SqlClrProvider.dll
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Microsoft.VisualStudio.Tools.Applications.Runtime.dll
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Telerik.WinControls.RichTextBox.dll
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Microsoft.VisualStudio.Tools.Applications.Runtime.xml
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Telerik.WinControls.RichTextBox.xml
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Microsoft.Office.Tools.Excel.xml
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\TelerikData.dll
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\TelerikData.xml

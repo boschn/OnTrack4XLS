@@ -39,20 +39,20 @@
     <OldToolsVersion>4.0</OldToolsVersion>
     <VSTO_TrustAssembliesLocation>true</VSTO_TrustAssembliesLocation>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <PublishUrl>C:\vol\projekte\OnTrack\OnTrack Database Tooling\OnTrack Addin 4 XLS\publish\</PublishUrl>
+    <PublishUrl>C:\vol\projekte\OnTrack\OnTrack Database Tooling\OnTrack4XLS\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.5</ApplicationVersion>
+    <ApplicationVersion>1.0.1.18</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>days</UpdateIntervalUnits>
-    <ProductName>OnTrackTooling for XLS</ProductName>
+    <ProductName>OnTrackTooling for Excel</ProductName>
     <PublisherName>sfk engineering services UG</PublisherName>
     <SupportUrl />
     <FriendlyName>OnTrackTooling for XLS</FriendlyName>
     <OfficeApplicationDescription>OnTrack Database Adapter for Microsoft Excel</OfficeApplicationDescription>
-    <LoadBehavior>3</LoadBehavior>
+    <LoadBehavior>16</LoadBehavior>
   </PropertyGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -73,11 +73,6 @@
     <BootstrapperPackage Include="Microsoft.Office.PIARedist.2007">
       <Visible>False</Visible>
       <ProductName>Microsoft Office 2007 Primary Interop Assemblies</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.VSTORuntime.4.0">
-      <Visible>False</Visible>
-      <ProductName>Microsoft Visual Studio 2010 Tools for Office Runtime %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
@@ -183,10 +178,15 @@
     <Reference Include="Microsoft.SqlServer.Smo, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.SqlServer.SqlClrProvider, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.SqlServer.SqlEnum, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.Tools.Applications.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Tools.Applications.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Office, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
@@ -208,7 +208,9 @@
     <Reference Include="Telerik.WinControls.GridView, Version=2013.3.1016.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
-    <Reference Include="Telerik.WinControls.RichTextBox, Version=2013.3.1016.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
+    <Reference Include="Telerik.WinControls.RichTextBox, Version=2013.3.1016.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Telerik.WinControls.Themes.TelerikMetroBlue, Version=2013.3.1016.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
@@ -218,9 +220,16 @@
     <Reference Include="TelerikCommon, Version=2013.3.1016.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
+    <Reference Include="TelerikData, Version=2013.3.1016.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Telerik\RadControls for WinForms Q3 2013\Bin40\TelerikData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Office.Tools.Excel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Office.Tools.Excel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Office.Tools.Common.v4.0.Utilities, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -313,58 +322,59 @@
       <DependentUpon>UIFormWorkXConfig.vb</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="OnTrack4XLS_TemporaryKey.pfx" />
     <None Include="OnTrackTool_TemporaryKey.pfx" />
-    <None Include="Resources\CoreInitialData\05_Core\05_ObjectCompoundEntries.csv">
+    <Content Include="Resources\CoreInitialData\05_Core\05_ObjectCompoundEntries.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\CoreInitialData\05_Core\06_Domain_TCIS.csv">
+    </Content>
+    <Content Include="Resources\CoreInitialData\05_Core\06_Domain_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\CoreInitialData\05_Core\07_DomainSettings_TCIS.csv">
+    </Content>
+    <Content Include="Resources\CoreInitialData\05_Core\07_DomainSettings_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\CoreInitialData\05_Core\08_ValidationObjectEntries_TCIS.csv">
+    </Content>
+    <Content Include="Resources\CoreInitialData\05_Core\08_ValidationObjectEntries_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\CoreInitialData\05_Core\15_ObjectMessageTypes.csv">
+    </Content>
+    <Content Include="Resources\CoreInitialData\05_Core\15_ObjectMessageTypes.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\CoreInitialData\05_Core\10_StatusItems.csv">
+    </Content>
+    <Content Include="Resources\CoreInitialData\05_Core\10_StatusItems.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\CoreInitialData\10_Commons\10_ValueLists_TCIS.csv">
+    </Content>
+    <Content Include="Resources\CoreInitialData\10_Commons\10_ValueLists_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\CoreInitialData\10_Commons\15_ValueEntry_TCIS.csv">
+    </Content>
+    <Content Include="Resources\CoreInitialData\10_Commons\15_ValueEntry_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\CoreInitialData\10_Commons\20_Sites_TCIS.csv">
+    </Content>
+    <Content Include="Resources\CoreInitialData\10_Commons\20_Sites_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\CoreInitialData\15_Properties\10_PropertySet_TCIS.csv">
+    </Content>
+    <Content Include="Resources\CoreInitialData\15_Properties\10_PropertySet_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\CoreInitialData\15_Properties\20_Property_TCIS.csv">
+    </Content>
+    <Content Include="Resources\CoreInitialData\15_Properties\20_Property_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\CoreInitialData\20_Scheduling\10_MileStoneDefinitions_TCIS.csv">
+    </Content>
+    <Content Include="Resources\CoreInitialData\20_Scheduling\10_MileStoneDefinitions_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\CoreInitialData\20_Scheduling\20_ScheduleDefinition_TCIS.csv">
+    </Content>
+    <Content Include="Resources\CoreInitialData\20_Scheduling\20_ScheduleDefinition_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\CoreInitialData\20_Scheduling\30_ScheduleMilestoneDefinitions_TCIS.csv">
+    </Content>
+    <Content Include="Resources\CoreInitialData\20_Scheduling\30_ScheduleMilestoneDefinitions_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\CoreInitialData\30_Deliverables\10_DeliverableTypes_TCIS.csv">
+    </Content>
+    <Content Include="Resources\CoreInitialData\30_Deliverables\10_DeliverableTypes_TCIS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\CoreInitialData\60_XChange\10_Xoutline.csv">
+    </Content>
+    <Content Include="Resources\CoreInitialData\60_XChange\10_Xoutline.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\otdbconfig.ini">
+    </Content>
+    <Content Include="Resources\otdbconfig.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="ThisAddIn.Designer.xml">
       <DependentUpon>ThisAddIn.vb</DependentUpon>
     </None>
@@ -561,10 +571,16 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>OnTrackTool_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>OnTrack4XLS_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>6464D04BF76ADD45F95D0FBFFD7CE83FA58C7E25</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>0D739563AA04AA8F94EB3D5330433E1203EAF13D</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>OnTrack4XLS_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <!-- Include the build rules for a Visual Basic project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
@@ -576,7 +592,7 @@
       <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
         <ProjectProperties HostName="Excel" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Excel" Language="vb" TemplatesPath="VSTOTemplates" DebugInfoExeName="#Software\Microsoft\Office\15.0\Excel\InstallRoot\Path#excel.exe" DebugInfoCommandLine="/x " AddItemTemplatesGuid="{DCFE8D25-4715-4C33-9EAB-A34A9EBC9544}" />
         <Host Name="Excel" PublishedHash="69C324AB27932AA2FBF2B7EA72250886FF164DE6" IconIndex="0">
-          <HostItem Name="ThisAddIn" Code="ThisAddIn.vb" CanonicalName="AddIn" PublishedHash="AF7A27BBB4A20AB1408AA3DB712F0E38E43ED45C" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.vb" />
+          <HostItem Name="ThisAddIn" Code="ThisAddIn.vb" CanonicalName="AddIn" PublishedHash="961F141A33684F464437421CF873654595BB83F2" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.vb" />
         </Host>
       </FlavorProperties>
     </VisualStudio>

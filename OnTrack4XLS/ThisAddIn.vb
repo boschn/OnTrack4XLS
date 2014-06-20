@@ -1,6 +1,7 @@
 ﻿
 Imports OnTrack.UI
-Imports OnTrack.addin
+Imports OnTrack.AddIn
+Imports System.Reflection
 
 
 Public Class ThisAddIn
@@ -8,7 +9,63 @@ Public Class ThisAddIn
     Friend WithEvents _OTDBSession As Session
     Private _CurrentHost As Excel.Workbook
     Private _CurrentDefaultDomainID As String
+    Private _Version As String
+    Private _ApplicationName As String
 
+    Private _ApplicationDescription As String = "OnTrack4XLS is the add-in of the OnTrack Database Suite for Excel. OnTrack provides support for deliverable based scheduling, progress tracking, configuration management in complex project."
+    ''' <summary>
+    ''' Gets or sets the application description.
+    ''' </summary>
+    ''' <value>The application description.</value>
+    Public Property ApplicationDescription() As String
+        Get
+            Return Me._ApplicationDescription
+        End Get
+        Set
+            Me._ApplicationDescription = Value
+        End Set
+    End Property
+
+    ''' <summary>
+    ''' Gets or sets the version.
+    ''' </summary>
+    ''' <value>The version.</value>
+    Public Property ApplicationVersion() As String
+        Get
+            If String.IsNullOrWhiteSpace(_Version) Then Return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()
+            Return _Version
+        End Get
+        Set(value As String)
+            _Version = value
+        End Set
+    End Property
+
+    ''' <summary>
+    ''' Gets or sets the name of the application.
+    ''' </summary>
+    ''' <value>The name of the application.</value>
+    Public Property ApplicationName() As String
+        Get
+            If String.IsNullOrWhiteSpace(_ApplicationName) Then
+                ' Get all Title attributes on this assembly
+                Dim attributes As Object() = System.Reflection.Assembly.GetExecutingAssembly().GetCustomAttributes(GetType(AssemblyTitleAttribute), False)
+                ' If there is at least one Title attribute
+                If attributes.Length > 0 Then
+                    ' Select the first one
+                    Dim titleAttribute As AssemblyTitleAttribute = CType(attributes(0), AssemblyTitleAttribute)
+                    ' If it is not an empty string, return it
+                    If titleAttribute.Title <> "" Then
+                        Return titleAttribute.Title
+                    End If
+                End If
+            End If
+
+            Return _ApplicationName
+        End Get
+        Set(value As String)
+            _ApplicationName = value
+        End Set
+    End Property
     ''' <summary>
     ''' Gets or sets the current default domain ID.
     ''' </summary>
@@ -17,8 +74,8 @@ Public Class ThisAddIn
         Get
             Return Me._CurrentDefaultDomainID
         End Get
-        Set
-            Me._CurrentDefaultDomainID = Value
+        Set(value As String)
+            Me._CurrentDefaultDomainID = value
         End Set
     End Property
 
@@ -117,7 +174,7 @@ Public Class ThisAddIn
                 Exit For
             End If
         Next
-     
+
         Call CoreMessageHandler(showmsgbox:=False, message:="On Track Excel AddIn Startup", _
                              noOtdbAvailable:=True, subname:="OTDB.Initialize", messagetype:=otCoreMessageType.InternalInfo)
 

@@ -1232,4 +1232,7 @@ Public Class UIWizardMQFFeed
 #End Region
 
    
+    Private Sub UIWizardMQFFeed_XLSProcessStatusMouseHover(sender As Object, e As Windows.Forms.MouseEventArgs) Handles XLSProcessStatus.MouseMove
+
+    End Sub
 End Class
