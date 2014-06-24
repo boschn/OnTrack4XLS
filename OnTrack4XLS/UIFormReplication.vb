@@ -260,7 +260,7 @@ Public Class UIFormReplication
             Dim d As New SetProgressCallback(AddressOf SetProgress)
             Me.Invoke(d, New Object() {[percentage], [text]})
         Else
-            Me.StatusProgress.Value1 = [percentage]
+            If percentage >= 0 And percentage <= 100 Then Me.StatusProgress.Value1 = [percentage]
             Me.StatusLabel.Text = [text]
             Me.StatusStrip.Refresh()
         End If
@@ -402,7 +402,7 @@ Public Class UIFormReplication
         Dim workspaceID As String
         workspaceID = Me.WorkspaceDropDownList.Text
         found = False
-        If String.IsNullOrWhiteSpace(workspaceID) AndAlso _workspaceList Is Nothing Then
+        If String.IsNullOrWhiteSpace(workspaceID) AndAlso _workspaceList IsNot Nothing Then
             For Each aWorkspace As Workspace In _workspaceList
                 If LCase(workspaceID) = LCase(aWorkspace.ID) Then
                     found = True

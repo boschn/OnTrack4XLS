@@ -5648,6 +5648,20 @@ otdbBackEnd
 	<param name="statustype"></param>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectMessageLog.GetHighestMessageHighestStatusItem(System.String)">
+	<summary>
+ Returns the Highest StatusItem - returns nothing if the statusItem is not there
+ </summary>
+	<param name="statustype"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectMessageLog.ObjectMessageLog_OnRemoved(System.Object,OnTrack.Database.ormRelationCollection{OnTrack.ObjectMessage}.EventArgs)">
+	<summary>
+ OnRemoved Handler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
 </member><member name="T:OnTrack.ObjectMessageLog">
 	<summary>
  ObjectLog for Messages for Business Objects 
@@ -5848,6 +5862,13 @@ otdbBackEnd
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectMessage.ObjectMessage_OnRelationRetrieveNeeded(System.Object,OnTrack.Database.ormDataObjectRelationEventArgs)">
+	<summary>
+ On deleted Handler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
 </member><member name="T:OnTrack.ObjectMessage">
 	<summary>
  Message Entries of a Object Log 
@@ -5908,6 +5929,16 @@ otdbBackEnd
  Name of the different OnTrack Modules
  </summary>
 	<remarks></remarks>
+</member><member name="F:OnTrack.ot._ApplicationName">
+	<summary>
+ Variables
+ </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ot.ApplicationVersion">
+	<summary>
+ Gets or sets the version.
+ </summary>
+	<value>The version.</value>
 </member><member name="P:OnTrack.ot.ApplicationName">
 	<summary>
  Gets or sets the name of the application.
@@ -6637,13 +6668,6 @@ otdbBackEnd
 </member><member name="P:OnTrack.Database.ormSqlSelectCommand.Where">
 	<summary>
  sets or gets the wherestr
- </summary>
-	<value></value>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="P:OnTrack.Database.ormSqlSelectCommand.SqlText">
-	<summary>
- returns the build SQL Statement
  </summary>
 	<value></value>
 	<returns></returns>
@@ -8892,37 +8916,54 @@ otdbBackEnd
  Object Cache Manager Implementation
  </summary>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.createDatabase.Scheduling">
+</member><member name="M:OnTrack.Database.Installation.Scheduling">
 	<summary>
  creates or updates all schematas for scheduling objects
  </summary>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.createDatabase.CreateAndPersist(System.Collections.Generic.IEnumerable{System.String},System.Boolean)">
+</member><member name="M:OnTrack.Database.Installation.CreateAndPersist(System.Collections.Generic.IEnumerable{System.String},System.Boolean)">
 	<summary>
  creates the schema and persist for a list of objects
  </summary>
 	<param name="objects"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.createDatabase.Run(System.Collections.Generic.IEnumerable{System.String},System.Boolean)">
+</member><member name="M:OnTrack.Database.Installation.CreateDatabase(System.Collections.Generic.IEnumerable{System.String},System.Boolean)">
 	<summary>
  Creates or updates all the Database Schema for all objects or a subset
  </summary>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.createDatabase.InitializeCalendar(System.DateTime,System.DateTime)">
+</member><member name="M:OnTrack.Database.Installation.DropDatabase">
+	<summary>
+ Drop Database
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.Installation.InitializeTestData">
+	<summary>
+ Initialize Test Data
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.Installation.InitializeCalendar(System.DateTime,System.DateTime)">
 	<summary>
  Initialize the Calendar
  </summary>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.createDatabase.FeedInInitialData(System.String)">
+</member><member name="M:OnTrack.Database.Installation.FeedInInitialData(System.String)">
 	<summary>
  feeds the initial data from a path
  </summary>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.createDatabase.InitialCoreData">
+</member><member name="M:OnTrack.Database.Installation.InitialCoreData">
 	<summary>
   Initial Core Data
+ </summary>
+	<remarks></remarks>
+</member><member name="T:OnTrack.Database.Constants">
+	<summary>
+ static class for Database Constants
  </summary>
 	<remarks></remarks>
 </member><member name="P:OnTrack.Database.ObjectRepository.EventArgs.Objectdefinition">
@@ -9001,13 +9042,6 @@ otdbBackEnd
  reset all the data of the meta store
  </summary>
 	<returns>True if successful</returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.Database.ObjectRepository.OnDomainChanging(System.Object,OnTrack.SessionEventArgs)">
-	<summary>
- Handler for the Domain changing event
- </summary>
-	<param name="sender"></param>
-	<param name="e"></param>
 	<remarks></remarks>
 </member><member name="M:OnTrack.Database.ObjectRepository.OnDomainChanged(System.Object,OnTrack.SessionEventArgs)">
 	<summary>
@@ -13212,6 +13246,12 @@ otdbBackEnd
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
+</member><member name="M:OnTrack.Scheduling.MileStoneDefinition.CreateCompoundStructure">
+	<summary>
+ Creates the Compound Structure for the Milestone Definition
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="M:OnTrack.Scheduling.MileStoneDefinition.MileStoneDefinitoin_OnPersisted(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
 	<summary>
  OnPersisted Handler to add the Properties as Compounds to the ObjectIDs
@@ -15717,20 +15757,6 @@ otdbBackEnd
 	<param name="id"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Commons.Site.Inject(System.String,System.String)">
-	<summary>
- Load and infuse the object 
- </summary>
-	<param name="ID"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.Commons.Site.CreateSchema(System.Boolean)">
-	<summary>
- create the persistency object
- </summary>
-	<param name="silent"></param>
-	<returns></returns>
-	<remarks></remarks>
 </member><member name="M:OnTrack.Commons.Site.All(System.String)">
 	<summary>
  returns a collection of all objects
@@ -15748,6 +15774,66 @@ otdbBackEnd
 </member><member name="T:OnTrack.Commons.Site">
 	<summary>
  Site Definition Class
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.Commons.OnTrackChangeLogEntry.ConstFNReleaseDate">
+	<summary>
+ Column Members
+ </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Commons.OnTrackChangeLogEntry.Releasedate">
+	<summary>
+ Gets or sets the releasedate.
+ </summary>
+	<value>The releasedate.</value>
+</member><member name="P:OnTrack.Commons.OnTrackChangeLogEntry.ChangerequestID">
+	<summary>
+ Gets or sets the changerequest ID.
+ </summary>
+	<value>The changerequest ID.</value>
+</member><member name="P:OnTrack.Commons.OnTrackChangeLogEntry.Patch">
+	<summary>
+ Gets or sets the patch.
+ </summary>
+	<value>The patch.</value>
+</member><member name="P:OnTrack.Commons.OnTrackChangeLogEntry.Version">
+	<summary>
+ Gets or sets the version.
+ </summary>
+	<value>The version.</value>
+</member><member name="P:OnTrack.Commons.OnTrackChangeLogEntry.Release">
+	<summary>
+ Gets or sets the release.
+ </summary>
+	<value>The release.</value>
+</member><member name="P:OnTrack.Commons.OnTrackChangeLogEntry.Module">
+	<summary>
+ Gets or sets the module.
+ </summary>
+	<value>The module.</value>
+</member><member name="P:OnTrack.Commons.OnTrackChangeLogEntry.Application">
+	<summary>
+ gets the name of the application
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Commons.OnTrackChangeLogEntry.Description">
+	<summary>
+ Description
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Commons.OnTrackChangeLogEntry.All">
+	<summary>
+ returns a collection of all objects
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="T:OnTrack.Commons.OnTrackChangeLogEntry">
+	<summary>
+ Change Log Entry for OnTrack Changes
  </summary>
 	<remarks></remarks>
 </member><member name="F:OnTrack.Deliverables.WorkspaceTarget.ConstRAliveTarget">
@@ -16739,7 +16825,25 @@ otdbBackEnd
  </summary>
 	<returns>the part object</returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Deliverables.Deliverable.GetProperties">
+</member><member name="M:OnTrack.Deliverables.Deliverable.GetWorkScheduleLFCLStatusCode(System.String@)">
+	<summary>
+ returns the Status LFCL Item of the current alive schedule (nothing if no schedule is attached)
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Deliverables.Deliverable.GetWorkScheduleProcessStatus(System.String@)">
+	<summary>
+ returns the Status LFCL Item of the current alive schedule (nothing if no schedule is attached)
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Deliverables.Deliverable.GetWorkCurrentGap(System.Nullable{System.Int64}@,System.String)">
+	<summary>
+ returns the Status LFCL Item of the current alive schedule (nothing if no schedule is attached)
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Deliverables.Deliverable.GetProperties(OnTrack.ObjectProperties.ObjectPropertyValueLot@)">
 	<summary>
  returns the PropertyLink object in relation
  </summary>
@@ -16805,6 +16909,16 @@ otdbBackEnd
 	<param name="firstrevisionUID"></param>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:OnTrack.Deliverables.Deliverable.GetTrack(System.String@,System.Int64@,System.Int64@,System.Int64@)">
+	<summary>
+ return the current Track
+ </summary>
+	<param name="workspaceID"></param>
+	<param name="scheduleUID"></param>
+	<param name="scheduleUPDC"></param>
+	<param name="targetUPDC"></param>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="M:OnTrack.Deliverables.Deliverable.GetWorkspaceTarget(System.String)">
 	<summary>
  return the  current workspace target object
@@ -16840,7 +16954,7 @@ otdbBackEnd
 	<param name="workspaceID">workspaceID id</param>
 	<returns>a scheduling object or nothing</returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Deliverables.Deliverable.GetTarget(System.String)">
+</member><member name="M:OnTrack.Deliverables.Deliverable.GetWorkingTarget(System.String)">
 	<summary>
  retrieves the target object (most current)
  </summary>

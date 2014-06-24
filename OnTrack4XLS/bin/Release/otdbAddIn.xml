@@ -539,6 +539,43 @@ otdbAddIn
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIAboutBox.OkRadButton_Click(System.Object,System.EventArgs)">
+	<summary>
+ Click Handler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="P:OnTrack.AddIn.AboutData.ProductName">
+	<summary>
+ Gets or sets the name of the product.
+ </summary>
+	<value>The name of the product.</value>
+</member><member name="P:OnTrack.AddIn.AboutData.Company">
+	<summary>
+ Gets or sets the company.
+ </summary>
+	<value>The company.</value>
+</member><member name="P:OnTrack.AddIn.AboutData.CopyRight">
+	<summary>
+ Gets or sets the copy right.
+ </summary>
+	<value>The copy right.</value>
+</member><member name="P:OnTrack.AddIn.AboutData.Description">
+	<summary>
+ Gets or sets the description.
+ </summary>
+	<value>The description.</value>
+</member><member name="P:OnTrack.AddIn.AboutData.Version">
+	<summary>
+ Gets or sets the version.
+ </summary>
+	<value>The version.</value>
+</member><member name="P:OnTrack.AddIn.AboutData.ApplicationName">
+	<summary>
+ Gets or sets the name of the application.
+ </summary>
+	<value>The name of the application.</value>
 </member><member name="M:OnTrack.AddIn.UIFormBatchProcesses.Run(System.Object,System.ComponentModel.DoWorkEventArgs)">
 	<summary>
  Run Batch Processing

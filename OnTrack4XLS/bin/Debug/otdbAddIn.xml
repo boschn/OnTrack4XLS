@@ -37,9 +37,58 @@ otdbAddIn
  Gets or sets the session.
  </summary>
 	<value>The session.</value>
+</member><member name="M:OnTrack.AddIn.UIFormMessageLog.OnConnected(System.Object,System.EventArgs)">
+	<summary>
+ On Session start
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormMessageLog.AddErrorEvent(System.Object,OnTrack.Database.ormErrorEventArgs)">
+	<summary>
+ OnError Raised
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormMessageLog.ClearToolStripMenuItem_Click(System.Object,System.EventArgs)">
+	<summary>
+  cleear log
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormMessageLog.CloseButton_Click(System.Object,System.EventArgs)">
+	<summary>
+ Close
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormMessageLog.MessageLogForm_Load(System.Object,System.EventArgs)">
+	<summary>
+ On Load
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormMessageLog.RefreshToolStripMenuItem_Click(System.Object,System.EventArgs)">
+	<summary>
+ Refresh
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormMessageLog.ExportStripMenuItem_Click(System.Object,System.EventArgs)">
+	<summary>
+ Export
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
 </member><member name="T:OnTrack.AddIn.UIFormMessageLog">
 	<summary>
- UserInterface Form for MessageLog
+  Form for MessageLog
  </summary>
 	<remarks></remarks>
 </member><member name="P:OnTrack.AddIn.My.Resources.Resources.ResourceManager">
@@ -490,6 +539,43 @@ otdbAddIn
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIAboutBox.OkRadButton_Click(System.Object,System.EventArgs)">
+	<summary>
+ Click Handler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="P:OnTrack.AddIn.AboutData.ProductName">
+	<summary>
+ Gets or sets the name of the product.
+ </summary>
+	<value>The name of the product.</value>
+</member><member name="P:OnTrack.AddIn.AboutData.Company">
+	<summary>
+ Gets or sets the company.
+ </summary>
+	<value>The company.</value>
+</member><member name="P:OnTrack.AddIn.AboutData.CopyRight">
+	<summary>
+ Gets or sets the copy right.
+ </summary>
+	<value>The copy right.</value>
+</member><member name="P:OnTrack.AddIn.AboutData.Description">
+	<summary>
+ Gets or sets the description.
+ </summary>
+	<value>The description.</value>
+</member><member name="P:OnTrack.AddIn.AboutData.Version">
+	<summary>
+ Gets or sets the version.
+ </summary>
+	<value>The version.</value>
+</member><member name="P:OnTrack.AddIn.AboutData.ApplicationName">
+	<summary>
+ Gets or sets the name of the application.
+ </summary>
+	<value>The name of the application.</value>
 </member><member name="M:OnTrack.AddIn.UIFormBatchProcesses.Run(System.Object,System.ComponentModel.DoWorkEventArgs)">
 	<summary>
  Run Batch Processing

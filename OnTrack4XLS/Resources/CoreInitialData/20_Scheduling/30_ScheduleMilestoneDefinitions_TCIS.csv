@@ -19,5 +19,7 @@
 #DM1;SCHEDULEMILESTONEDEFINITION;DOMAINID;domain identifier;3;;;;;;
 #BSD1;SCHEDULEMILESTONEDEFINITION;SCHEDULETYPE;type of schedule definition;3;;;;;;
 BSD2;BSD1;DM1;BSD4;BSD6;BSD7;BSD8;BSD9;BSD5;BSD13;BSD12
+BP6;PDM;@;60;False;True;False;False;;False;False
+BP8;PDM;@;80;False;True;False;False;;False;False
 BP9;PDM;@;90;True;false;False;True;BP10;True;True
 BP10;PDM;@;100;False;False;False;True;;True;True

@@ -1447,7 +1447,11 @@ Module XLSXChangeMgr
                                 aNewValue = aSlot.HostValue
                                 column = CLng(aSlot.Ordinal.Value)
                                 If column > 0 And column < 65536 Then
-                                    aValue = aRow.Cells(1, column).Value
+                                    If CType(aRow.Cells(1, column), Range).HasFormula Then
+                                        aValue = CType(aRow.Cells(1, column), Range).Text
+                                    Else
+                                        aValue = CType(aRow.Cells(1, column), Range).Value
+                                    End If
                                     '*substitute
                                     If aRow.Cells(1, column).HasFormula OrElse (Not IsNull(aNewValue) AndAlso CStr(aNewValue) <> CStr(aValue)) Then
                                         aRow.Cells(1, column).Value = aNewValue
@@ -1527,7 +1531,11 @@ Module XLSXChangeMgr
                             If anEntry.IsXChanged Then
                                 Dim aColumn As Long = CLng(anEntry.Ordinal.Value)
                                 If aColumn > 0 And aColumn < 65536 Then
-                                    aValue = aRow.Cells(1, aColumn).Value
+                                    If CType(aRow.Cells(1, aColumn), Range).HasFormula Then
+                                        aValue = CType(aRow.Cells(1, aColumn), Range).Text
+                                    Else
+                                        aValue = CType(aRow.Cells(1, aColumn), Range).Value
+                                    End If
                                     aXEnvelope.AddSlotByXID(xid:=anEntry.XID, value:=aValue, isHostValue:=True)
                                 End If
                             End If
@@ -1540,7 +1548,12 @@ Module XLSXChangeMgr
                         For Each ordinal As Object In keyordinals
                             Dim aColumn As Long = CLng(ordinal)
                             If aColumn > 0 And aColumn < 65536 Then
-                                aValue = aRow.Cells(1, ordinal).Value
+                                If CType(aRow.Cells(1, aColumn), Range).HasFormula Then
+                                    aValue = CType(aRow.Cells(1, aColumn), Range).Text
+                                Else
+                                    aValue = CType(aRow.Cells(1, aColumn), Range).Value
+                                End If
+
                                 If Not Globals.ThisAddIn.Application.WorksheetFunction.IsError(aValue) Then
                                     aXEnvelope.SetSlotValue(ordinal:=ordinal, value:=aValue)
                                 Else
@@ -1548,7 +1561,7 @@ Module XLSXChangeMgr
                                                             break:=False, subname:="modxlsXchangeMgr.Replicate")
                                 End If
                             End If
-                           
+
                         Next
                     End If
 
@@ -1570,15 +1583,19 @@ Module XLSXChangeMgr
                                 aNewValue = aSlot.HostValue
                                 column = aSlot.Ordinal.Value
                                 If column > 0 AndAlso column < 65536 Then
-                                    aValue = aRow.Cells(1, column).Value
+                                    If CType(aRow.Cells(1, column), Range).HasFormula Then
+                                        aValue = CType(aRow.Cells(1, column), Range).Text
+                                    Else
+                                        aValue = CType(aRow.Cells(1, column), Range).Value
+                                    End If
+
                                     If aRow.Cells(1, column).HasFormula OrElse (Not IsNull(aNewValue) And CStr(aNewValue) <> CStr(aValue)) Then
                                         ' update
                                         aRow.Cells(1, column).Value = aNewValue
-                                        'Call copyDoc9Format(formatChange, aRow.Cells(1, col), True)
+
                                     End If
                                 End If
                             End If
-
                         Next
 
                         'Update
@@ -1591,7 +1608,12 @@ Module XLSXChangeMgr
                     ''' update additional status fields
                     ''' 
                     If aTimestampColumn.HasValue Then
-                        aRow.Cells(1, aTimestampColumn.Value).Value = Converter.DateTime2LocaleDateTimeString(aXEnvelope.ProcessedTimestamp)
+                        If flag Then
+                            aRow.Cells(1, aTimestampColumn.Value).Value = Converter.DateTime2LocaleDateTimeString(aXEnvelope.ProcessedTimestamp)
+                        Else
+                            aRow.Cells(1, aTimestampColumn.Value).Value = Converter.DateTime2LocaleDateTimeString(DateTime.Now)
+                        End If
+
                     End If
                     If aStatusColumn.HasValue Then
                         Dim aStatus As Commons.StatusItem = aMsgLog.GetHighesStatusItem(statustype:=ConstStatusType_XEnvelope)
@@ -1599,20 +1621,23 @@ Module XLSXChangeMgr
                             aRow.Cells(1, aStatusColumn.Value).Value = aStatus.Code
                             If aStatus.FormatBGColor IsNot Nothing Then aRow.Cells(1, aStatusColumn.Value).Interior.Color = aStatus.FormatBGColor
                             If aStatus.FormatFGColor IsNot Nothing Then CType(aRow.Cells(1, aStatusColumn.Value), Excel.Range).Font.Color = aStatus.FormatFGColor
+                        Else
+                            aRow.Cells(1, aStatusColumn.Value).Value = "n/a"
                         End If
                     End If
                     If aLogColumn.HasValue Then
                         Dim height As Object = CType(aRow.Cells(1, aLogColumn.Value), Range).RowHeight
                         Dim Text As String = aMsgLog.MessageText
-                        If Text IsNot Nothing Then
-                            With CType(aRow.Cells(1, aLogColumn.Value), Range)
-                                .Value = Text
-                                .Font.Size = 6
-                                .Font.Bold = False
-                                .WrapText = True
-                            End With
-                            aRow.RowHeight = height
+                        If Text Is Nothing And Not flag Then
+                            Text = "UID not found - invalid ???"
                         End If
+                        With CType(aRow.Cells(1, aLogColumn.Value), Range)
+                            .Value = Text
+                            .Font.Size = 6
+                            .Font.Bold = False
+                            .WrapText = True
+                        End With
+                        aRow.RowHeight = height
                     End If
                 Next aCell
             End If

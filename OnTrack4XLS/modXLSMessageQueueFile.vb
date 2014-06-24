@@ -332,7 +332,10 @@ Module modXLSMessageQueueFile
         Dim col As Integer
 
 
-        DTable = GetXlsParameterRangeByName("otdb_parameter_mqf_structure_db_description_table")
+        DTable = GetXlsParameterRangeByName("otdb_parameter_mqf_structure_db_description_table", silent:=True)
+        If DTable Is Nothing Then
+            DTable = GetXlsParameterRangeByName("otdb_parameter_mqf_db_description_table", silent:=True)
+        End If
 
         found = False
         i = -1
@@ -383,7 +386,9 @@ Module modXLSMessageQueueFile
 
 
         DTable = GetXlsParameterRangeByName("otdb_parameter_mqf_structure_db_description_table")
-
+        If DTable Is Nothing Then
+            DTable = GetXlsParameterRangeByName("otdb_parameter_mqf_db_description_table", silent:=True)
+        End If
         found = False
         result = 0
         ' search
@@ -428,7 +433,9 @@ Module modXLSMessageQueueFile
 
 
         DTable = GetXlsParameterRangeByName("otdb_parameter_mqf_structure_db_description_table")
-
+        If DTable Is Nothing Then
+            DTable = GetXlsParameterRangeByName("otdb_parameter_mqf_db_description_table", silent:=True)
+        End If
         found = False
         result = 0
         ' search
@@ -1234,9 +1241,10 @@ handleerror:
             Return False
         End If
 
-        DescTable = GetXlsParameterRangeByName("otdb_parameter_mqf_structure_db_description_table", workbook:=workbook)
+        DescTable = GetXlsParameterRangeByName("otdb_parameter_mqf_structure_db_description_table", workbook:=workbook, silent:=True)
         ' error
         If DescTable Is Nothing Then
+            DescTable = GetXlsParameterRangeByName("otdb_parameter_mqf_db_description_table", silent:=True)
             If Not silent Then
                 Call CoreMessageHandler(showmsgbox:=True, message:="The parameter 'otdb_parameter_mqf_structure_db_description_table' is not showing a valid range !" _
                , subname:="modXLSMessageQueueFile.getMQFDBDesc", messagetype:=otCoreMessageType.ApplicationError, break:=False)
@@ -1318,15 +1326,20 @@ handleerror:
             Exit Sub
         End If
 
-        DescTable = GetXlsParameterRangeByName("otdb_parameter_mqf_structure_db_description_table", WORKBOOK)
+        DescTable = GetXlsParameterRangeByName("otdb_parameter_mqf_structure_db_description_table", workbook:=WORKBOOK, silent:=True)
         ' error
         If DescTable Is Nothing Then
-            Call CoreMessageHandler(showmsgbox:=True, message:="The parameter 'otdb_parameter_mqf_structure_db_description_table' is not showing a valid range !" _
-            , subname:="modXLSMessageQueueFile.updateMQFDBDescTable", messagetype:=otCoreMessageType.ApplicationError, break:=False)
+            DescTable = GetXlsParameterRangeByName("otdb_parameter_mqf_db_description_table", workbook:=WORKBOOK, silent:=True)
+            If DescTable Is Nothing Then
+
+                Call CoreMessageHandler(showmsgbox:=True, message:="The parameter 'otdb_parameter_mqf_structure_db_description_table' is not showing a valid range !" _
+                , subname:="modXLSMessageQueueFile.updateMQFDBDescTable", messagetype:=otCoreMessageType.ApplicationError, break:=False)
 
 
-            Exit Sub
+                Exit Sub
+            End If
         End If
+
 
         ' upper right corner
         startdesccell = DescTable(1, 1)

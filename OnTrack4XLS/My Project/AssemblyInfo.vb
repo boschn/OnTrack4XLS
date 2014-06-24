@@ -1,7 +1,10 @@
-﻿Imports System
+﻿Imports System.Resources
+
+Imports System
 Imports System.Reflection
 Imports System.Runtime.InteropServices
 Imports System.Security
+<Assembly: NeutralResourcesLanguageAttribute("en")> 
 
 ' General Information about an assembly is controlled through the following 
 ' set of attributes. Change these attribute values to modify the information
@@ -10,7 +13,7 @@ Imports System.Security
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("OnTrack Tooling 4 Excel")> 
-<Assembly: AssemblyDescription("OnTrack Tooling Library for Microsoft Excel. Provides Tools to integrate Planning, Analyization and Status Tracking.")> 
+<Assembly: AssemblyDescription("OnTrack Tooling Library for Microsoft Excel. Provides Tools to integrate Planning, Analysis and Status Tracking.")> 
 <Assembly: AssemblyCompany("sfk engineering services UG")> 
 <Assembly: AssemblyProduct("OnTrack Tooling")> 
 <Assembly: AssemblyCopyright("Copyright ©  2013")> 
@@ -35,11 +38,12 @@ Imports System.Security
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.0.0.0")> 
-<Assembly: AssemblyFileVersion("1.0.0.0")> 
+<Assembly: AssemblyVersion("1.0.1.0")> 
+<Assembly: AssemblyFileVersion("1.0.1.0")> 
 
 Friend Module DesignTimeConstants
     Public Const RibbonTypeSerializer As String = "Microsoft.VisualStudio.Tools.Office.Ribbon.Serialization.RibbonTypeCodeDomSerializer, Microsoft.VisualStudio.Tools.Office.Designer, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
     Public Const RibbonBaseTypeSerializer As String = "System.ComponentModel.Design.Serialization.TypeCodeDomSerializer, System.Design"
     Public Const RibbonDesigner As String = "Microsoft.VisualStudio.Tools.Office.Ribbon.Design.RibbonDesigner, Microsoft.VisualStudio.Tools.Office.Designer, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
 End Module
+

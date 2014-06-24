@@ -9,16 +9,76 @@ Public Class ThisAddIn
     Friend WithEvents _OTDBSession As Session
     Private _CurrentHost As Excel.Workbook
     Private _CurrentDefaultDomainID As String
-    Private _Version As String
-    Private _ApplicationName As String
 
+
+    Private _ApplicationCompany As String
+    Private _ApplicationCopyRight As String
+    Private _ApplicationVersion As String
+    Private _ApplicationName As String
     Private _ApplicationDescription As String = "OnTrack4XLS is the add-in of the OnTrack Database Suite for Excel. OnTrack provides support for deliverable based scheduling, progress tracking, configuration management in complex project."
+
+    ''' <summary>
+    ''' Gets or sets the application copy right.
+    ''' </summary>
+    ''' <value>The application copy right.</value>
+    Public Property ApplicationCopyRight() As String
+        Get
+            If String.IsNullOrWhiteSpace(_ApplicationCopyRight) Then
+                ' Get all Copyright attributes on this assembly
+                Dim attributes As Object() = System.Reflection.Assembly.GetExecutingAssembly().GetCustomAttributes(GetType(AssemblyCopyrightAttribute), False)
+                ' If there aren't any Copyright attributes, return an empty string
+                If attributes.Length = 0 Then
+                    Return ""
+                End If
+                ' If there is a Copyright attribute, return its value
+                Return (CType(attributes(0), AssemblyCopyrightAttribute)).Copyright
+            End If
+            Return _ApplicationCopyRight
+        End Get
+        Set(value As String)
+            Me._ApplicationCopyRight = Value
+        End Set
+    End Property
+
+    ''' <summary>
+    ''' Gets or sets the application company.
+    ''' </summary>
+    ''' <value>The application company.</value>
+    Public Property ApplicationCompany() As String
+        Get
+            If String.IsNullOrWhiteSpace(_ApplicationCompany) Then
+                ' Get all Company attributes on this assembly
+                Dim attributes As Object() = System.Reflection.Assembly.GetExecutingAssembly().GetCustomAttributes(GetType(AssemblyCompanyAttribute), False)
+                ' If there aren't any Company attributes, return an empty string
+                If attributes.Length = 0 Then
+                    Return ""
+                End If
+                ' If there is a Company attribute, return its value
+                Return (CType(attributes(0), AssemblyCompanyAttribute)).Company
+            End If
+            Return Me._ApplicationCompany
+        End Get
+        Set
+            Me._ApplicationCompany = Value
+        End Set
+    End Property
+
     ''' <summary>
     ''' Gets or sets the application description.
     ''' </summary>
     ''' <value>The application description.</value>
     Public Property ApplicationDescription() As String
         Get
+            If String.IsNullOrWhiteSpace(_ApplicationDescription) Then
+                ' Get all Description attributes on this assembly
+                Dim attributes As Object() = System.Reflection.Assembly.GetExecutingAssembly().GetCustomAttributes(GetType(AssemblyDescriptionAttribute), False)
+                ' If there aren't any Description attributes, return an empty string
+                If attributes.Length = 0 Then
+                    Return ""
+                End If
+                ' If there is a Description attribute, return its value
+                Return (CType(attributes(0), AssemblyDescriptionAttribute)).Description
+            End If
             Return Me._ApplicationDescription
         End Get
         Set
@@ -32,11 +92,11 @@ Public Class ThisAddIn
     ''' <value>The version.</value>
     Public Property ApplicationVersion() As String
         Get
-            If String.IsNullOrWhiteSpace(_Version) Then Return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()
-            Return _Version
+            If String.IsNullOrWhiteSpace(_ApplicationVersion) Then Return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()
+            Return _ApplicationVersion
         End Get
         Set(value As String)
-            _Version = value
+            _ApplicationVersion = value
         End Set
     End Property
 
@@ -180,6 +240,14 @@ Public Class ThisAddIn
 
         '** try to set the current host
         Me.SetCurrentHost()
+
+        '''*** About Data
+        Addin.AboutData.ApplicationName = "OnTrack4XLS - OnTrack Add-in for Excel"
+        AddIn.AboutData.Description = Me.ApplicationDescription
+        AddIn.AboutData.Version = Me.ApplicationVersion
+        Addin.AboutData.CopyRight = "(C) by sfk engineering services UG"
+        Addin.AboutData.Company = Me.ApplicationCompany
+        Addin.AboutData.ProductName = "OnTrack Database Suite"
 
     End Sub
 

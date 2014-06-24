@@ -31,10 +31,11 @@
 #Entryname;XID;Active;;DOMAINID;TITLE;DESCRIPTION;Typeid;Size;ISNULLABLE;DefaultValue;Properties;Values;Lproperties;Lookup;Validate;Vproperty;VALIDREGEX
 OBJECTColumnENTRY.OED1;OED21;OED19;OBJID;DM1;OED22;OED23;OED3;OED13;OED15;OED16;OED17;OED32;OED33;OED34;OED31;OED37;OED38
 # EXTEND the Target;;;;;;;;;;;;;;;;;
-ID;DLV3;True;DELIVERABLE;@;;;Column;;FALSE;;;;;;True;|NOTEMPTY|;
-DREV;DLV6;True;DELIVERABLE;@;;;Column;2;FALSE;__;;;;;True;|NOTEMPTY|;^[A-z]{2}$
-DESC;DLV10;True;DELIVERABLE;@;;;Column;;FALSE;;;;;;True;|NOTEMPTY|;
-RESP;DLV16;True;DELIVERABLE;@;;;Column;;FALSE;;;;;;True;|NOTEMPTY|;
-FUNCTION;DLV30;True;DELIVERABLE;@;;;Column;;FALSE;;;;USEVALUELIST(HLFG);;True;|NOTEMPTY|USELOOKUP|;
-PARAM_TXT1;DLV90;True;DELIVERABLE;@;Sharepoint;Sharepoint Version and Release Date Do2010;Column;;TRUE;;;;;;True;;
-PARAM_TXT2;DLV91;True;DELIVERABLE;@;GDB Version;;Column;;TRZE;;;;;;True;;
+ID;DLV3;True;DELIVERABLE;@;;;Column;;FALSE;;|KEYWORD|;;;;True;|NOTEMPTY|;
+DREV;DLV6;True;DELIVERABLE;@;;;Column;2;FALSE;__;|KEYWORD|;;;;True;|NOTEMPTY|;^[A-z]{2}$
+DESC;DLV10;True;DELIVERABLE;@;;;Column;;FALSE;;|KEYWORD|;;;;True;|NOTEMPTY|;
+RESP;DLV16;True;DELIVERABLE;@;;;Column;;FALSE;;|KEYWORD|;;;;True;|NOTEMPTY|;
+FUNCTION;DLV30;True;DELIVERABLE;@;;;Column;;FALSE;;|KEYWORD|;;USEVALUELIST(HLFG);;True;|NOTEMPTY|USELOOKUP|;
+PARAM_TXT1;DLV90;True;DELIVERABLE;@;Sharepoint;Sharepoint Version and Release Date Do2010;Column;;TRUE;;|TRIM|;;;;True;;
+PARAM_TXT2;DLV91;True;DELIVERABLE;@;GDB Version;GDB Version;Column;;True;;|TRIM|;;;;True;;
+PARAM_TXT3;DLV92;True;DELIVERABLE;@;Baseline in Control System (FVDS > DOORS/PDM, ICD & FVTS > PDM, Rest > ClearCase);;Column;;True;;|TRIM|;;;;True;;
