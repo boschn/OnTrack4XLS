@@ -2,9 +2,26 @@
 Imports OnTrack.UI
 Imports OnTrack.AddIn
 Imports System.Reflection
+Imports OnTrack.Database
 
-
+''' <summary>
+''' Definition of the Add-In Object
+''' </summary>
+''' <remarks></remarks>
 Public Class ThisAddIn
+
+    <ormChangeLogEntry(Application:=ConstApplicationExcelAddin, module:="", version:=1, release:=1, patch:=2, changeimplno:=4, _
+        description:="After replication reset the data area to the real range. Delete rows if data area is shrinking.")> _
+    <ormChangeLogEntry(Application:=ConstApplicationExcelAddin, module:="", version:=1, release:=1, patch:=2, changeimplno:=3, _
+        description:="If in cell editing mode, leave cell if replication or mqf wizard is started.")> _
+    <ormChangeLogEntry(Application:=ConstApplicationExcelAddin, module:="", version:=1, release:=1, patch:=2, changeimplno:=2, _
+        description:="Close all open forms after shutting down the database")> _
+    <ormChangeLogEntry(Application:=ConstApplicationExcelAddin, module:="", version:=1, release:=1, patch:=2, changeimplno:=1, _
+        description:="Added the View on Changes in About Box")> _
+    Public Const OTAddinCommonsVersion = "V1.R1.P2"
+
+    Public Const ConstApplicationExcelAddin = "Addin4Excel"
+
 
     Friend WithEvents _OTDBSession As Session
     Private _CurrentHost As Excel.Workbook
@@ -36,7 +53,7 @@ Public Class ThisAddIn
             Return _ApplicationCopyRight
         End Get
         Set(value As String)
-            Me._ApplicationCopyRight = Value
+            Me._ApplicationCopyRight = value
         End Set
     End Property
 
@@ -58,7 +75,7 @@ Public Class ThisAddIn
             End If
             Return Me._ApplicationCompany
         End Get
-        Set
+        Set(value As String)
             Me._ApplicationCompany = Value
         End Set
     End Property
@@ -81,7 +98,7 @@ Public Class ThisAddIn
             End If
             Return Me._ApplicationDescription
         End Get
-        Set
+        Set(value As String)
             Me._ApplicationDescription = Value
         End Set
     End Property
@@ -242,13 +259,16 @@ Public Class ThisAddIn
         Me.SetCurrentHost()
 
         '''*** About Data
-        Addin.AboutData.ApplicationName = "OnTrack4XLS - OnTrack Add-in for Excel"
+        AddIn.AboutData.ApplicationName = "OnTrack4XLS - OnTrack Add-in for Excel"
         AddIn.AboutData.Description = Me.ApplicationDescription
         AddIn.AboutData.Version = Me.ApplicationVersion
-        Addin.AboutData.CopyRight = "(C) by sfk engineering services UG"
-        Addin.AboutData.Company = Me.ApplicationCompany
-        Addin.AboutData.ProductName = "OnTrack Database Suite"
+        AddIn.AboutData.CopyRight = "(C) by sfk engineering services UG"
+        AddIn.AboutData.Company = Me.ApplicationCompany
+        AddIn.AboutData.ProductName = "OnTrack Database Suite"
 
+        '' changelog
+        ot.OnTrackChangeLog.Refresh(GetType(ThisAddIn))
+        ot.OnTrackChangeLog.Refresh(GetType(otAddinCommon))
     End Sub
 
     ''' <summary>

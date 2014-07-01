@@ -6,15 +6,26 @@ Imports OnTrack.Commons
 
 Public Class OnTrackRibbon
 
+    ''' <summary>
+    ''' forms
+    ''' </summary>
+    ''' <remarks></remarks>
     Private WithEvents _errorlog As SessionMessageLog  ' for the Error Log events
     Private WithEvents _logForm As UIFormMessageLog
     Private WithEvents otdbsession As Session
     Private WithEvents _logFormThread As Threading.Thread
     Private WithEvents _SettingForm As New UIFormSetting
-    Private WithEvents _BatchForm As New UIFormBatchProcesses
+    Private WithEvents _BatchForm As UIFormBatchProcesses
     Private WithEvents _replicationForm As UIFormReplication
     Private WithEvents _MQFWizard As UIWizardMQFFeed
+    Private WithEvents _explorerForm As UIFormDBExplorer
 
+    ''' <summary>
+    ''' Ribbon Load Event
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
     Private Sub Ribbon_Load(ByVal sender As System.Object, ByVal e As RibbonUIEventArgs) Handles MyBase.Load
 
         If Globals.ThisAddIn._OTDBSession Is Nothing Then
@@ -46,7 +57,12 @@ Public Class OnTrackRibbon
             Globals.ThisAddIn.Application.StatusBar = Date.Now & " INFORMATION: " & args.Error.Message
         End If
     End Sub
-
+    ''' <summary>
+    ''' Login Click
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
     Private Sub Login_Click(sender As Object, e As RibbonControlEventArgs) Handles ConnectToggleButton.Click
         Globals.ThisAddIn.SetCurrentHost()
         If Me.ConnectToggleButton.Label = "Connect" Then
@@ -86,6 +102,15 @@ Public Class OnTrackRibbon
     '******
     '****** EventHandler for DisConnection
     Private Sub OnSessionEnding(sender As Object, e As SessionEventArgs) Handles otdbsession.OnEnding
+        '* close all running forms
+        If _BatchForm IsNot Nothing Then _BatchForm.Dispose()
+        If _MQFWizard IsNot Nothing Then _MQFWizard.Dispose()
+        If _logForm IsNot Nothing Then _logForm.Dispose()
+        If _replicationForm IsNot Nothing Then _replicationForm.Dispose()
+        If _explorerform IsNot Nothing Then _explorerform.dispose()
+
+
+        '* switch all other stuff
         Me.ConnectToggleButton.Image = Global.OnTrack.Addin.My.Resources.Resources.disconnect_icon
         Me.ConnectToggleButton.Label = "Connect"
         Me.ConnectToggleButton.ScreenTip = "Connect to OnTrack Database"
@@ -97,6 +122,8 @@ Public Class OnTrackRibbon
         '
         Me.WorkspaceCombo.Enabled = False
         Me.DomainCombo.Enabled = False
+
+
     End Sub
 
     ''' <summary>
@@ -183,12 +210,24 @@ Public Class OnTrackRibbon
             End If
         End If
     End Sub
+    ''' <summary>
+    ''' MQFWizard Button Click
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
     Private Sub MQFAdminButton_Click(sender As Object, e As RibbonControlEventArgs) Handles MQFAdminButton.Click
         Globals.ThisAddIn.SetCurrentHost()
         If _MQFWizard Is Nothing OrElse _MQFWizard.IsDisposed Then _MQFWizard = New UIWizardMQFFeed
         Call _MQFWizard.Show()
     End Sub
 
+    ''' <summary>
+    ''' About Button Click
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
     Private Sub AboutButton_Click(sender As Object, e As RibbonControlEventArgs) Handles AboutButton.Click
         Globals.ThisAddIn.SetCurrentHost()
         Dim anAbout As New UIAboutBox
@@ -196,15 +235,27 @@ Public Class OnTrackRibbon
 
     End Sub
 
+    ''' <summary>
+    ''' Replication Button Click
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
     Private Sub ReplicateButton_Click(sender As Object, e As RibbonControlEventArgs) Handles ReplicateButton.Click
         Globals.ThisAddIn.SetCurrentHost()
         If _replicationForm Is Nothing OrElse _replicationForm.IsDisposed Then _replicationForm = New UIFormReplication
         Call _replicationForm.Show()
     End Sub
 
+    ''' <summary>
+    ''' Setting Button Click
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
     Private Sub SettingButton_Click(sender As Object, e As RibbonControlEventArgs) Handles SettingButton.Click
         Globals.ThisAddIn.SetCurrentHost()
-
+        If _SettingForm Is Nothing OrElse _SettingForm.IsDisposed Then _SettingForm = New UIFormSetting
         _SettingForm.RegisterSetHost(AddressOf SetHostProperty)
         Call _SettingForm.Show()
 
@@ -233,13 +284,24 @@ Public Class OnTrackRibbon
 
     End Sub
 
+    ''' <summary>
+    ''' DataArea Button
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
     Private Sub DataAreaButton_Click(sender As Object, e As RibbonControlEventArgs) Handles DataAreaButton.Click
         Globals.ThisAddIn.SetCurrentHost()
         Dim aForm As New UIFormWorkDataAreas
         Call aForm.Show()
     End Sub
 
-
+    ''' <summary>
+    ''' XConfigButton
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
 
     Private Sub XConfigButton_Click(sender As Object, e As RibbonControlEventArgs) Handles XConfigButton.Click
         Globals.ThisAddIn.SetCurrentHost()
@@ -247,6 +309,12 @@ Public Class OnTrackRibbon
         Call aForm.Show()
     End Sub
 
+    ''' <summary>
+    ''' SessionMessage Button Click
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
 
     Private Sub LogButton_Click(sender As Object, e As RibbonControlEventArgs) Handles LogButton.Click
         If _logForm Is Nothing OrElse _logForm.IsDisposed Then
@@ -259,7 +327,6 @@ Public Class OnTrackRibbon
             _logFormThread.Start()
 
         Else
-
             _logFormThread.Abort()
         End If
     End Sub
@@ -269,15 +336,27 @@ Public Class OnTrackRibbon
         Me.LogButton.Checked = False
     End Sub
 
+    ''' <summary>
+    ''' Button Click for Batch Menu Button
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
     Private Sub BatchMenuButton_Click(sender As Object, e As RibbonControlEventArgs) Handles BatchMenuButton.Click
         Globals.ThisAddIn.SetCurrentHost()
+        If _BatchForm Is Nothing OrElse _BatchForm.IsDisposed Then _BatchForm = New UIFormBatchProcesses
         Call _BatchForm.Show()
     End Sub
 
-
+    ''' <summary>
+    ''' Button Click for DB Object Explorer
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
     Private Sub ObjectExplorerButton_Click(sender As Object, e As RibbonControlEventArgs) Handles ObjectExplorerButton.Click
         Globals.ThisAddIn.SetCurrentHost()
-        Dim aForm As New UIFormDBExplorer
-        Call aForm.Show()
+        If _explorerForm Is Nothing OrElse _explorerForm.IsDisposed Then _explorerForm = New UIFormDBExplorer
+        _explorerForm.Show()
     End Sub
 End Class

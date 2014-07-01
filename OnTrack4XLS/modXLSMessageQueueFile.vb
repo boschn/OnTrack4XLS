@@ -2521,6 +2521,25 @@ handleerror:
                 Exit Function
             End If
 
+            ''' step out in edit mode
+            ''' 
+            ''' step out in edit mode
+            ''' 
+            If modXLSHelper.IsEditing() Then
+                Globals.ThisAddIn.Application.EnableEvents = True
+                Globals.ThisAddIn.Application.ScreenUpdating = True
+                Globals.ThisAddIn.Application.SendKeys("{Enter}")
+                If modXLSHelper.IsEditing() Then
+                    Call CoreMessageHandler(message:="the cell in [" & Globals.ThisAddIn.Application.ActiveWorkbook.Name & "!" & _
+                                            CType(Globals.ThisAddIn.Application.ActiveSheet, Excel.Worksheet).Name & "]" & _
+                                             CType(Globals.ThisAddIn.Application.ActiveCell, Excel.Range).Address.ToString & " is being edited " & vbLf & " - please leave cell before starting operation", _
+                                             subname:="modXLSMessageQueueFile.postProcessXLSMQF", showmsgbox:=True, messagetype:=otCoreMessageType.ApplicationError)
+                    Return False
+                End If
+                Globals.ThisAddIn.Application.EnableEvents = False
+                Globals.ThisAddIn.Application.ScreenUpdating = False
+            End If
+
             ' get startrow
             startrow = GetXlsParameterByName("otdb_parameter_mqf_template_datastartrow", workbook:=MQFWorkbook)
             datawsname = GetXlsParameterByName("otdb_parameter_mqf_templatedata", workbook:=MQFWorkbook, found:=foundflag, silent:=False)

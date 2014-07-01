@@ -274,5 +274,84 @@ Module modParameterXLS
 
     End Function
 
+    ''' <summary>
+    ''' sets the Value of a Parameter on the parameter sheet by the Name supplied
+    ''' </summary>
+    ''' <param name="name"></param>
+    ''' <param name="value"></param>
+    ''' <param name="workbook"></param>
+    ''' <param name="silent"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
 
+    Function SetXlsParameterRangeByName(ByVal name As String, _
+                                     ByRef range As Excel.Range, _
+                                     Optional ByRef workbook As Excel.Workbook = Nothing, _
+                                     Optional silent As Boolean = True, _
+                                     Optional passwordParameter As String = "") As Boolean
+        Dim aParameterSheetFlag = False, aParameterNameFlag As Boolean
+        Dim ws As Excel.Worksheet
+        Dim pn As Name
+        Dim wb As Excel.Workbook
+
+        Try
+            ' now we hope to have it in the Active Workbook
+            ' get or set the global doc9
+            If Not workbook Is Nothing Then
+                wb = workbook
+            Else
+                wb = Globals.ThisAddIn.Application.ActiveWorkbook
+            End If
+
+            ' Check if Parameters Sheet is still there
+            If SheetExistsinWorkbook(wb, constParameterSheetName) Then
+                ws = wb.Sheets(constParameterSheetName)
+                aParameterSheetFlag = True
+            Else
+                If Not silent Then
+                    Call CoreMessageHandler(message:="The Worksheet " & constParameterSheetName & " is not found in this Workbook '" & wb.Name & "' !", _
+                                                   messagetype:=otCoreMessageType.ApplicationError, showmsgbox:=True, subname:="modParameterXLS.SetXlsParameterRangeByName")
+
+                End If
+            End If
+
+            ' Check if Parameter is known in the parameter worksheet (if existing)
+            If aParameterSheetFlag Then
+                pn = NameinWorksheet(ws, name)
+                If Not pn Is Nothing Then
+                    aParameterNameFlag = True
+                End If
+            End If
+
+            ' search in workbook if not found on parameter sheet
+            If Not aParameterNameFlag Then
+                aParameterNameFlag = NameExistsinWorkbook(wb, name)
+                If aParameterNameFlag Then
+                    pn = NameInWorkbook(wb, name)
+                Else
+                    If Not silent Then
+                        Call CoreMessageHandler(message:="The parameter '" & name & " ' is not found in this Workbook '" & wb.Name & "'!", _
+                                                 messagetype:=otCoreMessageType.ApplicationError, showmsgbox:=True, subname:="modParameterXLS.SetXlsParameterRangeByName")
+
+                    End If
+                    Return False
+                End If
+            End If
+
+            'Set Valueg
+            Diagnostics.Debug.WriteLine("setting " & pn.Name & " to '" & "=" & range.Worksheet.Name & "!" & range.Address(RowAbsolute:=True, ColumnAbsolute:=True, ReferenceStyle:=XlReferenceStyle.xlA1) & "'")
+            pn.RefersTo = "=" & range.Worksheet.Name & "!" & range.Address(RowAbsolute:=True, ColumnAbsolute:=True, ReferenceStyle:=XlReferenceStyle.xlA1)
+            
+            Return True
+
+        Catch ex As Exception
+
+            Call CoreMessageHandler(message:="The parameter '" & name & " ' cannot be written to " & wb.Name & "!", _
+                                        subname:="modParameterXLS.SetXlsParameterRangeByName", arg1:=name, showmsgbox:=silent)
+            Call CoreMessageHandler(exception:=ex, messagetype:=otCoreMessageType.ApplicationException, _
+                                         subname:="modParameterXLS.SetXlsParameterRangeByName", arg1:=name)
+            Return False
+        End Try
+
+    End Function
 End Module

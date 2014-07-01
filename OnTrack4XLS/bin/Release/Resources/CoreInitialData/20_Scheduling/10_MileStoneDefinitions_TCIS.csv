@@ -17,5 +17,7 @@
 #MILESTONEDEFINITION;DOMAINID;DM1;domain identifier;;;;;
 #MILESTONEDEFINITION;OBJECTIDS;BPD10;List of Objects to attach to
 MILESTONEDEFINITION.BPD1;DM1;BPD9;BPD2;BPD3;BPD4;BPD5;BPD6;BPD8;BPD10
+BP6;@;Actual Date in Control System IS;Actual Date in Control System;Date;6;;False;60;|DELIVERABLE|;
+BP8;@;Actual Date in EA;Actual Date in EA;Date;6;;False;80;|DELIVERABLE|;
 BP9;@;FC Approval Date;FC Approval Date;Date;6;;True;90;|DELIVERABLE|;
 BP10;@;Actual Approval Date;Actual Approval Date;Date;6;;False;100;|DELIVERABLE|;

@@ -613,9 +613,9 @@ Public Class XLSDataArea
         End Set
     End Property
     ''' <summary>
-    ''' Gets or sets the PS header ID.
+    ''' Gets or sets the datarange address
     ''' </summary>
-    ''' <value>The PS header ID.</value>
+    ''' <value>address as string</value>
     <DisplayName("Data Area Range Address")> _
     <Category("Data Range")> _
     <Description("Address or named range of the data area in the workbook")> _
@@ -1156,7 +1156,7 @@ Module XLSXChangeMgr
         Dim progress As Long = 0
         Dim maximum As ULong = 0
         Dim column As Long
-        Dim flag As Boolean
+        Dim xchangeresult As Boolean
         Dim previousDomainid As String
 
         Dim aLogColumn As Long?
@@ -1164,9 +1164,6 @@ Module XLSXChangeMgr
         Dim aTimestampColumn As Long?
 
         Try
-
-
-
 
             If xcmd = otXChangeCommandType.Read Then
                 If Not CurrentSession.RequireAccessRight(accessRequest:=otAccessRight.[ReadOnly], domainID:=domainid) Then
@@ -1181,6 +1178,20 @@ Module XLSXChangeMgr
                     Return False
                 End If
             End If
+
+            ''' step out in edit mode
+            ''' 
+            If modXLSHelper.IsEditing() Then
+                Globals.ThisAddIn.Application.SendKeys("{Enter}")
+                If modXLSHelper.IsEditing() Then
+                    Call CoreMessageHandler(message:="the cell in [" & Globals.ThisAddIn.Application.ActiveWorkbook.Name & "!" & _
+                                            CType(Globals.ThisAddIn.Application.ActiveSheet, Excel.Worksheet).Name & "]" & _
+                                             CType(Globals.ThisAddIn.Application.ActiveCell, Excel.Range).Address.ToString & " is being edited " & vbLf & " - please leave cell before starting operation", _
+                                             subname:="replicate", showmsgbox:=True, messagetype:=otCoreMessageType.ApplicationError)
+                    Return False
+                End If
+            End If
+
 
             '*** check on Domain -> switch if necessary
             '***
@@ -1351,11 +1362,15 @@ Module XLSXChangeMgr
             Else
                 '** select the full selection by Key
                 aSelection = dataarea.DataRange.Worksheet.Range(dataarea.DataRange.Worksheet.Cells(dataarea.DataRange.Rows(1).row, CInt(keyordinals(0).Value)), _
-                                                                dataarea.DataRange.Worksheet.Cells(dataarea.DataRange.Rows.Count, CInt(keyordinals(0).Value)))
+                                                                dataarea.DataRange.Worksheet.Cells(dataarea.DataRange.Rows(1).row + dataarea.DataRange.Rows.Count - 1, CInt(keyordinals(0).Value)))
+
+                Diagnostics.Debug.WriteLine(aSelection.Rows.Count & " rows selected in " & aSelection.Address & " of " & dataarea.DataRange.Address & " (" & dataarea.DataRangeAddress & ")")
+                Globals.ThisAddIn.Application.StatusBar = aSelection.Rows.Count & " rows selected in " & aSelection.Address & " of " & dataarea.DataRange.Address & " (" & dataarea.DataRangeAddress & ")"
             End If
 
             If aSelection Is Nothing Then
-                Call CoreMessageHandler(message:="No selection could be found", messagetype:=otCoreMessageType.ApplicationError, subname:="XLSXChangeMgr.replicate")
+                Call CoreMessageHandler(message:="No selection could be found", messagetype:=otCoreMessageType.ApplicationError, _
+                                        subname:="XLSXChangeMgr.replicate")
                 '' switch back
                 If previousDomainid IsNot Nothing AndAlso previousDomainid <> CurrentSession.CurrentDomainID Then
                     CurrentSession.SwitchToDomain(previousDomainid)
@@ -1403,8 +1418,6 @@ Module XLSXChangeMgr
                 '*** 
                 For Each item As XOutlineItem In outLineList
                     i += 1
-                    ''' clear the messagelog
-                    aMsgLog.Clear()
 
                     Dim aRow As Excel.Range = dataarea.DataRange.Rows(i)
                     '** progress
@@ -1415,7 +1428,9 @@ Module XLSXChangeMgr
 
                     '** put keys in map
                     aXEnvelope.Clear()
-
+                    aMsgLog = aXEnvelope.MessageLog
+                    aMsgLog.Clear()
+                    '* set context
                     aXEnvelope.ContextIdentifier = dataarea.WorkbookName & ":" & dataarea.Name
                     aXEnvelope.TupleIdentifier = aRow.Address.ToString
 
@@ -1431,14 +1446,23 @@ Module XLSXChangeMgr
                         aXEnvelope.AddSlotByXID(xid:=key.ID, value:=key.Value, isHostValue:=True)
                     Next
 
-                    '*** run XCHANGE
-                    If aXEnvelope.RunXPreCheck(msglog:=aMsgLog) Then
-                        flag = aXEnvelope.RunXChange(msglog:=aMsgLog)
+                    ''' run XCHANGE
+                    '''
+                    Dim result As Boolean = aXEnvelope.RunXPreCheck(msglog:=aMsgLog)
+                    Dim aStatusItem As Commons.StatusItem = aMsgLog.GetHighesStatusItem(ConstStatusType_XEnvelope)
+                    If aStatusItem IsNot Nothing AndAlso aStatusItem.Aborting Then
+                        xchangeresult = False
                     Else
-                        flag = False
+                        result = aXEnvelope.RunXChange(msglog:=aMsgLog)
+                        aStatusItem = aMsgLog.GetHighesStatusItem(ConstStatusType_XEnvelope)
+                        If aStatusItem IsNot Nothing AndAlso aStatusItem.Aborting Then
+                            xchangeresult = False
+                        Else
+                            xchangeresult = result
+                        End If
                     End If
 
-                    If flag Then
+                    If xchangeresult Then
                         ''' 
                         ''' update output
                         ''' 
@@ -1490,6 +1514,56 @@ Module XLSXChangeMgr
                         Globals.ThisAddIn.Application.StatusBar = " Updating data area " & dataarea.Name & " in row #" & aRow.Row
                     End If
                 Next
+
+                ''' delete surplus rows ?
+                ''' 
+                Diagnostics.Debug.WriteLine("old size of data area " & aSelection.Rows.Count & " rows <-> new size " & i & " rows")
+                Globals.ThisAddIn.Application.StatusBar = "old size of data area " & aSelection.Rows.Count & " rows <-> new size " & i & " rows"
+                If aSelection.Rows.Count > i Then
+                    Dim m As UShort = dataarea.DataRange.Rows.Count - i
+                    Diagnostics.Debug.WriteLine("deleting " & m & " row(s)")
+                    Globals.ThisAddIn.Application.StatusBar = "deleting " & m & " row(s)"
+                    For n As UShort = 1 To m
+                        Diagnostics.Debug.WriteLine("deleting row " & CType(dataarea.DataRange.Rows(i + 1), Range).Address)
+                        Globals.ThisAddIn.Application.StatusBar = "deleting row " & CType(dataarea.DataRange.Rows(i + 1), Range).Address
+                        Dim lastRow As Range = dataarea.DataRange.Rows(i + 1) 'take the next
+                        lastRow.Delete(Shift:=Excel.XlDeleteShiftDirection.xlShiftUp)
+                    Next
+                End If
+
+
+                '''
+                ''' set the dataarea range and reset it if necessary
+                ''' 
+
+                Dim aDataRange As Range = dataarea.DataRange.Worksheet.Range( _
+                    dataarea.DataRange.Worksheet.Cells(dataarea.DataRange.Rows(1).row, 1), _
+                    dataarea.DataRange.Worksheet.Cells(dataarea.DataRange.Rows(1).row + i - 1, _
+                                                       CType(dataarea.HeaderIDRange.Columns(dataarea.HeaderIDRange.Columns.Count), Range).Column))
+                ''' 
+                ''' change the named range
+                If NameExistsinWorkbook(aDataRange.Worksheet.Parent, dataarea.DataRangeAddress) Then
+                    SetXlsParameterRangeByName(dataarea.DataRangeAddress, aDataRange, workbook:=aDataRange.Worksheet.Parent, silent:=True)
+                End If
+
+                If NameExistsinWorkbook(aDataRange.Worksheet.Parent, "otdb_parameter_xlsdb_database_range") Then
+                    SetXlsParameterValueByName("otdb_parameter_xlsdb_database_range", aDataRange.Address, workbook:=aDataRange.Worksheet.Parent, silent:=True)
+                End If
+
+                '''
+                ''' set the dataarea range with header and reset it if necessary
+                ''' 
+
+                aDataRange = dataarea.DataRange.Worksheet.Range( _
+                    dataarea.DataRange.Worksheet.Cells(dataarea.DataRange.Rows(1).row - 1, 1), _
+                    dataarea.DataRange.Worksheet.Cells(dataarea.DataRange.Rows(1).row + i - 1, _
+                                                       CType(dataarea.HeaderIDRange.Columns(dataarea.HeaderIDRange.Columns.Count), Range).Column))
+
+                If NameExistsinWorkbook(aDataRange.Worksheet.Parent, "otdb_parameter_xlsdbH_database_range") Then
+                    SetXlsParameterValueByName("otdb_parameter_xlsdbH_database_range", aDataRange.Address, workbook:=aDataRange.Worksheet.Parent, silent:=True)
+                End If
+
+
             Else
                 '**** if not outline is available
                 '**** run through each aRow
@@ -1512,14 +1586,17 @@ Module XLSXChangeMgr
 
                     '** put keys in map
                     aXEnvelope = aXBag.AddEnvelope(key:=progress)
-                    ''' clear the messagelog
-                    aMsgLog.Clear()
-                    ''' add the contextidentifier
+                    ''' use the MessageLog of the Envelope
+                    aMsgLog = aXEnvelope.MessageLog
+
+
+                    ''' add the context identifier
                     ''' 
                     aMsgLog.ContextIdentifier = dataarea.WorkbookName & ":" & dataarea.Name
+                    aMsgLog.TupleIdentifier = aRow.Address.ToString
                     aXEnvelope.ContextIdentifier = dataarea.WorkbookName & ":" & dataarea.Name
                     aXEnvelope.TupleIdentifier = aRow.Address.ToString
-                    aMsgLog.TupleIdentifier = aRow.Address.ToString
+
 
 
                     '** Add Values only if not Read -> updated
@@ -1566,15 +1643,24 @@ Module XLSXChangeMgr
                     End If
 
 
-                    '*** run XCHANGE
-                    If aXEnvelope.RunXPreCheck(msglog:=aMsgLog) Then
-                        flag = aXEnvelope.RunXChange(msglog:=aMsgLog)
+                    ''' run XCHANGE
+                    '''
+                    Dim result As Boolean = aXEnvelope.RunXPreCheck(msglog:=aMsgLog)
+                    Dim aStatusItem As Commons.StatusItem = aMsgLog.GetHighesStatusItem(ConstStatusType_XEnvelope)
+                    If aStatusItem IsNot Nothing AndAlso aStatusItem.Aborting Then
+                        xchangeresult = False
                     Else
-                        flag = False
+                        result = aXEnvelope.RunXChange(msglog:=aMsgLog)
+                        aStatusItem = aMsgLog.GetHighesStatusItem(ConstStatusType_XEnvelope)
+                        If aStatusItem IsNot Nothing AndAlso aStatusItem.Aborting Then
+                            xchangeresult = False
+                        Else
+                            xchangeresult = result
+                        End If
                     End If
 
 
-                    If flag Then
+                    If xchangeresult Then
                         '''
                         ''' update row in excel with the output
                         ''' 
@@ -1608,7 +1694,7 @@ Module XLSXChangeMgr
                     ''' update additional status fields
                     ''' 
                     If aTimestampColumn.HasValue Then
-                        If flag Then
+                        If xchangeresult Then
                             aRow.Cells(1, aTimestampColumn.Value).Value = Converter.DateTime2LocaleDateTimeString(aXEnvelope.ProcessedTimestamp)
                         Else
                             aRow.Cells(1, aTimestampColumn.Value).Value = Converter.DateTime2LocaleDateTimeString(DateTime.Now)
@@ -1628,7 +1714,7 @@ Module XLSXChangeMgr
                     If aLogColumn.HasValue Then
                         Dim height As Object = CType(aRow.Cells(1, aLogColumn.Value), Range).RowHeight
                         Dim Text As String = aMsgLog.MessageText
-                        If Text Is Nothing And Not flag Then
+                        If Text Is Nothing And Not xchangeresult Then
                             Text = "UID not found - invalid ???"
                         End If
                         With CType(aRow.Cells(1, aLogColumn.Value), Range)

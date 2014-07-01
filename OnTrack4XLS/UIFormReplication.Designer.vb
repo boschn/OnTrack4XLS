@@ -210,6 +210,7 @@ Partial Class UIFormReplication
         '
         Me.ToggleInOutButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ToggleInOutButton.DisplayStyle = Telerik.WinControls.DisplayStyle.Image
+        Me.ToggleInOutButton.Enabled = False
         Me.ToggleInOutButton.Image = Global.OnTrack.Addin.My.Resources.Resources.excel_replication_full_small
         Me.ToggleInOutButton.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.ToggleInOutButton.Location = New System.Drawing.Point(389, 239)
@@ -217,6 +218,7 @@ Partial Class UIFormReplication
         Me.ToggleInOutButton.Size = New System.Drawing.Size(84, 84)
         Me.ToggleInOutButton.TabIndex = 7
         Me.ToggleInOutButton.ThemeName = "TelerikMetroBlue"
+        Me.ToggleInOutButton.Visible = False
         '
         'RadLabel1
         '

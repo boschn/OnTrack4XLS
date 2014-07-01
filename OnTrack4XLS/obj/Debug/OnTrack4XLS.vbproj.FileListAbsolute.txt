@@ -19,6 +19,7 @@ C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\OnTrack4XLS.dll
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\OnTrack4XLS.pdb
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\OnTrack4XLS.dll.manifest
+C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\OnTrack4XLS.vsto
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Microsoft.Office.Tools.Common.v4.0.Utilities.dll
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Microsoft.Office.Tools.Excel.dll
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Microsoft.SqlServer.ConnectionInfo.dll
@@ -60,4 +61,3 @@ C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\obj\Debug\
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\obj\Debug\OnTrack4XLS.vbproj.GenerateResource.Cache
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\obj\Debug\OnTrack4XLS.dll
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\obj\Debug\OnTrack4XLS.pdb
-C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\OnTrack4XLS.vsto

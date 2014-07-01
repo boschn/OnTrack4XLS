@@ -546,6 +546,13 @@ otdbAddIn
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIAboutBox.UIAboutBox_Load(System.Object,System.EventArgs)">
+	<summary>
+ On Load
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
 </member><member name="P:OnTrack.AddIn.AboutData.ProductName">
 	<summary>
  Gets or sets the name of the product.

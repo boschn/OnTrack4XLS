@@ -1171,15 +1171,16 @@ Public Class UIWizardMQFFeed
                     CurrentSession.SwitchToDomain(_currentDomainID)
                 End If
             End If
+            '** delete the MQF from Cache if it is not saved
+            If _MQFObject IsNot Nothing AndAlso _MQFObject.IsCreated Then
+                _MQFObject.Delete()
+            End If
             Me.Dispose()
         Else
             Dim formClosingArgs As System.Windows.Forms.FormClosingEventArgs = TryCast(e, System.Windows.Forms.FormClosingEventArgs)
             If Not formClosingArgs Is Nothing Then
                 formClosingArgs.Cancel = True
-            Else
-              
             End If
-
         End If
 
     End Sub
@@ -1225,6 +1226,10 @@ Public Class UIWizardMQFFeed
             If _currentDomainID <> CurrentSession.CurrentDomainID Then
                 CurrentSession.SwitchToDomain(_currentDomainID)
             End If
+        End If
+        '** delete the MQF from Cache if it is not saved
+        If _MQFObject IsNot Nothing AndAlso _MQFObject.IsCreated Then
+            _MQFObject.Delete()
         End If
         '** close down
         Me.Dispose()

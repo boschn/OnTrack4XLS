@@ -18,7 +18,32 @@ Option Explicit On
 Imports Microsoft.Office.Interop.Excel
 
 Module modXLSHelper
-    
+    ''' <summary>
+    ''' returns True if User is CellEditing
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' That is, you check the Interactive property of the Excel.Application object and set it to False. 
+    ''' If this causes an exception, it means the user is editing a cell. If there’s no exception, you 
+    ''' restore the Interactive. This is required because this MSDN article describes that property as follows:
+    ''' True if Microsoft Excel is in interactive mode; this property is usually True. 
+    ''' If you set the this property to False, Microsoft Excel will block all input from the keyboard and mouse
+    '''  (except input to dialog boxes that are displayed by your code). Read/write Boolean.
+    ''' Blocking user input will prevent the user from interfering with the macro as it moves or activates Microsoft Excel objects.
+    ''' If you set this property to False, don’t forget to set it back to True. 
+    ''' Microsoft Excel won’t automatically set this property back to True when your macro stops running.
+    ''' </remarks>
+    Function IsEditing() As Boolean
+        If Globals.ThisAddIn.Application.Interactive = False Then Return False
+        Try
+            Globals.ThisAddIn.Application.Interactive = False
+            Globals.ThisAddIn.Application.Interactive = True
+        Catch
+            Return True
+        End Try
+        Return False
+    End Function
+
 
     '************************************************************************
     ' addLog : adds a Message to a LogField with vbLF if necessary
@@ -442,6 +467,13 @@ errorhandle:
     '************
     Public aNameCacheTable As Dictionary(Of String, String) = New Dictionary(Of String, String)
 
+    ''' <summary>
+    ''' returns True if a given Name exists in the Notebook
+    ''' </summary>
+    ''' <param name="aWorkbook"></param>
+    ''' <param name="aName"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     Function NameExistsinWorkbook(ByVal aWorkbook As Workbook, ByVal aName As String) As Boolean
         Try
             For Each name As Microsoft.Office.Interop.Excel.Name In aWorkbook.Names
@@ -455,18 +487,20 @@ errorhandle:
         End Try
         Return False
     End Function
-
-    '**************
-    '**************
-    Sub cacheAllWorkbookNames(ByVal WORKBOOK As Workbook)
+    ''' <summary>
+    ''' Cache all Property Names in a workbook
+    ''' </summary>
+    ''' <param name="WORKBOOK"></param>
+    ''' <remarks></remarks>
+    Sub CacheAllWorkbookNames(ByVal [workbook] As Excel.Workbook)
         Dim i As UShort
-        For Each name As Microsoft.Office.Interop.Excel.Name In WORKBOOK.Names
+        For Each aName As Microsoft.Office.Interop.Excel.Name In [workbook].Names
 
-            If aNameCacheTable.ContainsKey(Globals.ThisAddIn.Application.Name & "." & WORKBOOK.Name & "." & name.Name) Then
+            If aNameCacheTable.ContainsKey(Globals.ThisAddIn.Application.Name & "." & [workbook].Name & "." & aName.Name) Then
 
-            Else
-                aNameCacheTable.Add(key:=Globals.ThisAddIn.Application.Name & "." & WORKBOOK.Name & "." & name.Name, _
-                                 value:=CType(WORKBOOK.Names(i), Name).RefersToRange.Address)
+            ElseIf CType(workbook.Names(i), Name).ValidWorkbookParameter Then
+                aNameCacheTable.Add(key:=Globals.ThisAddIn.Application.Name & "." & [workbook].Name & "." & aName.Name, _
+                                 value:=CType(workbook.Names(i), Name).RefersToRange.Address)
             End If
 
             i += 1

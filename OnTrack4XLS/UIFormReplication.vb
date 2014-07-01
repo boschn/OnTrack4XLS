@@ -115,10 +115,7 @@ Public Class UIFormReplication
 
         '** fill the workspaceID List
 
-        'Dim aXConfig As New XChangeConfiguration
-        'Dim aXConfigList As New List(Of XChangeConfiguration)
-        'aXConfigList = aXConfig.AllByList
-        ' setup of the workspaceID table
+        
         XLSXChangeMgr.AttachWorkbook(Globals.ThisAddIn.Application.ActiveWorkbook)
         _DataAreaTable.Columns.Add("Name", GetType(String))
         _DataAreaTable.Columns.Add("XConfigName", GetType(String))
@@ -136,14 +133,7 @@ Public Class UIFormReplication
             Me.StatusLabel.Text = "no data areas found in workbook"
         End If
 
-        'For Each aXConfig In aXConfigList
-        'If Not aXConfig.IsDeleted Then
-        '_DataAreaTable.Rows.Add(Trim(aXConfig.CONFIGNAME), aXConfig.description)
-        'End If
-        'Next
-        'Me.ConfigDropDownList.DataSource = _DataAreaTable
-        'Me.ConfigDropDownList.Text = _DataAreaTable.Rows(0).Item(0)
-        'Set the Inbound
+        
         Me.OutboundToggleButton.ToggleState = Enumerations.ToggleState.On
 
         Me.Refresh()
@@ -284,7 +274,10 @@ Public Class UIFormReplication
             Me.DataAreaComboBox.Enabled = True
             Me.WorkspaceDropDownList.Enabled = True
             Me.DomainCombo.Enabled = True
-            Me.ToggleInOutButton.Enabled = True
+
+            '** enable inOut ?
+            If Me.ToggleInOutButton.Visible Then Me.ToggleInOutButton.Enabled = True
+            '*** enable
             Me.InboundToggleButton.Enabled = True
             Me.OutboundToggleButton.Enabled = True
             Me.CancelButton.Text = "Finish"
@@ -344,7 +337,9 @@ Public Class UIFormReplication
             Me._replicationMode = ReplicationMode.Outbound
 
             Me.ToggleInOutButton.ToggleState = Telerik.WinControls.Enumerations.ToggleState.Off
+
             Me.InboundToggleButton.ToggleState = Telerik.WinControls.Enumerations.ToggleState.Off
+
         ElseIf Me._replicationMode = ReplicationMode.Outbound Then
             ' don't switch off
             DirectCast(sender, RadToggleButton).ToggleState = Telerik.WinControls.Enumerations.ToggleState.On
@@ -397,23 +392,8 @@ Public Class UIFormReplication
     ''' <param name="e"></param>
     ''' <remarks></remarks>
     Private Sub WorkspaceDropDownList_SelectedIndexChanged(sender As Object, e As EventArgs) Handles WorkspaceDropDownList.TextChanged
-        Dim found As Boolean
         '*** check workspaces
-        Dim workspaceID As String
-        workspaceID = Me.WorkspaceDropDownList.Text
-        found = False
-        If String.IsNullOrWhiteSpace(workspaceID) AndAlso _workspaceList IsNot Nothing Then
-            For Each aWorkspace As Workspace In _workspaceList
-                If LCase(workspaceID) = LCase(aWorkspace.ID) Then
-                    found = True
-                    Exit For
-                End If
-            Next
-
-            If Not found Then
-                Me.StatusLabel.Text = "workspaceID '" & workspaceID & "' not defined"
-            End If
-        End If
+        Validate()
     End Sub
     ''' <summary>
     ''' validate Entry
@@ -421,22 +401,18 @@ Public Class UIFormReplication
     ''' <returns></returns>
     ''' <remarks></remarks>
     Private Function Validate() As Boolean
-        Dim found As Boolean
-        '*** check workspaces
-        Dim workspaceID As String
-        workspaceID = WorkspaceDropDownList.Text
-        found = False
-        For Each aWorkspace As Workspace In _workspaceList
-            If LCase(workspaceID) = LCase(aWorkspace.ID) Then
-                found = True
-                Exit For
-            End If
-        Next
 
-        If Not found Then
-            Validate = False
-            Me.StatusLabel.Text = "workspaceID '" & workspaceID & "' not defined"
+        '*** check workspaces
+        Dim workspaceID As String = Me.WorkspaceDropDownList.Text
+        If Not String.IsNullOrWhiteSpace(workspaceID) AndAlso _workspaceList IsNot Nothing Then
+            If _workspaceList.Where(Function(x) x.ID = workspaceID).FirstOrDefault Is Nothing Then
+                Me.StatusLabel.Text = "workspaceID '" & workspaceID & "' not defined"
+                Return False
+            End If
         End If
+
+        Return True
+
     End Function
     ''' <summary>
     ''' 

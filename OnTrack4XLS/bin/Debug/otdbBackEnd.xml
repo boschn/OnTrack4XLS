@@ -5671,6 +5671,101 @@ otdbBackEnd
  The ObjectMessageLog is not an Data Object on its own. it is derived from the RelationCollection and
  embedded as relation Member in a data object class
  </remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Versioning.#ctor(System.Int64,System.Int64,System.Int64)">
+	<summary>
+ constructor
+ </summary>
+	<param name="version"></param>
+	<param name="release"></param>
+	<param name="patch"></param>
+	<remarks></remarks>
+</member><member name="P:OnTrack.OnTrackChangeLog.Versioning.Version">
+	<summary>
+ Gets or sets the version.
+ </summary>
+	<value>The version.</value>
+</member><member name="P:OnTrack.OnTrackChangeLog.Versioning.Release">
+	<summary>
+ Gets or sets the release.
+ </summary>
+	<value>The release.</value>
+</member><member name="P:OnTrack.OnTrackChangeLog.Versioning.Patch">
+	<summary>
+ Gets or sets the patch.
+ </summary>
+	<value>The patch.</value>
+</member><member name="M:OnTrack.OnTrackChangeLog.Versioning.CompareTo(System.Object)">
+	<summary>
+ Comparer
+ </summary>
+	<param name="obj"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Versioning.GetHascode">
+	<summary>
+ returns hashcode
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Versioning.ToString">
+	<summary>
+ Returns the Versioning String
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="T:OnTrack.OnTrackChangeLog.Versioning">
+	<summary>
+ Version presentation class
+ </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.OnTrackChangeLog.Version(System.Object)">
+	<summary>
+ Returns the Maximal Version or with optional application the version of the application (or nothing)
+ </summary>
+	<param name="application"></param>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Refresh(System.Type)">
+	<summary>
+ Initialize the Changelog by searching the assembly
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Clear">
+	<summary>
+ Clear the OnTrackChangeLog from all Entries
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Add(OnTrack.Commons.OnTrackChangeLogEntry)">
+	<summary>
+ Add an ChangeLogEntry
+ </summary>
+	<param name="entry"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Add(OnTrack.Database.ormChangeLogEntry)">
+	<summary>
+ Add ormAttribute ormChangeLogEntry
+ </summary>
+	<param name="attribute"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Retrieve">
+	<summary>
+ retrieves the log and loads all messages for the container object
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="T:OnTrack.OnTrackChangeLog">
+	<summary>
+ OntrackChangeLog for Changes in the OnTrack Modules and Classes 
+ </summary>
+	<remarks>
+ 
+ The OntrackChangeLog is not an Data Object on its own. it is derived from the RelationCollection and
+ embedded as relation Member in a data object class
+ </remarks>
 </member><member name="F:OnTrack.ObjectMessage.ConstTableID">
 	<summary>
  Table
@@ -5874,6 +5969,11 @@ otdbBackEnd
  Message Entries of a Object Log 
  </summary>
 	<remarks></remarks>
+</member><member name="F:OnTrack.ot.ConstVersionCoreBackend">
+	<summary>
+ Version with Changelog
+ </summary>
+	<remarks></remarks>
 </member><member name="F:OnTrack.ot.ConstDepTypeIDIFC">
 	<summary>
  Dependency Type Interfaces
@@ -5924,6 +6024,11 @@ otdbBackEnd
  Global Domain Name
  </summary>
 	<remarks></remarks>
+</member><member name="F:OnTrack.ot.ConstApplicationBackend">
+	<summary>
+ Application names
+ </summary>
+	<remarks></remarks>
 </member><member name="F:OnTrack.ot.ConstModuleCommons">
 	<summary>
  Name of the different OnTrack Modules
@@ -5934,7 +6039,19 @@ otdbBackEnd
  Variables
  </summary>
 	<remarks></remarks>
-</member><member name="P:OnTrack.ot.ApplicationVersion">
+</member><member name="F:OnTrack.ot._changelog">
+	<summary>
+ global OnTrack ChangeLog
+ </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ot.OnTrackChangeLog">
+	<summary>
+ returns the Changelog
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ot.AssemblyVersion">
 	<summary>
  Gets or sets the version.
  </summary>
@@ -8950,6 +9067,12 @@ otdbBackEnd
  Initialize the Calendar
  </summary>
 	<remarks></remarks>
+</member><member name="M:OnTrack.Database.Installation.SaveChangeLog">
+	<summary>
+ save the ontrack change log to the database
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="M:OnTrack.Database.Installation.FeedInInitialData(System.String)">
 	<summary>
  feeds the initial data from a path
@@ -10920,6 +11043,56 @@ otdbBackEnd
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Database.ormChangeLogEntry.Changeimplno">
+	<summary>
+ Gets or sets the changeimplno.
+ </summary>
+	<value>The changeimplno.</value>
+</member><member name="P:OnTrack.Database.ormChangeLogEntry.Description">
+	<summary>
+ Gets or sets the description.
+ </summary>
+	<value>The description.</value>
+</member><member name="P:OnTrack.Database.ormChangeLogEntry.ChangeID">
+	<summary>
+ Gets or sets the change ID.
+ </summary>
+	<value>The change ID.</value>
+</member><member name="P:OnTrack.Database.ormChangeLogEntry.Releasedate">
+	<summary>
+ Gets or sets the releasedate.
+ </summary>
+	<value>The releasedate.</value>
+</member><member name="P:OnTrack.Database.ormChangeLogEntry.Patch">
+	<summary>
+ Gets or sets the patch.
+ </summary>
+	<value>The patch.</value>
+</member><member name="P:OnTrack.Database.ormChangeLogEntry.Release">
+	<summary>
+ Gets or sets the release.
+ </summary>
+	<value>The release.</value>
+</member><member name="P:OnTrack.Database.ormChangeLogEntry.Version">
+	<summary>
+ Gets or sets the version.
+ </summary>
+	<value>The version.</value>
+</member><member name="P:OnTrack.Database.ormChangeLogEntry.Module">
+	<summary>
+ Gets or sets the module.
+ </summary>
+	<value>The module.</value>
+</member><member name="P:OnTrack.Database.ormChangeLogEntry.Application">
+	<summary>
+ Gets or sets the application.
+ </summary>
+	<value>The application.</value>
+</member><member name="T:OnTrack.Database.ormChangeLogEntry">
+	<summary>
+ ChangeLogEntryAttribute implements a ChangeLogEntry for a Class
+ </summary>
 	<remarks></remarks>
 </member><member name="P:OnTrack.Database.ormEntryMapping.Enabled">
 	<summary>
@@ -15781,6 +15954,16 @@ otdbBackEnd
  Column Members
  </summary>
 	<remarks></remarks>
+</member><member name="M:OnTrack.Commons.OnTrackChangeLogEntry.#ctor">
+	<summary>
+  constructor
+ </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Commons.OnTrackChangeLogEntry.ChangeImplementationNo">
+	<summary>
+ Gets or sets the change implementation no.
+ </summary>
+	<value>The change implementation no.</value>
 </member><member name="P:OnTrack.Commons.OnTrackChangeLogEntry.Releasedate">
 	<summary>
  Gets or sets the releasedate.
@@ -15821,6 +16004,13 @@ otdbBackEnd
 </member><member name="P:OnTrack.Commons.OnTrackChangeLogEntry.Description">
 	<summary>
  Description
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Commons.OnTrackChangeLogEntry.Versioning">
+	<summary>
+ returns the Versioning String
  </summary>
 	<value></value>
 	<returns></returns>

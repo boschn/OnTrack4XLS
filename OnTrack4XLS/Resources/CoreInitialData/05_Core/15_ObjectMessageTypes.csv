@@ -29,6 +29,7 @@ OMD1;DM1;OMD2;OMD5;OMD6;OMD3;OMD4;OMD7;OMD20;OMD10
 #;;;;;;;;;
 521;@;MQF;a new deliverable with uid %1% created;;1;Info;false;|G1|G1|;|XCHANGEENVELOPE|MQMESSAGE|
 522;@;MQF;a new deliverable revision with uid %1% for uid %2% and id '%3%', revision '%4%' , change reference '%5%' created;;1;Info;false;|G1|G1|;|XCHANGEENVELOPE|MQMESSAGE|
+523;@;MQF;a new deliverable with uid %1% could not be persisted;;1;Error;true;|R1|;|MQMESSAGE|
 #;;;;;;;;;
 570;@;MQF;message in row %Tupleidentifier% has no changed values - skip processing;;99;Error;false;|Y1|S1|;|XCHANGEENVELOPE|MQMESSAGE|
 571;@;MQF;message in row %Tupleidentifier% was already completely processed on %1% - skip processing;;70;Error;false;|Y1|S1|;|XCHANGEENVELOPE|MQMESSAGE|
