@@ -1,0 +1,16 @@
+# Customizaton for Xoutlines;;;;;;
+#;;;;;;
+# --- BOMBARDIER TRANSPORTATION FUNCTIONAL DESIGN BASELINE ---;;;;;;
+#;;;;;;
+# Exchange IDs;;;;;;
+#;;;;;;
+#DM1;XOUTLINE;DOMAINID;3;domain identifier;;
+#OLOG1;XOUTLINE;MSGLOGTAG;3;tag to the object message log;;
+#OTL1;XOUTLINE;ID;3;identifier of the outline;;
+#OTL10;XOUTLINE;ADDREV;9;True if deliverable revisions are added dynamically;;
+#OTL11;XOUTLINE;DYNAMIC;9;True if items are generated automatically by order;;
+#OTL12;XOUTLINE;ORDERBY;3;order by clause of the dynamic item;;
+#OTL2;XOUTLINE;DESC;3;description of the outline;;
+#OTL5;XOUTLINE;OBJECTS;2;applicable business objects for this outline;OPS6;
+XOUTLINE.OTL1;DM1;OTL2;OTL5;OTL11;OTL10;OTL12
+FBL;@;FBL Deliverables;|DELIVERABLE|;True;False;"[TYPEID], [ID], [DREV]"

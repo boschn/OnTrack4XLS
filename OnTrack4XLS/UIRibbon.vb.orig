@@ -1,0 +1,387 @@
+﻿Imports Microsoft.Office.Tools.Ribbon
+Imports OnTrack.Database
+Imports OnTrack.Addin
+Imports System.Windows.Forms
+Imports OnTrack.Commons
+
+Public Class OnTrackRibbon
+
+    ''' <summary>
+    ''' forms
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private WithEvents _errorlog As SessionMessageLog  ' for the Error Log events
+    Private WithEvents _logForm As UIFormMessageLog
+    Private WithEvents otdbsession As Session
+    Private WithEvents _logFormThread As Threading.Thread
+    Private WithEvents _SettingForm As New UIFormSetting
+    Private WithEvents _BatchForm As UIFormBatchProcesses
+    Private WithEvents _replicationForm As UIFormReplication
+    Private WithEvents _MQFWizard As UIWizardMQFFeed
+    Private WithEvents _explorerForm As UIFormDBExplorer
+
+    ''' <summary>
+    ''' Ribbon Load Event
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub Ribbon_Load(ByVal sender As System.Object, ByVal e As RibbonUIEventArgs) Handles MyBase.Load
+
+        If Globals.ThisAddIn._OTDBSession Is Nothing Then
+            ot.ApplicationName = My.Application.Info.AssemblyName & ConstDelimiter & My.Application.Info.Version.ToString
+            Globals.ThisAddIn._OTDBSession = ot.CurrentSession
+        End If
+        otdbsession = Globals.ThisAddIn._OTDBSession
+        _errorlog = otdbsession.Errorlog
+        Globals.ThisAddIn.SetCurrentHost()
+
+        If Not Globals.ThisAddIn._OTDBSession.IsRunning Then
+            Me.WorkspaceCombo.Enabled = False
+            Me.DomainCombo.Enabled = False
+        Else
+            WorkspaceCombo_load()
+            DomainCombo_load()
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' OnError Handler for Applicationinfo Output
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="args"></param>
+    ''' <remarks></remarks>
+    Private Sub OnErrorLog(sender As Object, args As ormErrorEventArgs) Handles _errorlog.onErrorRaised
+        ' show on bar
+        If args.Error.messagetype = otCoreMessageType.ApplicationInfo Then
+            Globals.ThisAddIn.Application.StatusBar = Date.Now & " INFORMATION: " & args.Error.Message
+        End If
+    End Sub
+    ''' <summary>
+    ''' Login Click
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub Login_Click(sender As Object, e As RibbonControlEventArgs) Handles ConnectToggleButton.Click
+        Globals.ThisAddIn.SetCurrentHost()
+        If Me.ConnectToggleButton.Label = "Connect" Then
+            Dim domainid As String = Globals.ThisAddIn.CurrentDefaultDomainID
+            If otdbsession.StartUp(AccessRequest:=otAccessRight.ReadUpdateData, domainID:=domainid) Then
+                Globals.ThisAddIn.Application.StatusBar = Date.Now & " INFORMATION: user '" & Globals.ThisAddIn._OTDBSession.Username & _
+                    "' successfully connected to OnTrack " & ot.CurrentConnection.DBName & " on " & ot.CurrentConnection.PathOrAddress
+            Else
+                Me.ConnectToggleButton.Checked = False
+            End If
+
+        Else
+            '*** disconnect
+            If Not otdbsession Is Nothing AndAlso otdbsession.ShutDown() Then
+                Globals.ThisAddIn.Application.StatusBar = " Disconnected from OnTrack Database"
+            End If
+
+        End If
+
+    End Sub
+
+    '******
+    '****** EventHandler for Connection
+    Private Sub OnSessionStarted(sender As Object, e As SessionEventArgs) Handles otdbsession.OnStarted
+        Me.ConnectToggleButton.Image = Global.OnTrack.Addin.My.Resources.Resources.connect_icon
+        Me.ConnectToggleButton.Label = "Disconnect"
+        Me.ConnectToggleButton.ScreenTip = "Disconnect from OnTrack Database"
+        Me.ConnectToggleButton.Checked = True
+        Me.ConnectToggleButton.ShowImage = True
+        Me.ConnectToggleButton.SuperTip = "Disconnect " & Username & " from the OnTrack Database on " & DBConnectionString
+        Globals.ThisAddIn.Application.StatusBar = Date.Now & " INFORMATION: user '" & Globals.ThisAddIn._OTDBSession.OTdbUser.Username & _
+                  "' successfully connected to OnTrack " & ot.CurrentConnection.DBName & " on " & ot.CurrentConnection.PathOrAddress
+        ' set the settings
+        WorkspaceCombo_load()
+        DomainCombo_load()
+    End Sub
+    '******
+    '****** EventHandler for DisConnection
+    Private Sub OnSessionEnding(sender As Object, e As SessionEventArgs) Handles otdbsession.OnEnding
+        '* close all running forms
+        If _BatchForm IsNot Nothing Then _BatchForm.Dispose()
+        If _MQFWizard IsNot Nothing Then _MQFWizard.Dispose()
+        If _logForm IsNot Nothing Then _logForm.Dispose()
+        If _replicationForm IsNot Nothing Then _replicationForm.Dispose()
+        If _explorerform IsNot Nothing Then _explorerform.dispose()
+
+
+        '* switch all other stuff
+        Me.ConnectToggleButton.Image = Global.OnTrack.Addin.My.Resources.Resources.disconnect_icon
+        Me.ConnectToggleButton.Label = "Connect"
+        Me.ConnectToggleButton.ScreenTip = "Connect to OnTrack Database"
+        Me.ConnectToggleButton.ShowImage = True
+        Me.ConnectToggleButton.Checked = False
+        Me.ConnectToggleButton.SuperTip = "Connect to the OnTrack Database"
+
+        Globals.ThisAddIn.Application.StatusBar = " Disconnected from OnTrack Database"
+        '
+        Me.WorkspaceCombo.Enabled = False
+        Me.DomainCombo.Enabled = False
+
+
+    End Sub
+
+    ''' <summary>
+    ''' Handle the Domain Change Event
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub OnDomainChanged(sender As Object, e As SessionEventArgs) Handles otdbsession.OnDomainChanged
+        DomainCombo.Text = e.Session.CurrentDomainID
+    End Sub
+    ''' <summary>
+    ''' Handle the Domain Change Event
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub OnWorkspaceChanged(sender As Object, e As SessionEventArgs) Handles otdbsession.OnWorkspaceChanged
+        WorkspaceCombo.Text = e.Session.CurrentWorkspaceID
+    End Sub
+    ''' <summary>
+    ''' Sub for loading the Combo
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Sub DomainCombo_load()
+        If Globals.ThisAddIn._OTDBSession.IsRunning Then
+            Me.DomainCombo.Items.Clear()
+            For Each aDomain As Domain In Domain.All
+                Dim anItem As Microsoft.Office.Tools.Ribbon.RibbonDropDownItem = Me.Factory.CreateRibbonDropDownItem
+                anItem.Label = aDomain.ID
+                anItem.ScreenTip = aDomain.Description
+                Me.DomainCombo.Items.Add(anItem)
+            Next
+            DomainCombo.Enabled = True
+            DomainCombo.Text = CurrentSession.CurrentDomainID
+            Dim aDefaultDomain As Domain = Domain.Retrieve(CurrentSession.CurrentDomainID)
+            If aDefaultDomain IsNot Nothing Then
+                DomainCombo.ScreenTip = aDefaultDomain.Description
+            Else
+                DomainCombo.Enabled = False
+            End If
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Event for DomainComboClicked
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub OnTrackRibbon_OnDomainComboClick(sender As Object, e As RibbonControlEventArgs) Handles DomainCombo.TextChanged
+        'Dim aCombo As RibbonComboBox = CType(e.Control, RibbonComboBox)
+        If DomainCombo.Text <> CurrentSession.CurrentDomainID Then
+            Telerik.WinControls.RadMessageBox.SetThemeName("TelerikMetroBlue")
+            Dim aresult As DialogResult = Telerik.WinControls.RadMessageBox.Show(text:="Change current domain to " & DomainCombo.Text, _
+                                                          caption:="Please confirm", _
+                                                          icon:=Telerik.WinControls.RadMessageIcon.Question, _
+                                                          buttons:=MessageBoxButtons.YesNo, _
+                                                          defaultButton:=MessageBoxDefaultButton.Button2)
+            If aresult = DialogResult.Yes OrElse aresult = DialogResult.OK Then
+                CurrentSession.SwitchToDomain(DomainCombo.Text)
+            End If
+        End If
+    End Sub
+    ''' <summary>
+    ''' load the Combo Box for Workspaces
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Sub WorkspaceCombo_load()
+        If Globals.ThisAddIn._OTDBSession.IsRunning Then
+            Me.WorkspaceCombo.Items.Clear()
+            For Each aWorkspace As Workspace In Workspace.All
+                Dim anItem As Microsoft.Office.Tools.Ribbon.RibbonDropDownItem = Me.Factory.CreateRibbonDropDownItem
+                anItem.Label = aWorkspace.ID
+                Me.WorkspaceCombo.Items.Add(anItem)
+            Next
+            WorkspaceCombo.Enabled = True
+            WorkspaceCombo.Text = CurrentSession.CurrentWorkspaceID
+            Dim aDefaultWS As Workspace = Workspace.Retrieve(id:=CurrentSession.CurrentWorkspaceID)
+            If aDefaultWS IsNot Nothing Then
+                WorkspaceCombo.ScreenTip = aDefaultWS.Description
+            Else
+                WorkspaceCombo.Enabled = False
+            End If
+        End If
+    End Sub
+    ''' <summary>
+    ''' MQFWizard Button Click
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+<<<<<<< Updated upstream
+    Private Sub MQFWirzardButton_Click(sender As Object, e As RibbonControlEventArgs) Handles MQFWizardButton.Click
+        Globals.ThisAddIn.SetCurrentHost()
+        If _MQFWizard Is Nothing OrElse _MQFWizard.IsDisposed Then _MQFWizard = New UIWizardMQFFeed
+        If _MQFWizard IsNot Nothing AndAlso _MQFWizard.IsLoaded Then _MQFWizard.BringToFront()
+=======
+    Private Sub MQFWizardButton_Click(sender As Object, e As RibbonControlEventArgs) Handles MQFWizardButton.Click
+        Globals.ThisAddIn.SetCurrentHost()
+        If _MQFWizard Is Nothing OrElse _MQFWizard.IsDisposed Then _MQFWizard = New UIWizardMQFFeed
+        If _MQFWizard.IsLoaded Then _MQFWizard.BringToFront()
+>>>>>>> Stashed changes
+        Call _MQFWizard.Show()
+    End Sub
+
+    ''' <summary>
+    ''' About Button Click
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub AboutButton_Click(sender As Object, e As RibbonControlEventArgs) Handles AboutButton.Click
+        Globals.ThisAddIn.SetCurrentHost()
+        Dim anAbout As New UIAboutBox
+        Call anAbout.ShowDialog()
+
+    End Sub
+
+    ''' <summary>
+    ''' Replication Button Click
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub ReplicateButton_Click(sender As Object, e As RibbonControlEventArgs) Handles ReplicateButton.Click
+        Globals.ThisAddIn.SetCurrentHost()
+        If _replicationForm Is Nothing OrElse _replicationForm.IsDisposed Then _replicationForm = New UIFormReplication
+<<<<<<< Updated upstream
+        If _replicationForm IsNot Nothing AndAlso _replicationForm.IsLoaded Then _replicationForm.BringToFront()
+        Call _replicationForm.Show()
+=======
+        If _replicationForm.IsLoaded Then _replicationForm.BringToFront()
+        _replicationForm.Show()
+>>>>>>> Stashed changes
+    End Sub
+
+    ''' <summary>
+    ''' Setting Button Click
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub SettingButton_Click(sender As Object, e As RibbonControlEventArgs) Handles SettingButton.Click
+        Globals.ThisAddIn.SetCurrentHost()
+        If _SettingForm Is Nothing OrElse _SettingForm.IsDisposed Then _SettingForm = New UIFormSetting
+        _SettingForm.RegisterSetHost(AddressOf SetHostProperty)
+        If _SettingForm.IsLoaded Then _SettingForm.BringToFront()
+        Call _SettingForm.Show()
+
+    End Sub
+
+    ''' <summary>
+    ''' Event Handler for Workspace Changed
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub WorkspaceCombo_TextChanged(sender As Object, e As RibbonControlEventArgs) Handles WorkspaceCombo.TextChanged
+        If Globals.ThisAddIn._OTDBSession.IsRunning Then
+            Dim aDefaultWS As Workspace = Workspace.Retrieve(id:=Me.WorkspaceCombo.Text)
+            If aDefaultWS IsNot Nothing Then
+                ot.CurrentSession.CurrentWorkspaceID = Me.WorkspaceCombo.Text
+                WorkspaceCombo.ScreenTip = aDefaultWS.Description
+                Globals.ThisAddIn.Application.StatusBar = "default workspaceID for this workbook set to '" & aDefaultWS.ID & "' <" & aDefaultWS.Description & "> "
+            Else
+                WorkspaceCombo.Text = ot.CurrentSession.CurrentWorkspaceID
+                Globals.ThisAddIn.Application.StatusBar = "workspaceID was not found in On Track"
+            End If
+        Else
+            WorkspaceCombo.Enabled = False
+        End If
+
+    End Sub
+
+    ''' <summary>
+    ''' DataArea Button
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub DataAreaButton_Click(sender As Object, e As RibbonControlEventArgs) Handles DataAreaButton.Click
+        Globals.ThisAddIn.SetCurrentHost()
+        Dim aForm As New UIFormWorkDataAreas
+        Call aForm.ShowDialog()
+    End Sub
+
+    ''' <summary>
+    ''' XConfigButton
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+
+    Private Sub XConfigButton_Click(sender As Object, e As RibbonControlEventArgs) Handles XConfigButton.Click
+        Globals.ThisAddIn.SetCurrentHost()
+        Dim aForm As New UIFormWorkXConfig
+        Call aForm.ShowDialog()
+    End Sub
+
+    ''' <summary>
+    ''' SessionMessage Button Click
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+
+    Private Sub LogButton_Click(sender As Object, e As RibbonControlEventArgs) Handles LogButton.Click
+        If _logForm Is Nothing OrElse _logForm.IsDisposed Then
+            _logForm = New UIFormMessageLog
+            _logForm.Session = Globals.ThisAddIn._OTDBSession
+        End If
+        If Me.LogButton.Checked = True Then
+            _logFormThread = New Threading.Thread(AddressOf _logForm.ShowDialog)
+            _logFormThread.SetApartmentState(Threading.ApartmentState.STA)
+            _logFormThread.Start()
+
+        Else
+            _logFormThread.Abort()
+        End If
+    End Sub
+
+
+    Private Sub UnToggleLog(sender As Object, e As EventArgs) Handles _logForm.FormClosed
+        Me.LogButton.Checked = False
+    End Sub
+
+    ''' <summary>
+    ''' Button Click for Batch Menu Button
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub BatchMenuButton_Click(sender As Object, e As RibbonControlEventArgs) Handles BatchMenuButton.Click
+        Globals.ThisAddIn.SetCurrentHost()
+        If _BatchForm Is Nothing OrElse _BatchForm.IsDisposed Then _BatchForm = New UIFormBatchProcesses
+<<<<<<< Updated upstream
+        If _BatchForm IsNot Nothing AndAlso _BatchForm.IsLoaded Then _BatchForm.BringToFront()
+=======
+        If _BatchForm.IsLoaded Then _BatchForm.BringToFront()
+>>>>>>> Stashed changes
+        Call _BatchForm.Show()
+    End Sub
+
+    ''' <summary>
+    ''' Button Click for DB Object Explorer
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub ObjectExplorerButton_Click(sender As Object, e As RibbonControlEventArgs) Handles ObjectExplorerButton.Click
+        Globals.ThisAddIn.SetCurrentHost()
+        If _explorerForm Is Nothing OrElse _explorerForm.IsDisposed Then _explorerForm = New UIFormDBExplorer
+<<<<<<< Updated upstream
+        If _explorerForm IsNot Nothing AndAlso _explorerForm.IsLoaded Then _explorerForm.BringToFront()
+=======
+        If _explorerForm.IsLoaded Then _explorerForm.BringToFront()
+>>>>>>> Stashed changes
+        _explorerForm.Show()
+    End Sub
+End Class

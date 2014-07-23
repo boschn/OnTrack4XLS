@@ -801,6 +801,7 @@ Public Class XLSDataArea
     ''' <param name="selectionHeaderID"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
+    ''' <remarks></remarks>
     Public Function GetSelectionAsRange(Optional silent As Boolean = False, _
                                         Optional selectionHeaderID As String = "") As Range
 
@@ -1170,7 +1171,7 @@ Module XLSXChangeMgr
 
             If xcmd = otXChangeCommandType.Read Then
                 If Not CurrentSession.RequireAccessRight(accessRequest:=otAccessRight.[ReadOnly], domainID:=domainid) Then
-                    Call CoreMessageHandler(message:="Access right READONLY couldnot be granted to this user", subname:="replicate", showmsgbox:=True, _
+                    Call CoreMessageHandler(message:="Access right READONLY could not be granted to this user", subname:="replicate", showmsgbox:=True, _
                                             messagetype:=otCoreMessageType.ApplicationError)
                     Return False
                 End If
@@ -1274,7 +1275,7 @@ Module XLSXChangeMgr
                         Return False
                     End Try
                 Else
-                    Call CoreMessageHandler(message:="data range in dataarea " & dataarea.Name & "' has no address ", _
+                    Call CoreMessageHandler(message:="data range in data area " & dataarea.Name & "' has no address ", _
                                                messagetype:=otCoreMessageType.ApplicationError, subname:="XLSXchangeMGr.replicate")
                     '' switch back
                     If previousDomainid IsNot Nothing AndAlso previousDomainid <> CurrentSession.CurrentDomainID Then
@@ -1361,10 +1362,12 @@ Module XLSXChangeMgr
                         Return False
                     End If
                     ''' get selection
+                    ''' get the selection as range
+                    ''' 
                     aSelection = dataarea.GetSelectionAsRange(silent:=silent)
                 End If
             Else
-                '** select the full selection by Key
+                '** select the full selection
                 aSelection = dataarea.DataRange.Worksheet.Range(dataarea.DataRange.Worksheet.Cells(dataarea.DataRange.Rows(1).row, CInt(keyordinals(0).Value)), _
                                                                 dataarea.DataRange.Worksheet.Cells(dataarea.DataRange.Rows(1).row + dataarea.DataRange.Rows.Count - 1, CInt(keyordinals(0).Value)))
 
@@ -1413,18 +1416,17 @@ Module XLSXChangeMgr
             '***
             '***
             If fullReplication AndAlso xcmd = otXChangeCommandType.Read AndAlso dataarea.XConfig.Outline IsNot Nothing Then
-                ' cleanup
-                '*** ge tthe outline enumeration -> dynmaic
-                If Not workerthread Is Nothing Then workerthread.ReportProgress(0, "#2 clean up outline")
 
+                '*** get the outline enumeration -> dynmaic
+                If workerthread IsNot Nothing Then workerthread.ReportProgress(0, "#2 clean up outline")
                 ''' set the domain for the outline
                 dataarea.XConfig.Outline.DomainID = domainid
-                ''' clean upg
+                ''' clean up
                 dataarea.XConfig.Outline.CleanUpRevision()
                 ' the row
                 Dim i As Long = 0
 
-                '*** ge tthe outline enumeration -> dynmaic
+                '*** get the outline enumeration -> dynmaic
                 If Not workerthread Is Nothing Then workerthread.ReportProgress(0, "#3 generating outline")
 
                 Dim outLineList As List(Of XOutlineItem) = dataarea.XConfig.Outline.ToList
@@ -1590,7 +1592,7 @@ Module XLSXChangeMgr
                 For Each aRow As Range In aSelection.Rows
                     maximum += 1
                 Next
-
+               
                 ''' hack
                 ''' 
                 For Each aXObject As XChangeObject In dataarea.XConfig.XChangeobjects.ToList

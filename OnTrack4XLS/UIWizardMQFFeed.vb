@@ -1215,6 +1215,8 @@ Public Class UIWizardMQFFeed
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     ''' <remarks></remarks>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
     Private Sub MQFWizard_OnPrevious(ByVal sender As Object, ByVal e As WizardCancelEventArgs) Handles MQFWizard.Previous
         '* preprocess page
         If (Me.MQFWizard.SelectedPage Is Me.MQFWizard.Pages(1)) Then
@@ -1222,7 +1224,7 @@ Public Class UIWizardMQFFeed
 
             ''' page is write back to excel 
         ElseIf (Me.MQFWizard.SelectedPage Is Me.MQFWizard.Pages(2)) Then
-
+            
         End If
     End Sub
     ''' <summary>

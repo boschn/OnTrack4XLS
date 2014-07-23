@@ -246,7 +246,7 @@ Public Class OnTrackRibbon
         Globals.ThisAddIn.SetCurrentHost()
         If _replicationForm Is Nothing OrElse _replicationForm.IsDisposed Then _replicationForm = New UIFormReplication
         If _replicationForm IsNot Nothing AndAlso _replicationForm.IsLoaded Then _replicationForm.BringToFront()
-        Call _replicationForm.Show()
+        _replicationForm.Show()
     End Sub
 
     ''' <summary>
@@ -259,6 +259,7 @@ Public Class OnTrackRibbon
         Globals.ThisAddIn.SetCurrentHost()
         If _SettingForm Is Nothing OrElse _SettingForm.IsDisposed Then _SettingForm = New UIFormSetting
         _SettingForm.RegisterSetHost(AddressOf SetHostProperty)
+        If _SettingForm.IsLoaded Then _SettingForm.BringToFront()
         Call _SettingForm.Show()
 
     End Sub

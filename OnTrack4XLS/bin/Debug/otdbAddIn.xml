@@ -382,7 +382,11 @@ otdbAddIn
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
+<<<<<<< Updated upstream
 </member><member name="M:OnTrack.UI.UIControlDataGridView.Modeltable_ObjectUpdateFailed(System.Object,OnTrack.UI.ormModelTable.EventArgs)">
+=======
+</member><member name="M:OnTrack.UI.UIControlDataGridView._modeltable_ObjectUpdateFailed(System.Object,OnTrack.UI.ormModelTable.EventArgs)">
+>>>>>>> Stashed changes
 	<summary>
  Update failed
  </summary>

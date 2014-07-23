@@ -338,7 +338,7 @@ Module modParameterXLS
                 End If
             End If
 
-            'Set Valueg
+            'Set Value
             Diagnostics.Debug.WriteLine("setting " & pn.Name & " to '" & "=" & range.Worksheet.Name & "!" & range.Address(RowAbsolute:=True, ColumnAbsolute:=True, ReferenceStyle:=XlReferenceStyle.xlA1) & "'")
             pn.RefersTo = "=" & range.Worksheet.Name & "!" & range.Address(RowAbsolute:=True, ColumnAbsolute:=True, ReferenceStyle:=XlReferenceStyle.xlA1)
             

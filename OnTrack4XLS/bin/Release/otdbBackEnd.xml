@@ -3554,6 +3554,15 @@ otdbBackEnd
  </summary>
 	<returns></returns>
 	<remarks></remarks>
+<<<<<<< Updated upstream
+=======
+</member><member name="M:OnTrack.XChange.XChangeConfiguration.ClearEntries">
+	<summary>
+ reset all entry definitions
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+>>>>>>> Stashed changes
 </member><member name="M:OnTrack.XChange.XChangeConfiguration.Reset(System.Boolean)">
 	<summary>
  resets the object
@@ -5970,6 +5979,8 @@ otdbBackEnd
 </member><member name="P:OnTrack.ObjectMessageLog.EventArgs.Message">
 	<summary>
  Gets  the objectmessage.
+<<<<<<< Updated upstream
+=======
  </summary>
 	<value>The objectmessage.</value>
 </member><member name="T:OnTrack.ObjectMessageLog.EventArgs">
@@ -6117,6 +6128,391 @@ otdbBackEnd
  </summary>
 	<value>The release.</value>
 </member><member name="P:OnTrack.OnTrackChangeLog.Versioning.Patch">
+	<summary>
+ Gets or sets the patch.
+ </summary>
+	<value>The patch.</value>
+</member><member name="M:OnTrack.OnTrackChangeLog.Versioning.CompareTo(System.Object)">
+	<summary>
+ Comparer
+ </summary>
+	<param name="obj"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Versioning.GetHascode">
+	<summary>
+ returns hashcode
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Versioning.ToString">
+	<summary>
+ Returns the Versioning String
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="T:OnTrack.OnTrackChangeLog.Versioning">
+	<summary>
+ Version presentation class
+ </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.OnTrackChangeLog.Version(System.Object)">
+	<summary>
+ Returns the Maximal Version or with optional application the version of the application (or nothing)
+ </summary>
+	<param name="application"></param>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Refresh(System.Type)">
+	<summary>
+ Initialize the Changelog by searching the assembly
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Clear">
+	<summary>
+ Clear the OnTrackChangeLog from all Entries
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Add(OnTrack.Commons.OnTrackChangeLogEntry)">
+	<summary>
+ Add an ChangeLogEntry
+ </summary>
+	<param name="entry"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Add(OnTrack.Database.ormChangeLogEntry)">
+	<summary>
+ Add ormAttribute ormChangeLogEntry
+ </summary>
+	<param name="attribute"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Retrieve">
+	<summary>
+ retrieves the log and loads all messages for the container object
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="T:OnTrack.OnTrackChangeLog">
+	<summary>
+ OntrackChangeLog for Changes in the OnTrack Modules and Classes 
+ </summary>
+	<remarks>
+ 
+ The OntrackChangeLog is not an Data Object on its own. it is derived from the RelationCollection and
+ embedded as relation Member in a data object class
+ </remarks>
+</member><member name="F:OnTrack.ObjectMessage.ConstTableID">
+	<summary>
+ Table
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ObjectMessage.ConstFNTag">
+	<summary>
+ Primary Key Entries
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ObjectMessage.ConstFNMessageTypeUID">
+	<summary>
+ ColumnEntries
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ObjectMessage._tag">
+	<summary>
+ Mappings
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ObjectMessage.ConstRMessageType">
+	<summary>
+ Relation to ScheduleDefinition
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ObjectMessage._lock">
+	<summary>
+ runtime dynamic members
+ </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ObjectMessage.IsPersisted">
+	<summary>
+ Gets or sets the persistflag.
+ </summary>
+	<value>The persistflag.</value>
+</member><member name="P:OnTrack.ObjectMessage.Sender">
+	<summary>
+ Gets or sets the sender.
+ </summary>
+	<value>The sender.</value>
+</member><member name="P:OnTrack.ObjectMessage.Username">
+	<summary>
+ Gets or sets the username.
+ </summary>
+	<value>The username.</value>
+</member><member name="P:OnTrack.ObjectMessage.LoggableKeyValues">
+	<summary>
+ Gets or sets the primary key values of the loggable sender object .
+ </summary>
+	<value>The objpkvalues.</value>
+</member><member name="P:OnTrack.ObjectMessage.Entryname">
+	<summary>
+ Gets or sets the entryname.
+ </summary>
+	<value>The entryname.</value>
+</member><member name="P:OnTrack.ObjectMessage.Objectname">
+	<summary>
+ Gets or sets the objectname.
+ </summary>
+	<value>The objectname.</value>
+</member><member name="P:OnTrack.ObjectMessage.IsDataObject">
+	<summary>
+ returns true if data object has primary keys and is alive
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ObjectMessage.WorkspaceID">
+	<summary>
+ Gets or sets the workspace ID.
+ </summary>
+	<value>The workspace ID.</value>
+</member><member name="P:OnTrack.ObjectMessage.Sessionid">
+	<summary>
+ Gets or sets the sessionid.
+ </summary>
+	<value>The sessionid.</value>
+</member><member name="P:OnTrack.ObjectMessage.SessionMessageNo">
+	<summary>
+ Gets or sets the sessionmsgno.
+ </summary>
+	<value>The sessionmsgno.</value>
+</member><member name="P:OnTrack.ObjectMessage.Weight">
+	<summary>
+ Gets or sets the weight.
+ </summary>
+	<value>The weight.</value>
+</member><member name="P:OnTrack.ObjectMessage.Area">
+	<summary>
+ Gets or sets the area.
+ </summary>
+	<value>The area.</value>
+</member><member name="P:OnTrack.ObjectMessage.Parameters">
+	<summary>
+ Gets or sets the parameters.
+ </summary>
+	<value>The parameters.</value>
+</member><member name="P:OnTrack.ObjectMessage.Tag">
+	<summary>
+ gets or sets the tag of the log message
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ObjectMessage.No">
+	<summary>
+ gets the index number
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ObjectMessage.MessageTypeID">
+	<summary>
+ gets or sets the message type uid
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ObjectMessage.Message">
+	<summary>
+ sets or gets the messagetext
+>>>>>>> Stashed changes
+ </summary>
+	<value>The objectmessage.</value>
+</member><member name="T:OnTrack.ObjectMessageLog.EventArgs">
+	<summary>
+ Event Args
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ObjectMessageLog._tag">
+	<summary>
+ Variables
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ObjectMessageLog._MessagesPerStatusType">
+</member><member name="E:OnTrack.ObjectMessageLog.OnObjectMessageAdded">
+	<summary>
+ Events 
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectMessageLog.#ctor(OnTrack.Database.ormDataObject,System.String,System.String,System.String)">
+	<summary>
+ constructor
+ </summary>
+	<param name="container"></param>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ObjectMessageLog.Tag">
+	<summary>
+ gets the Tag of the Log
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ObjectMessageLog.MaxMessageNo">
+	<summary>
+ returns the greatest message no in the log
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ObjectMessageLog.ObjectMessageLog">
+	<summary>
+ Returns myself ?!
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectMessageLog.Clear">
+	<summary>
+ Clear the ObjectMessagelog from all Messages
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectMessageLog.ObjectMessageLog_OnInfused(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+	<summary>
+ event handler for tag
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectMessageLog.ObjectMessageLog_OnAdding(System.Object,OnTrack.Database.ormRelationCollection{OnTrack.ObjectMessage}.EventArgs)">
+	<summary>
+ event handler for adding a message to the log to set the idno
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+<<<<<<< Updated upstream
+</member><member name="M:OnTrack.ObjectMessageLog.Retrieve(System.String)">
+=======
+</member><member name="T:OnTrack.ObjectMessage">
+	<summary>
+ Message Entries of a Object Log 
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ot.ConstVersionCoreBackend">
+	<summary>
+ Version with Changelog
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ot.ConstDepTypeIDIFC">
+>>>>>>> Stashed changes
+	<summary>
+ retrieves the log and loads all messages for the container object
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectMessageLog.Add(OnTrack.ObjectMessage)">
+	<summary>
+ Add an existing message (basically copy it and add it)
+ </summary>
+	<param name="message"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectMessageLog.ObjectMessageLog_OnAdded(System.Object,OnTrack.Database.ormRelationCollection{OnTrack.ObjectMessage}.EventArgs)">
+	<summary>
+ Handler for the  internal OnAdded Event - raises the Object Added event of the Log
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectMessageLog.MessageTexts">
+	<summary>
+ returns a list of messagetexts
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectMessageLog.MessageText">
+	<summary>
+ returns a one string with all messagetextes
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectMessageLog.GetHighesStatusItem(System.String)">
+	<summary>
+ Returns the Highest StatusItem - returns nothing if the statusItem is not there
+ </summary>
+	<param name="statustype"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectMessageLog.GetHighestMessageHighestStatusItem(System.String)">
+	<summary>
+ Returns the Highest StatusItem - returns nothing if the statusItem is not there
+ </summary>
+	<param name="statustype"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ObjectMessageLog.ObjectMessageLog_OnRemoved(System.Object,OnTrack.Database.ormRelationCollection{OnTrack.ObjectMessage}.EventArgs)">
+	<summary>
+ OnRemoved Handler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="T:OnTrack.ObjectMessageLog">
+	<summary>
+ ObjectLog for Messages for Business Objects 
+ </summary>
+	<remarks>
+ 
+ The ObjectMessageLog is not an Data Object on its own. it is derived from the RelationCollection and
+ embedded as relation Member in a data object class
+ </remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Versioning.#ctor(System.Int64,System.Int64,System.Int64)">
+	<summary>
+ constructor
+ </summary>
+	<param name="version"></param>
+	<param name="release"></param>
+	<param name="patch"></param>
+	<remarks></remarks>
+<<<<<<< Updated upstream
+</member><member name="P:OnTrack.OnTrackChangeLog.Versioning.Version">
+=======
+</member><member name="F:OnTrack.ot.ConstApplicationBackend">
+	<summary>
+ Application names
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ot.ConstModuleCommons">
+>>>>>>> Stashed changes
+	<summary>
+ Gets or sets the version.
+ </summary>
+	<value>The version.</value>
+</member><member name="P:OnTrack.OnTrackChangeLog.Versioning.Release">
+	<summary>
+ Gets or sets the release.
+ </summary>
+<<<<<<< Updated upstream
+	<value>The release.</value>
+</member><member name="P:OnTrack.OnTrackChangeLog.Versioning.Patch">
+=======
+	<remarks></remarks>
+</member><member name="F:OnTrack.ot._changelog">
+	<summary>
+ global OnTrack ChangeLog
+ </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ot.OnTrackChangeLog">
+	<summary>
+ returns the Changelog
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ot.AssemblyVersion">
+>>>>>>> Stashed changes
 	<summary>
  Gets or sets the patch.
  </summary>
@@ -7836,7 +8232,11 @@ otdbBackEnd
 	<remarks></remarks>
 </member><member name="P:OnTrack.UI.ormModelTable.trackMessageLog">
 	<summary>
+<<<<<<< Updated upstream
  sets an interim Messagelog to track 
+=======
+ ObjectMessageLog 
+>>>>>>> Stashed changes
  </summary>
 	<value></value>
 	<returns></returns>
@@ -7927,6 +8327,13 @@ otdbBackEnd
  </summary>
 	<param name="row"></param>
 	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.ormModelTable.ormModeltable_OnObjectMessageAdded(System.Object,OnTrack.ObjectMessageLog.EventArgs)">
+	<summary>
+ Event Handler for ObjectMessageLogs propagate
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
 	<remarks></remarks>
 </member><member name="M:OnTrack.UI.ormModelTable.AddNewObject(System.Data.DataRow)">
 	<summary>
@@ -10306,6 +10713,12 @@ otdbBackEnd
  </summary>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:OnTrack.Database.ObjectDefinition.GetPrimaryKeyEntrynames">
+	<summary>
+ returns a List of PrimaryKeyEntrynames
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="M:OnTrack.Database.ObjectDefinition.GetEntry(System.String)">
 	<summary>
  gets an entry by entryname or nothing
@@ -10404,6 +10817,13 @@ otdbBackEnd
 	<summary>
  constructor
  </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Database.AbstractEntryDefinition.GetObjectDefinition">
+	<summary>
+ returns the ObjectDefinition to which this Entry belongs to
+ </summary>
+	<value></value>
+	<returns></returns>
 	<remarks></remarks>
 </member><member name="P:OnTrack.Database.AbstractEntryDefinition.IsMapped">
 	<summary>
@@ -11684,6 +12104,13 @@ otdbBackEnd
  Gets or sets the render reg exp match.
  </summary>
 	<value>The render reg exp match.</value>
+</member><member name="P:OnTrack.Database.ormObjectEntryAttribute.GetObjectDefinition">
+	<summary>
+ GetOnbjectDefintiion - not applicable
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="P:OnTrack.Database.ormObjectEntryAttribute.Properties">
 	<summary>
  Gets or sets the object entry properties.
@@ -12493,14 +12920,14 @@ otdbBackEnd
 	<value>The OTDB record.</value>
 </member><member name="P:OnTrack.Database.ormDataObject.ObjectPrimaryKeyEntrynames">
 	<summary>
- returns an array of the primarykey entry names
+ returns an array of the objects primarykey entry names
  </summary>
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
 </member><member name="P:OnTrack.Database.ormDataObject.ObjectPrimaryKeyValues">
 	<summary>
- returns the primaryKeyvalues
+ returns the object primaryKeyvalues
  </summary>
 	<value></value>
 	<returns></returns>

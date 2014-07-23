@@ -1,0 +1,17 @@
+# Customizaton for Current Property Set (-> will create  PropertySet)
+#
+# --- BOMBARDIER TRANSPORTATION FUNCTIONAL DESIGN BASELINE ---
+#
+# Exchange IDs
+#
+#xid	id	entry	datatype	desc
+#OPCS2	PROPERTYCURRENTSET	ALIVEUPDC	7	update count of the alive property set properties
+#OPCS10	PROPERTYCURRENTSET	DESC	3	description of the property set
+#DM1	PROPERTYCURRENTSET	DOMAINID	3	domain identifier
+#OLOG1	PROPERTYCURRENTSET	MSGLOGTAG	3	tag to the object message log
+#OPCS1	PROPERTYCURRENTSET	SETID	3	ID of the property set
+#OPCS3	PROPERTYCURRENTSET	WORKUPDC	7	update count of the working property set properties
+#
+PROPERTYCURRENTSET.OPCS1;DM1;OPCS10;OPCS5;OPCS6
+FBLSBB;SBB;Functional Baseline SBB;|DELIVERABLE|;10
+FBLDOSTO2010;DOSTO2010;Functional Baseline DOSTO2010;|DELIVERABLE|;10

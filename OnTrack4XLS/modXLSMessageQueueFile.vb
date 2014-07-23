@@ -134,7 +134,7 @@ Module modXLSMessageQueueFile
         Public UID As Long
         Public fieldvalues As Object    ' Array of Values
 
-        Public status As clsMQFStatus  ' Status of the Message
+        'Public status As clsMQFStatus  ' Status of the Message
         Public log As String           ' Message process log
         Public processable As Boolean  ' Message is processabel / should be processed
         Public tobeapproved As Boolean    ' Message has to be approved
@@ -621,11 +621,11 @@ error_handler:
 
 
         ' Get Selection
-        dbDoc9Range = GetdbDoc9Range()
-        If dbDoc9Range Is Nothing Then
-            createXlsDoc9MQF = False
-            Exit Function
-        End If
+        'dbDoc9Range = GetdbDoc9Range()
+        'If dbDoc9Range Is Nothing Then
+        '    createXlsDoc9MQF = False
+        '    Exit Function
+        'End If
         ' Blend in all Columns
         dbDoc9Range.EntireColumn.Hidden = False
         uid_column = getXLSHeaderIDColumn("uid")
@@ -1147,7 +1147,7 @@ error_handler:
         flag = SetXlsParameterValueByName("hermes_mqf_createdby", Globals.ThisAddIn.Application.UserName, workbook:=MQFWorkbook)
         flag = SetXlsParameterValueByName("hermes_mqf_createdon", Converter.Date2LocaleShortDateString(Date.Now()), workbook:=MQFWorkbook)
         'parameter_doc9_extract_tooling
-        flag = SetXlsParameterValueByName("otdb_parameter_mqf_extract_tooling", getDoc9ToolingName(Globals.ThisAddIn.Application.Globals.ThisAddin.Application.Workbooks(currWorkbookName)), workbook:=MQFWorkbook)
+        'flag = SetXlsParameterValueByName("otdb_parameter_mqf_extract_tooling", getDoc9ToolingName(Globals.ThisAddIn.Application.Globals.ThisAddin.Application.Workbooks(currWorkbookName)), workbook:=MQFWorkbook)
         flag = SetXlsParameterValueByName("hermes_mqf_doc9used", dbDoc9Range.Worksheet.Parent.Name, workbook:=MQFWorkbook)
         flag = SetXlsParameterValueByName("hermes_mqf_doc9usedon", Converter.DateTime2LocaleDateTimeString(Date.Now), workbook:=MQFWorkbook)
 
@@ -1487,10 +1487,10 @@ handleerror:
         Dim startrow As Integer
         Dim foundflag As Boolean
 
-        Dim mfgStatus As New clsMQFStatus
+        'Dim mfgStatus As New clsMQFStatus
         Dim changeflag As Boolean
         Dim setro_flag As Boolean
-        Dim newStatus As New clsMQFStatus
+        'Dim newStatus As New clsMQFStatus
 
         Dim aprocessdate As DateTime
         Dim aXCMD As otXChangeCommandType
@@ -1657,14 +1657,14 @@ handleerror:
             Else
                 [messagequeue].XChangeConfig = Xchange.XChangeConfiguration.Create(configname:=aVAlue.toupper)
                 [messagequeue].XChangeConfig.AllowDynamicEntries = True
-
             End If
 
             ''' clear the Xchange Config if dynamic
             If [messagequeue].XChangeConfig.AllowDynamicEntries Then messagequeue.XChangeConfig.ClearEntries()
 
             '*** HACK
-            Call [messagequeue].XChangeConfig.AddObjectByName(name:=Deliverables.Deliverable.ConstObjectID, xcmd:=otXChangeCommandType.Update)
+            Call [messagequeue].XChangeConfig.AddObjectByName(name:=Deliverables.Deliverable.ConstObjectID, _
+                                                              xcmd:=otXChangeCommandType.Update)
 
             ''' do not persist the xchange configuration since we are only dynamic here
             ''' If messagequeue.XChangeConfig.IsCreated Then [messagequeue].XChangeConfig.Persist()
@@ -1783,7 +1783,7 @@ handleerror:
 
             ' get the attributes
             Dim listOfXEntries As IEnumerable(Of IXChangeConfigEntry) = [messagequeue].XChangeConfig.GetObjectEntries
-            Dim aMQFXLSValueRange As Object = mqfDBRange.Value
+            Dim aMQFXLSValueRange As Object = CType(mqfDBRange, Excel.Range).Value
 
             If Not aMQFXLSValueRange.GetType.IsArray OrElse (aMQFXLSValueRange.GetType.IsArray AndAlso aMQFXLSValueRange.GetType.GetArrayRank <> 2) Then
                 CoreMessageHandler(message:="No Array Table of MQF Data Input", arg1:=mqfDBRange.Address, subname:="modXLSMessageQueueFile.preProcessXLSMQF", _
@@ -1874,7 +1874,7 @@ handleerror:
                 '**
                 aColumnNo = 0
               
-                For Each aXChangeEntry As IXChangeConfigEntry In listOfXEntries
+                For Each aXChangeEntry As IXChangeConfigEntry In listOfXEntries.Where(Function(x) x.IsXChanged = True).ToList
                     Dim fillSlot As Boolean = True
 
                     ' get the mapping to the Column
@@ -1884,26 +1884,36 @@ handleerror:
                         aColumnNo = aColumnNo + 1
                     End If
 
-                    ' get aValue
-                    aVAlue = aMQFXLSValueRange(rowno, aColumnNo)
-                    '*** remove any whitespaces which are disturbing
-                    If aVAlue IsNot Nothing Then aVAlue = Trim(aVAlue)
-                    '*** basic transforms
-                    If IsEmpty(aVAlue) Then
-                        aVAlue = Nothing
-                        fillSlot = True
-                    ElseIf IsDate(aVAlue) Then
-                        aVAlue = CDate(aVAlue)
-                        fillSlot = True
-                    ElseIf IsNumeric(aVAlue) Then
-                        aVAlue = CDbl(aVAlue)
-                        fillSlot = True
-                    ElseIf IsError(aVAlue) Then
-                        '501;@;MQF;cell value '%2%' of column %1% in %Tupleidentifier% has excel error
-                        aMQMessage.ObjectMessageLog.Add(501, Nothing, Nothing, Nothing, Nothing, aMQMessage, aColumnNo, aVAlue)
+                    ' get aValue in the bounds
+                    If rowno >= aMQFXLSValueRange.getlowerbound(0) AndAlso rowno <= aMQFXLSValueRange.getupperbound(0) AndAlso _
+                        aColumnNo >= aMQFXLSValueRange.getlowerbound(1) AndAlso aColumnNo <= aMQFXLSValueRange.getupperbound(1) Then
+                        '*** get the value
+                        aVAlue = aMQFXLSValueRange(rowno, aColumnNo)
+                        '*** remove any whitespaces which are disturbing
+                        If aVAlue IsNot Nothing Then aVAlue = Trim(aVAlue)
+                        '*** basic transforms
+                        If IsEmpty(aVAlue) Then
+                            aVAlue = Nothing
+                            fillSlot = True
+                        ElseIf IsDate(aVAlue) Then
+                            aVAlue = CDate(aVAlue)
+                            fillSlot = True
+                        ElseIf IsNumeric(aVAlue) Then
+                            aVAlue = CDbl(aVAlue)
+                            fillSlot = True
+                        ElseIf IsError(aVAlue) Then
+                            '501;@;MQF;cell value '%2%' of column %1% in %Tupleidentifier% has excel error
+                            aMQMessage.ObjectMessageLog.Add(501, Nothing, Nothing, Nothing, Nothing, aMQMessage, aColumnNo, aVAlue)
+                            fillSlot = False
+                        End If
+
+                    Else
+                        ''' we have a xchangeentry with an ordinal (columno) which is not in the range of the line
+                        ''' might be added later and not xchanged
                         fillSlot = False
                     End If
 
+                  
                     '**
                     '** store the aValues it
                     ' theMessages(n).fieldvalues(i) = aValue
@@ -1995,53 +2005,53 @@ handleerror:
     '  aLog
 
 
-    Public Function GetStatus(theMessage As MQFMessage) As clsMQFStatus
+    'Public Function GetStatus(theMessage As MQFMessage) As clsMQFStatus
 
-        Dim fieldstatus() As Object
-        Dim aStatus As New clsMQFStatus
-        Dim i As Integer
-
-
-        If theMessage.status Is Nothing Then
-            theMessage.status = aStatus
-        End If
+    '    Dim fieldstatus() As Object
+    '    Dim aStatus As New clsMQFStatus
+    '    Dim i As Integer
 
 
-        ' if Field Arrays
-        If IsArrayInitialized(theMessage.fieldstatus) Then
-            ' lookthrough
-            For i = 0 To UBound(theMessage.fieldstatus)
-                If Not IsEmpty(theMessage.fieldstatus(i)) Then
-                    ' if to be approved and approved
-                    If theMessage.fieldstatus(i).code = constStatusCode_forapproval And theMessage.isApproved Then
-                        System.Diagnostics.Debug.WriteLine("was approved")
+    '    If theMessage.status Is Nothing Then
+    '        theMessage.status = aStatus
+    '    End If
 
-                        aStatus.code = constStatusCode_processed_ok    ' maybe is approved
-                    Else
-                        ' else the weight is ok
-                        If aStatus.weight < theMessage.fieldstatus(i).weight Then
-                            aStatus = theMessage.fieldstatus(i)
-                        End If
-                    End If
-                End If
-            Next i
-            If aStatus.weight > theMessage.status.weight Then
-                getStatus = aStatus
-            Else
-                If theMessage.status.code = constStatusCode_forapproval And theMessage.isApproved Then
-                    aStatus.code = constStatusCode_processed_ok
-                    getStatus = aStatus
-                Else
-                    getStatus = theMessage.status
-                End If
-            End If
-            Exit Function
-        Else
-            getStatus = theMessage.status
-            Exit Function
-        End If
 
-    End Function
+    '    ' if Field Arrays
+    '    If IsArrayInitialized(theMessage.fieldstatus) Then
+    '        ' lookthrough
+    '        For i = 0 To UBound(theMessage.fieldstatus)
+    '            If Not IsEmpty(theMessage.fieldstatus(i)) Then
+    '                ' if to be approved and approved
+    '                If theMessage.fieldstatus(i).code = constStatusCode_forapproval And theMessage.isApproved Then
+    '                    System.Diagnostics.Debug.WriteLine("was approved")
+
+    '                    aStatus.code = constStatusCode_processed_ok    ' maybe is approved
+    '                Else
+    '                    ' else the weight is ok
+    '                    If aStatus.weight < theMessage.fieldstatus(i).weight Then
+    '                        aStatus = theMessage.fieldstatus(i)
+    '                    End If
+    '                End If
+    '            End If
+    '        Next i
+    '        If aStatus.weight > theMessage.status.weight Then
+    '            getStatus = aStatus
+    '        Else
+    '            If theMessage.status.code = constStatusCode_forapproval And theMessage.isApproved Then
+    '                aStatus.code = constStatusCode_processed_ok
+    '                getStatus = aStatus
+    '            Else
+    '                getStatus = theMessage.status
+    '            End If
+    '        End If
+    '        Exit Function
+    '    Else
+    '        getStatus = theMessage.status
+    '        Exit Function
+    '    End If
+
+    'End Function
 
     ' ***************************************************************************************************
     '  add a Field Status to the Message
@@ -2050,33 +2060,33 @@ handleerror:
     '  aLog
 
 
-    Public Function addFieldStatus(theMessage As MQFMessage, ByVal aFieldindex As Integer, _
-                                   ByVal aStatusCode As String, ByVal aLog As String) As Boolean
+    'Public Function addFieldStatus(theMessage As MQFMessage, ByVal aFieldindex As Integer, _
+    '                               ByVal aStatusCode As String, ByVal aLog As String) As Boolean
 
-        Dim fieldstatus() As Object
-        Dim fieldlog() As Object
-        Dim newStatus As New clsMQFStatus
+    '    Dim fieldstatus() As Object
+    '    Dim fieldlog() As Object
+    '    Dim newStatus As New clsMQFStatus
 
-        ' initialize Arrays
-        If Not IsArrayInitialized(theMessage.fieldstatus) Then
-            ReDim fieldstatus(UBound(theMessage.fieldvalues))
-            theMessage.fieldstatus = fieldstatus
-        End If
-        ' initialize Arrays
-        If Not IsArrayInitialized(theMessage.fieldlog) Then
-            ReDim fieldlog(UBound(theMessage.fieldvalues))
-            theMessage.fieldlog = fieldlog
-        End If
+    '    ' initialize Arrays
+    '    If Not IsArrayInitialized(theMessage.fieldstatus) Then
+    '        ReDim fieldstatus(UBound(theMessage.fieldvalues))
+    '        theMessage.fieldstatus = fieldstatus
+    '    End If
+    '    ' initialize Arrays
+    '    If Not IsArrayInitialized(theMessage.fieldlog) Then
+    '        ReDim fieldlog(UBound(theMessage.fieldvalues))
+    '        theMessage.fieldlog = fieldlog
+    '    End If
 
-        ' add status
-        newStatus.code = aStatusCode
-        theMessage.fieldstatus(aFieldindex) = newStatus
-        ' add log
-        theMessage.fieldlog(aFieldindex) = addLog(theMessage.fieldlog(aFieldindex), aLog)
+    '    ' add status
+    '    newStatus.code = aStatusCode
+    '    theMessage.fieldstatus(aFieldindex) = newStatus
+    '    ' add log
+    '    theMessage.fieldlog(aFieldindex) = addLog(theMessage.fieldlog(aFieldindex), aLog)
 
-        addFieldStatus = True
+    '    addFieldStatus = True
 
-    End Function
+    'End Function
 
     ' ***************************************************************************************************
     '  checkOnMQFAscendingDates check the Date fields if ascending
@@ -2084,110 +2094,110 @@ handleerror:
     '  theMQFFormat as Messageformat
     '  theMessage as Message
 
-    Public Function checkOnMQFAscendingDates(theMQFFormat As XLSMQFStructure, theMessage As MQFMessage) As Boolean
-        Dim Value As Object
-        Dim MSG As String
-        Dim date1, date2 As Object
-        Dim dateids() As String
-        Dim dateinputids() As String
-        Dim dateindex() As Integer
+    'Public Function checkOnMQFAscendingDates(theMQFFormat As XLSMQFStructure, theMessage As MQFMessage) As Boolean
+    '    Dim Value As Object
+    '    Dim MSG As String
+    '    Dim date1, date2 As Object
+    '    Dim dateids() As String
+    '    Dim dateinputids() As String
+    '    Dim dateindex() As Integer
 
-        Dim datefields As String
-        Dim i, j, n As Integer
-
-
-        datefields = GetDBParameter("parameter_plausibility_fc_asc_dates")
-        If datefields = "" Then
-            checkOnMQFAscendingDates = True
-            Exit Function
-        End If
-
-        dateinputids = SplitMultiDelims(text:=datefields, DelimChars:=constDelimeter)
-        n = 1
-        If IsArrayInitialized(dateinputids) Then
-
-            For i = 1 To UBound(dateinputids)
-                If InStr(dateinputids(i), constDelimeter) = 0 Then
-                    dateinputids(i) = LCase(Trim(dateinputids(i)))
-                    ' order in crossreference dateindex
-                    For j = 0 To UBound(theMQFFormat.desc)
-                        If LCase(theMQFFormat.desc(j).ID) = dateinputids(i) Then
-                            ReDim Preserve dateindex(n)
-                            ReDim Preserve dateids(n)
-                            dateindex(n) = j
-                            dateids(n) = theMQFFormat.desc(j).ID
-                            n = n + 1
-                            Exit For
-                        End If
-                    Next j
-                End If
-            Next i
-        Else
-            checkOnMQFAscendingDates = True
-            Exit Function
-        End If
-
-        checkOnMQFAscendingDates = True
-
-        '**
-        '** now check on the dates ascending
-        For i = 1 To UBound(dateindex)
-            '** check only on Doc9Fields
-            date1 = theMessage.fieldvalues(dateindex(i))
-
-            If IsDate(date1) Then
-                If i < UBound(dateindex) Then
-                    For j = i + 1 To UBound(dateindex)
-                        If IsDate(theMessage.fieldvalues(dateindex(j))) Then
-                            date2 = theMessage.fieldvalues(dateindex(j))
-                            Exit For
-                        Else
-                            date2 = Null()
-                        End If
-                    Next j
-                Else
-                    Exit For
-                End If
-
-                If IsDate(date2) Then
-
-                    '** check the difference in days
-                    Value = DateDiff("d", date1, date2)
-                    If Value > 0 Then
-                        System.Diagnostics.Debug.WriteLine("checking date " & dateids(i) & " with " & dateids(j) & " : " & Value)
-                    ElseIf Value = 0 Then
-                        MSG = "Warning: for uid #" & theMessage.UID & " date of field " & dateids(i) & "(" & Format(date1, "dd.mm.yyyy") & ")" & _
-                              " is the same as date of field " & dateids(j) & "(" & Format(date2, "dd.mm.yyyy") & ")"
-                        theMessage.log = addLog(theMessage.log, MSG)
-                        theMessage.status = New clsMQFStatus
-                        theMessage.status.code = constStatusCode_processed_warnings
-                        theMessage.processable = theMessage.status.isProcessed And theMessage.processable
-                        If addFieldStatus(theMessage, i, theMessage.status.code, MSG) Then
-                        End If
-                        checkOnMQFAscendingDates = False
-                    Else
-                        MSG = "Error: for uid #" & theMessage.UID & " date of field " & dateids(i) & "(" & Format(date1, "dd.mm.yyyy") & ")" & _
-                              " is later as date of field " & dateids(j) & "(" & Format(date2, "dd.mm.yyyy") & ") - forecast milestone have to be ascending !"
-                        theMessage.log = addLog(theMessage.log, MSG)
-                        theMessage.status = New clsMQFStatus
-                        theMessage.status.code = constStatusCode_error
-                        theMessage.processable = theMessage.status.isProcessed And theMessage.processable
-                        If addFieldStatus(theMessage, i, theMessage.status.code, MSG) Then
-                        End If
-                        checkOnMQFAscendingDates = False
-                    End If
-                End If
-
-                '** set i to next j
-                i = j - 1
-            End If
-        Next i
+    '    Dim datefields As String
+    '    Dim i, j, n As Integer
 
 
+    '    datefields = GetDBParameter("parameter_plausibility_fc_asc_dates")
+    '    If datefields = "" Then
+    '        checkOnMQFAscendingDates = True
+    '        Exit Function
+    '    End If
+
+    '    dateinputids = SplitMultiDelims(text:=datefields, DelimChars:=constDelimeter)
+    '    n = 1
+    '    If IsArrayInitialized(dateinputids) Then
+
+    '        For i = 1 To UBound(dateinputids)
+    '            If InStr(dateinputids(i), constDelimeter) = 0 Then
+    '                dateinputids(i) = LCase(Trim(dateinputids(i)))
+    '                ' order in crossreference dateindex
+    '                For j = 0 To UBound(theMQFFormat.desc)
+    '                    If LCase(theMQFFormat.desc(j).ID) = dateinputids(i) Then
+    '                        ReDim Preserve dateindex(n)
+    '                        ReDim Preserve dateids(n)
+    '                        dateindex(n) = j
+    '                        dateids(n) = theMQFFormat.desc(j).ID
+    '                        n = n + 1
+    '                        Exit For
+    '                    End If
+    '                Next j
+    '            End If
+    '        Next i
+    '    Else
+    '        checkOnMQFAscendingDates = True
+    '        Exit Function
+    '    End If
+
+    '    checkOnMQFAscendingDates = True
+
+    '    '**
+    '    '** now check on the dates ascending
+    '    For i = 1 To UBound(dateindex)
+    '        '** check only on Doc9Fields
+    '        date1 = theMessage.fieldvalues(dateindex(i))
+
+    '        If IsDate(date1) Then
+    '            If i < UBound(dateindex) Then
+    '                For j = i + 1 To UBound(dateindex)
+    '                    If IsDate(theMessage.fieldvalues(dateindex(j))) Then
+    '                        date2 = theMessage.fieldvalues(dateindex(j))
+    '                        Exit For
+    '                    Else
+    '                        date2 = Null()
+    '                    End If
+    '                Next j
+    '            Else
+    '                Exit For
+    '            End If
+
+    '            If IsDate(date2) Then
+
+    '                '** check the difference in days
+    '                Value = DateDiff("d", date1, date2)
+    '                If Value > 0 Then
+    '                    System.Diagnostics.Debug.WriteLine("checking date " & dateids(i) & " with " & dateids(j) & " : " & Value)
+    '                ElseIf Value = 0 Then
+    '                    MSG = "Warning: for uid #" & theMessage.UID & " date of field " & dateids(i) & "(" & Format(date1, "dd.mm.yyyy") & ")" & _
+    '                          " is the same as date of field " & dateids(j) & "(" & Format(date2, "dd.mm.yyyy") & ")"
+    '                    theMessage.log = addLog(theMessage.log, MSG)
+    '                    theMessage.status = New clsMQFStatus
+    '                    theMessage.status.code = constStatusCode_processed_warnings
+    '                    theMessage.processable = theMessage.status.isProcessed And theMessage.processable
+    '                    If addFieldStatus(theMessage, i, theMessage.status.code, MSG) Then
+    '                    End If
+    '                    checkOnMQFAscendingDates = False
+    '                Else
+    '                    MSG = "Error: for uid #" & theMessage.UID & " date of field " & dateids(i) & "(" & Format(date1, "dd.mm.yyyy") & ")" & _
+    '                          " is later as date of field " & dateids(j) & "(" & Format(date2, "dd.mm.yyyy") & ") - forecast milestone have to be ascending !"
+    '                    theMessage.log = addLog(theMessage.log, MSG)
+    '                    theMessage.status = New clsMQFStatus
+    '                    theMessage.status.code = constStatusCode_error
+    '                    theMessage.processable = theMessage.status.isProcessed And theMessage.processable
+    '                    If addFieldStatus(theMessage, i, theMessage.status.code, MSG) Then
+    '                    End If
+    '                    checkOnMQFAscendingDates = False
+    '                End If
+    '            End If
+
+    '            '** set i to next j
+    '            i = j - 1
+    '        End If
+    '    Next i
 
 
 
-    End Function
+
+
+    'End Function
 
 
     '****************************************************************************************************

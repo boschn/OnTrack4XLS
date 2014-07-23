@@ -50,30 +50,30 @@ Module modXLSHelper
     '
     '
 
-    Function addLog(oldmessage As Object, newMessage As String)
+    'Function addLog(oldmessage As Object, newMessage As String)
 
-        If oldmessage = "" Then
-            oldmessage = newMessage
-        ElseIf newMessage <> "" Then
-            oldmessage = oldmessage & vbLf & newMessage
-        End If
+    '    If oldmessage = "" Then
+    '        oldmessage = newMessage
+    '    ElseIf newMessage <> "" Then
+    '        oldmessage = oldmessage & vbLf & newMessage
+    '    End If
 
-        addLog = oldmessage
+    '    addLog = oldmessage
 
-    End Function
+    'End Function
 
-    '********* createPrecode helper to create a Precode out of a PartID in the FORM 3HXX-YYYYYY-000 to 3.HXX
-    '*********
-    Public Function createPrecode(ByVal aPartID As String) As String
-        createPrecode = Mid(aPartID, 1, 1) & "." & UCase(Mid(aPartID, 2, 3)) & "-"
-    End Function
+    ''********* createPrecode helper to create a Precode out of a PartID in the FORM 3HXX-YYYYYY-000 to 3.HXX
+    ''*********
+    'Public Function createPrecode(ByVal aPartID As String) As String
+    '    createPrecode = Mid(aPartID, 1, 1) & "." & UCase(Mid(aPartID, 2, 3)) & "-"
+    'End Function
 
 
     '********* createAssycode helper to create a Precode out of a PartID in the FORM 3HXX-YYYYYY-000 to 3.HXX
     '*********
-    Public Function createAssycode(ByVal aPartID As String) As String
-        createAssycode = Mid(aPartID, 6, 2) & "." & Mid(aPartID, 8, 2) & "." & Mid(aPartID, 10, 2) & ":" & Mid(aPartID, 13, 3)
-    End Function
+    'Public Function createAssycode(ByVal aPartID As String) As String
+    '    createAssycode = Mid(aPartID, 6, 2) & "." & Mid(aPartID, 8, 2) & "." & Mid(aPartID, 10, 2) & ":" & Mid(aPartID, 13, 3)
+    'End Function
 
     '************************************************************************
     ' getDoc9ToolingName  : returns the Name of the Doc#9 Tooling
@@ -81,112 +81,112 @@ Module modXLSHelper
     '
     ' returns a String
 
-    Function getDoc9ToolingName(Optional WORKBOOK As Excel.Workbook = Nothing) As String
-        Dim named As Range
-        Dim pn As Name
-        Dim wb As Workbook
+'    Function getDoc9ToolingName(Optional WORKBOOK As Excel.Workbook = Nothing) As String
+'        Dim named As Range
+'        Dim pn As Name
+'        Dim wb As Workbook
 
-        ' get or set the global doc9
-        If Not IsMissing(WORKBOOK) Then
-            If SetGlobalDoc9(WORKBOOK) Then
-                wb = GetGlobalDoc9()
-            End If
-        End If
+'        ' get or set the global doc9
+'        If Not IsMissing(WORKBOOK) Then
+'            If SetGlobalDoc9(WORKBOOK) Then
+'                wb = GetGlobalDoc9()
+'            End If
+'        End If
 
-        'exists the name
-        If NameExistsinWorkbook(wb, constDoc9ToolingParameterName) Then
-            pn = wb.Names(constDoc9ToolingParameterName)
-            If pn.ValidWorkbookParameter Then
-                named = pn.RefersToRange
-            End If
-        End If
+'        'exists the name
+'        If NameExistsinWorkbook(wb, constDoc9ToolingParameterName) Then
+'            pn = wb.Names(constDoc9ToolingParameterName)
+'            If pn.ValidWorkbookParameter Then
+'                named = pn.RefersToRange
+'            End If
+'        End If
 
-        If Not named Is Nothing Then
-            getDoc9ToolingName = named.Value
-        Else
-            getDoc9ToolingName = ""
-        End If
+'        If Not named Is Nothing Then
+'            getDoc9ToolingName = named.Value
+'        Else
+'            getDoc9ToolingName = ""
+'        End If
 
-    End Function
+'    End Function
 
-    '************
-    '************ Doc9isSet returns TRUE if the Global Doc9 ist set
-    '************
-    Function GlobalDoc9isSet() As Boolean
-        On Error GoTo errorhandle
-        If ourSMBDoc9 Is Nothing Then
-            GlobalDoc9isSet = False
-            Exit Function
-        Else
-            If ourSMBDoc9.Name <> "" Then
-                GlobalDoc9isSet = True
-                On Error GoTo 0
-                Exit Function
-            Else
-                GlobalDoc9isSet = False
-                Exit Function
-            End If
-        End If
-errorhandle:
-        GlobalDoc9isSet = False
-        On Error GoTo 0
-    End Function
+'    '************
+'    '************ Doc9isSet returns TRUE if the Global Doc9 ist set
+'    '************
+'    Function GlobalDoc9isSet() As Boolean
+'        On Error GoTo errorhandle
+'        If ourSMBDoc9 Is Nothing Then
+'            GlobalDoc9isSet = False
+'            Exit Function
+'        Else
+'            If ourSMBDoc9.Name <> "" Then
+'                GlobalDoc9isSet = True
+'                On Error GoTo 0
+'                Exit Function
+'            Else
+'                GlobalDoc9isSet = False
+'                Exit Function
+'            End If
+'        End If
+'errorhandle:
+'        GlobalDoc9isSet = False
+'        On Error GoTo 0
+'    End Function
 
-    '************
-    '************ SetGlobalDoc9 return true if the Workbook aWorkbook ist set to Global Doc9 or if this exists
-    '************
-    Function SetGlobalDoc9(ByVal aWorkbook As Workbook) As Boolean
-        On Error GoTo errorhandle
-        If GlobalDoc9isSet() Then
-            On Error GoTo 0
-            SetGlobalDoc9 = True
-            Exit Function
-        Else
-            If SheetExistsinWorkbook(aWorkbook, constDoc9StructureSheetName) And _
-               NameExistsinWorkbook(aWorkbook, constdbdoc9structureName) Then
-                ourSMBDoc9 = aWorkbook
-                SetGlobalDoc9 = True
-                On Error GoTo 0
-                Exit Function
-            Else
-                SetGlobalDoc9 = True = False
-                On Error GoTo 0
-                Exit Function
-            End If
-        End If
-errorhandle:
-        SetGlobalDoc9 = False
-        On Error GoTo 0
-    End Function
+'    '************
+'    '************ SetGlobalDoc9 return true if the Workbook aWorkbook ist set to Global Doc9 or if this exists
+'    '************
+'    Function SetGlobalDoc9(ByVal aWorkbook As Workbook) As Boolean
+'        On Error GoTo errorhandle
+'        If GlobalDoc9isSet() Then
+'            On Error GoTo 0
+'            SetGlobalDoc9 = True
+'            Exit Function
+'        Else
+'            If SheetExistsinWorkbook(aWorkbook, constDoc9StructureSheetName) And _
+'               NameExistsinWorkbook(aWorkbook, constdbdoc9structureName) Then
+'                ourSMBDoc9 = aWorkbook
+'                SetGlobalDoc9 = True
+'                On Error GoTo 0
+'                Exit Function
+'            Else
+'                SetGlobalDoc9 = True = False
+'                On Error GoTo 0
+'                Exit Function
+'            End If
+'        End If
+'errorhandle:
+'        SetGlobalDoc9 = False
+'        On Error GoTo 0
+'    End Function
 
     '****** getMessageLogTable
     '******
     '****** get the cache of the 2 dimensional ifc status Table
 
-    Function getMessageLogTable() As Object
-        'cache the Range
-        'If getMessageLogTable Is Nothing Then
-        getMessageLogTable = getXLSParameterRangeByName("parameter_messagelog_table")
-        'End If
+    'Function getMessageLogTable() As Object
+    'cache the Range
+    'If getMessageLogTable Is Nothing Then
+    '    getMessageLogTable = getXLSParameterRangeByName("parameter_messagelog_table")
+    'End If
 
-        'If Not ArrayIsInitializedV(mqf_status_table) Then
-        '  ReDim mqf_status_table(parameter_status_mqf_message_table.Rows.Count - 1, parameter_status_mqf_message_table.Columns.Count)
-        '  Dim i, j As Integer
-        '  For i = 0 To parameter_status_mqf_message_table.Rows.Count - 1
-        '       For j = 0 To parameter_status_mqf_message_table.Columns.Count - 1
-        '          mqf_status_table(i, j) = parameter_status_mqf_message_table(i + 1, j + 1).value
-        '       Next j
-        '       ' get Range of the format as last one
-        '       Set mqf_status_table(i, const_parameter_mqf_status_col_format - 1) = _
-        '         parameter_status_mqf_message_table.Cells(i + 1, const_parameter_mqf_status_col_format) ' hardcoded
-        '  Next i
+    'If Not ArrayIsInitializedV(mqf_status_table) Then
+    '  ReDim mqf_status_table(parameter_status_mqf_message_table.Rows.Count - 1, parameter_status_mqf_message_table.Columns.Count)
+    '  Dim i, j As Integer
+    '  For i = 0 To parameter_status_mqf_message_table.Rows.Count - 1
+    '       For j = 0 To parameter_status_mqf_message_table.Columns.Count - 1
+    '          mqf_status_table(i, j) = parameter_status_mqf_message_table(i + 1, j + 1).value
+    '       Next j
+    '       ' get Range of the format as last one
+    '       Set mqf_status_table(i, const_parameter_mqf_status_col_format - 1) = _
+    '         parameter_status_mqf_message_table.Cells(i + 1, const_parameter_mqf_status_col_format) ' hardcoded
+    '  Next i
 
-        '  mqf_status_table_maxcol = parameter_status_mqf_message_table.Columns.Count ' - 1 Additional one
-        '  mqf_status_table_maxrow = parameter_status_mqf_message_table.Rows.Count - 1
-        ' End If
+    '  mqf_status_table_maxcol = parameter_status_mqf_message_table.Columns.Count ' - 1 Additional one
+    '  mqf_status_table_maxrow = parameter_status_mqf_message_table.Rows.Count - 1
+    ' End If
 
-        'getMFQStatusTable = mqf_status_table
-    End Function
+    'getMFQStatusTable = mqf_status_table
+    'End Function
 
     Function Union2(ParamArray Ranges() As Object) As Range
         ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -200,7 +200,7 @@ errorhandle:
             If Not Ranges(n) Is Nothing Then
                 If TypeOf Ranges(n) Is Excel.Range Then
                     If Not RR Is Nothing Then
-                        RR = Globals.ThisAddin.Application.Union(RR, Ranges(n))
+                        RR = Globals.ThisAddIn.Application.Union(RR, Ranges(n))
                     Else
                         RR = Ranges(n)
                     End If
@@ -227,7 +227,7 @@ errorhandle:
         For n = LBound(Ranges) + 1 To UBound(Ranges)
             If Not Ranges(n) Is Nothing Then
                 For Each r In Ranges(n).Cells
-                    If Globals.ThisAddin.Application.Intersect(ResR, r) Is Nothing Then
+                    If Globals.ThisAddIn.Application.Intersect(ResR, r) Is Nothing Then
                         ResR = Union2(ResR, r)
                     End If
                 Next r
@@ -241,210 +241,210 @@ errorhandle:
     '******
     '****** get the cache of the 2 dimensional ifc status Table
 
-    Function getMFQStatusTable() As Object
-        'cache the Range
-        If parameter_status_mqf_message_table Is Nothing Then
-            parameter_status_mqf_message_table = getXLSParameterRangeByName("parameter_mqf_message_status_table")
-        End If
+    'Function getMFQStatusTable() As Object
+    '    'cache the Range
+    '    If parameter_status_mqf_message_table Is Nothing Then
+    '        parameter_status_mqf_message_table = GetXlsParameterRangeByName("parameter_mqf_message_status_table")
+    '    End If
 
-        If Not IsArrayInitialized(mqf_status_table) Then
-            ReDim mqf_status_table(parameter_status_mqf_message_table.Rows.count - 1, parameter_status_mqf_message_table.Columns.count)
-            Dim i, j As Integer
-            For i = 0 To parameter_status_mqf_message_table.Rows.count - 1
-                For j = 0 To parameter_status_mqf_message_table.Columns.count - 1
-                    mqf_status_table(i, j) = parameter_status_mqf_message_table(i + 1, j + 1).Value
-                Next j
-                ' get Range of the format as last one
-                mqf_status_table(i, const_parameter_mqf_status_col_format - 1) = _
-                parameter_status_mqf_message_table.Cells(i + 1, const_parameter_mqf_status_col_format)    ' hardcoded
-            Next i
+    '    If Not IsArrayInitialized(mqf_status_table) Then
+    '        ReDim mqf_status_table(parameter_status_mqf_message_table.Rows.Count - 1, parameter_status_mqf_message_table.Columns.Count)
+    '        Dim i, j As Integer
+    '        For i = 0 To parameter_status_mqf_message_table.Rows.Count - 1
+    '            For j = 0 To parameter_status_mqf_message_table.Columns.Count - 1
+    '                mqf_status_table(i, j) = parameter_status_mqf_message_table(i + 1, j + 1).Value
+    '            Next j
+    '            ' get Range of the format as last one
+    '            mqf_status_table(i, const_parameter_mqf_status_col_format - 1) = _
+    '            parameter_status_mqf_message_table.Cells(i + 1, const_parameter_mqf_status_col_format)    ' hardcoded
+    '        Next i
 
-            mqf_status_table_maxcol = parameter_status_mqf_message_table.Columns.count    ' - 1 Additional one
-            mqf_status_table_maxrow = parameter_status_mqf_message_table.Rows.count - 1
-        End If
+    '        mqf_status_table_maxcol = parameter_status_mqf_message_table.Columns.Count    ' - 1 Additional one
+    '        mqf_status_table_maxrow = parameter_status_mqf_message_table.Rows.Count - 1
+    '    End If
 
-        getMFQStatusTable = mqf_status_table
-    End Function
+    '    getMFQStatusTable = mqf_status_table
+    'End Function
 
 
     '****** get parameterstatusTable
     '******
     '****** get the cache of the 2 dimensional ifc status Table
 
-    Function getIFStatusTable() As Object
-        'cache the Range
-        If parameter_status_ifc_table Is Nothing Then
-            parameter_status_ifc_table = getXLSParameterRangeByName("parameter_status_interface_table")
-        End If
-        If Not IsArrayInitialized(ifc_status_table) Then
-            ReDim ifc_status_table(parameter_status_ifc_table.Rows.count - 1, parameter_status_ifc_table.Columns.count)
-            Dim i, j As Integer
-            For i = 0 To parameter_status_ifc_table.Rows.count - 1
-                For j = 0 To parameter_status_ifc_table.Columns.count - 1
-                    ifc_status_table(i, j) = parameter_status_ifc_table(i + 1, j + 1).Value
-                Next j
-                ' get Range of the format as last one
-                ifc_status_table(i, const_parameter_IF_status_col_format - 1) = _
-                parameter_status_ifc_table.Cells(i + 1, const_parameter_IF_status_col_code)
-            Next i
-            ifc_status_table_maxcol = parameter_status_ifc_table.Columns.count    ' - 1 Additional one
-            ifc_status_table_maxrow = parameter_status_ifc_table.Rows.count - 1
-        End If
+    'Function getIFStatusTable() As Object
+    '    'cache the Range
+    '    If parameter_status_ifc_table Is Nothing Then
+    '        parameter_status_ifc_table = GetXlsParameterRangeByName("parameter_status_interface_table")
+    '    End If
+    '    If Not IsArrayInitialized(ifc_status_table) Then
+    '        ReDim ifc_status_table(parameter_status_ifc_table.Rows.Count - 1, parameter_status_ifc_table.Columns.Count)
+    '        Dim i, j As Integer
+    '        For i = 0 To parameter_status_ifc_table.Rows.Count - 1
+    '            For j = 0 To parameter_status_ifc_table.Columns.Count - 1
+    '                ifc_status_table(i, j) = parameter_status_ifc_table(i + 1, j + 1).Value
+    '            Next j
+    '            ' get Range of the format as last one
+    '            ifc_status_table(i, const_parameter_IF_status_col_format - 1) = _
+    '            parameter_status_ifc_table.Cells(i + 1, const_parameter_IF_status_col_code)
+    '        Next i
+    '        ifc_status_table_maxcol = parameter_status_ifc_table.Columns.Count    ' - 1 Additional one
+    '        ifc_status_table_maxrow = parameter_status_ifc_table.Rows.Count - 1
+    '    End If
 
-        getIFStatusTable = ifc_status_table
-    End Function
+    '    getIFStatusTable = ifc_status_table
+    'End Function
     '****** get parameterstatusICDTable
     '******
 
-    Function getStatusICDTable() As Range
-        'cache the Range
-        If parameter_status_icd_table Is Nothing Then
-            parameter_status_icd_table = getXLSParameterRangeByName("parameter_status_icd_table")
-        End If
-        getStatusICDTable = parameter_status_icd_table
-    End Function
+    'Function getStatusICDTable() As Range
+    '    'cache the Range
+    '    If parameter_status_icd_table Is Nothing Then
+    '        parameter_status_icd_table = GetXlsParameterRangeByName("parameter_status_icd_table")
+    '    End If
+    '    getStatusICDTable = parameter_status_icd_table
+    'End Function
     '****** get parameterstatusXTable
     '******
 
-    Function getStatusicdXTable() As Range
-        'cache the Range
-        If parameter_status_icd_x_table Is Nothing Then
-            parameter_status_icd_x_table = getXLSParameterRangeByName("parameter_status_icd_x_table")
-        End If
-        getStatusicdXTable = parameter_status_icd_x_table
-    End Function
+    'Function getStatusicdXTable() As Range
+    '    'cache the Range
+    '    If parameter_status_icd_x_table Is Nothing Then
+    '        parameter_status_icd_x_table = GetXlsParameterRangeByName("parameter_status_icd_x_table")
+    '    End If
+    '    getStatusicdXTable = parameter_status_icd_x_table
+    'End Function
     '****** getFCLFCStatusTable:
     '******
     '****** get the cache of the 2 dimensional Forecast Lifecycle status Table
 
-    Function getFCLFCStatusTable() As Object
-        'cache the Range
-        If parameter_status_FCLFC_table Is Nothing Then
-            parameter_status_FCLFC_table = getXLSParameterRangeByName("parameter_fc_lifecycle_status")
-        End If
+    'Function getFCLFCStatusTable() As Object
+    '    'cache the Range
+    '    If parameter_status_FCLFC_table Is Nothing Then
+    '        parameter_status_FCLFC_table = GetXlsParameterRangeByName("parameter_fc_lifecycle_status")
+    '    End If
 
-        If Not IsArrayInitialized(fclfc_status_table) Then
-            ReDim fclfc_status_table(parameter_status_FCLFC_table.Rows.count - 1, parameter_status_FCLFC_table.Columns.count)
-            Dim i, j As Integer
-            For i = 0 To parameter_status_FCLFC_table.Rows.count - 1
-                For j = 0 To parameter_status_FCLFC_table.Columns.count - 1
-                    fclfc_status_table(i, j) = parameter_status_FCLFC_table(i + 1, j + 1).Value
-                Next j
-                ' get Range of the format as last one
-                fclfc_status_table(i, const_parameter_fclfc_status_col_kpi - 1) = _
-                parameter_status_FCLFC_table.Cells(i + 1, const_parameter_fclfc_status_col_kpi)    ' hardcoded
-            Next i
+    '    If Not IsArrayInitialized(fclfc_status_table) Then
+    '        ReDim fclfc_status_table(parameter_status_FCLFC_table.Rows.Count - 1, parameter_status_FCLFC_table.Columns.Count)
+    '        Dim i, j As Integer
+    '        For i = 0 To parameter_status_FCLFC_table.Rows.Count - 1
+    '            For j = 0 To parameter_status_FCLFC_table.Columns.Count - 1
+    '                fclfc_status_table(i, j) = parameter_status_FCLFC_table(i + 1, j + 1).Value
+    '            Next j
+    '            ' get Range of the format as last one
+    '            fclfc_status_table(i, const_parameter_fclfc_status_col_kpi - 1) = _
+    '            parameter_status_FCLFC_table.Cells(i + 1, const_parameter_fclfc_status_col_kpi)    ' hardcoded
+    '        Next i
 
-            fclfc_status_table_maxcol = parameter_status_FCLFC_table.Columns.count    ' - 1 Additional one
-            fclfc_status_table_maxrow = parameter_status_FCLFC_table.Rows.count - 1
-        End If
+    '        fclfc_status_table_maxcol = parameter_status_FCLFC_table.Columns.Count    ' - 1 Additional one
+    '        fclfc_status_table_maxrow = parameter_status_FCLFC_table.Rows.Count - 1
+    '    End If
 
-        getFCLFCStatusTable = fclfc_status_table
-    End Function
+    '    getFCLFCStatusTable = fclfc_status_table
+    'End Function
 
     '****** getProcessStatusTable:
     '******
     '****** get the cache of the 2 dimensional Forecast Lifecycle status Table
 
-    Function getProcessStatusTable() As Object
-        'cache the Range
-        If parameter_status_Process_table Is Nothing Then
-            parameter_status_Process_table = getXLSParameterRangeByName("parameter_process_status")
-        End If
+    'Function getProcessStatusTable() As Object
+    '    'cache the Range
+    '    If parameter_status_Process_table Is Nothing Then
+    '        parameter_status_Process_table = GetXlsParameterRangeByName("parameter_process_status")
+    '    End If
 
-        If Not IsArrayInitialized(Process_status_table) Then
-            ReDim Process_status_table(parameter_status_Process_table.Rows.count - 1, parameter_status_Process_table.Columns.count)
-            Dim i, j As Integer
-            For i = 0 To parameter_status_Process_table.Rows.count - 1
-                For j = 0 To parameter_status_Process_table.Columns.count - 1
-                    Process_status_table(i, j) = parameter_status_Process_table(i + 1, j + 1).Value
-                Next j
-                ' get Range of the format as last one
-                Process_status_table(i, const_parameter_process_Status_col_kpi - 1) = _
-                parameter_status_Process_table.Cells(i + 1, const_parameter_process_Status_col_kpi)    ' hardcoded
-            Next i
+    '    If Not IsArrayInitialized(Process_status_table) Then
+    '        ReDim Process_status_table(parameter_status_Process_table.Rows.Count - 1, parameter_status_Process_table.Columns.Count)
+    '        Dim i, j As Integer
+    '        For i = 0 To parameter_status_Process_table.Rows.Count - 1
+    '            For j = 0 To parameter_status_Process_table.Columns.Count - 1
+    '                Process_status_table(i, j) = parameter_status_Process_table(i + 1, j + 1).Value
+    '            Next j
+    '            ' get Range of the format as last one
+    '            Process_status_table(i, const_parameter_process_Status_col_kpi - 1) = _
+    '            parameter_status_Process_table.Cells(i + 1, const_parameter_process_Status_col_kpi)    ' hardcoded
+    '        Next i
 
-            Process_status_table_maxcol = parameter_status_Process_table.Columns.count    ' - 1 Additional one
-            Process_status_table_maxrow = parameter_status_Process_table.Rows.count - 1
-        End If
+    '        Process_status_table_maxcol = parameter_status_Process_table.Columns.Count    ' - 1 Additional one
+    '        Process_status_table_maxrow = parameter_status_Process_table.Rows.Count - 1
+    '    End If
 
-        getProcessStatusTable = Process_status_table
-    End Function
+    '    getProcessStatusTable = Process_status_table
+    'End Function
 
     '****** getDMUStatusTable:
     '******
     '****** get the cache of the 2 dimensional DMU status Table
 
-    Function getDMUStatusTable() As Object
-        'cache the Range
-        If parameter_status_DMU_table Is Nothing Then
-            parameter_status_DMU_table = getXLSParameterRangeByName("parameter_dmu_status")
-        End If
+    'Function getDMUStatusTable() As Object
+    '    'cache the Range
+    '    If parameter_status_DMU_table Is Nothing Then
+    '        parameter_status_DMU_table = getXLSParameterRangeByName("parameter_dmu_status")
+    '    End If
 
-        If Not IsArrayInitialized(DMU_status_table) Then
-            ReDim DMU_status_table(parameter_status_DMU_table.Rows.count - 1, parameter_status_DMU_table.Columns.count)
-            Dim i, j As Integer
-            For i = 0 To parameter_status_DMU_table.Rows.count - 1
-                For j = 0 To parameter_status_DMU_table.Columns.count - 1
-                    DMU_status_table(i, j) = parameter_status_DMU_table(i + 1, j + 1).Value
-                Next j
-                ' get Range of the format as last one
-                DMU_status_table(i, const_parameter_DMU_Status_col_kpi - 1) = _
-                parameter_status_DMU_table.Cells(i + 1, const_parameter_DMU_Status_col_kpi)    ' hardcoded
-            Next i
+    '    If Not IsArrayInitialized(DMU_status_table) Then
+    '        ReDim DMU_status_table(parameter_status_DMU_table.Rows.count - 1, parameter_status_DMU_table.Columns.count)
+    '        Dim i, j As Integer
+    '        For i = 0 To parameter_status_DMU_table.Rows.count - 1
+    '            For j = 0 To parameter_status_DMU_table.Columns.count - 1
+    '                DMU_status_table(i, j) = parameter_status_DMU_table(i + 1, j + 1).Value
+    '            Next j
+    '            ' get Range of the format as last one
+    '            DMU_status_table(i, const_parameter_DMU_Status_col_kpi - 1) = _
+    '            parameter_status_DMU_table.Cells(i + 1, const_parameter_DMU_Status_col_kpi)    ' hardcoded
+    '        Next i
 
-            DMU_status_table_maxcol = parameter_status_DMU_table.Columns.count    ' - 1 Additional one
-            DMU_status_table_maxrow = parameter_status_DMU_table.Rows.count - 1
-        End If
+    '        DMU_status_table_maxcol = parameter_status_DMU_table.Columns.count    ' - 1 Additional one
+    '        DMU_status_table_maxrow = parameter_status_DMU_table.Rows.count - 1
+    '    End If
 
-        getDMUStatusTable = DMU_status_table
-    End Function
+    '    getDMUStatusTable = DMU_status_table
+    'End Function
 
     '****** getFEMStatusTable:
     '******
     '****** get the cache of the 2 dimensional FEM status Table
 
-    Function getFEMStatusTable() As Object
-        'cache the Range
-        If parameter_status_FEM_table Is Nothing Then
-            parameter_status_FEM_table = getXLSParameterRangeByName("parameter_FEM_status")
-        End If
+    'Function getFEMStatusTable() As Object
+    '    'cache the Range
+    '    If parameter_status_FEM_table Is Nothing Then
+    '        parameter_status_FEM_table = getXLSParameterRangeByName("parameter_FEM_status")
+    '    End If
 
-        If Not IsArrayInitialized(FEM_status_table) Then
-            ReDim FEM_status_table(parameter_status_FEM_table.Rows.count - 1, parameter_status_FEM_table.Columns.count)
-            Dim i, j As Integer
-            For i = 0 To parameter_status_FEM_table.Rows.count - 1
-                For j = 0 To parameter_status_FEM_table.Columns.count - 1
-                    FEM_status_table(i, j) = parameter_status_FEM_table(i + 1, j + 1).Value
-                Next j
-                ' get Range of the format as last one
-                FEM_status_table(i, const_parameter_FEM_Status_col_kpi - 1) = _
-                parameter_status_FEM_table.Cells(i + 1, const_parameter_FEM_Status_col_kpi)    ' hardcoded
-            Next i
+    '    If Not IsArrayInitialized(FEM_status_table) Then
+    '        ReDim FEM_status_table(parameter_status_FEM_table.Rows.count - 1, parameter_status_FEM_table.Columns.count)
+    '        Dim i, j As Integer
+    '        For i = 0 To parameter_status_FEM_table.Rows.count - 1
+    '            For j = 0 To parameter_status_FEM_table.Columns.count - 1
+    '                FEM_status_table(i, j) = parameter_status_FEM_table(i + 1, j + 1).Value
+    '            Next j
+    '            ' get Range of the format as last one
+    '            FEM_status_table(i, const_parameter_FEM_Status_col_kpi - 1) = _
+    '            parameter_status_FEM_table.Cells(i + 1, const_parameter_FEM_Status_col_kpi)    ' hardcoded
+    '        Next i
 
-            FEM_status_table_maxcol = parameter_status_FEM_table.Columns.count    ' - 1 Additional one
-            FEM_status_table_maxrow = parameter_status_FEM_table.Rows.count - 1
-        End If
+    '        FEM_status_table_maxcol = parameter_status_FEM_table.Columns.count    ' - 1 Additional one
+    '        FEM_status_table_maxrow = parameter_status_FEM_table.Rows.count - 1
+    '    End If
 
-        getFEMStatusTable = FEM_status_table
-    End Function
+    '    getFEMStatusTable = FEM_status_table
+    'End Function
     '************
     '************ GetGlobalDoc9 return the Doc9 Workbook or Nothing if not set
     '************
-    Function GetGlobalDoc9() As Workbook
-        On Error GoTo errorhandle
-        If GlobalDoc9isSet() Then
-            On Error GoTo 0
-            GetGlobalDoc9 = ourSMBDoc9
-            Exit Function
-        Else
-            GetGlobalDoc9 = Nothing
-            On Error GoTo 0
-        End If
-errorhandle:
-        GetGlobalDoc9 = Nothing
-        On Error GoTo 0
-    End Function
+'    Function GetGlobalDoc9() As Workbook
+'        On Error GoTo errorhandle
+'        If GlobalDoc9isSet() Then
+'            On Error GoTo 0
+'            GetGlobalDoc9 = ourSMBDoc9
+'            Exit Function
+'        Else
+'            GetGlobalDoc9 = Nothing
+'            On Error GoTo 0
+'        End If
+'errorhandle:
+'        GetGlobalDoc9 = Nothing
+'        On Error GoTo 0
+'    End Function
     '************
     '************ SheetExistsinWorkbook return true if the Sheet <aName> exists in the Workbook aWorkbook
     '************
@@ -462,10 +462,11 @@ errorhandle:
         Return False
     End Function
 
-    '************
-    '************ NameExistsinWorkbook return true if the Name <aName> exists in the Workbook aWorkbook
-    '************
-    Public aNameCacheTable As Dictionary(Of String, String) = New Dictionary(Of String, String)
+    ''' <summary>
+    ''' CacheDictionary for the named ranges
+    ''' </summary>
+    ''' <remarks></remarks>
+    Public namedRangesCacheTable As Dictionary(Of String, String) = New Dictionary(Of String, String)
 
     ''' <summary>
     ''' returns True if a given Name exists in the Notebook
@@ -496,10 +497,10 @@ errorhandle:
         Dim i As UShort
         For Each aName As Microsoft.Office.Interop.Excel.Name In [workbook].Names
 
-            If aNameCacheTable.ContainsKey(Globals.ThisAddIn.Application.Name & "." & [workbook].Name & "." & aName.Name) Then
+            If namedRangesCacheTable.ContainsKey(Globals.ThisAddIn.Application.Name & "." & [workbook].Name & "." & aName.Name) Then
 
             ElseIf CType(workbook.Names(i), Name).ValidWorkbookParameter Then
-                aNameCacheTable.Add(key:=Globals.ThisAddIn.Application.Name & "." & [workbook].Name & "." & aName.Name, _
+                namedRangesCacheTable.Add(key:=Globals.ThisAddIn.Application.Name & "." & [workbook].Name & "." & aName.Name, _
                                  value:=CType(workbook.Names(i), Name).RefersToRange.Address)
             End If
 
@@ -520,7 +521,7 @@ errorhandle:
 
             Return Nothing
         Catch ex As Exception
-           
+
         End Try
         Return Nothing
     End Function
@@ -557,7 +558,7 @@ errorhandle:
                 End If
             Next
             Return False
-           
+
         Catch ex As System.Runtime.InteropServices.COMException
             Return False
         End Try
@@ -568,7 +569,7 @@ errorhandle:
     '************ NameExistsinWorksheet return true if the Name <aName> exists in the Worksheet aWorksheet
     '************
     Function NameExistsinWorksheet(ByVal aWorksheet As Worksheet, ByVal aName As String) As Boolean
-       
+
         Try
             For Each name As String In aWorksheet.Names
                 If LCase(name) = LCase(aName) Then
@@ -579,7 +580,7 @@ errorhandle:
             Return False
 
         Catch ex As System.Runtime.InteropServices.COMException
-            
+
 
             Return False
         End Try
@@ -628,7 +629,7 @@ errorhandle:
             Exit Function
         End If
 
-        Value = getXLSParameterByName(Name, aWorkbook, found, silent)
+        Value = GetXlsParameterByName(Name, aWorkbook, found, silent)
         If Value = "" Then
             getParameterFieldArray = Nothing
             Exit Function
@@ -667,55 +668,55 @@ errorhandle:
     ' getDoc9FieldArray : returns a list of valid IDs from a String
     '                             Fetches errors like Worksheet is missing or ParameterName not Defined
 
-    Function getDoc9FieldArray(ByVal Value As String) As Object
+    'Function getDoc9FieldArray(ByVal Value As String) As Object
 
-        Dim multi() As String
-        'Dim value As Variant
-        Dim n, i, j As Integer
-        Dim dbdesc() As xlsDBDesc
-        Dim dateids() As String
-        Dim emptya() As String
+    '    Dim multi() As String
+    '    'Dim value As Variant
+    '    Dim n, i, j As Integer
+    '    Dim dbdesc() As xlsDBDesc
+    '    Dim dateids() As String
+    '    Dim emptya() As String
 
 
-        ' parameters
-        If Not getDBDesc(dbdesc) Then
-            getDoc9FieldArray = emptya
-            Exit Function
-        End If
+    '    ' parameters
+    '    If Not getDBDesc(dbdesc) Then
+    '        getDoc9FieldArray = emptya
+    '        Exit Function
+    '    End If
 
-        If Value = "" Then
-            getDoc9FieldArray = emptya
-            Exit Function
-        End If
+    '    If Value = "" Then
+    '        getDoc9FieldArray = emptya
+    '        Exit Function
+    '    End If
 
-        ' check through
-        multi = SplitMultiDelims(text:=Value, DelimChars:=constDelimeter)
-        n = 0
-        If IsArrayInitialized(multi) Then
+    '    ' check through
+    '    multi = SplitMultiDelims(text:=Value, DelimChars:=constDelimeter)
+    '    n = 0
+    '    If IsArrayInitialized(multi) Then
 
-            For i = 1 To UBound(multi)
-                If InStr(multi(i), constDelimeter) = 0 Then
-                    multi(i) = LCase(Trim(multi(i)))
-                    ' order in crossreference dateindex
-                    For j = 0 To UBound(dbdesc)
-                        If LCase(dbdesc(j).ID) = multi(i) Then
-                            'ReDim Preserve dateindex(n)
-                            ReDim Preserve dateids(n)
-                            'dateindex(n) = j
-                            dateids(n) = dbdesc(j).ID
-                            n = n + 1
-                            Exit For
-                        End If
-                    Next j
-                End If
-            Next i
-        Else
-            getDoc9FieldArray = emptya
-            Exit Function
-        End If
+    '        For i = 1 To UBound(multi)
+    '            If InStr(multi(i), constDelimeter) = 0 Then
+    '                multi(i) = LCase(Trim(multi(i)))
+    '                ' order in crossreference dateindex
+    '                For j = 0 To UBound(dbdesc)
+    '                    If LCase(dbdesc(j).ID) = multi(i) Then
+    '                        'ReDim Preserve dateindex(n)
+    '                        ReDim Preserve dateids(n)
+    '                        'dateindex(n) = j
+    '                        dateids(n) = dbdesc(j).ID
+    '                        n = n + 1
+    '                        Exit For
+    '                    End If
+    '                Next j
+    '            End If
+    '        Next i
+    '    Else
+    '        getDoc9FieldArray = emptya
+    '        Exit Function
+    '    End If
 
-        getDoc9FieldArray = dateids
-    End Function
+    '    getDoc9FieldArray = dateids
+    'End Function
 
 
 
@@ -730,7 +731,7 @@ errorhandle:
     Function getXLSColumn(ByVal ParameterName As String, ByVal db As Range, Optional aWorkbook As Excel.Workbook = Nothing) As Integer
         Dim Value As String
 
-        Value = getXLSParameterByName(ParameterName, aWorkbook)
+        Value = GetXlsParameterByName(ParameterName, aWorkbook)
         Try
 
 
@@ -755,13 +756,13 @@ errorhandle:
     '*********
     '********* value as Variant
     '*********
-    Public Function cvtCar(Value As Object) As Boolean
-        If Len(Value) > 0 And Len(Globals.ThisAddIn.Application.WorksheetFunction.Trim(Value)) = 0 Then
-            Value = Globals.ThisAddIn.Application.WorksheetFunction.Trim(Value)
-            'Debug.Print "value is whitechar"
-        End If
-        cvtCar = Not Value = ""
-    End Function
+    'Public Function cvtCar(Value As Object) As Boolean
+    '    If Len(Value) > 0 And Len(Globals.ThisAddIn.Application.WorksheetFunction.Trim(Value)) = 0 Then
+    '        Value = Globals.ThisAddIn.Application.WorksheetFunction.Trim(Value)
+    '        'Debug.Print "value is whitechar"
+    '    End If
+    '    cvtCar = Not Value = ""
+    'End Function
 
     '*********
     '********* pasteFormat from Source Range to Target Range
@@ -870,11 +871,11 @@ errorhandle:
 
         For Each area In searchrange.Areas
             With area
-                If .Cells(.Cells.count).row > maxrow Then
-                    maxrow = .Cells(.Cells.count).row
+                If .Cells(.Cells.Count).row > maxrow Then
+                    maxrow = .Cells(.Cells.Count).row
                 End If
-                If .Cells(.Cells.count).Column > MaxCol Then
-                    MaxCol = .Cells(.Cells.count).Column
+                If .Cells(.Cells.Count).Column > MaxCol Then
+                    MaxCol = .Cells(.Cells.Count).Column
                 End If
             End With
         Next area
@@ -901,7 +902,7 @@ errorhandle:
                         End If
                     End If
                     If EndsWith <> vbNullString Then
-                        If StrComp(Right(FoundCell.text, Len(EndsWith)), EndsWith, BeginEndCompare) = 0 Then
+                        If StrComp(Right(FoundCell.Text, Len(EndsWith)), EndsWith, BeginEndCompare) = 0 Then
                             Include = True
                         End If
                     End If

@@ -219,6 +219,23 @@ Public Class UIFormReplication
         Else
             fullReplication = False
         End If
+
+        ''' check if full inbound
+        ''' 
+        If Me._replicationMode = ReplicationMode.Inbound AndAlso fullReplication Then
+            Telerik.WinControls.RadMessageBox.SetThemeName("TelerikMetroBlue")
+            Dim aresult As System.Windows.Forms.DialogResult = Telerik.WinControls.RadMessageBox.Show(text:="ATTENTION !" & vbLf & "Do you really want to replicate all data from the excel sheet to the database and overwrite existing data ?", _
+                                                          caption:="Please confirm", _
+                                                          icon:=Telerik.WinControls.RadMessageIcon.Question, _
+                                                          buttons:=System.Windows.Forms.MessageBoxButtons.YesNoCancel, _
+                                                          defaultButton:=System.Windows.Forms.MessageBoxDefaultButton.Button2)
+            If aresult <> System.Windows.Forms.DialogResult.Yes AndAlso aresult <> System.Windows.Forms.DialogResult.OK Then
+                Return
+            End If
+        End If
+      
+
+        ''' run replication
         e.Result = XLSXChangeMgr.ReplicateDataArea(dataarea:=_dataarea, domainid:=_domainID, fullReplication:=fullReplication, xcmd:=aXCMD, _
                                            workspaceID:=Me.WorkspaceDropDownList.Text, workerthread:=_replicateWorker)
 
@@ -424,41 +441,16 @@ Public Class UIFormReplication
         If _replicateWorker.IsBusy Then _replicateWorker.CancelAsync()
         Dim FormClosingArgs As System.Windows.Forms.FormClosingEventArgs = TryCast(e, System.Windows.Forms.FormClosingEventArgs)
         If FormClosingArgs Is Nothing Then
-
             Me.Dispose()
-
         Else
             FormClosingArgs.Cancel = True
         End If
-
-
     End Sub
 
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="sender"></param>
-    ''' <param name="e"></param>
-    ''' <remarks></remarks>
-    Private Sub AddConfig_Click(sender As Object, e As EventArgs)
-        Dim aXconfig As XChangeConfiguration = modQuicknDirty.getXlsDoc9Xconfig
-        Dim aRange As Microsoft.Office.Interop.Excel.Range = modQuicknDirty.GetdbDoc9Range()
-
-        'Me.ConfigDropDownList.Text = aXconfig.CONFIGNAME
-
-        'define the dataarea
-        _dataarea = New XLSDataArea("doc9", aXconfig)
-        _dataarea.DataRange = aRange
-        _dataarea.SelectionID = "X2"
-        _dataarea.HeaderIDRange = GetXlsParameterRangeByName( _
-                            name:="doc9_headerid", workbook:=Globals.ThisAddIn.Application.ActiveWorkbook)
-
-        'Me.RefEdit.Address = "'" & aRange.Parent.Name & "'!" & aRange.Address(External:=False)
-
-    End Sub
+    
 
     ''' <summary>
-    ''' 
+    ''' DataAreaCombo Box selected Index Changed Event
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>

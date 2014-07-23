@@ -7749,7 +7749,16 @@ otdbBackEnd
 	<value></value>
 	<returns>the current session object</returns>
 	<remarks></remarks>
+<<<<<<< Updated upstream
 </member><member name="P:OnTrack.ot.CurrentDBDriver">
+=======
+</member><member name="P:OnTrack.UI.ormModelTable.EventArgs.Msglog">
+	<summary>
+ Gets or sets the msglog.
+ </summary>
+	<value>The msglog.</value>
+</member><member name="P:OnTrack.UI.ormModelTable.EventArgs.Message">
+>>>>>>> Stashed changes
 	<summary>
  Gets the primary DB env.
  </summary>
@@ -7806,7 +7815,18 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
+<<<<<<< Updated upstream
 </member><member name="P:OnTrack.ot.ConfigSetNamesToSelect">
+=======
+</member><member name="P:OnTrack.UI.ormModelTable.trackMessageLog">
+	<summary>
+ ObjectMessageLog 
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.UI.ormModelTable.Id">
+>>>>>>> Stashed changes
 	<summary>
  returns a list of selectable config set names without global
  </summary>
@@ -7901,7 +7921,18 @@ otdbBackEnd
 	<param name="modulename"></param>
 	<returns></returns>
 	<remarks></remarks>
+<<<<<<< Updated upstream
 </member><member name="M:OnTrack.ot.GetBootStrapTableNames">
+=======
+</member><member name="M:OnTrack.UI.ormModelTable.ormModeltable_OnObjectMessageAdded(System.Object,OnTrack.ObjectMessageLog.EventArgs)">
+	<summary>
+ Event Handler for ObjectMessageLogs propagate
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.ormModelTable.AddNewObject(System.Data.DataRow)">
+>>>>>>> Stashed changes
 	<summary>
  returns a List of Boot strapping tables
  </summary>
@@ -10306,6 +10337,12 @@ otdbBackEnd
  </summary>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:OnTrack.Database.ObjectDefinition.GetPrimaryKeyEntrynames">
+	<summary>
+ returns a List of PrimaryKeyEntrynames
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="M:OnTrack.Database.ObjectDefinition.GetEntry(System.String)">
 	<summary>
  gets an entry by entryname or nothing
@@ -10404,6 +10441,13 @@ otdbBackEnd
 	<summary>
  constructor
  </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Database.AbstractEntryDefinition.GetObjectDefinition">
+	<summary>
+ returns the ObjectDefinition to which this Entry belongs to
+ </summary>
+	<value></value>
+	<returns></returns>
 	<remarks></remarks>
 </member><member name="P:OnTrack.Database.AbstractEntryDefinition.IsMapped">
 	<summary>
@@ -11684,6 +11728,13 @@ otdbBackEnd
  Gets or sets the render reg exp match.
  </summary>
 	<value>The render reg exp match.</value>
+</member><member name="P:OnTrack.Database.ormObjectEntryAttribute.GetObjectDefinition">
+	<summary>
+ GetOnbjectDefintiion - not applicable
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="P:OnTrack.Database.ormObjectEntryAttribute.Properties">
 	<summary>
  Gets or sets the object entry properties.
@@ -12493,14 +12544,14 @@ otdbBackEnd
 	<value>The OTDB record.</value>
 </member><member name="P:OnTrack.Database.ormDataObject.ObjectPrimaryKeyEntrynames">
 	<summary>
- returns an array of the primarykey entry names
+ returns an array of the objects primarykey entry names
  </summary>
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
 </member><member name="P:OnTrack.Database.ormDataObject.ObjectPrimaryKeyValues">
 	<summary>
- returns the primaryKeyvalues
+ returns the object primaryKeyvalues
  </summary>
 	<value></value>
 	<returns></returns>

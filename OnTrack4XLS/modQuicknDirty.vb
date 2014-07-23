@@ -112,7 +112,7 @@ Module modQuicknDirty
     '   change-log:
     ' ***************************************************************************************************
 
-    Public dbdoc9structure As Range    ' global cache of dbdoc9structure range
+    'Public dbdoc9structure As Range    ' global cache of dbdoc9structure range
 
     '
     ' Field definitions
@@ -124,99 +124,99 @@ Module modQuicknDirty
     '  returns the Range as Range or Empty Value if no freeze !
 
 
-    Function GetdbDoc9Range() As Range
+    'Function GetdbDoc9Range() As Range
 
-        Dim nullRange As Range
+    '    Dim nullRange As Range
 
-        Dim flag As Boolean
-        Dim ws As Worksheet
-        Dim namedarea As Name
-        Dim namedrange As Range
-        Dim startrow As Integer
-        Dim parameter_ws As Worksheet
+    '    Dim flag As Boolean
+    '    Dim ws As Worksheet
+    '    Dim namedarea As Name
+    '    Dim namedrange As Range
+    '    Dim startrow As Integer
+    '    Dim parameter_ws As Worksheet
 
-        Dim Value As Object
+    '    Dim Value As Object
 
-        Dim dbDoc9Range As Range
-        Dim dbdoc9HRange As Range
+    '    Dim dbDoc9Range As Range
+    '    Dim dbdoc9HRange As Range
 
-        ' return cache
-        If Not dbdoc9structure Is Nothing Then
-            getdbDoc9Range = dbdoc9structure
-            Exit Function
-        End If
+    '    ' return cache
+    '    If Not dbdoc9structure Is Nothing Then
+    '        getdbDoc9Range = dbdoc9structure
+    '        Exit Function
+    '    End If
 
-        REM
-        REM Run some Checks
-        REM
+    '    REM
+    '    REM Run some Checks
+    '    REM
 
-        ' Check if sheet in tool matrix is there
-        flag = False
-        If Not GlobalDoc9isSet() Then
-            Call SetGlobalDoc9(Globals.ThisAddIn.Application.ActiveWorkbook)
+    '    ' Check if sheet in tool matrix is there
+    '    flag = False
+    '    If Not GlobalDoc9isSet() Then
+    '        Call SetGlobalDoc9(Globals.ThisAddIn.Application.ActiveWorkbook)
 
-        End If
-        ourSMBDoc9 = GetGlobalDoc9()
-        ' Sheet there ?
-        If SheetExistsinWorkbook(ourSMBDoc9, constDoc9StructureSheetName) Then
-            ws = ourSMBDoc9.Sheets(constDoc9StructureSheetName)
-            Value = modParameterXLS.GetXlsParameterByName("parameter_doc9_database_range")
-            flag = True
-        Else
-            Call CoreMessageHandler(showmsgbox:=True, break:=False, subname:="modDoc9.getDBdDoc9Range", _
-                                   message:="Abort: The Worksheet '" & constDoc9StructureSheetName & " ' is not found in the Workbook " & ourSMBDoc9.Name & "!", _
-                                   messagetype:=otCoreMessageType.ApplicationError)
-            getdbDoc9Range = nullRange
-            Exit Function
-        End If
+    '    End If
+    '    ourSMBDoc9 = GetGlobalDoc9()
+    '    ' Sheet there ?
+    '    If SheetExistsinWorkbook(ourSMBDoc9, constDoc9StructureSheetName) Then
+    '        ws = ourSMBDoc9.Sheets(constDoc9StructureSheetName)
+    '        Value = modParameterXLS.GetXlsParameterByName("parameter_doc9_database_range")
+    '        flag = True
+    '    Else
+    '        Call CoreMessageHandler(showmsgbox:=True, break:=False, subname:="modDoc9.getDBdDoc9Range", _
+    '                               message:="Abort: The Worksheet '" & constDoc9StructureSheetName & " ' is not found in the Workbook " & ourSMBDoc9.Name & "!", _
+    '                               messagetype:=otCoreMessageType.ApplicationError)
+    '        getdbDoc9Range = nullRange
+    '        Exit Function
+    '    End If
 
-        'parametersheet
-        ' Sheet there ?
-        If SheetExistsinWorkbook(ourSMBDoc9, constParameterSheetName) Then
-            parameter_ws = ourSMBDoc9.Sheets(constParameterSheetName)
-        Else
-            Call CoreMessageHandler(showmsgbox:=True, break:=False, subname:="modDoc9.getDBdDoc9Range", _
-                                  message:="Abort: The Worksheet '" & constDoc9StructureSheetName & " ' is not found in the Workbook " & ourSMBDoc9.Name & "!", _
-                                  messagetype:=otCoreMessageType.ApplicationError)
-            getdbDoc9Range = nullRange
-            Exit Function
-        End If
+    '    'parametersheet
+    '    ' Sheet there ?
+    '    If SheetExistsinWorkbook(ourSMBDoc9, constParameterSheetName) Then
+    '        parameter_ws = ourSMBDoc9.Sheets(constParameterSheetName)
+    '    Else
+    '        Call CoreMessageHandler(showmsgbox:=True, break:=False, subname:="modDoc9.getDBdDoc9Range", _
+    '                              message:="Abort: The Worksheet '" & constDoc9StructureSheetName & " ' is not found in the Workbook " & ourSMBDoc9.Name & "!", _
+    '                              messagetype:=otCoreMessageType.ApplicationError)
+    '        getdbDoc9Range = nullRange
+    '        Exit Function
+    '    End If
 
-        ' search replica database
-        flag = False
-        ' get startrow
-        startrow = modParameterXLS.GetXlsParameterByName("parameter_doc9db_startrow")
-        ' the full sheet
-        Dim maxrow As Integer
-        Dim MaxCol As Integer
+    '    ' search replica database
+    '    flag = False
+    '    ' get startrow
+    '    startrow = modParameterXLS.GetXlsParameterByName("parameter_doc9db_startrow")
+    '    ' the full sheet
+    '    Dim maxrow As Integer
+    '    Dim MaxCol As Integer
 
-        MaxCol = ws.Cells(startrow, ws.Columns.Count).End(Excel.XlDirection.xlToLeft).Column
-        maxrow = ws.Cells(ws.Rows.Count, 1).End(Excel.XlDirection.xlUp).row
+    '    MaxCol = ws.Cells(startrow, ws.Columns.Count).End(Excel.XlDirection.xlToLeft).Column
+    '    maxrow = ws.Cells(ws.Rows.Count, 1).End(Excel.XlDirection.xlUp).row
 
-        ' no header in range
-        dbDoc9Range = ws.Range(ws.Cells(startrow, 1), ws.Cells(maxrow, MaxCol))
-        dbdoc9HRange = ws.Range(ws.Cells(startrow - 1, 1), ws.Cells(maxrow, MaxCol))
+    '    ' no header in range
+    '    dbDoc9Range = ws.Range(ws.Cells(startrow, 1), ws.Cells(maxrow, MaxCol))
+    '    dbdoc9HRange = ws.Range(ws.Cells(startrow - 1, 1), ws.Cells(maxrow, MaxCol))
 
-        ' store values
-        If (parameter_ws.ProtectContents And Not ourSMBDoc9.MultiUserEditing) _
-        Or Not parameter_ws.ProtectContents Then
-            ' save parameter
-            Value = modParameterXLS.SetXlsParameterValueByName("parameter_doc9_database_name", constdbdoc9structureName)
-            Value = modParameterXLS.SetXlsParameterValueByName("parameter_doc9H_database_name", constHdbdoc9structureName)
-            Value = modParameterXLS.SetXlsParameterValueByName("parameter_doc9_database_range", dbDoc9Range.Address)
-            Value = modParameterXLS.SetXlsParameterValueByName("parameter_doc9H_database_range", dbdoc9HRange.Address)
-        End If
+    '    ' store values
+    '    If (parameter_ws.ProtectContents And Not ourSMBDoc9.MultiUserEditing) _
+    '    Or Not parameter_ws.ProtectContents Then
+    '        ' save parameter
+    '        Value = modParameterXLS.SetXlsParameterValueByName("parameter_doc9_database_name", constdbdoc9structureName)
+    '        Value = modParameterXLS.SetXlsParameterValueByName("parameter_doc9H_database_name", constHdbdoc9structureName)
+    '        Value = modParameterXLS.SetXlsParameterValueByName("parameter_doc9_database_range", dbDoc9Range.Address)
+    '        Value = modParameterXLS.SetXlsParameterValueByName("parameter_doc9H_database_range", dbdoc9HRange.Address)
+    '    End If
 
-        ourSMBDoc9.Names.Add(Name:=constdbdoc9structureName, RefersTo:=dbDoc9Range)
-        ourSMBDoc9.Names.Add(Name:=constHdbdoc9structureName, RefersTo:=dbdoc9HRange)
+    '    ourSMBDoc9.Names.Add(Name:=constdbdoc9structureName, RefersTo:=dbDoc9Range)
+    '    ourSMBDoc9.Names.Add(Name:=constHdbdoc9structureName, RefersTo:=dbdoc9HRange)
 
-        'If dbDoc9Range.AutoFilter Then
-        dbDoc9Range.Worksheet.AutoFilterMode = False
-        'End If
+    '    'If dbDoc9Range.AutoFilter Then
+    '    dbDoc9Range.Worksheet.AutoFilterMode = False
+    '    'End If
 
-        dbdoc9structure = dbDoc9Range
-        getdbDoc9Range = dbDoc9Range
-    End Function
+    '    dbdoc9structure = dbDoc9Range
+    '    getdbDoc9Range = dbDoc9Range
+    'End Function
 
     '**********
     '********** get Selection in Range
@@ -231,11 +231,11 @@ Module modQuicknDirty
         Dim msgboxrs As CoreMessageBox.ResultType
 
         ' Get Selection
-        dbRange = getdbDoc9Range()
-        If dbRange Is Nothing Then
-            getSelectionAsRange = Nothing
-            Exit Function
-        End If
+        'dbRange = getdbDoc9Range()
+        'If dbRange Is Nothing Then
+        '    getSelectionAsRange = Nothing
+        '    Exit Function
+        'End If
         ' Blend in all Columns
         dbRange.EntireColumn.Hidden = False
 
@@ -306,20 +306,20 @@ Module modQuicknDirty
         Dim Prefix As String
 
         ' Doc9
-        If ourSMBDoc9 Is Nothing Then
-            ourSMBDoc9 = Globals.ThisAddin.Application.ActiveWorkbook
+        If xlsDBWorkbook Is Nothing Then
+            xlsDBWorkbook = Globals.ThisAddin.Application.ActiveWorkbook
         End If
 
         '** search
         Prefix = modParameterXLS.getXLSParameterByName("parameter_doc9_dbdesc_prefix")
-        If NameExistsinWorkbook(ourSMBDoc9, Prefix & headerid) Then
-            pn = ourSMBDoc9.Names(Prefix & headerid)
+        If NameExistsinWorkbook(xlsDBWorkbook, Prefix & headerid) Then
+            pn = xlsDBWorkbook.Names(Prefix & headerid)
             flag = True
         Else
             '** update if not found
             Call updateXlSDBDescTable()
-            If NameExistsinWorkbook(ourSMBDoc9, Prefix & headerid) Then
-                pn = ourSMBDoc9.Names(Prefix & headerid)
+            If NameExistsinWorkbook(xlsDBWorkbook, Prefix & headerid) Then
+                pn = xlsDBWorkbook.Names(Prefix & headerid)
                 flag = True
             End If
         End If
@@ -411,9 +411,9 @@ Module modQuicknDirty
         Dim Prefix As String
         'Dim DBFieldList() As xlsDBDesc
 
-        If IsMissing(aWorkbook) Then
-            aWorkbook = GetGlobalDoc9()
-        End If
+        'If IsMissing(aWorkbook) Then
+        '    aWorkbook = GetGlobalDoc9()
+        'End If
 
         headerids_name = getXLSParameterByName(NAME:="parameter_doc9_headerid_name", WORKBOOK:=aWorkbook)
         headerids = getXLSParameterRangeByName(headerids_name, WORKBOOK:=aWorkbook)
@@ -808,517 +808,517 @@ Module modQuicknDirty
     '******** updateRowXlsDoc9: updates a line per uid by with a array of columns and corresponding values in
     '********                INPUTMAPPING
 
-    Public Function updateRowXlsDoc9(ByRef INPUTMAPPING As Dictionary(Of Object, Object), _
-    ByRef INPUTXCHANGECONFIG As XChangeConfiguration, _
-    Optional ByVal workspaceID As String = "") _
-    As Boolean
+    'Public Function updateRowXlsDoc9(ByRef INPUTMAPPING As Dictionary(Of Object, Object), _
+    'ByRef INPUTXCHANGECONFIG As XChangeConfiguration, _
+    'Optional ByVal workspaceID As String = "") _
+    'As Boolean
 
 
-        'Dim aProgressBar As New clsUIProgressBarForm
-        Dim aXChangeConfig As New XChangeConfiguration
-        Dim aMQFXChangeMember As XChangeObjectEntry
-        Dim aXChangeMember As XChangeObjectEntry
-        Dim m As Object
+    '    'Dim aProgressBar As New clsUIProgressBarForm
+    '    Dim aXChangeConfig As New XChangeConfiguration
+    '    Dim aMQFXChangeMember As XChangeObjectEntry
+    '    Dim aXChangeMember As XChangeObjectEntry
+    '    Dim m As Object
 
-        Dim doc9DB As Range
-        Dim UIDCol, col As Long
-        Dim UID As Long
-        Dim row As Long
-        Dim maxrow As Long
-        Dim searchcell As Range
-        Dim searcharea As Range
-        Dim found As Range
-        Dim findrange As Range
-        Dim offset As Integer
-        Dim i As Integer
-        Dim aVAlue As Object
-        Dim aNewValue As Object
-        Dim valuechanged_flag As Boolean
-        Dim rowvaluechanged_flag As Boolean
-        Dim formatwarning, formatChange As Range
-        'Dim aMsgLog As clsStatusMsg
-
-
-        aXChangeConfig = getXlsDoc9Xconfig()
-        If aXChangeConfig Is Nothing Then
-            updateRowXlsDoc9 = False
-            Exit Function
-        End If
+    '    Dim doc9DB As Range
+    '    Dim UIDCol, col As Long
+    '    Dim UID As Long
+    '    Dim row As Long
+    '    Dim maxrow As Long
+    '    Dim searchcell As Range
+    '    Dim searcharea As Range
+    '    Dim found As Range
+    '    Dim findrange As Range
+    '    Dim offset As Integer
+    '    Dim i As Integer
+    '    Dim aVAlue As Object
+    '    Dim aNewValue As Object
+    '    Dim valuechanged_flag As Boolean
+    '    Dim rowvaluechanged_flag As Boolean
+    '    Dim formatwarning, formatChange As Range
+    '    'Dim aMsgLog As clsStatusMsg
 
 
-        ' Get Database
-        doc9DB = getdbDoc9Range()
-        If doc9DB Is Nothing Then
-            'Debug.Print "Fatal:Doc9DB could not be set ?!"
-            updateRowXlsDoc9 = False
-            Exit Function
-        End If
-
-        Globals.ThisAddIn.Application.EnableEvents = False
-
-        ' Get Parameters
-        UIDCol = getXLSHeaderIDColumn(constDoc9DB_UID)
-        If UIDCol = -1 Then
-            'Debug.Print "Fatal:UID Column is in DOC9 missing ?!"
-            updateRowXlsDoc9 = False
-            Exit Function
-        End If
-
-        'aVAlue = INPUTXCHANGECONFIG.getMemberValue("uid", MAPPING:=INPUTMAPPING)
-        If IsNumeric(aVAlue) Then
-            UID = CLng(aVAlue)
-        Else
-            'Debug.Assert False
-        End If
+    '    aXChangeConfig = getXlsDoc9Xconfig()
+    '    If aXChangeConfig Is Nothing Then
+    '        updateRowXlsDoc9 = False
+    '        Exit Function
+    '    End If
 
 
-        formatwarning = getXLSParameterRangeByName("parameter_doc9_format_warning")
-        formatChange = getXLSParameterRangeByName("parameter_doc9_format_change")
-        'aMsgLog = New clsStatusMsg
-        '
-        offset = getXLSParameterByName("parameter_doc9db_startrow")
-        ' Search
-        maxrow = doc9DB.Rows.count
-        searchcell = doc9DB.Cells(1, UIDCol)
-        searcharea = doc9DB.Worksheet.Range(searchcell, doc9DB.Worksheet.Cells(maxrow, UIDCol))
-        found = FindAll(searcharea, UID, Excel.XlFindLookIn.xlValues, Excel.XlLookAt.xlWhole, XlSearchOrder.xlByColumns, False)
+    '    ' Get Database
+    '    doc9DB = getdbDoc9Range()
+    '    If doc9DB Is Nothing Then
+    '        'Debug.Print "Fatal:Doc9DB could not be set ?!"
+    '        updateRowXlsDoc9 = False
+    '        Exit Function
+    '    End If
 
-        ' go through all found rows
-        If Not found Is Nothing Then
-            For Each findrange In found
-                ' row no
-                row = findrange.row - offset + 1  'Cells (1,1) is the one
-                UID = findrange.Cells(1, UIDCol).Value
+    '    Globals.ThisAddIn.Application.EnableEvents = False
 
-                rowvaluechanged_flag = False
+    '    ' Get Parameters
+    '    UIDCol = getXLSHeaderIDColumn(constDoc9DB_UID)
+    '    If UIDCol = -1 Then
+    '        'Debug.Print "Fatal:UID Column is in DOC9 missing ?!"
+    '        updateRowXlsDoc9 = False
+    '        Exit Function
+    '    End If
 
-                For Each m In INPUTXCHANGECONFIG.GetObjectEntries
-                    aMQFXChangeMember = m
-                    aXChangeMember = TryCast(aXChangeConfig.GetEntryByXID(XID:=aMQFXChangeMember.XID, objectname:=aMQFXChangeMember.Objectname), XChangeObjectEntry)
+    '    'aVAlue = INPUTXCHANGECONFIG.getMemberValue("uid", MAPPING:=INPUTMAPPING)
+    '    If IsNumeric(aVAlue) Then
+    '        UID = CLng(aVAlue)
+    '    Else
+    '        'Debug.Assert False
+    '    End If
 
-                    If Not aXChangeMember Is Nothing Then
-                        If aXChangeMember.IsCreated Or aXChangeMember.IsLoaded And aXChangeMember.ISXCHANGED Then
-                            ' current value of cell
-                            col = aXChangeMember.ordinal.Value
-                            aVAlue = findrange.Cells(1, col).Value
-                            If INPUTMAPPING.ContainsKey(aMQFXChangeMember.ordinal.Value) Then
-                                aNewValue = INPUTMAPPING.Item(aMQFXChangeMember.ordinal.Value)
 
-                                If Not IsNull(aNewValue) And Not IsEmpty(aNewValue) And aNewValue <> aVAlue And aNewValue <> "" Then
-                                    rowvaluechanged_flag = True
-                                    '** convert
-                                    If (aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.[Date] Or _
-                                    aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.Timestamp) And _
-                                    IsDate(aNewValue) Then
-                                        findrange.Cells(1, col).value = CDate(aNewValue)
-                                    ElseIf aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.[Long] And _
-                                    IsNumeric(aNewValue) Then
-                                        findrange.Cells(1, col).value = CLng(aNewValue)
-                                    ElseIf aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.Numeric And _
-                                    IsNumeric(aNewValue) Then
-                                        findrange.Cells(1, col).value = CDbl(aNewValue)
-                                    ElseIf IsEmpty(aNewValue) Then
-                                        findrange.Cells(1, col).value = "-"
-                                    Else
-                                        findrange.Cells(1, col).value = CStr(aNewValue)
-                                    End If
-                                    'findrange.Cells(1, col).Value = aNewValue
-                                    '* format
-                                    Call copyDoc9Format(formatChange, findrange.Cells(1, col), True)
-                                End If
-                            End If
-                        End If
-                    End If
+    '    formatwarning = getXLSParameterRangeByName("parameter_doc9_format_warning")
+    '    formatChange = getXLSParameterRangeByName("parameter_doc9_format_change")
+    '    'aMsgLog = New clsStatusMsg
+    '    '
+    '    offset = getXLSParameterByName("parameter_doc9db_startrow")
+    '    ' Search
+    '    maxrow = doc9DB.Rows.count
+    '    searchcell = doc9DB.Cells(1, UIDCol)
+    '    searcharea = doc9DB.Worksheet.Range(searchcell, doc9DB.Worksheet.Cells(maxrow, UIDCol))
+    '    found = FindAll(searcharea, UID, Excel.XlFindLookIn.xlValues, Excel.XlLookAt.xlWhole, XlSearchOrder.xlByColumns, False)
 
-                    If rowvaluechanged_flag Then
-                        Globals.ThisAddIn.Application.StatusBar = "Update Doc#9 Database Row#" & row
-                    End If
-                Next m
-            Next findrange
-        End If
+    '    ' go through all found rows
+    '    If Not found Is Nothing Then
+    '        For Each findrange In found
+    '            ' row no
+    '            row = findrange.row - offset + 1  'Cells (1,1) is the one
+    '            UID = findrange.Cells(1, UIDCol).Value
 
-        Globals.ThisAddIn.Application.EnableEvents = True
-        updateRowXlsDoc9 = True
-    End Function
+    '            rowvaluechanged_flag = False
+
+    '            For Each m In INPUTXCHANGECONFIG.GetObjectEntries
+    '                aMQFXChangeMember = m
+    '                aXChangeMember = TryCast(aXChangeConfig.GetEntryByXID(XID:=aMQFXChangeMember.XID, objectname:=aMQFXChangeMember.Objectname), XChangeObjectEntry)
+
+    '                If Not aXChangeMember Is Nothing Then
+    '                    If aXChangeMember.IsCreated Or aXChangeMember.IsLoaded And aXChangeMember.ISXCHANGED Then
+    '                        ' current value of cell
+    '                        col = aXChangeMember.ordinal.Value
+    '                        aVAlue = findrange.Cells(1, col).Value
+    '                        If INPUTMAPPING.ContainsKey(aMQFXChangeMember.ordinal.Value) Then
+    '                            aNewValue = INPUTMAPPING.Item(aMQFXChangeMember.ordinal.Value)
+
+    '                            If Not IsNull(aNewValue) And Not IsEmpty(aNewValue) And aNewValue <> aVAlue And aNewValue <> "" Then
+    '                                rowvaluechanged_flag = True
+    '                                '** convert
+    '                                If (aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.[Date] Or _
+    '                                aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.Timestamp) And _
+    '                                IsDate(aNewValue) Then
+    '                                    findrange.Cells(1, col).value = CDate(aNewValue)
+    '                                ElseIf aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.[Long] And _
+    '                                IsNumeric(aNewValue) Then
+    '                                    findrange.Cells(1, col).value = CLng(aNewValue)
+    '                                ElseIf aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.Numeric And _
+    '                                IsNumeric(aNewValue) Then
+    '                                    findrange.Cells(1, col).value = CDbl(aNewValue)
+    '                                ElseIf IsEmpty(aNewValue) Then
+    '                                    findrange.Cells(1, col).value = "-"
+    '                                Else
+    '                                    findrange.Cells(1, col).value = CStr(aNewValue)
+    '                                End If
+    '                                'findrange.Cells(1, col).Value = aNewValue
+    '                                '* format
+    '                                Call copyDoc9Format(formatChange, findrange.Cells(1, col), True)
+    '                            End If
+    '                        End If
+    '                    End If
+    '                End If
+
+    '                If rowvaluechanged_flag Then
+    '                    Globals.ThisAddIn.Application.StatusBar = "Update Doc#9 Database Row#" & row
+    '                End If
+    '            Next m
+    '        Next findrange
+    '    End If
+
+    '    Globals.ThisAddIn.Application.EnableEvents = True
+    '    updateRowXlsDoc9 = True
+    'End Function
 
     '**********  ReplicateWithOTDB: Replicate Doc9 Data to OTDB
     '**********
 
-    Public Function ReplicateWithOTDB(Optional ByVal fullReplication As Boolean = False, _
-    Optional ByVal selection As Range = Nothing, _
-    Optional ByVal silent As Boolean = True, _
-    Optional ByVal workspaceID As String = "") As Boolean
-        Dim Value As Object
-        Dim dbDoc9Range As Range
-        Dim selectioncol As Range
-        Dim msgboxrsl As Object
-        Dim dbdesc() As xlsDBDesc
-        Dim fieldname As String
-        Dim i As Integer
-        Dim headerids As Range
-        Dim headerids_name As String
-        Dim row As Range
-        Dim aRange As Range
-        Dim j As Integer
-        Dim MaxCol As Integer
-        Dim startdatarow As Integer
-        Dim Prefix As String
+    'Public Function ReplicateWithOTDB(Optional ByVal fullReplication As Boolean = False, _
+    'Optional ByVal selection As Range = Nothing, _
+    'Optional ByVal silent As Boolean = True, _
+    'Optional ByVal workspaceID As String = "") As Boolean
+    '    Dim Value As Object
+    '    Dim dbDoc9Range As Range
+    '    Dim selectioncol As Range
+    '    Dim msgboxrsl As Object
+    '    Dim dbdesc() As xlsDBDesc
+    '    Dim fieldname As String
+    '    Dim i As Integer
+    '    Dim headerids As Range
+    '    Dim headerids_name As String
+    '    Dim row As Range
+    '    Dim aRange As Range
+    '    Dim j As Integer
+    '    Dim MaxCol As Integer
+    '    Dim startdatarow As Integer
+    '    Dim Prefix As String
 
-        Dim UIDCol As Integer
-        Dim UID As Long
-        Dim pn As String
-        Dim acell As Range
-        Dim n As Integer
-        Dim addresses As String
-        Dim TimeStampCol As Integer
-        Dim ChangeCol, updcCol, logCol As Integer
-
-
-        Dim UIDColRange As Range
-
-        Dim doc9Values() As Object
-        'Dim aFieldMsglog As New clsStatusMsg
-        'Dim aRowMsglog As New clsStatusMsg
-        Dim aTimestamp As Date
-
-        Dim otdbcn As Object 'ADODB.Connection
-        Dim parts_i, docs_i, doctargets_i, wbs_i, schedule_i, docschedule_i, _
-        cartypes_i, tasks_i, mqfprocess_i, curschedule_i As Integer
-
-        ' cartypes
-        Dim NoCartypes As Integer
-        Dim CT_col() As Integer
-        Dim CT() As Integer
-
-        ' Bill of Drawings
-        Dim BODTopNodes() As clsBOM
-        Dim BODTopLevels() As Integer
-        Dim BODTopNames() As String
-        Dim Level_Col As Integer
-        Dim level As Integer
-        Dim NoNodes As Integer    ' Number Of Nodes
-        Dim NodeI As Integer  ' current Node Index
-
-        Dim Sno_Col As Integer
-        Dim Precode_Col As Integer
-        Dim sno As Long
-        Dim precode As String
-        Dim partno_col As Integer
-        Dim name_col As Integer
-        Dim partno As String
-        Dim Name As String
-
-        Dim found As Boolean
-        Dim build_structure As Boolean
-        Dim newBodMember As clsBOM
-
-        'Dim aProgressBar As New clsUIProgressBarForm
-        Dim aXChangeConfig As New XChangeConfiguration
-        Dim aXChangeMember As XChangeObjectEntry
-        Dim m As Object
-        Dim aMapping As New Dictionary(Of Object, Object)
-        Dim col As Integer
-        Dim aVAlue As Object
-        Dim flag As Boolean
-        Dim aNewValue As Object
-        Dim formatChange, formatwarning As Range
-        Dim rowvaluechanged_flag As Boolean
-
-        ' get config
-        aXChangeConfig = getXlsDoc9Xconfig(XCMD:=otXChangeCommandType.Read)
-        If aXChangeConfig Is Nothing Then
-            ReplicateWithOTDB = False
-            Exit Function
-        End If
-
-        ' Get Selection
-        dbDoc9Range = getdbDoc9Range()
-        If dbDoc9Range Is Nothing Then
-            ReplicateWithOTDB = False
-            Exit Function
-        End If
-
-        ' Blend in all Columns
-        dbDoc9Range.EntireColumn.Hidden = False
-        ' field columns
-        UIDCol = getXLSHeaderIDColumn("uid")
-        UIDColRange = dbDoc9Range.Worksheet.Range(dbDoc9Range.Worksheet.Cells(dbDoc9Range.Rows(1).row, UIDCol), _
-                                                  dbDoc9Range.Worksheet.Cells(dbDoc9Range.Rows.Count, UIDCol))
-
-        ' Full Replication
-        If fullReplication Then
-            selection = UIDColRange
-            build_structure = True
-        End If
-
-        ' selection
-        If IsMissing(selection) Or selection Is Nothing Then
-            selection = getSelectionAsRange(selectionField:="x1", silent:=silent)
-        End If
-        ' selection is empty
-        If selection Is Nothing Then
-            ReplicateWithOTDB = False
-            Exit Function
-        End If
-
-        '**** init
-        'Call aProgressBar.initialize(selection.Rows.Count, "updating Excel sheet ....")
-        'Call aProgressBar.showForm()
-
-        '****** parameters
-        ' get the Database Description
-        If Not getDBDesc(dbdesc) Then
-            ReplicateWithOTDB = False
-            Exit Function
-        Else
-            ' dimension to columnno
-            ReDim doc9Values(0 To (UBound(dbdesc)))
-        End If
-
-        TimeStampCol = getXLSHeaderIDColumn("x4")
-        ChangeCol = getXLSHeaderIDColumn("x2")
-        updcCol = getXLSHeaderIDColumn("bs3")
-        logCol = getXLSHeaderIDColumn("a3")
-        aTimestamp = Now
-        Precode_Col = getXLSHeaderIDColumn("c3")
-        Sno_Col = getXLSHeaderIDColumn("c1")
-        Level_Col = getXLSHeaderIDColumn("c2")
-        name_col = getXLSHeaderIDColumn("c6")
-        partno_col = getXLSHeaderIDColumn("c10")
-        'parameter_doc9_dbdesc_prefix
-        ' cartypes
-        NoCartypes = 26
-        ReDim Preserve CT_col(NoCartypes)
-        ReDim Preserve CT(NoCartypes)
-        For i = 1 To NoCartypes
-            CT_col(i) = getXLSHeaderIDColumn("ct" & i)
-        Next i
-
-        '**
-        '** Build Header
-        '**
-        Value = getXLSParameterByName("parameter_doc9db_startrow")
-        startdatarow = CInt(Value)
-        headerids_name = getXLSParameterByName("parameter_doc9_headerid_name")
-        headerids = getXLSParameterRangeByName(headerids_name)
-        'parameter_doc9_dbdesc_prefix
-        Prefix = getXLSParameterByName("parameter_doc9_dbdesc_prefix")
-        formatwarning = getXLSParameterRangeByName("parameter_doc9_format_warning")
-        formatChange = getXLSParameterRangeByName("parameter_doc9_format_change")
-
-        ' error
-        If headerids Is Nothing Then
-            If Not silent Then
-                Call CoreMessageHandler(SHOWMSGBOX:=True, break:=False, SUBNAME:="modDoc9.replicateWITHOTDB", _
-                             message:="The parameter 'parameter_doc9_headerid_name':" & headerids_name & " is not showing a valid range !", _
-                             messagetype:=otCoreMessageType.ApplicationError)
-            End If
-
-            ReplicateWithOTDB = False
-            Exit Function
-        End If
-
-        Globals.ThisAddIn.Application.ScreenUpdating = False
-        Globals.ThisAddIn.Application.EnableEvents = False
-
-        '**** Build the Xref for the Tables we are updating
-
-        ' start data row
-        MaxCol = i
-        i = 0
-
-        '*** run through each row
-        '*** in selection
-        For Each acell In selection.Rows
-            row = acell.EntireRow
-            '** progress
-            'Call aProgressBar.progress(1, "updating row #" & row.Row)
-            ' get certain values
-            If Not IsNumeric(row.Cells(1, UIDCol).Value) Then
-                'Debug.Print "UID in row#" & row.row & " of value : " & row.Cells(1, UIDCol).Value & " is not numeric"
-                ReplicateWithOTDB = False
-                UID = -1
-            Else
-                UID = CLng(row.Cells(1, UIDCol).Value)
-            End If
-
-            '***
-            '*** Exchange with OnTrack
-            '***
-            '**** INPUT
-            aMapping = New Dictionary(Of Object, Object)
-            ' put the UID to read on
-            Call aMapping.Add(key:=UIDCol, value:=UID)
-
-            If (1 <> 1) Then
-                For Each m In aXChangeConfig.GetObjectEntries
-                    aXChangeMember = m
-                    If Not aXChangeMember Is Nothing Then
-                        If (aXChangeMember.IsCreated Or aXChangeMember.IsLoaded) And aXChangeMember.ISXCHANGED Then
-                            ' current value of cell
-                            col = aXChangeMember.ordinal.Value
-                            aVAlue = row.Cells(1, col).Value
-                            If aMapping.ContainsKey(aXChangeMember.ordinal.Value) Then
-                                Call aMapping.Remove(key:=aXChangeMember.ordinal.Value)
-                            End If
-                            Call aMapping.Add(key:=aXChangeMember.ordinal.Value, value:=aVAlue)
-                        End If
-                    End If
-                Next m
-            End If
-
-            '*** run XCHANGE
-            'flag = aXChangeConfig.runXChange(aMapping)
-            '*** OUTPUT
-            For Each m In aXChangeConfig.GetObjectEntries
-                aXChangeMember = m
-                If Not aXChangeMember Is Nothing Then
-                    aNewValue = aMapping.Item(aXChangeMember.ordinal.Value)
-                    If (aXChangeMember.IsCreated Or aXChangeMember.IsLoaded) _
-                    And aXChangeMember.ISXCHANGED And Not aXChangeMember.isReadOnly Then
-                        ' current value of cell
-                        col = aXChangeMember.ordinal.Value
-                        aVAlue = row.Cells(1, col).Value
-
-                        If aMapping.ContainsKey(aXChangeMember.ordinal.Value) Then
-
-                            'If aXChangeMember.ordinal.value = 55 Then Debug.Assert False
-                            If row.Cells(1, col).HasFormula Or _
-                            (Not IsNull(aNewValue) And CStr(aNewValue) <> CStr(aVAlue)) Then
-                                rowvaluechanged_flag = True
-                                '* change dependent on type
-                                If (aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.[Date] Or _
-                                aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.Timestamp) And _
-                                IsDate(aNewValue) Then
-                                    row.Cells(1, col).value = CDate(aNewValue)
-                                ElseIf aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.[Long] And _
-                                IsNumeric(aNewValue) Then
-                                    row.Cells(1, col).value = CLng(aNewValue)
-                                ElseIf aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.Numeric And _
-                                IsNumeric(aNewValue) Then
-                                    row.Cells(1, col).value = CDbl(aNewValue)
-                                ElseIf IsEmpty(aNewValue) Then
-                                    row.Cells(1, col).value = "-"
-                                Else
-                                    row.Cells(1, col).value = CStr(aNewValue)
-                                End If
+    '    Dim UIDCol As Integer
+    '    Dim UID As Long
+    '    Dim pn As String
+    '    Dim acell As Range
+    '    Dim n As Integer
+    '    Dim addresses As String
+    '    Dim TimeStampCol As Integer
+    '    Dim ChangeCol, updcCol, logCol As Integer
 
 
-                                'row.Cells(1, col).Value = aNewValue
-                                '* format
-                                Call copyDoc9Format(formatChange, row.Cells(1, col), True)
-                            End If
-                        End If
-                    End If
-                End If
+    '    Dim UIDColRange As Range
 
-                If rowvaluechanged_flag Then
-                    Globals.ThisAddIn.Application.StatusBar = "Update Doc#9 Database Row#" & row.Row
-                End If
-            Next m
-            '***
-            '*** BOM
-            '***
+    '    Dim doc9Values() As Object
+    '    'Dim aFieldMsglog As New clsStatusMsg
+    '    'Dim aRowMsglog As New clsStatusMsg
+    '    Dim aTimestamp As Date
 
-            ' For each Cartype usage build the Topnode
-            If build_structure = True And level >= 0 Then
-                For j = 1 To NoCartypes
-                    ' get the TopLevel Nodes if used
-                    If CT(j) > 0 Then
-                        found = False
-                        For NodeI = 1 To NoNodes
-                            If BODTopNames(NodeI) = "H" & j Then
-                                found = True
-                                Exit For
-                            End If
-                        Next NodeI
-                        ' extend the top nodes
-                        If Not found Then
-                            NoNodes = NoNodes + 1
-                            NodeI = NoNodes
-                            ReDim Preserve BODTopNodes(NoNodes)
-                            ReDim Preserve BODTopNames(NoNodes)
-                            ReDim Preserve BODTopLevels(NoNodes)
-                            ' initialize
-                            BODTopNames(NodeI) = "H" & j
-                            BODTopLevels(NodeI) = -1    ' special level -1
-                            ' create Artificial Top Item -> skipped
-                            BODTopNodes(NodeI) = New clsBOM
-                            With BODTopNodes(NodeI)
-                                .UID = -1
-                                .sno = -1
-                                .level = -1
-                                .precode = "H" & j
-                                .partno = ""
-                                .toplevelname = BODTopNames(NodeI)
-                                .Name = "H" & j
-                                .qty = 0
-                            End With
-                        End If
+    '    Dim otdbcn As Object 'ADODB.Connection
+    '    Dim parts_i, docs_i, doctargets_i, wbs_i, schedule_i, docschedule_i, _
+    '    cartypes_i, tasks_i, mqfprocess_i, curschedule_i As Integer
+
+    '    ' cartypes
+    '    Dim NoCartypes As Integer
+    '    Dim CT_col() As Integer
+    '    Dim CT() As Integer
+
+    '    ' Bill of Drawings
+    '    Dim BODTopNodes() As clsBOM
+    '    Dim BODTopLevels() As Integer
+    '    Dim BODTopNames() As String
+    '    Dim Level_Col As Integer
+    '    Dim level As Integer
+    '    Dim NoNodes As Integer    ' Number Of Nodes
+    '    Dim NodeI As Integer  ' current Node Index
+
+    '    Dim Sno_Col As Integer
+    '    Dim Precode_Col As Integer
+    '    Dim sno As Long
+    '    Dim precode As String
+    '    Dim partno_col As Integer
+    '    Dim name_col As Integer
+    '    Dim partno As String
+    '    Dim Name As String
+
+    '    Dim found As Boolean
+    '    Dim build_structure As Boolean
+    '    Dim newBodMember As clsBOM
+
+    '    'Dim aProgressBar As New clsUIProgressBarForm
+    '    Dim aXChangeConfig As New XChangeConfiguration
+    '    Dim aXChangeMember As XChangeObjectEntry
+    '    Dim m As Object
+    '    Dim aMapping As New Dictionary(Of Object, Object)
+    '    Dim col As Integer
+    '    Dim aVAlue As Object
+    '    Dim flag As Boolean
+    '    Dim aNewValue As Object
+    '    Dim formatChange, formatwarning As Range
+    '    Dim rowvaluechanged_flag As Boolean
+
+    '    ' get config
+    '    aXChangeConfig = getXlsDoc9Xconfig(XCMD:=otXChangeCommandType.Read)
+    '    If aXChangeConfig Is Nothing Then
+    '        ReplicateWithOTDB = False
+    '        Exit Function
+    '    End If
+
+    '    ' Get Selection
+    '    dbDoc9Range = getdbDoc9Range()
+    '    If dbDoc9Range Is Nothing Then
+    '        ReplicateWithOTDB = False
+    '        Exit Function
+    '    End If
+
+    '    ' Blend in all Columns
+    '    dbDoc9Range.EntireColumn.Hidden = False
+    '    ' field columns
+    '    UIDCol = getXLSHeaderIDColumn("uid")
+    '    UIDColRange = dbDoc9Range.Worksheet.Range(dbDoc9Range.Worksheet.Cells(dbDoc9Range.Rows(1).row, UIDCol), _
+    '                                              dbDoc9Range.Worksheet.Cells(dbDoc9Range.Rows.Count, UIDCol))
+
+    '    ' Full Replication
+    '    If fullReplication Then
+    '        selection = UIDColRange
+    '        build_structure = True
+    '    End If
+
+    '    ' selection
+    '    If IsMissing(selection) Or selection Is Nothing Then
+    '        selection = getSelectionAsRange(selectionField:="x1", silent:=silent)
+    '    End If
+    '    ' selection is empty
+    '    If selection Is Nothing Then
+    '        ReplicateWithOTDB = False
+    '        Exit Function
+    '    End If
+
+    '    '**** init
+    '    'Call aProgressBar.initialize(selection.Rows.Count, "updating Excel sheet ....")
+    '    'Call aProgressBar.showForm()
+
+    '    '****** parameters
+    '    ' get the Database Description
+    '    If Not getDBDesc(dbdesc) Then
+    '        ReplicateWithOTDB = False
+    '        Exit Function
+    '    Else
+    '        ' dimension to columnno
+    '        ReDim doc9Values(0 To (UBound(dbdesc)))
+    '    End If
+
+    '    TimeStampCol = getXLSHeaderIDColumn("x4")
+    '    ChangeCol = getXLSHeaderIDColumn("x2")
+    '    updcCol = getXLSHeaderIDColumn("bs3")
+    '    logCol = getXLSHeaderIDColumn("a3")
+    '    aTimestamp = Now
+    '    Precode_Col = getXLSHeaderIDColumn("c3")
+    '    Sno_Col = getXLSHeaderIDColumn("c1")
+    '    Level_Col = getXLSHeaderIDColumn("c2")
+    '    name_col = getXLSHeaderIDColumn("c6")
+    '    partno_col = getXLSHeaderIDColumn("c10")
+    '    'parameter_doc9_dbdesc_prefix
+    '    ' cartypes
+    '    NoCartypes = 26
+    '    ReDim Preserve CT_col(NoCartypes)
+    '    ReDim Preserve CT(NoCartypes)
+    '    For i = 1 To NoCartypes
+    '        CT_col(i) = getXLSHeaderIDColumn("ct" & i)
+    '    Next i
+
+    '    '**
+    '    '** Build Header
+    '    '**
+    '    Value = getXLSParameterByName("parameter_doc9db_startrow")
+    '    startdatarow = CInt(Value)
+    '    headerids_name = getXLSParameterByName("parameter_doc9_headerid_name")
+    '    headerids = getXLSParameterRangeByName(headerids_name)
+    '    'parameter_doc9_dbdesc_prefix
+    '    Prefix = getXLSParameterByName("parameter_doc9_dbdesc_prefix")
+    '    formatwarning = getXLSParameterRangeByName("parameter_doc9_format_warning")
+    '    formatChange = getXLSParameterRangeByName("parameter_doc9_format_change")
+
+    '    ' error
+    '    If headerids Is Nothing Then
+    '        If Not silent Then
+    '            Call CoreMessageHandler(SHOWMSGBOX:=True, break:=False, SUBNAME:="modDoc9.replicateWITHOTDB", _
+    '                         message:="The parameter 'parameter_doc9_headerid_name':" & headerids_name & " is not showing a valid range !", _
+    '                         messagetype:=otCoreMessageType.ApplicationError)
+    '        End If
+
+    '        ReplicateWithOTDB = False
+    '        Exit Function
+    '    End If
+
+    '    Globals.ThisAddIn.Application.ScreenUpdating = False
+    '    Globals.ThisAddIn.Application.EnableEvents = False
+
+    '    '**** Build the Xref for the Tables we are updating
+
+    '    ' start data row
+    '    MaxCol = i
+    '    i = 0
+
+    '    '*** run through each row
+    '    '*** in selection
+    '    For Each acell In selection.Rows
+    '        row = acell.EntireRow
+    '        '** progress
+    '        'Call aProgressBar.progress(1, "updating row #" & row.Row)
+    '        ' get certain values
+    '        If Not IsNumeric(row.Cells(1, UIDCol).Value) Then
+    '            'Debug.Print "UID in row#" & row.row & " of value : " & row.Cells(1, UIDCol).Value & " is not numeric"
+    '            ReplicateWithOTDB = False
+    '            UID = -1
+    '        Else
+    '            UID = CLng(row.Cells(1, UIDCol).Value)
+    '        End If
+
+    '        '***
+    '        '*** Exchange with OnTrack
+    '        '***
+    '        '**** INPUT
+    '        aMapping = New Dictionary(Of Object, Object)
+    '        ' put the UID to read on
+    '        Call aMapping.Add(key:=UIDCol, value:=UID)
+
+    '        If (1 <> 1) Then
+    '            For Each m In aXChangeConfig.GetObjectEntries
+    '                aXChangeMember = m
+    '                If Not aXChangeMember Is Nothing Then
+    '                    If (aXChangeMember.IsCreated Or aXChangeMember.IsLoaded) And aXChangeMember.ISXCHANGED Then
+    '                        ' current value of cell
+    '                        col = aXChangeMember.ordinal.Value
+    '                        aVAlue = row.Cells(1, col).Value
+    '                        If aMapping.ContainsKey(aXChangeMember.ordinal.Value) Then
+    '                            Call aMapping.Remove(key:=aXChangeMember.ordinal.Value)
+    '                        End If
+    '                        Call aMapping.Add(key:=aXChangeMember.ordinal.Value, value:=aVAlue)
+    '                    End If
+    '                End If
+    '            Next m
+    '        End If
+
+    '        '*** run XCHANGE
+    '        'flag = aXChangeConfig.runXChange(aMapping)
+    '        '*** OUTPUT
+    '        For Each m In aXChangeConfig.GetObjectEntries
+    '            aXChangeMember = m
+    '            If Not aXChangeMember Is Nothing Then
+    '                aNewValue = aMapping.Item(aXChangeMember.ordinal.Value)
+    '                If (aXChangeMember.IsCreated Or aXChangeMember.IsLoaded) _
+    '                And aXChangeMember.ISXCHANGED And Not aXChangeMember.isReadOnly Then
+    '                    ' current value of cell
+    '                    col = aXChangeMember.ordinal.Value
+    '                    aVAlue = row.Cells(1, col).Value
+
+    '                    If aMapping.ContainsKey(aXChangeMember.ordinal.Value) Then
+
+    '                        'If aXChangeMember.ordinal.value = 55 Then Debug.Assert False
+    '                        If row.Cells(1, col).HasFormula Or _
+    '                        (Not IsNull(aNewValue) And CStr(aNewValue) <> CStr(aVAlue)) Then
+    '                            rowvaluechanged_flag = True
+    '                            '* change dependent on type
+    '                            If (aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.[Date] Or _
+    '                            aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.Timestamp) And _
+    '                            IsDate(aNewValue) Then
+    '                                row.Cells(1, col).value = CDate(aNewValue)
+    '                            ElseIf aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.[Long] And _
+    '                            IsNumeric(aNewValue) Then
+    '                                row.Cells(1, col).value = CLng(aNewValue)
+    '                            ElseIf aXChangeMember.ObjectEntryDefinition.Datatype = otDataType.Numeric And _
+    '                            IsNumeric(aNewValue) Then
+    '                                row.Cells(1, col).value = CDbl(aNewValue)
+    '                            ElseIf IsEmpty(aNewValue) Then
+    '                                row.Cells(1, col).value = "-"
+    '                            Else
+    '                                row.Cells(1, col).value = CStr(aNewValue)
+    '                            End If
 
 
-                        ' add this drawing to the BOD Structure
-                        newBodMember = New clsBOM
-                        With newBodMember
-                            .UID = UID
-                            .sno = sno
-                            .level = level
-                            .precode = precode
-                            .toplevelname = BODTopNames(NodeI)
-                            .partno = partno
-                            .Name = Name
-                            .qty = CT(j)
-                        End With
-                        ' add level max
-                        If level >= 0 Then
-                            BODTopLevels(NodeI) = level
-                        End If
+    '                            'row.Cells(1, col).Value = aNewValue
+    '                            '* format
+    '                            Call copyDoc9Format(formatChange, row.Cells(1, col), True)
+    '                        End If
+    '                    End If
+    '                End If
+    '            End If
 
-                        If BODTopNodes(NodeI) Is Nothing Then
-                            BODTopNodes(NodeI) = newBodMember
-                        Else
-                            'Debug.Assert uid Mod 500
-                            If Not BODTopNodes(NodeI).addMember(newBodMember, level) Then
-                                ' error
-                            End If
-                        End If
-                    End If    ' entry in cartype
-                Next j    ' Cartypes
-            End If
+    '            If rowvaluechanged_flag Then
+    '                Globals.ThisAddIn.Application.StatusBar = "Update Doc#9 Database Row#" & row.Row
+    '            End If
+    '        Next m
+    '        '***
+    '        '*** BOM
+    '        '***
 
-            'Update
+    '        ' For each Cartype usage build the Topnode
+    '        If build_structure = True And level >= 0 Then
+    '            For j = 1 To NoCartypes
+    '                ' get the TopLevel Nodes if used
+    '                If CT(j) > 0 Then
+    '                    found = False
+    '                    For NodeI = 1 To NoNodes
+    '                        If BODTopNames(NodeI) = "H" & j Then
+    '                            found = True
+    '                            Exit For
+    '                        End If
+    '                    Next NodeI
+    '                    ' extend the top nodes
+    '                    If Not found Then
+    '                        NoNodes = NoNodes + 1
+    '                        NodeI = NoNodes
+    '                        ReDim Preserve BODTopNodes(NoNodes)
+    '                        ReDim Preserve BODTopNames(NoNodes)
+    '                        ReDim Preserve BODTopLevels(NoNodes)
+    '                        ' initialize
+    '                        BODTopNames(NodeI) = "H" & j
+    '                        BODTopLevels(NodeI) = -1    ' special level -1
+    '                        ' create Artificial Top Item -> skipped
+    '                        BODTopNodes(NodeI) = New clsBOM
+    '                        With BODTopNodes(NodeI)
+    '                            .UID = -1
+    '                            .sno = -1
+    '                            .level = -1
+    '                            .precode = "H" & j
+    '                            .partno = ""
+    '                            .toplevelname = BODTopNames(NodeI)
+    '                            .Name = "H" & j
+    '                            .qty = 0
+    '                        End With
+    '                    End If
 
-            Globals.ThisAddIn.Application.StatusBar = " Updating OTDB on UID " & UID & " in row #" & row.Row
+
+    '                    ' add this drawing to the BOD Structure
+    '                    newBodMember = New clsBOM
+    '                    With newBodMember
+    '                        .UID = UID
+    '                        .sno = sno
+    '                        .level = level
+    '                        .precode = precode
+    '                        .toplevelname = BODTopNames(NodeI)
+    '                        .partno = partno
+    '                        .Name = Name
+    '                        .qty = CT(j)
+    '                    End With
+    '                    ' add level max
+    '                    If level >= 0 Then
+    '                        BODTopLevels(NodeI) = level
+    '                    End If
+
+    '                    If BODTopNodes(NodeI) Is Nothing Then
+    '                        BODTopNodes(NodeI) = newBodMember
+    '                    Else
+    '                        'Debug.Assert uid Mod 500
+    '                        If Not BODTopNodes(NodeI).addMember(newBodMember, level) Then
+    '                            ' error
+    '                        End If
+    '                    End If
+    '                End If    ' entry in cartype
+    '            Next j    ' Cartypes
+    '        End If
+
+    '        'Update
+
+    '        Globals.ThisAddIn.Application.StatusBar = " Updating OTDB on UID " & UID & " in row #" & row.Row
 
 
-            row.Cells(1, ChangeCol).Value = ""
-            row.Cells(1, TimeStampCol).Value = Format(aTimestamp, "dd.mm.yyyy hh:mm:ss")
+    '        row.Cells(1, ChangeCol).Value = ""
+    '        row.Cells(1, TimeStampCol).Value = Format(aTimestamp, "dd.mm.yyyy hh:mm:ss")
 
-        Next acell
+    '    Next acell
 
-        '*** close
-        'Call aProgressBar.closeForm()
+    '    '*** close
+    '    'Call aProgressBar.closeForm()
 
-        '***
-        '*** save the structure recursivley
-        If build_structure = True Then
-            For NodeI = 1 To NoNodes
-                ' all members
-                For i = 1 To BODTopNodes(NodeI).getNoMembers
-                    newBodMember = BODTopNodes(NodeI).getMember(i)
-                    If Not saveBOMStructure(newBodMember) Then
-                    End If
-                Next i
-            Next NodeI
-        End If
+    '    '***
+    '    '*** save the structure recursivley
+    '    If build_structure = True Then
+    '        For NodeI = 1 To NoNodes
+    '            ' all members
+    '            For i = 1 To BODTopNodes(NodeI).getNoMembers
+    '                newBodMember = BODTopNodes(NodeI).getMember(i)
+    '                If Not saveBOMStructure(newBodMember) Then
+    '                End If
+    '            Next i
+    '        Next NodeI
+    '    End If
 
-        '***
-        '*** save parameters
-        '***
-        Globals.ThisAddIn.Application.EnableEvents = True
-        ReplicateWithOTDB = True
+    '    '***
+    '    '*** save parameters
+    '    '***
+    '    Globals.ThisAddIn.Application.EnableEvents = True
+    '    ReplicateWithOTDB = True
 
-    End Function
+    'End Function
     '***recursive save of the BOM structure from XLS to OTDB
     '***
     Public Function saveBOMStructure(aBOD As clsBOM) As Boolean
@@ -1359,132 +1359,132 @@ Module modQuicknDirty
     '******** updateDoc9LineFromOTDB: updates a line per uid by with a array of columns and corresponding values in
     '********                INPUTMAPPING
 
-    Public Function updateDoc9LineFromOTDB(ByRef INPUTMAPPING As Dictionary(Of Object, Object), _
-    ByRef INPUTXCHANGECONFIG As XChangeConfiguration, _
-    Optional ByVal workspaceID As String = "") _
-    As Boolean
+    'Public Function updateDoc9LineFromOTDB(ByRef INPUTMAPPING As Dictionary(Of Object, Object), _
+    'ByRef INPUTXCHANGECONFIG As XChangeConfiguration, _
+    'Optional ByVal workspaceID As String = "") _
+    'As Boolean
 
 
-        'Dim aProgressBar As New clsUIProgressBarForm
-        Dim aXChangeConfig As New XChangeConfiguration
-        Dim aMQFXChangeMember As New XChangeObjectEntry
-        Dim aXChangeMember As New XChangeObjectEntry
-        Dim m As Object
+    '    'Dim aProgressBar As New clsUIProgressBarForm
+    '    Dim aXChangeConfig As New XChangeConfiguration
+    '    Dim aMQFXChangeMember As New XChangeObjectEntry
+    '    Dim aXChangeMember As New XChangeObjectEntry
+    '    Dim m As Object
 
-        Dim doc9DB As Range
-        Dim UIDCol, col As Long
-        Dim UID As Long
-        Dim row As Long
-        Dim maxrow As Long
-        Dim searchcell As Range
-        Dim searcharea As Range
-        Dim found As Range
-        Dim findrange As Range
-        Dim offset As Integer
-        Dim i As Integer
-        Dim aVAlue As Object
-        Dim aNewValue As Object
-        Dim valuechanged_flag As Boolean
-        Dim rowvaluechanged_flag As Boolean
-        Dim formatwarning, formatChange As Range
-        'Dim aMsgLog As clsStatusMsg
+    '    Dim doc9DB As Range
+    '    Dim UIDCol, col As Long
+    '    Dim UID As Long
+    '    Dim row As Long
+    '    Dim maxrow As Long
+    '    Dim searchcell As Range
+    '    Dim searcharea As Range
+    '    Dim found As Range
+    '    Dim findrange As Range
+    '    Dim offset As Integer
+    '    Dim i As Integer
+    '    Dim aVAlue As Object
+    '    Dim aNewValue As Object
+    '    Dim valuechanged_flag As Boolean
+    '    Dim rowvaluechanged_flag As Boolean
+    '    Dim formatwarning, formatChange As Range
+    '    'Dim aMsgLog As clsStatusMsg
 
-        ' XChangeConfig
-        aXChangeConfig = getXlsDoc9Xconfig()
-        If aXChangeConfig Is Nothing Then
-            updateDoc9LineFromOTDB = False
-            Exit Function
-        End If
-
-
-        ' Get Database
-        doc9DB = getdbDoc9Range()
-        If doc9DB Is Nothing Then
-            'Debug.Print "Fatal:Doc9DB could not be set ?!"
-            updateDoc9LineFromOTDB = False
-            Exit Function
-        End If
-
-        Globals.ThisAddIn.Application.EnableEvents = False
-
-        ' Get Parameters
-        UIDCol = getXLSHeaderIDColumn(constDoc9DB_UID)
-        If UIDCol = -1 Then
-            'Debug.Print "Fatal:UID Column is in DOC9 missing ?!"
-            updateDoc9LineFromOTDB = False
-            Exit Function
-        End If
+    '    ' XChangeConfig
+    '    aXChangeConfig = getXlsDoc9Xconfig()
+    '    If aXChangeConfig Is Nothing Then
+    '        updateDoc9LineFromOTDB = False
+    '        Exit Function
+    '    End If
 
 
-        formatwarning = getXLSParameterRangeByName("parameter_doc9_format_warning")
-        formatChange = getXLSParameterRangeByName("parameter_doc9_format_change")
-        'aMsgLog = New clsStatusMsg
-        '
-        offset = getXLSParameterByName("parameter_doc9db_startrow")
-        ' Search
-        maxrow = doc9DB.Rows.count
-        searchcell = doc9DB.Cells(1, UIDCol)
-        searcharea = doc9DB.Worksheet.Range(searchcell, doc9DB.Worksheet.Cells(maxrow, UIDCol))
-        found = FindAll(searcharea, UID, XlFindLookIn.xlValues, XlLookAt.xlWhole, XlSearchOrder.xlByColumns, False)
+    '    ' Get Database
+    '    doc9DB = getdbDoc9Range()
+    '    If doc9DB Is Nothing Then
+    '        'Debug.Print "Fatal:Doc9DB could not be set ?!"
+    '        updateDoc9LineFromOTDB = False
+    '        Exit Function
+    '    End If
 
-        ' go through all found rows
-        If Not found Is Nothing Then
-            For Each findrange In found
-                ' row no
-                row = findrange.row - offset + 1  'Cells (1,1) is the one
-                UID = findrange.Cells(1, UIDCol).Value
+    '    Globals.ThisAddIn.Application.EnableEvents = False
 
-                rowvaluechanged_flag = False
+    '    ' Get Parameters
+    '    UIDCol = getXLSHeaderIDColumn(constDoc9DB_UID)
+    '    If UIDCol = -1 Then
+    '        'Debug.Print "Fatal:UID Column is in DOC9 missing ?!"
+    '        updateDoc9LineFromOTDB = False
+    '        Exit Function
+    '    End If
 
-                For Each m In INPUTXCHANGECONFIG.GetObjectEntries
-                    aMQFXChangeMember = m
-                    aXChangeMember = aXChangeConfig.GetEntryByXID(XID:=aMQFXChangeMember.XID, objectname:=aMQFXChangeMember.Objectname)
 
-                    If Not aXChangeMember Is Nothing Then
-                        If (aXChangeMember.IsCreated Or aXChangeMember.IsLoaded) _
-                        And aXChangeMember.ISXCHANGED Then
-                            ' current value of cell
-                            col = aXChangeMember.ordinal.Value.Value
-                            aVAlue = findrange.Cells(1, col).Value
-                            If INPUTMAPPING.ContainsKey(aMQFXChangeMember.ordinal.Value.Value) Then
-                                aNewValue = INPUTMAPPING.Item(aMQFXChangeMember.ordinal.Value.Value)
-                                'If aNewValue = "" Then aNewValue = "-"
+    '    formatwarning = getXLSParameterRangeByName("parameter_doc9_format_warning")
+    '    formatChange = getXLSParameterRangeByName("parameter_doc9_format_change")
+    '    'aMsgLog = New clsStatusMsg
+    '    '
+    '    offset = getXLSParameterByName("parameter_doc9db_startrow")
+    '    ' Search
+    '    maxrow = doc9DB.Rows.count
+    '    searchcell = doc9DB.Cells(1, UIDCol)
+    '    searcharea = doc9DB.Worksheet.Range(searchcell, doc9DB.Worksheet.Cells(maxrow, UIDCol))
+    '    found = FindAll(searcharea, UID, XlFindLookIn.xlValues, XlLookAt.xlWhole, XlSearchOrder.xlByColumns, False)
 
-                                If Not IsNull(aNewValue) And Not IsEmpty(aNewValue) And aNewValue <> aVAlue And aNewValue <> "" Then
-                                    rowvaluechanged_flag = True
-                                    '** convert
-                                    If (aMQFXChangeMember.ObjectEntryDefinition.Datatype = otDataType.[Date] Or _
-                                    aMQFXChangeMember.ObjectEntryDefinition.Datatype = otDataType.Timestamp) And _
-                                    IsDate(aNewValue) Then
-                                        findrange.Cells(1, col).value = CDate(aNewValue)
-                                    ElseIf aMQFXChangeMember.ObjectEntryDefinition.Datatype = otDataType.[Long] And _
-                                    IsNumeric(aNewValue) Then
-                                        findrange.Cells(1, col).value = CLng(aNewValue)
-                                    ElseIf aMQFXChangeMember.ObjectEntryDefinition.Datatype = otDataType.Numeric And _
-                                    IsNumeric(aNewValue) Then
-                                        findrange.Cells(1, col).value = CDbl(aNewValue)
-                                    ElseIf IsEmpty(aNewValue) Then
-                                        findrange.Cells(1, col).value = "-"
-                                    Else
-                                        findrange.Cells(1, col).value = CStr(aNewValue)
-                                    End If
-                                    'findrange.Cells(1, col).Value = aNewValue
-                                    '* format
-                                    Call copyDoc9Format(formatChange, findrange.Cells(1, col), True)
-                                End If
-                            End If
-                        End If
-                    End If
+    '    ' go through all found rows
+    '    If Not found Is Nothing Then
+    '        For Each findrange In found
+    '            ' row no
+    '            row = findrange.row - offset + 1  'Cells (1,1) is the one
+    '            UID = findrange.Cells(1, UIDCol).Value
 
-                    If rowvaluechanged_flag Then
-                        Globals.ThisAddIn.Application.StatusBar = "Update Doc#9 Database Row#" & row
-                    End If
-                Next m
-            Next findrange
-        End If
+    '            rowvaluechanged_flag = False
 
-        Globals.ThisAddIn.Application.EnableEvents = True
-        updateDoc9LineFromOTDB = True
-    End Function
+    '            For Each m In INPUTXCHANGECONFIG.GetObjectEntries
+    '                aMQFXChangeMember = m
+    '                aXChangeMember = aXChangeConfig.GetEntryByXID(XID:=aMQFXChangeMember.XID, objectname:=aMQFXChangeMember.Objectname)
+
+    '                If Not aXChangeMember Is Nothing Then
+    '                    If (aXChangeMember.IsCreated Or aXChangeMember.IsLoaded) _
+    '                    And aXChangeMember.ISXCHANGED Then
+    '                        ' current value of cell
+    '                        col = aXChangeMember.ordinal.Value.Value
+    '                        aVAlue = findrange.Cells(1, col).Value
+    '                        If INPUTMAPPING.ContainsKey(aMQFXChangeMember.ordinal.Value.Value) Then
+    '                            aNewValue = INPUTMAPPING.Item(aMQFXChangeMember.ordinal.Value.Value)
+    '                            'If aNewValue = "" Then aNewValue = "-"
+
+    '                            If Not IsNull(aNewValue) And Not IsEmpty(aNewValue) And aNewValue <> aVAlue And aNewValue <> "" Then
+    '                                rowvaluechanged_flag = True
+    '                                '** convert
+    '                                If (aMQFXChangeMember.ObjectEntryDefinition.Datatype = otDataType.[Date] Or _
+    '                                aMQFXChangeMember.ObjectEntryDefinition.Datatype = otDataType.Timestamp) And _
+    '                                IsDate(aNewValue) Then
+    '                                    findrange.Cells(1, col).value = CDate(aNewValue)
+    '                                ElseIf aMQFXChangeMember.ObjectEntryDefinition.Datatype = otDataType.[Long] And _
+    '                                IsNumeric(aNewValue) Then
+    '                                    findrange.Cells(1, col).value = CLng(aNewValue)
+    '                                ElseIf aMQFXChangeMember.ObjectEntryDefinition.Datatype = otDataType.Numeric And _
+    '                                IsNumeric(aNewValue) Then
+    '                                    findrange.Cells(1, col).value = CDbl(aNewValue)
+    '                                ElseIf IsEmpty(aNewValue) Then
+    '                                    findrange.Cells(1, col).value = "-"
+    '                                Else
+    '                                    findrange.Cells(1, col).value = CStr(aNewValue)
+    '                                End If
+    '                                'findrange.Cells(1, col).Value = aNewValue
+    '                                '* format
+    '                                Call copyDoc9Format(formatChange, findrange.Cells(1, col), True)
+    '                            End If
+    '                        End If
+    '                    End If
+    '                End If
+
+    '                If rowvaluechanged_flag Then
+    '                    Globals.ThisAddIn.Application.StatusBar = "Update Doc#9 Database Row#" & row
+    '                End If
+    '            Next m
+    '        Next findrange
+    '    End If
+
+    '    Globals.ThisAddIn.Application.EnableEvents = True
+    '    updateDoc9LineFromOTDB = True
+    'End Function
 
 End Module
