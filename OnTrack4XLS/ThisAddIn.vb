@@ -10,14 +10,22 @@ Imports OnTrack.Database
 ''' <remarks></remarks>
 Public Class ThisAddIn
 
-    <ormChangeLogEntry(Application:=ConstApplicationExcelAddin, module:="", version:=1, release:=1, patch:=2, changeimplno:=4, _
-        description:="After replication reset the data area to the real range. Delete rows if data area is shrinking.")> _
-    <ormChangeLogEntry(Application:=ConstApplicationExcelAddin, module:="", version:=1, release:=1, patch:=2, changeimplno:=3, _
-        description:="If in cell editing mode, leave cell if replication or mqf wizard is started.")> _
-    <ormChangeLogEntry(Application:=ConstApplicationExcelAddin, module:="", version:=1, release:=1, patch:=2, changeimplno:=2, _
-        description:="Close all open forms after shutting down the database")> _
-    <ormChangeLogEntry(Application:=ConstApplicationExcelAddin, module:="", version:=1, release:=1, patch:=2, changeimplno:=1, _
-        description:="Added the View on Changes in About Box")> _
+    <ormChangeLogEntry(Application:=ConstApplicationExcelAddin, module:="", version:=1, release:=1, patch:=2, changeimplno:=8, _
+      description:="On DBExplorer Operation show an waiting cursor and standby message.")> _
+   <ormChangeLogEntry(Application:=ConstApplicationExcelAddin, module:="", version:=1, release:=1, patch:=2, changeimplno:=7, _
+      description:="Replication will ask before full inbound replication.")> _
+   <ormChangeLogEntry(Application:=ConstApplicationExcelAddin, module:="", version:=1, release:=1, patch:=2, changeimplno:=6, _
+      description:="MQF Wirzar reworked in stepping for- and backward. Reseting mqf object structures and rebuild.")> _
+   <ormChangeLogEntry(Application:=ConstApplicationExcelAddin, module:="", version:=1, release:=1, patch:=2, changeimplno:=5, _
+      description:="Bring non-modal forms to front if button is clicked again.")> _
+  <ormChangeLogEntry(Application:=ConstApplicationExcelAddin, module:="", version:=1, release:=1, patch:=2, changeimplno:=4, _
+      description:="After replication reset the data area to the real range. Delete rows if data area is shrinking.")> _
+  <ormChangeLogEntry(Application:=ConstApplicationExcelAddin, module:="", version:=1, release:=1, patch:=2, changeimplno:=3, _
+      description:="If in cell editing mode, leave cell if replication or mqf wizard is started.")> _
+  <ormChangeLogEntry(Application:=ConstApplicationExcelAddin, module:="", version:=1, release:=1, patch:=2, changeimplno:=2, _
+      description:="Close all open forms after shutting down the database")> _
+  <ormChangeLogEntry(Application:=ConstApplicationExcelAddin, module:="", version:=1, release:=1, patch:=2, changeimplno:=1, _
+      description:="Added the View on Changes in About Box")> _
     Public Const OTAddinCommonsVersion = "V1.R1.P2"
 
     Public Const ConstApplicationExcelAddin = "Addin4Excel"

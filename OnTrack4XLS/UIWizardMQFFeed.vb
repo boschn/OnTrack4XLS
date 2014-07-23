@@ -1209,10 +1209,21 @@ Public Class UIWizardMQFFeed
             Me.MQFWizard.FinishButton.Enabled = True
         End If
     End Sub
-    '****
-    '**** Previous
+    ''' <summary>
+    ''' On Previous Handler
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
     Private Sub MQFWizard_OnPrevious(ByVal sender As Object, ByVal e As WizardCancelEventArgs) Handles MQFWizard.Previous
+        '* preprocess page
+        If (Me.MQFWizard.SelectedPage Is Me.MQFWizard.Pages(1)) Then
+            _MQFObject = Nothing 'reset the _MQFObject but it might be in otdb backend cache
 
+            ''' page is write back to excel 
+        ElseIf (Me.MQFWizard.SelectedPage Is Me.MQFWizard.Pages(2)) Then
+
+        End If
     End Sub
     ''' <summary>
     ''' finish the wizard
@@ -1237,7 +1248,5 @@ Public Class UIWizardMQFFeed
 #End Region
 
    
-    Private Sub UIWizardMQFFeed_XLSProcessStatusMouseHover(sender As Object, e As Windows.Forms.MouseEventArgs) Handles XLSProcessStatus.MouseMove
-
-    End Sub
+   
 End Class

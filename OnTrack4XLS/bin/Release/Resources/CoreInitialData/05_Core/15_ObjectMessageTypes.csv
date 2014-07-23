@@ -42,9 +42,9 @@ OMD1;DM1;OMD2;OMD5;OMD6;OMD3;OMD4;OMD7;OMD20;OMD10
 580;@;MQF;message in row %Tupleidentifier% with operation %1% is not possible for object type %2% - operation failed;;95;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
 581;@;MQF;object of type %2% with key '%3%' couldnot be retrieved for message in row %Tupleidentifier% with operation %1% - operation failed;;95;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
 582;@;MQF;object of type %2%  could not be cloned from object with key '%3%' for message in row %Tupleidentifier% with operation %1% - operation failed;;95;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
-583;@;MQF;deliverable type '%2' from message in row %Tupleidentifier% with operation %1% not found - operation failed;;95;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
-584;@;MQF;domain id '%2' from message in row %Tupleidentifier% with operation %1% not found - operation failed;;95;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
-585;@;MQF;workspace id '%2' from message in row %Tupleidentifier% with operation %1% not found - operation failed;;95;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
+583;@;MQF;deliverable type '%2%' from message in row %Tupleidentifier% with operation %1% not found - operation failed;;95;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
+584;@;MQF;domain id '%2%' from message in row %Tupleidentifier% with operation %1% not found - operation failed;;95;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
+585;@;MQF;workspace id '%2%' from message in row %Tupleidentifier% with operation %1% not found - operation failed;;95;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
 #;;;;;;;;;
 589;@;MQF;processing of message from %Tupleidentifier% with operation %1% failed due to an internal error '%2%'  - please see session error log with tag '%3%' and id no '%4%' for details;;99;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
 #;;;;;;;;;

@@ -1543,14 +1543,18 @@ handleerror:
                 ''' create a message queue in the backend
                 [messagequeue] = Xchange.MessageQueue.Create(id:=aVAlue, runtimeOnly:=True)
                 If [messagequeue] Is Nothing Then [messagequeue] = Xchange.MessageQueue.Retrieve(id:=aVAlue)
+
                 If messagequeue Is Nothing Then
                     CoreMessageHandler(showmsgbox:=True, message:="the messagequeue is not creatable in the backend  - operation aborted for '" _
                                   & MQFWorkbook.FullName & "'." & vbLf & ".", _
                                    subname:="modXLSMessageQueueFile.preProcessXLSMQF", messagetype:=otCoreMessageType.ApplicationError)
                     Return False
-                Else
-                    [messagequeue].ContextIdentifier = aVAlue
                 End If
+
+                ''' clear the queue for cases retrieved and not loaded
+                If messagequeue.IsCreated Then messagequeue.Clear()
+                ''' set the context identifier
+                [messagequeue].ContextIdentifier = aVAlue
             End If
 
             ''' fill the message queue object
@@ -1600,6 +1604,7 @@ handleerror:
                                     subname:="modXLSMessageQueueFile.preProcessXLSMQF", messagetype:=otCoreMessageType.ApplicationError)
                 Return False
             End If
+
             headerstartrow = CInt(aVAlue)
             headerids_name = GetXlsParameterByName(name:="otdb_parameter_mqf_headerid_name", workbook:=MQFWorkbook)
             headerids = GetXlsParameterRangeByName(headerids_name, workbook:=MQFWorkbook)
@@ -1623,6 +1628,7 @@ handleerror:
 
                 Return False
             End If
+
             Dim aMQFDBDescLookup As New Dictionary(Of String, XLSMQFColumnDescription)
 
             ''' fill all XLS DB Column Descriptions
@@ -1653,6 +1659,9 @@ handleerror:
                 [messagequeue].XChangeConfig.AllowDynamicEntries = True
 
             End If
+
+            ''' clear the Xchange Config if dynamic
+            If [messagequeue].XChangeConfig.AllowDynamicEntries Then messagequeue.XChangeConfig.ClearEntries()
 
             '*** HACK
             Call [messagequeue].XChangeConfig.AddObjectByName(name:=Deliverables.Deliverable.ConstObjectID, xcmd:=otXChangeCommandType.Update)
@@ -1905,7 +1914,7 @@ handleerror:
                         Dim aMQSlot As MQXSlot = aMQMessage.CreateAddedSlot(aColumnNo)
 
                         aStopWatch4.Stop()
-                        Diagnostics.Debug.WriteLine("> addSlot " & aStopWatch4.ElapsedMilliseconds)
+                        'Diagnostics.Debug.WriteLine("> addSlot " & aStopWatch4.ElapsedMilliseconds)
 
                         ' create a new Member in the Message
 

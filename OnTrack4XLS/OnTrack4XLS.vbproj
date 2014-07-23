@@ -42,7 +42,7 @@
     <PublishUrl>C:\vol\projekte\OnTrack\OnTrack Database Tooling\OnTrack4XLS\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.1.29</ApplicationVersion>
+    <ApplicationVersion>1.1.1.35</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>

@@ -216,9 +216,10 @@ Public Class OnTrackRibbon
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     ''' <remarks></remarks>
-    Private Sub MQFAdminButton_Click(sender As Object, e As RibbonControlEventArgs) Handles MQFAdminButton.Click
+    Private Sub MQFWirzardButton_Click(sender As Object, e As RibbonControlEventArgs) Handles MQFWizardButton.Click
         Globals.ThisAddIn.SetCurrentHost()
         If _MQFWizard Is Nothing OrElse _MQFWizard.IsDisposed Then _MQFWizard = New UIWizardMQFFeed
+        If _MQFWizard IsNot Nothing AndAlso _MQFWizard.IsLoaded Then _MQFWizard.BringToFront()
         Call _MQFWizard.Show()
     End Sub
 
@@ -244,6 +245,7 @@ Public Class OnTrackRibbon
     Private Sub ReplicateButton_Click(sender As Object, e As RibbonControlEventArgs) Handles ReplicateButton.Click
         Globals.ThisAddIn.SetCurrentHost()
         If _replicationForm Is Nothing OrElse _replicationForm.IsDisposed Then _replicationForm = New UIFormReplication
+        If _replicationForm IsNot Nothing AndAlso _replicationForm.IsLoaded Then _replicationForm.BringToFront()
         Call _replicationForm.Show()
     End Sub
 
@@ -293,7 +295,7 @@ Public Class OnTrackRibbon
     Private Sub DataAreaButton_Click(sender As Object, e As RibbonControlEventArgs) Handles DataAreaButton.Click
         Globals.ThisAddIn.SetCurrentHost()
         Dim aForm As New UIFormWorkDataAreas
-        Call aForm.Show()
+        Call aForm.ShowDialog()
     End Sub
 
     ''' <summary>
@@ -306,7 +308,7 @@ Public Class OnTrackRibbon
     Private Sub XConfigButton_Click(sender As Object, e As RibbonControlEventArgs) Handles XConfigButton.Click
         Globals.ThisAddIn.SetCurrentHost()
         Dim aForm As New UIFormWorkXConfig
-        Call aForm.Show()
+        Call aForm.ShowDialog()
     End Sub
 
     ''' <summary>
@@ -345,6 +347,7 @@ Public Class OnTrackRibbon
     Private Sub BatchMenuButton_Click(sender As Object, e As RibbonControlEventArgs) Handles BatchMenuButton.Click
         Globals.ThisAddIn.SetCurrentHost()
         If _BatchForm Is Nothing OrElse _BatchForm.IsDisposed Then _BatchForm = New UIFormBatchProcesses
+        If _BatchForm IsNot Nothing AndAlso _BatchForm.IsLoaded Then _BatchForm.BringToFront()
         Call _BatchForm.Show()
     End Sub
 
@@ -357,6 +360,7 @@ Public Class OnTrackRibbon
     Private Sub ObjectExplorerButton_Click(sender As Object, e As RibbonControlEventArgs) Handles ObjectExplorerButton.Click
         Globals.ThisAddIn.SetCurrentHost()
         If _explorerForm Is Nothing OrElse _explorerForm.IsDisposed Then _explorerForm = New UIFormDBExplorer
+        If _explorerForm IsNot Nothing AndAlso _explorerForm.IsLoaded Then _explorerForm.BringToFront()
         _explorerForm.Show()
     End Sub
 End Class

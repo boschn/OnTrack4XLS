@@ -42,14 +42,11 @@ C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\otdbAddIn.xml
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\otdbBackEnd.pdb
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\otdbBackEnd.xml
-C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Microsoft.VisualStudio.Tools.Applications.Runtime.xml
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Telerik.WinControls.xml
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Telerik.WinControls.GridView.xml
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Telerik.WinControls.RichTextBox.xml
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Telerik.WinControls.UI.xml
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\TelerikData.xml
-C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Microsoft.Office.Tools.Excel.xml
-C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\Microsoft.Office.Tools.Common.v4.0.Utilities.xml
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\bin\Debug\LumenWorks.Framework.IO.pdb
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\obj\Debug\OnTrack4XLS.vbprojResolveAssemblyReference.cache
 C:\vol\projekte\OnTrack\OnTrack4XLS Workspace\OnTrack4XLS\OnTrack4XLS\obj\Debug\OnTrack.Addin.UIFormWorkDataAreas.resources

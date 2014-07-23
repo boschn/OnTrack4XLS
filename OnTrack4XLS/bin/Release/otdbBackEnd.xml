@@ -6,7 +6,395 @@ otdbBackEnd
 </name>
 </assembly>
 <members>
-<member name="M:OnTrack.Database.oleDBDriver.#ctor(System.String,OnTrack.Session@)">
+<member name="F:OnTrack.ot.ConstVersionCoreBackend">
+	<summary>
+ Version with Changelog
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ot.ConstDepTypeIDIFC">
+	<summary>
+ Dependency Type Interfaces
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ot.ConstDelimiter">
+	<summary>
+ Default Delimiter for String Expressions
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ot.ConstStatusType_XEnvelope">
+	<summary>
+ StatusTypes
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ot.OTDBConst_StatusTypeid_FCLF">
+	<summary>
+ obsolete
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ot.ConstDefaultCompoundIndexName">
+	<summary>
+ CompoundIndex
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ot.ConstOTDBSchemaVersion">
+	<summary>
+ The Schema Version - increase here to trigger recreation of the database schema
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ot.ConstGlobalConfigSetName">
+	<summary>
+ Config Property name
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ot.ConstCPNUseConfigSetName">
+	<summary>
+  Parameters names for config parameters read from .ini or documents
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ot.ConstCPVDBTypeSqlServer">
+	<summary>
+ config Property value
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ot.ConstGlobalDomain">
+	<summary>
+ Global Domain Name
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ot.ConstApplicationBackend">
+	<summary>
+ Application names
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ot.ConstModuleCommons">
+	<summary>
+ Name of the different OnTrack Modules
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ot._ApplicationName">
+	<summary>
+ Variables
+ </summary>
+	<remarks></remarks>
+</member><member name="F:OnTrack.ot._changelog">
+	<summary>
+ global OnTrack ChangeLog
+ </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ot.OnTrackChangeLog">
+	<summary>
+ returns the Changelog
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ot.AssemblyVersion">
+	<summary>
+ Gets or sets the version.
+ </summary>
+	<value>The version.</value>
+</member><member name="P:OnTrack.ot.ApplicationName">
+	<summary>
+ Gets or sets the name of the application.
+ </summary>
+	<value>The name of the application.</value>
+</member><member name="P:OnTrack.ot.CurrentConfigSetName">
+	<summary>
+ returns the name of the standard Config set to be used - might be nothing if not set
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ot.CurrentConfigFileName">
+	<summary>
+ sets or gets the name of the current config file name
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ot.ConfigFileLocations">
+	<summary>
+ Gets the configfilelocations.
+ </summary>
+	<value>The configfilelocations.</value>
+</member><member name="P:OnTrack.ot.ObjectClassRepository">
+	<summary>
+ gets the Object Class Repository
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ot.CurrentSession">
+	<summary>
+ Property CurrentSession 
+ </summary>
+	<value></value>
+	<returns>the current session object</returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ot.CurrentDBDriver">
+	<summary>
+ Gets the primary DB env.
+ </summary>
+	<value>The primary DB env.</value>
+</member><member name="P:OnTrack.ot.Errorlog">
+	<summary>
+ returns the otdb errorlog or nothing
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ot.IsInitialized">
+	<summary>
+ Gets or sets the OTD bis initialized.
+ </summary>
+	<value>The OTD bis initialized.</value>
+</member><member name="P:OnTrack.ot.ObjectClassDescriptions">
+	<summary>
+ returns an IEnumerable of all Object Class Descriptions
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ot.CurrentConnection(System.Boolean,OnTrack.Database.otAccessRight,System.String,System.String)">
+	<summary>
+ Gets or sets the O TDB connection.
+ </summary>
+	<value>The O TDB connection.</value>
+</member><member name="P:OnTrack.ot.IsConnected">
+	<summary>
+ return True if the Current Connection exists to the database
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ot.UsedConfigFileLocation">
+	<summary>
+ gets the used location for the config file location
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ot.Username">
+	<summary>
+ returns Current Username in the current connection
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ot.InstalledModules">
+	<summary>
+ retuns a list of Installed OnTrack Modules
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ot.ConfigSetNamesToSelect">
+	<summary>
+ returns a list of selectable config set names without global
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.ot.ConfigSetNames">
+	<summary>
+ returns a list of ConfigSetnames
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.ReadConfigFile(System.String,System.String)">
+	<summary>
+ reads the config parameters from the configfile
+ </summary>
+	<param name="configFilePath">path where to read config file</param>
+	<param name="configFileName">name of the config file to read</param>
+	<returns>true if successfull</returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.GetConfigProperty(System.String,System.UInt16,System.String,OnTrack.Database.ComplexPropertyStore.Sequence)">
+	<summary>
+ Gets the Property of a config set. if configsetname is ommitted then check currentconfigset and the global one
+ </summary>
+	<param name="name">name of property</param>
+	<returns>object of the property</returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.HasConfigProperty(System.String,System.String,OnTrack.Database.ComplexPropertyStore.Sequence)">
+	<summary>
+ has the config set the named property
+ </summary>
+	<param name="name">name of property</param>
+	<returns>return true</returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.RetrieveConfigProperties(System.Boolean)">
+	<summary>
+ retrieve the Config parameters of OnTrack and write it to the PropertyBag
+ </summary>
+	<returns>true if successfull</returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.GetObjectClassDescriptionByTable(System.String)">
+	<summary>
+ Retrieves a List of  ObjectClasses Descriptions referenced by a tableid
+ </summary>
+	<param name="tableid"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.GetTableAttribute(System.String)">
+	<summary>
+ Retrieves the schema table attribute by name
+ </summary>
+	<param name="tableid"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.GetObjectClassByTable(System.String)">
+	<summary>
+ Retrieves the ObjectClasses as system.type referenced by a tableid
+ </summary>
+	<param name="tableid"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.GetBootStrapObjectClassDescriptions">
+	<summary>
+ returns the names of the bootstrapping tables
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.GetBootStrapObjectClassIDs">
+	<summary>
+ returns the names of the bootstrapping tables
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.GetBootStrapObjectClassnames">
+	<summary>
+ returns the names of the bootstrapping tables
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.GetObjectClassDescription(System.Type)">
+	<summary>
+ returns the object class description for a type
+ </summary>
+	<param name="type"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.GetObjectClassDescriptionsForModule(System.String)">
+	<summary>
+ Returns a List of ObjectClassDescriptions per Modulename
+ </summary>
+	<param name="modulename"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.GetBootStrapTableNames">
+	<summary>
+ returns a List of Boot strapping tables
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.GetObjectClassType(System.String)">
+	<summary>
+ returns the type of the business object class if any
+ </summary>
+	<param name="objectname"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.GetSchemaTableColumnAttribute(System.String,System.String)">
+	<summary>
+ returns a SchemaColumnAttribute for columnname and tablename from the core repisotory
+ </summary>
+	<param name="columnname"></param>
+	<param name="tablename"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.Initialize(System.Boolean)">
+	<summary>
+ Initialize the OTDB Envirormenent
+ </summary>
+	<param name="force"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.GetDBParameter(System.String,System.Boolean)">
+	<summary>
+ retrieve a DB Parameter from Ontrack from the central core module
+ </summary>
+	<param name="name"></param>
+	<param name="silent"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.SetDBParameter(System.String,System.Object,System.Boolean,System.Boolean)">
+	<summary>
+ sets a DB Parameter (in the DB) from the central core module
+ </summary>
+	<param name="name"></param>
+	<param name="value"></param>
+	<param name="updateOnly"></param>
+	<param name="silent"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.GetTableStore(System.String,System.Boolean)">
+	<summary>
+ returns a TableStore for the id from the central OnTrack Core Module
+ </summary>
+	<param name="tableid"></param>
+	<param name="force"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.RequireAccess(OnTrack.Database.otAccessRight,System.String,System.Boolean)">
+	<summary>
+ requires access to the OnTrack Database  - starts a session if not running otherwise just validates
+ </summary>
+	<param name="AccessRequest">otAccessRight</param>
+	<returns>True if successfull</returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.Startup(OnTrack.Database.otAccessRight,System.String,System.String)">
+	<summary>
+ requires access to the OnTrack Database  - starts a session if not running otherwise just validates
+ </summary>
+	<param name="AccessRequest">otAccessRight</param>
+	<returns>True if successfull</returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.AddErrorToLog(OnTrack.SessionMessage@)">
+	<summary>
+ Add Error Message to the ErrorLog of the Current Session
+ </summary>
+	<param name="otdberror">clsOTDBError object</param>
+	<returns>true if successful</returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.GetLastError">
+	<summary>
+ returns the most recent error from error log or nothing
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.GetDefaultValue(OnTrack.Database.otDataType)">
+	<summary>
+ returns the Standard Default Values for a datatype of OnTrack Datatypes
+ </summary>
+	<param name="datatype"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.GetDatatypeMappingOf(OnTrack.Database.otDataType)">
+	<summary>
+ Mapping of otdb Datatypes to native .NET Datatypes
+ </summary>
+	<param name="datatype"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.ot.CoreMessageHandler(System.String,System.Exception,System.Object,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean,System.Boolean,OnTrack.otCoreMessageType,OnTrack.ObjectMessageLog@,System.String,System.Object,System.String,OnTrack.Database.iormPersistable)">
+	<summary>
+ central error handler .. all messages and error conditions are fed here
+ </summary>
+	<param name="SHOWMSGBOX"></param>
+	<param name="EXCEPTION"></param>
+	<param name="ARG1"></param>
+	<param name="SUBNAME"></param>
+	<param name="TABLENAME"></param>
+	<param name="ENTRYNAME"></param>
+	<param name="message"></param>
+	<param name="break"></param>
+	<param name="NoOTDBAvailable"></param>
+	<param name="messagetype"></param>
+	<param name="MSGLOG"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.oleDBDriver.#ctor(System.String,OnTrack.Session@)">
 	<summary>
  Constructor
  </summary>
@@ -302,7 +690,7 @@ otdbBackEnd
 	<param name="domainid"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.Publish(OnTrack.ObjectMessageLog@,System.Nullable{System.DateTime})">
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertyCurrentSet.Publish(System.ComponentModel.BackgroundWorker,OnTrack.ObjectMessageLog@,System.Nullable{System.DateTime})">
 	<summary>
  Publish and persist the working PropertySet to the alive Set
  </summary>
@@ -459,7 +847,7 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.ObjectProperties.ObjectPropertySet.UpdateLots(System.Nullable{System.DateTime})">
+</member><member name="M:OnTrack.ObjectProperties.ObjectPropertySet.UpdateLots(System.ComponentModel.BackgroundWorker,System.Nullable{System.DateTime})">
 	<summary>
  Update and initialize the linked value lots of  former versions of the set to this one
  </summary>
@@ -1636,7 +2024,7 @@ otdbBackEnd
 	<param name="runtimeOnly"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.Database.Shuffle.ChecknFixPimaryKey(System.String,System.Object[]@,System.String,System.Boolean,System.Boolean)">
+</member><member name="M:OnTrack.Database.Shuffle.ChecknFixPimaryKey(System.String,System.Object[]@,System.String,System.Boolean,System.Boolean,OnTrack.ObjectMessageLog,OnTrack.Database.ormDataObject)">
 	<summary>
  helper routine to check and fix the primary key on length, datatype and domain substitution
  </summary>
@@ -2072,6 +2460,12 @@ otdbBackEnd
  </summary>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:OnTrack.Xchange.MessageQueue.Clear(System.ComponentModel.BackgroundWorker@)">
+	<summary>
+ process -&gt; write the MQF to the Database through the XChangeManager
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="M:OnTrack.Xchange.MessageQueue.Precheck(System.ComponentModel.BackgroundWorker@,System.String)">
 	<summary>
  precheck -&gt; check the MQF
@@ -2188,6 +2582,13 @@ otdbBackEnd
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="P:OnTrack.Xchange.MQMessage.Prechecked">
+	<summary>
+ returns true if processed
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="P:OnTrack.Xchange.MQMessage.Processed">
 	<summary>
  returns true if processed
@@ -2243,6 +2644,12 @@ otdbBackEnd
  </summary>
 	<param name="ActionCommand"></param>
 	<param name="MSGLOG"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Xchange.MQMessage.Clear">
+	<summary>
+ Clear and reset the message if possible
+ </summary>
 	<returns></returns>
 	<remarks></remarks>
 </member><member name="M:OnTrack.Xchange.MQMessage.Process(System.ComponentModel.BackgroundWorker@)">
@@ -2457,6 +2864,13 @@ otdbBackEnd
  </summary>
 	<value></value>
 	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Xchange.MQXSlot.MQXSlot_OnDeleted(System.Object,OnTrack.Database.ormDataObjectEventArgs)">
+	<summary>
+ on Deleted Handler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
 	<remarks></remarks>
 </member><member name="T:OnTrack.Xchange.MQXSlot">
 	<summary>
@@ -3134,7 +3548,13 @@ otdbBackEnd
 	<param name="anEntry"></param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="M:OnTrack.XChange.XChangeConfiguration.Reset">
+</member><member name="M:OnTrack.XChange.XChangeConfiguration.ClearEntries">
+	<summary>
+ reset all entry definitions
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.XChange.XChangeConfiguration.Reset(System.Boolean)">
 	<summary>
  resets the object
  </summary>
@@ -4190,6 +4610,13 @@ otdbBackEnd
 </member><member name="P:OnTrack.Database.iormPersistable.IsInitialized">
 	<summary>
  True if data object is initialized and working
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Database.iormPersistable.IsDeleted">
+	<summary>
+ returns true if the object is deleted
  </summary>
 	<value></value>
 	<returns></returns>
@@ -5671,6 +6098,101 @@ otdbBackEnd
  The ObjectMessageLog is not an Data Object on its own. it is derived from the RelationCollection and
  embedded as relation Member in a data object class
  </remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Versioning.#ctor(System.Int64,System.Int64,System.Int64)">
+	<summary>
+ constructor
+ </summary>
+	<param name="version"></param>
+	<param name="release"></param>
+	<param name="patch"></param>
+	<remarks></remarks>
+</member><member name="P:OnTrack.OnTrackChangeLog.Versioning.Version">
+	<summary>
+ Gets or sets the version.
+ </summary>
+	<value>The version.</value>
+</member><member name="P:OnTrack.OnTrackChangeLog.Versioning.Release">
+	<summary>
+ Gets or sets the release.
+ </summary>
+	<value>The release.</value>
+</member><member name="P:OnTrack.OnTrackChangeLog.Versioning.Patch">
+	<summary>
+ Gets or sets the patch.
+ </summary>
+	<value>The patch.</value>
+</member><member name="M:OnTrack.OnTrackChangeLog.Versioning.CompareTo(System.Object)">
+	<summary>
+ Comparer
+ </summary>
+	<param name="obj"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Versioning.GetHascode">
+	<summary>
+ returns hashcode
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Versioning.ToString">
+	<summary>
+ Returns the Versioning String
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="T:OnTrack.OnTrackChangeLog.Versioning">
+	<summary>
+ Version presentation class
+ </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.OnTrackChangeLog.Version(System.Object)">
+	<summary>
+ Returns the Maximal Version or with optional application the version of the application (or nothing)
+ </summary>
+	<param name="application"></param>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Refresh(System.Type)">
+	<summary>
+ Initialize the Changelog by searching the assembly
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Clear">
+	<summary>
+ Clear the OnTrackChangeLog from all Entries
+ </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Add(OnTrack.Commons.OnTrackChangeLogEntry)">
+	<summary>
+ Add an ChangeLogEntry
+ </summary>
+	<param name="entry"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Add(OnTrack.Database.ormChangeLogEntry)">
+	<summary>
+ Add ormAttribute ormChangeLogEntry
+ </summary>
+	<param name="attribute"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:OnTrack.OnTrackChangeLog.Retrieve">
+	<summary>
+ retrieves the log and loads all messages for the container object
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="T:OnTrack.OnTrackChangeLog">
+	<summary>
+ OntrackChangeLog for Changes in the OnTrack Modules and Classes 
+ </summary>
+	<remarks>
+ 
+ The OntrackChangeLog is not an Data Object on its own. it is derived from the RelationCollection and
+ embedded as relation Member in a data object class
+ </remarks>
 </member><member name="F:OnTrack.ObjectMessage.ConstTableID">
 	<summary>
  Table
@@ -5873,372 +6395,6 @@ otdbBackEnd
 	<summary>
  Message Entries of a Object Log 
  </summary>
-	<remarks></remarks>
-</member><member name="F:OnTrack.ot.ConstDepTypeIDIFC">
-	<summary>
- Dependency Type Interfaces
- </summary>
-	<remarks></remarks>
-</member><member name="F:OnTrack.ot.ConstDelimiter">
-	<summary>
- Default Delimiter for String Expressions
- </summary>
-	<remarks></remarks>
-</member><member name="F:OnTrack.ot.ConstStatusType_XEnvelope">
-	<summary>
- StatusTypes
- </summary>
-	<remarks></remarks>
-</member><member name="F:OnTrack.ot.OTDBConst_StatusTypeid_FCLF">
-	<summary>
- obsolete
- </summary>
-	<remarks></remarks>
-</member><member name="F:OnTrack.ot.ConstDefaultCompoundIndexName">
-	<summary>
- CompoundIndex
- </summary>
-	<remarks></remarks>
-</member><member name="F:OnTrack.ot.ConstOTDBSchemaVersion">
-	<summary>
- The Schema Version - increase here to trigger recreation of the database schema
- </summary>
-	<remarks></remarks>
-</member><member name="F:OnTrack.ot.ConstGlobalConfigSetName">
-	<summary>
- Config Property name
- </summary>
-	<remarks></remarks>
-</member><member name="F:OnTrack.ot.ConstCPNUseConfigSetName">
-	<summary>
-  Parameters names for config parameters read from .ini or documents
- </summary>
-	<remarks></remarks>
-</member><member name="F:OnTrack.ot.ConstCPVDBTypeSqlServer">
-	<summary>
- config Property value
- </summary>
-	<remarks></remarks>
-</member><member name="F:OnTrack.ot.ConstGlobalDomain">
-	<summary>
- Global Domain Name
- </summary>
-	<remarks></remarks>
-</member><member name="F:OnTrack.ot.ConstModuleCommons">
-	<summary>
- Name of the different OnTrack Modules
- </summary>
-	<remarks></remarks>
-</member><member name="F:OnTrack.ot._ApplicationName">
-	<summary>
- Variables
- </summary>
-	<remarks></remarks>
-</member><member name="P:OnTrack.ot.ApplicationVersion">
-	<summary>
- Gets or sets the version.
- </summary>
-	<value>The version.</value>
-</member><member name="P:OnTrack.ot.ApplicationName">
-	<summary>
- Gets or sets the name of the application.
- </summary>
-	<value>The name of the application.</value>
-</member><member name="P:OnTrack.ot.CurrentConfigSetName">
-	<summary>
- returns the name of the standard Config set to be used - might be nothing if not set
- </summary>
-	<value></value>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="P:OnTrack.ot.CurrentConfigFileName">
-	<summary>
- sets or gets the name of the current config file name
- </summary>
-	<value></value>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="P:OnTrack.ot.ConfigFileLocations">
-	<summary>
- Gets the configfilelocations.
- </summary>
-	<value>The configfilelocations.</value>
-</member><member name="P:OnTrack.ot.ObjectClassRepository">
-	<summary>
- gets the Object Class Repository
- </summary>
-	<value></value>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="P:OnTrack.ot.CurrentSession">
-	<summary>
- Property CurrentSession 
- </summary>
-	<value></value>
-	<returns>the current session object</returns>
-	<remarks></remarks>
-</member><member name="P:OnTrack.ot.CurrentDBDriver">
-	<summary>
- Gets the primary DB env.
- </summary>
-	<value>The primary DB env.</value>
-</member><member name="P:OnTrack.ot.Errorlog">
-	<summary>
- returns the otdb errorlog or nothing
- </summary>
-	<value></value>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="P:OnTrack.ot.IsInitialized">
-	<summary>
- Gets or sets the OTD bis initialized.
- </summary>
-	<value>The OTD bis initialized.</value>
-</member><member name="P:OnTrack.ot.ObjectClassDescriptions">
-	<summary>
- returns an IEnumerable of all Object Class Descriptions
- </summary>
-	<value></value>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="P:OnTrack.ot.CurrentConnection(System.Boolean,OnTrack.Database.otAccessRight,System.String,System.String)">
-	<summary>
- Gets or sets the O TDB connection.
- </summary>
-	<value>The O TDB connection.</value>
-</member><member name="P:OnTrack.ot.IsConnected">
-	<summary>
- return True if the Current Connection exists to the database
- </summary>
-	<value></value>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="P:OnTrack.ot.UsedConfigFileLocation">
-	<summary>
- gets the used location for the config file location
- </summary>
-	<value></value>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="P:OnTrack.ot.Username">
-	<summary>
- returns Current Username in the current connection
- </summary>
-	<value></value>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="P:OnTrack.ot.InstalledModules">
-	<summary>
- retuns a list of Installed OnTrack Modules
- </summary>
-	<value></value>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="P:OnTrack.ot.ConfigSetNamesToSelect">
-	<summary>
- returns a list of selectable config set names without global
- </summary>
-	<value></value>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="P:OnTrack.ot.ConfigSetNames">
-	<summary>
- returns a list of ConfigSetnames
- </summary>
-	<value></value>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.ReadConfigFile(System.String,System.String)">
-	<summary>
- reads the config parameters from the configfile
- </summary>
-	<param name="configFilePath">path where to read config file</param>
-	<param name="configFileName">name of the config file to read</param>
-	<returns>true if successfull</returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.GetConfigProperty(System.String,System.UInt16,System.String,OnTrack.Database.ComplexPropertyStore.Sequence)">
-	<summary>
- Gets the Property of a config set. if configsetname is ommitted then check currentconfigset and the global one
- </summary>
-	<param name="name">name of property</param>
-	<returns>object of the property</returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.HasConfigProperty(System.String,System.String,OnTrack.Database.ComplexPropertyStore.Sequence)">
-	<summary>
- has the config set the named property
- </summary>
-	<param name="name">name of property</param>
-	<returns>return true</returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.RetrieveConfigProperties(System.Boolean)">
-	<summary>
- retrieve the Config parameters of OnTrack and write it to the PropertyBag
- </summary>
-	<returns>true if successfull</returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.GetObjectClassDescriptionByTable(System.String)">
-	<summary>
- Retrieves a List of  ObjectClasses Descriptions referenced by a tableid
- </summary>
-	<param name="tableid"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.GetTableAttribute(System.String)">
-	<summary>
- Retrieves the schema table attribute by name
- </summary>
-	<param name="tableid"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.GetObjectClassByTable(System.String)">
-	<summary>
- Retrieves the ObjectClasses as system.type referenced by a tableid
- </summary>
-	<param name="tableid"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.GetBootStrapObjectClassDescriptions">
-	<summary>
- returns the names of the bootstrapping tables
- </summary>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.GetBootStrapObjectClassIDs">
-	<summary>
- returns the names of the bootstrapping tables
- </summary>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.GetBootStrapObjectClassnames">
-	<summary>
- returns the names of the bootstrapping tables
- </summary>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.GetObjectClassDescription(System.Type)">
-	<summary>
- returns the object class description for a type
- </summary>
-	<param name="type"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.GetObjectClassDescriptionsForModule(System.String)">
-	<summary>
- Returns a List of ObjectClassDescriptions per Modulename
- </summary>
-	<param name="modulename"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.GetBootStrapTableNames">
-	<summary>
- returns a List of Boot strapping tables
- </summary>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.GetObjectClassType(System.String)">
-	<summary>
- returns the type of the business object class if any
- </summary>
-	<param name="objectname"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.GetSchemaTableColumnAttribute(System.String,System.String)">
-	<summary>
- returns a SchemaColumnAttribute for columnname and tablename from the core repisotory
- </summary>
-	<param name="columnname"></param>
-	<param name="tablename"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.Initialize(System.Boolean)">
-	<summary>
- Initialize the OTDB Envirormenent
- </summary>
-	<param name="force"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.GetDBParameter(System.String,System.Boolean)">
-	<summary>
- retrieve a DB Parameter from Ontrack from the central core module
- </summary>
-	<param name="name"></param>
-	<param name="silent"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.SetDBParameter(System.String,System.Object,System.Boolean,System.Boolean)">
-	<summary>
- sets a DB Parameter (in the DB) from the central core module
- </summary>
-	<param name="name"></param>
-	<param name="value"></param>
-	<param name="updateOnly"></param>
-	<param name="silent"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.GetTableStore(System.String,System.Boolean)">
-	<summary>
- returns a TableStore for the id from the central OnTrack Core Module
- </summary>
-	<param name="tableid"></param>
-	<param name="force"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.RequireAccess(OnTrack.Database.otAccessRight,System.String,System.Boolean)">
-	<summary>
- requires access to the OnTrack Database  - starts a session if not running otherwise just validates
- </summary>
-	<param name="AccessRequest">otAccessRight</param>
-	<returns>True if successfull</returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.Startup(OnTrack.Database.otAccessRight,System.String,System.String)">
-	<summary>
- requires access to the OnTrack Database  - starts a session if not running otherwise just validates
- </summary>
-	<param name="AccessRequest">otAccessRight</param>
-	<returns>True if successfull</returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.AddErrorToLog(OnTrack.SessionMessage@)">
-	<summary>
- Add Error Message to the ErrorLog of the Current Session
- </summary>
-	<param name="otdberror">clsOTDBError object</param>
-	<returns>true if successful</returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.GetLastError">
-	<summary>
- returns the most recent error from error log or nothing
- </summary>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.GetDefaultValue(OnTrack.Database.otDataType)">
-	<summary>
- returns the Standard Default Values for a datatype of OnTrack Datatypes
- </summary>
-	<param name="datatype"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.GetDatatypeMappingOf(OnTrack.Database.otDataType)">
-	<summary>
- Mapping of otdb Datatypes to native .NET Datatypes
- </summary>
-	<param name="datatype"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.ot.CoreMessageHandler(System.String,System.Exception,System.Object,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean,System.Boolean,OnTrack.otCoreMessageType,OnTrack.ObjectMessageLog@,System.String,System.Object,System.String,OnTrack.Database.iormPersistable)">
-	<summary>
- central error handler .. all messages and error conditions are fed here
- </summary>
-	<param name="SHOWMSGBOX"></param>
-	<param name="EXCEPTION"></param>
-	<param name="ARG1"></param>
-	<param name="SUBNAME"></param>
-	<param name="TABLENAME"></param>
-	<param name="ENTRYNAME"></param>
-	<param name="message"></param>
-	<param name="break"></param>
-	<param name="NoOTDBAvailable"></param>
-	<param name="messagetype"></param>
-	<param name="MSGLOG"></param>
 	<remarks></remarks>
 </member><member name="M:OnTrack.Database.ormDataObject.GetQuery(System.String)">
 	<summary>
@@ -7625,6 +7781,11 @@ otdbBackEnd
  Enumeration for Access Rights to the database
  </summary>
 	<remarks></remarks>
+</member><member name="P:OnTrack.UI.ormModelTable.EventArgs.Msglog">
+	<summary>
+ Gets or sets the msglog.
+ </summary>
+	<value>The msglog.</value>
 </member><member name="P:OnTrack.UI.ormModelTable.EventArgs.Message">
 	<summary>
  Gets the message.
@@ -7672,6 +7833,13 @@ otdbBackEnd
  constructor
  </summary>
 	<param name="queriedenumeration"></param>
+	<remarks></remarks>
+</member><member name="P:OnTrack.UI.ormModelTable.trackMessageLog">
+	<summary>
+ sets an interim Messagelog to track 
+ </summary>
+	<value></value>
+	<returns></returns>
 	<remarks></remarks>
 </member><member name="P:OnTrack.UI.ormModelTable.Id">
 	<summary>
@@ -7732,13 +7900,6 @@ otdbBackEnd
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
-</member><member name="M:OnTrack.UI.ormModelTable.OnChanging(System.Object,System.Data.DataRowChangeEventArgs)">
-	<summary>
- Event handler for the RowChanged Event
- </summary>
-	<param name="sender"></param>
-	<param name="e"></param>
-	<remarks></remarks>
 </member><member name="M:OnTrack.UI.ormModelTable.OnRowChanged(System.Object,System.Data.DataRowChangeEventArgs)">
 	<summary>
  Event handler for the RowChanged Event
@@ -7749,6 +7910,13 @@ otdbBackEnd
 </member><member name="M:OnTrack.UI.ormModelTable.OnColumnChanged(System.Object,System.Data.DataColumnChangeEventArgs)">
 	<summary>
  Event handler for the ColumnChanged Event
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.ormModelTable.OnObjectMessageAdded(System.Object,OnTrack.ObjectMessageLog.EventArgs)">
+	<summary>
+ Event Handler for ObjectMessageLogs propagate
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
@@ -7766,13 +7934,6 @@ otdbBackEnd
  </summary>
 	<param name="row"></param>
 	<returns></returns>
-	<remarks></remarks>
-</member><member name="M:OnTrack.UI.ormModelTable.OnNewRowAdded(System.Object,System.Data.DataTableNewRowEventArgs)">
-	<summary>
- Event handler for the TableNewRow Event (provides empty row)
- </summary>
-	<param name="sender"></param>
-	<param name="e"></param>
 	<remarks></remarks>
 </member><member name="T:OnTrack.UI.ormModelTable">
 	<summary>
@@ -8949,6 +9110,12 @@ otdbBackEnd
 	<summary>
  Initialize the Calendar
  </summary>
+	<remarks></remarks>
+</member><member name="M:OnTrack.Database.Installation.SaveChangeLog">
+	<summary>
+ save the ontrack change log to the database
+ </summary>
+	<returns></returns>
 	<remarks></remarks>
 </member><member name="M:OnTrack.Database.Installation.FeedInInitialData(System.String)">
 	<summary>
@@ -10558,6 +10725,12 @@ otdbBackEnd
  </summary>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:OnTrack.Database.AbstractEntryDefinition.GetObjectDefinition">
+	<summary>
+ returns the ObjectDefintion of this Entry
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
 </member><member name="M:OnTrack.Database.AbstractEntryDefinition.AbstractEntryDefinition_SetByAttribute(OnTrack.Database.ormObjectEntryAttribute)">
 	<summary>
  set the properties of an ObjectEntryDefinition by a SchemaColumnAttribute
@@ -10920,6 +11093,56 @@ otdbBackEnd
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Database.ormChangeLogEntry.Changeimplno">
+	<summary>
+ Gets or sets the changeimplno.
+ </summary>
+	<value>The changeimplno.</value>
+</member><member name="P:OnTrack.Database.ormChangeLogEntry.Description">
+	<summary>
+ Gets or sets the description.
+ </summary>
+	<value>The description.</value>
+</member><member name="P:OnTrack.Database.ormChangeLogEntry.ChangeID">
+	<summary>
+ Gets or sets the change ID.
+ </summary>
+	<value>The change ID.</value>
+</member><member name="P:OnTrack.Database.ormChangeLogEntry.Releasedate">
+	<summary>
+ Gets or sets the releasedate.
+ </summary>
+	<value>The releasedate.</value>
+</member><member name="P:OnTrack.Database.ormChangeLogEntry.Patch">
+	<summary>
+ Gets or sets the patch.
+ </summary>
+	<value>The patch.</value>
+</member><member name="P:OnTrack.Database.ormChangeLogEntry.Release">
+	<summary>
+ Gets or sets the release.
+ </summary>
+	<value>The release.</value>
+</member><member name="P:OnTrack.Database.ormChangeLogEntry.Version">
+	<summary>
+ Gets or sets the version.
+ </summary>
+	<value>The version.</value>
+</member><member name="P:OnTrack.Database.ormChangeLogEntry.Module">
+	<summary>
+ Gets or sets the module.
+ </summary>
+	<value>The module.</value>
+</member><member name="P:OnTrack.Database.ormChangeLogEntry.Application">
+	<summary>
+ Gets or sets the application.
+ </summary>
+	<value>The application.</value>
+</member><member name="T:OnTrack.Database.ormChangeLogEntry">
+	<summary>
+ ChangeLogEntryAttribute implements a ChangeLogEntry for a Class
+ </summary>
 	<remarks></remarks>
 </member><member name="P:OnTrack.Database.ormEntryMapping.Enabled">
 	<summary>
@@ -12268,14 +12491,14 @@ otdbBackEnd
  Gets or sets the OTDB record.
  </summary>
 	<value>The OTDB record.</value>
-</member><member name="P:OnTrack.Database.ormDataObject.PrimaryKeyEntrynames">
+</member><member name="P:OnTrack.Database.ormDataObject.ObjectPrimaryKeyEntrynames">
 	<summary>
  returns an array of the primarykey entry names
  </summary>
 	<value></value>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="P:OnTrack.Database.ormDataObject.PrimaryKeyValues">
+</member><member name="P:OnTrack.Database.ormDataObject.ObjectPrimaryKeyValues">
 	<summary>
  returns the primaryKeyvalues
  </summary>
@@ -15781,6 +16004,16 @@ otdbBackEnd
  Column Members
  </summary>
 	<remarks></remarks>
+</member><member name="M:OnTrack.Commons.OnTrackChangeLogEntry.#ctor">
+	<summary>
+  constructor
+ </summary>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Commons.OnTrackChangeLogEntry.ChangeImplementationNo">
+	<summary>
+ Gets or sets the change implementation no.
+ </summary>
+	<value>The change implementation no.</value>
 </member><member name="P:OnTrack.Commons.OnTrackChangeLogEntry.Releasedate">
 	<summary>
  Gets or sets the releasedate.
@@ -15821,6 +16054,13 @@ otdbBackEnd
 </member><member name="P:OnTrack.Commons.OnTrackChangeLogEntry.Description">
 	<summary>
  Description
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:OnTrack.Commons.OnTrackChangeLogEntry.Versioning">
+	<summary>
+ returns the Versioning String
  </summary>
 	<value></value>
 	<returns></returns>

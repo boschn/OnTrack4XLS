@@ -288,6 +288,11 @@ otdbAddIn
 	<summary>
   A strongly-typed resource class, for looking up localized strings, etc.
 </summary>
+</member><member name="P:OnTrack.UI.UIControlDataGridViewEventArgs.Msgtext">
+	<summary>
+ Gets or sets the msgtext.
+ </summary>
+	<value>The msgtext.</value>
 </member><member name="P:OnTrack.UI.UIControlDataGridView.ProgressPictureBox">
 	<summary>
  Gets or sets the progress picture box.
@@ -318,13 +323,6 @@ otdbAddIn
 </member><member name="M:OnTrack.UI.UIControlDataGridView.OnRowAdded(System.Object,Telerik.WinControls.UI.GridViewRowEventArgs)">
 	<summary>
  Event On Row Adding
- </summary>
-	<param name="sender"></param>
-	<param name="e"></param>
-	<remarks></remarks>
-</member><member name="M:OnTrack.UI.UIControlDataGridView.OnCellChanged(System.Object,Telerik.WinControls.UI.CurrentCellChangedEventArgs)">
-	<summary>
- Event On Cell Changed from current to new cell
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
@@ -377,6 +375,20 @@ otdbAddIn
  </summary>
 	<param name="message"></param>
 	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.Modeltable_ObjectOpFailed(System.Object,OnTrack.UI.ormModelTable.EventArgs)">
+	<summary>
+ Create failed
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.Modeltable_ObjectUpdateFailed(System.Object,OnTrack.UI.ormModelTable.EventArgs)">
+	<summary>
+ Update failed
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
 </member><member name="M:OnTrack.UI.UIControlDataGridView.OnMessageFromTable(System.Object,OnTrack.UI.ormModelTable.EventArgs)">
 	<summary>
  Event handler for operation messages
@@ -398,16 +410,30 @@ otdbAddIn
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
-</member><member name="M:OnTrack.UI.UIControlDataGridView.SaveUILayout(System.Object,System.EventArgs)">
+</member><member name="M:OnTrack.UI.UIControlDataGridView.OnMenuItemClick_AdjustAllColumnSize(System.Object,System.EventArgs)">
 	<summary>
- Save the Layout Status
+ MenuItemClick Event handler
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
 	<remarks></remarks>
-</member><member name="M:OnTrack.UI.UIControlDataGridView.LoadUILayout(System.Object,System.EventArgs)">
+</member><member name="M:OnTrack.UI.UIControlDataGridView.OnMenuItemClick_AdjustColumnSize(System.Object,System.EventArgs)">
 	<summary>
- Save the Layout Status
+ MenuItemClick Event handler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.OnMenuItemClick_SaveUILayout(System.Object,System.EventArgs)">
+	<summary>
+ MenuItemClick Event handler
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.OnMenuItemClick_LoadUILayout(System.Object,System.EventArgs)">
+	<summary>
+ MenuItemClick Event handler
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
@@ -415,6 +441,20 @@ otdbAddIn
 </member><member name="M:OnTrack.UI.UIControlDataGridView.UIConTrolDataGrid_OnDatabindingComplete(System.Object,Telerik.WinControls.UI.GridViewBindingCompleteEventArgs)">
 	<summary>
  Handles the DataBinding Complete Event to setup different Models
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.radGridView_CellEditorInitialized(System.Object,Telerik.WinControls.UI.GridViewCellEventArgs)">
+	<summary>
+ Cell Editor initialized
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.UI.UIControlDataGridView.radGridView_CellFormatting(System.Object,Telerik.WinControls.UI.CellFormattingEventArgs)">
+	<summary>
+ CellFormatting Handler
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
@@ -432,6 +472,11 @@ otdbAddIn
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="T:OnTrack.UI.UIControlDataGridView">
+	<summary>
+ DataGridView Control for Objects
+ </summary>
 	<remarks></remarks>
 </member><member name="T:OnTrack.AddIn.UIFormSetting.ConfigSetModelConverter">
 	<summary>
@@ -721,6 +766,13 @@ otdbAddIn
 </member><member name="M:OnTrack.AddIn.UIFormDBExplorer.ObjecTree_ScreenTipNeeded(System.Object,Telerik.WinControls.ScreenTipNeededEventArgs)">
 	<summary>
  Handler for Screen Tip
+ </summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:OnTrack.AddIn.UIFormDBExplorer.UIFormDBExplorer_UIControlDataGridViewOnStatusMessage(System.Object,OnTrack.UI.UIControlDataGridViewEventArgs)">
+	<summary>
+ Event Handler for the Messages of the embedded DataGridView
  </summary>
 	<param name="sender"></param>
 	<param name="e"></param>

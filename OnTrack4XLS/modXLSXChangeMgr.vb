@@ -794,12 +794,15 @@ Public Class XLSDataArea
         Return 0
     End Function
 
-    '**********
-    '********** get Selection in Range
-    '**********
-    '********** returns Nothing if nothing is selected
+    ''' <summary>
+    ''' returns the selection from the selection column as range
+    ''' </summary>
+    ''' <param name="silent"></param>
+    ''' <param name="selectionHeaderID"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     Public Function GetSelectionAsRange(Optional silent As Boolean = False, _
-    Optional selectionHeaderID As String = "") As Range
+                                        Optional selectionHeaderID As String = "") As Range
 
 
         Dim selectioncol, selected As Range
@@ -1339,7 +1342,7 @@ Module XLSXChangeMgr
 
             '*** check on selection
             If Not fullReplication Then
-                If dataarea.SelectionID = "" Then
+                If String.IsNullOrWhiteSpace(dataarea.SelectionID) Then
                     Call CoreMessageHandler(message:="no selection header id provided although partial replication called", subname:="replicate", messagetype:=otCoreMessageType.ApplicationError)
                     '' switch back
                     If previousDomainid IsNot Nothing AndAlso previousDomainid <> CurrentSession.CurrentDomainID Then
@@ -1357,6 +1360,7 @@ Module XLSXChangeMgr
                         End If
                         Return False
                     End If
+                    ''' get selection
                     aSelection = dataarea.GetSelectionAsRange(silent:=silent)
                 End If
             Else
@@ -1366,6 +1370,21 @@ Module XLSXChangeMgr
 
                 Diagnostics.Debug.WriteLine(aSelection.Rows.Count & " rows selected in " & aSelection.Address & " of " & dataarea.DataRange.Address & " (" & dataarea.DataRangeAddress & ")")
                 Globals.ThisAddIn.Application.StatusBar = aSelection.Rows.Count & " rows selected in " & aSelection.Address & " of " & dataarea.DataRange.Address & " (" & dataarea.DataRangeAddress & ")"
+
+                ''' confirm the inbound-full replication
+                If xcmd = otXChangeCommandType.CreateUpdate Then
+                    Telerik.WinControls.RadMessageBox.SetThemeName("TelerikMetroBlue")
+                    Dim aresult As System.Windows.Forms.DialogResult = _
+                        Telerik.WinControls.RadMessageBox.Show(text:="ATTENTION !" & vbLf & "Are you sure to replicate all rows from excel to database - overwrite or create new data objects ?", _
+                                                                  caption:="Please confirm", _
+                                                                  icon:=Telerik.WinControls.RadMessageIcon.Question, _
+                                                                  buttons:=System.Windows.Forms.MessageBoxButtons.YesNo, _
+                                                                  defaultButton:=System.Windows.Forms.MessageBoxDefaultButton.Button2)
+                    If aresult <> System.Windows.Forms.DialogResult.Yes AndAlso aresult <> System.Windows.Forms.DialogResult.OK Then
+                        Return False
+                    End If
+                End If
+
             End If
 
             If aSelection Is Nothing Then
@@ -1565,10 +1584,12 @@ Module XLSXChangeMgr
 
 
             Else
-                '**** if not outline is available
-                '**** run through each aRow
-                '**** in selection
-                maximum = aSelection.Rows.Count
+                
+                ''' count - aselection.rows.count is not getting the real number of rows bac
+                maximum = 0
+                For Each aRow As Range In aSelection.Rows
+                    maximum += 1
+                Next
 
                 ''' hack
                 ''' 

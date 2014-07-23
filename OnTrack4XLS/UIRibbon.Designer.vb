@@ -56,7 +56,7 @@
         Me.MQFGroup = Me.Factory.CreateRibbonGroup
         Me.DataAreaButton = Me.Factory.CreateRibbonButton
         Me.XConfigButton = Me.Factory.CreateRibbonButton
-        Me.MQFAdminButton = Me.Factory.CreateRibbonButton
+        Me.MQFWizardButton = Me.Factory.CreateRibbonButton
         Me.ReplicateButton = Me.Factory.CreateRibbonButton
         Me.OperationsGroup = Me.Factory.CreateRibbonGroup
         Me.BatchMenuButton = Me.Factory.CreateRibbonButton
@@ -158,7 +158,7 @@
         Me.MQFGroup.DialogLauncher = RibbonDialogLauncherImpl1
         Me.MQFGroup.Items.Add(Me.DataAreaButton)
         Me.MQFGroup.Items.Add(Me.XConfigButton)
-        Me.MQFGroup.Items.Add(Me.MQFAdminButton)
+        Me.MQFGroup.Items.Add(Me.MQFWizardButton)
         Me.MQFGroup.Items.Add(Me.ReplicateButton)
         Me.MQFGroup.Label = "Feeding Data"
         Me.MQFGroup.Name = "MQFGroup"
@@ -182,13 +182,13 @@
         '
         'MQFAdminButton
         '
-        Me.MQFAdminButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge
-        Me.MQFAdminButton.Image = Global.OnTrack.Addin.My.Resources.Resources.MessageQueueTube
-        Me.MQFAdminButton.Label = "MQF"
-        Me.MQFAdminButton.Name = "MQFAdminButton"
-        Me.MQFAdminButton.OfficeImageId = "AccessRelinkLists"
-        Me.MQFAdminButton.ScreenTip = "Call the MQF Administrator Tool"
-        Me.MQFAdminButton.ShowImage = True
+        Me.MQFWizardButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge
+        Me.MQFWizardButton.Image = Global.OnTrack.Addin.My.Resources.Resources.MessageQueueTube
+        Me.MQFWizardButton.Label = "MQF"
+        Me.MQFWizardButton.Name = "MQFAdminButton"
+        Me.MQFWizardButton.OfficeImageId = "AccessRelinkLists"
+        Me.MQFWizardButton.ScreenTip = "Call the MQF Administrator Tool"
+        Me.MQFWizardButton.ShowImage = True
         '
         'ReplicateButton
         '
@@ -245,7 +245,7 @@ End Sub
     Friend WithEvents SettingGroup As Microsoft.Office.Tools.Ribbon.RibbonGroup
     Friend WithEvents WorkspaceCombo As Microsoft.Office.Tools.Ribbon.RibbonComboBox
     Friend WithEvents DataAreaButton As Microsoft.Office.Tools.Ribbon.RibbonButton
-    Friend WithEvents MQFAdminButton As Microsoft.Office.Tools.Ribbon.RibbonButton
+    Friend WithEvents MQFWizardButton As Microsoft.Office.Tools.Ribbon.RibbonButton
     Friend WithEvents XConfigButton As Microsoft.Office.Tools.Ribbon.RibbonButton
     Friend WithEvents LogButton As Microsoft.Office.Tools.Ribbon.RibbonToggleButton
     Friend WithEvents OperationsGroup As Microsoft.Office.Tools.Ribbon.RibbonGroup
