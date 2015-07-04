@@ -24,8 +24,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{11F042B1-6A68-404D-9155-CF913F6A2892}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>OnTrack4XLS_Croco</RootNamespace>
-    <AssemblyName>OnTrack4XLS Croco</AssemblyName>
+    <RootNamespace>OnTrack.AddIn</RootNamespace>
+    <AssemblyName>OnTrack4XLS</AssemblyName>
     <LoadBehavior>3</LoadBehavior>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DefineConstants>VSTO40</DefineConstants>
@@ -223,7 +223,6 @@
   -->
   <ItemGroup>
     <AppDesigner Include="My Project\" />
-    <Compile Include="Addin.vb" />
     <Compile Include="modSettings.vb" />
     <Compile Include="UIFormWorkDataAreas.Designer.vb">
       <DependentUpon>UIFormWorkDataAreas.vb</DependentUpon>
@@ -268,6 +267,7 @@
     <Compile Include="UIFormWorkXConfig.vb">
       <SubType>Form</SubType>
     </Compile>
+    <None Include="Resources\wrench_plus_2.png" />
     <EmbeddedResource Include="UIFormWorkDataAreas.resx">
       <DependentUpon>UIFormWorkDataAreas.vb</DependentUpon>
     </EmbeddedResource>
@@ -455,6 +455,7 @@
     <None Include="Resources\mono_cog_48_48.png" />
     <None Include="Resources\mono_doc_edit_32_32.png" />
     <None Include="Resources\mono_doc_edit_48_48.png" />
+    <None Include="Resources\playback_play.png" />
     <Content Include="Resources\progress_radar.gif" />
     <None Include="Resources\wrench_plus_2_32x32.png" />
     <None Include="Resources\plus.png" />

@@ -183,7 +183,7 @@
         'MQFAdminButton
         '
         Me.MQFWizardButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge
-        Me.MQFWizardButton.Image = Global.OnTrack.Addin.My.Resources.Resources.MessageQueueTube
+        Me.MQFWizardButton.Image = My.Resources.Resources.MessageQueueTube
         Me.MQFWizardButton.Label = "MQF"
         Me.MQFWizardButton.Name = "MQFAdminButton"
         Me.MQFWizardButton.OfficeImageId = "AccessRelinkLists"
@@ -193,7 +193,7 @@
         'ReplicateButton
         '
         Me.ReplicateButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge
-        Me.ReplicateButton.Image = Global.OnTrack.Addin.My.Resources.Resources.excel_replication
+        Me.ReplicateButton.Image = My.Resources.Resources.excel_replication
         Me.ReplicateButton.Label = "Replicate"
         Me.ReplicateButton.Name = "ReplicateButton"
         Me.ReplicateButton.ShowImage = True
