@@ -1,0 +1,144 @@
+# Entries for Object Message Types;;;;;;;;;
+#;;;;;;;;;
+# --- STANDARD ---;;;;;;;;;
+#;;;;;;;;;
+# Exchange IDs;;;;;;;;;
+#;;;;;;;;;
+#DM1;OBJECTMESSAGETYPE;DOMAINID;domain identifier;3;;;;;
+#OMD1;OBJECTMESSAGETYPE;UID;unique identifier of the object message;7;;;;;
+#OMD10;OBJECTMESSAGETYPE;STATUSTYPES;resulting status types of the object message;2;;;;;
+#OMD2;OBJECTMESSAGETYPE;AREA;area of the object message;3;;;;;
+#OMD20;OBJECTMESSAGETYPE;STATUSCODES;resulting status codes of the object message;2;;;;;
+#OMD3;OBJECTMESSAGETYPE;WEIGHT;weight of the object message;1;;;;;
+#OMD4;OBJECTMESSAGETYPE;TYPEID;type of the object message;3;;;;;   [Error] = 1        Info = 3        Attention = 2        Warning = 4
+#OMD5;OBJECTMESSAGETYPE;MESSAGE;message text of the object message;3;;;;;
+#OMD6;OBJECTMESSAGETYPE;DESCRIPTION;additional description and help text of the object message;10;;;;;
+#OMD7;OBJECTMESSAGETYPE;ISPERSISTED;true if the messages of this type will be persisted in the log;9;;;;;
+#;;;;;;;;;
+# HEADER;;;;;;;;;
+#;;;;;;;;;
+OMD1;DM1;OMD2;OMD5;OMD6;OMD3;OMD4;OMD7;OMD20;OMD10
+#;;;;;;;;;
+# Message of Message Queue Messages processing;;;;;;;;;
+#;;;;;;;;;
+501;@;MQF;cell value '%2%' of column %1% in %Tupleidentifier% has excel error;Check the cell value formular and correct it;90;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
+510;@;MQF;message operation '%1%' in %Tupleidentifier% is unknown;Please correct;99;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
+511;@;MQF;message operation '%1%' in %Tupleidentifier% is not yet implemented;Please correct;99;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
+512;@;MQF;message operation '%2%' in xchange configuration '%1%' is invalid - operation '%2%' aborted;;90;Error;false;|R1|S1|;|XCHANGEENVELOPE|MQMESSAGE|
+513;@;MQF;message operation is missing - message not processed;;99;Error;false;|R1|S1|;|XCHANGEENVELOPE|MQMESSAGE|
+#;;;;;;;;;
+521;@;MQF;a new deliverable with uid %1% created;;1;Info;false;|G1|G1|;|XCHANGEENVELOPE|MQMESSAGE|
+522;@;MQF;a new deliverable revision with uid %1% for uid %2% and id '%3%', revision '%4%' , change reference '%5%' created;;1;Info;false;|G1|G1|;|XCHANGEENVELOPE|MQMESSAGE|
+523;@;MQF;a new deliverable with uid %1% could not be persisted;;1;Error;true;|R1|;|MQMESSAGE|
+#;;;;;;;;;
+570;@;MQF;message in row %Tupleidentifier% has no changed values - skip processing;;99;Error;false;|Y1|S1|;|XCHANGEENVELOPE|MQMESSAGE|
+571;@;MQF;message in row %Tupleidentifier% was already completely processed on %1% - skip processing;;70;Error;false;|Y1|S1|;|XCHANGEENVELOPE|MQMESSAGE|
+572;@;MQF;message in row %Tupleidentifier% was already processed on %1% with errors ;;1;Error;false;|Y1|G2|;|XCHANGEENVELOPE|MQMESSAGE|
+573;@;MQF;message in row %Tupleidentifier% has operation NOOP which means 'DO NOTHING' - skip processing;;99;Error;false;|S1|;|MQMESSAGE|
+575;@;MQF;message in row %Tupleidentifier% has skip status - skipping prechecking again;;99;Error;false;|S1|;|MQMESSAGE|
+576;@;MQF;message in row %Tupleidentifier% has skip status - skipping processing again;;99;Error;false;|S1|;|MQMESSAGE|
+577;@;MQF;message in row %Tupleidentifier% was already processed on %1% by %2%- skipping prechecking / processing again;;99;Error;false;|S1|;|MQMESSAGE|
+#;;;;;;;;;
+580;@;MQF;message in row %Tupleidentifier% with operation %1% is not possible for object type %2% - operation failed;;95;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
+581;@;MQF;object of type %2% with key '%3%' couldnot be retrieved for message in row %Tupleidentifier% with operation %1% - operation failed;;95;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
+582;@;MQF;object of type %2%  could not be cloned from object with key '%3%' for message in row %Tupleidentifier% with operation %1% - operation failed;;95;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
+583;@;MQF;deliverable type '%2%' from message in row %Tupleidentifier% with operation %1% not found - operation failed;;95;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
+584;@;MQF;domain id '%2%' from message in row %Tupleidentifier% with operation %1% not found - operation failed;;95;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
+585;@;MQF;workspace id '%2%' from message in row %Tupleidentifier% with operation %1% not found - operation failed;;95;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
+#;;;;;;;;;
+589;@;MQF;processing of message from %Tupleidentifier% with operation %1% failed due to an internal error '%2%'  - please see session error log with tag '%3%' and id no '%4%' for details;;99;Error;false;|R1|R1|;|XCHANGEENVELOPE|MQMESSAGE|
+#;;;;;;;;;
+# Message of XChange for an Envelope ;;;;;;;;;
+#;;;;;;;;;
+1001;@;XCHANGE;primary key of object '%2%' is Nothing in xchange configuration '%1%';Check the XConfiguration why XchangeID is not included;90;Error;false;|R1|;|XCHANGEENVELOPE|
+1002;@;XCHANGE;value of primary key entry '%3%' of object '%2' is not in configuration '%1%' or envelope;;90;Error;false;|R1|;|XCHANGEENVELOPE|
+1003;@;XCHANGE;object of type '%2%' with primary key '%3%' doesnot exists in xchange configuration '%1%' - the operation cannot be performed;;90;Error;false;|R1|;|XCHANGEENVELOPE|
+1004;@;XCHANGE;object of type '%2%' with primary key '%3%' doesnot exists in xchange configuration '%1%' - a new object will be created;;10;Info;false;|G2|;|XCHANGEENVELOPE|
+1005;@;XCHANGE;xchange command '%3%' is not implemented by routine for objectid '%2%' in xchange configuration '%1%' - see sessionlog;;90;Error;false;|R1|;|XCHANGEENVELOPE|
+1006;@;XCHANGE;object entry '%2%.%3%' with value '%4%': object entry properties could not be applied in xchange configuration '%1';This might be a misconfiguration of the OnTrack Database.See your system Ontrack Administrator for support.;50;Warning;false;|Y1|;|XCHANGEENVELOPE|
+1007;@;XCHANGE;object of type '%2%' with primary key '%3%' from xchange configuration '%1%'  doesnot exists in the database - operation '%4%' aborted;;90;Error;false;|G2|;|XCHANGEENVELOPE|
+1008;@;XCHANGE;object of type '%2%' with primary key '%3%' from xchange configuration '%1%'  doesnot exists in the database - operation '%4%' obsolete;;50;Error;false;|Y1|;|XCHANGEENVELOPE|
+1009;@;XCHANGE;object of type '%2%' has no primary key in object repository from xchange configuration '%1%'  - operation '%3%' aborted;;90;Error;false;|R1|;|XCHANGEENVELOPE|
+1010;@;XCHANGE;xchange command '%2%' in xchange configuration '%1%' is invalid - operation '%2%' aborted;;90;Error;false;|R1|;|XCHANGEENVELOPE|
+1011;@;XCHANGE;xchange command is missing - message not processed;;80;Error;false;|R1|;|XCHANGEENVELOPE|
+1019;@;XCHANGE;xchange command failed due to an internal error;;90;Error;false;|R1|;|XCHANGEENVELOPE|
+#;;;;;;;;;
+# Success Messages in an Envelope;;;;;;;;;
+#;;;;;;;;;
+1090;@;XCHANGE;xchange command '%3%' can be run for object id '%2%' in xchange configuration '%1%';;10;Info;false;|G1|;|XCHANGEENVELOPE|
+1091;@;XCHANGE;all object entry evaluations were successfull - xchange command '%3%' can be run for object id '%2%' in xchange configuration '%1%';;10;Info;false;|G1|;|XCHANGEENVELOPE|
+1092;@;XCHANGE;object of type '%2%' with primary key '%3%' in xchange configuration '%1%' updated;;10;Info;false;|G1|;|XCHANGEENVELOPE|
+1093;@;XCHANGE;object of type '%2%' with primary key '%3%' in xchange configuration '%1%' has no changes - not updated;;10;Info;false;|G2|;|XCHANGEENVELOPE|
+1094;@;XCHANGE;xchange command '%4%' run for object of type '%2%' with primary key '%3%';;10;Info;false;|G1|;|XCHANGEENVELOPE|
+#;;;;;;;;;
+# XSlot;;;;;;;;;
+#;;;;;;;;;
+1201;@;VALIDATOR;object entry validation for '%1%.%2% (XID %5%) failed. Value'%4%' couldnot be converted to data type '%3%';Provide a correct value;90;Error;false;|R1|;|XCHANGEENVELOPE|
+#;;;;;;;;;
+# VALIDATOR;;;;;;;;;
+#;;;;;;;;;
+1101;@;VALIDATOR;object entry validation for '%1%.%2% (XID %5%) failed. Value '%4%' could not be converted to data type '%3%' ;Provide a correct value;90;Error;false;|R1|R1|;|ENTRYVALIDATOR|XCHANGEENVELOPE|
+1102;@;VALIDATOR;object entry validation for '%1%.%2% (XID %3%) failed. Null or empty value is not allowed.;Provide a correct value;90;Error;false;|R1|R1|;|ENTRYVALIDATOR|XCHANGEENVELOPE|
+1103;@;VALIDATOR;object entry validation for '%1%.%2% (XID %5%) failed. Value '%4%' is less than lower bound of '%3%'.;Provide a correct value;90;Error;false;|R1|R1|;|ENTRYVALIDATOR|XCHANGEENVELOPE|
+1104;@;VALIDATOR;object entry validation for '%1%.%2% (XID %5%) failed. Value '%4%' is greater than higher bound of '%3%'.;Provide a correct value;90;Error;false;|R1|R1|;|ENTRYVALIDATOR|XCHANGEENVELOPE|
+1105;@;VALIDATOR;object entry validation for '%1%.%2% (XID %5%) failed. Value '%4%' is not found in lookup condition '%3%'.;Provide a correct value;90;Error;false;|R1|R1|;|ENTRYVALIDATOR|XCHANGEENVELOPE|
+1106;@;VALIDATOR;object entry validation for '%1%.%2% (XID %5%) failed. Value '%4%' is not matching against regular expression '%3%'.;Provide a correct value;90;Error;false;|R1|R1|;|ENTRYVALIDATOR|XCHANGEENVELOPE|
+# Object VALIDATION FAILED;;;;;;;;;
+1121;@;VALIDATOR;object validation for %1% failed. The values (%3%) of entries '%2%' must be unique but are existing in the database.;Provide a correct value;90;Error;false;|R1|R1|;|OBJECTVALIDATOR|XCHANGEENVELOPE|
+#;;;;;;;;;
+# VALIDATOR SUCCESS;;;;;;;;;
+#;;;;;;;;;
+1190;@;VALIDATOR;object entry validation for '%1%.%2% (XID %5%) succeeded. Value'%4%' could be converted to data type '%3%';;10;Info;false;|G1|G1|;|ENTRYVALIDATOR|XCHANGEENVELOPE|
+#;;;;;;;;;
+#  Messages of process in an MQF;;;;;;;;;
+#;;;;;;;;;
+1290;@;XCHANGE;mqf command '%2%' run with success in xchange configuration '%1%';;10;Info;false;|G1|;|XCHANGEENVELOPE|
+1291;@;XCHANGE;precheck / preprocess a message queue message before running process;;91;Error;false;|R1|;|XCHANGEENVELOPE|
+1292;@;XCHANGE;precheck run on this message queue message failed - processing not possible;;91;Error;false;|R1|;|XCHANGEENVELOPE|
+#;;;;;;;;;
+# Schedule Lifecycle Status;;;;;;;;;
+#;;;;;;;;;
+2100;@;SCHEDULING;schedule of schedule type '%1%' has no finishing milestone '%2%';;90;Error;true;|R1|R2|;|SCHEDULINGLFCL|TRACKING|
+2101;@;SCHEDULING;schedule #%1%.%2% has no schedule type or schedule type couldnot be retrieved;;90;Error;true;|R1|R2|;|SCHEDULINGLFCL|TRACKING|
+2102;@;SCHEDULING;schedule of schedule type '%1%' has a date milestone ('%2%') with value '%3%' which is not a valid date ;;98;Error;true;|R1|R2|;|SCHEDULINGLFCL|TRACKING|
+2103;@;SCHEDULING;schedule of schedule type '%1%' has an actual milestone ('%2%') with value '%3%' which is prohibited;;90;Error;true;|R1|R2|;|SCHEDULINGLFCL|TRACKING|
+2104;@;SCHEDULING;schedule of schedule type '%1%' has a mandatory actual milestone ('%2%') with no value;;90;Error;true;|R1|R2|;|SCHEDULINGLFCL|TRACKING|
+2105;@;SCHEDULING;schedule of schedule type '%1%' has a facultative actual milestone ('%2%') with no value;;10;Info;false;|G1|;|SCHEDULINGLFCL|
+2106;@;SCHEDULING;schedule of schedule type '%1%' has a forecast milestone ('%2%') with value '%3%' which is prohibited;;90;Error;true;|R1|R2|;|SCHEDULINGLFCL|TRACKING|
+2107;@;SCHEDULING;schedule of schedule type '%1%' has a mandatory forecast milestone ('%2%') with no value;;90;Error;true;|R1|R2|;|SCHEDULINGLFCL|TRACKING|
+2108;@;SCHEDULING;schedule of schedule type '%1%' has a facultative forecast milestone ('%2%') with no value;;10;Info;false;|G1|;|SCHEDULINGLFCL|
+# success;;;;;;;;;
+2200;@;SCHEDULING;schedule of schedule type '%1%' can go alive and passed all checks;;10;Info;true;|G1|;|SCHEDULINGLFCL|
+2201;@;SCHEDULING;schedule of schedule type '%1%' can go alive and passed life cycle checks with comments or warnings;;11;Info;true;|G1|;|SCHEDULINGLFCL|
+2210;@;SCHEDULING;schedule of schedule type '%1%' has a date milestone %3% ('%2%') on a non-working or absence day in calendar '%4%';;11;Info;true;|G2|Y1|;|SCHEDULINGLFCL|ENTRYVALIDATOR|
+2211;@;SCHEDULING;schedule of schedule type '%1%' has finished with milestone '%2%' on %3% - further checks are obsolete;;97;Info;true;|G2|;|SCHEDULINGLFCL|
+#;;;;;;;;;
+# Schedule Process Status;;;;;;;;;
+#;;;;;;;;;
+2600;@;SCHEDULING;schedule #%1%.%2% is faulty - no process status available. See LifeCycle status messages';;95;Error;true;|R1|R1|;|SCHEDULINGPROC|TRACKING|
+2610;@;SCHEDULING;OVERDUE schedule of schedule type '%1%' - finishing milestone date ('%2%') has passed by since %3% calendar days';;95;Error;true;|R1|Y1|;|SCHEDULINGPROC|TRACKING|
+2611;@;SCHEDULING;due schedule of schedule type '%1%' - finishing milestone date ('%2%') is due in latency period of %3% calendary days;;94;Warning;true;|Y1|Y1|;|SCHEDULINGPROC|TRACKING|
+2612;@;SCHEDULING;due schedule of schedule type '%1%' - finishing milestone date ('%2%') will come due in latency period %3% calendary days;;94;Info;true;|Y1|Y1|;|SCHEDULINGPROC|TRACKING|
+2612;@;SCHEDULING;schedule of schedule type '%1%' - %3% calendary days to go before reaching finishing milestone date ('%2%');;5;Info;true;|G1|G1|;|SCHEDULINGPROC|TRACKING|
+2613;@;SCHEDULING;schedule of schedule type '%1%' - %3% calendary days to go before reaching finishing milestone date ('%2%');;5;Info;true;|G1|G1|;|SCHEDULINGPROC|TRACKING|
+#;;;;;;;;;
+2700;@;SCHEDULING;risk for being on-time in schedule of schedule type '%1%' which has overdue milestones';;40;Warning;true;|Y1|;|SCHEDULINGPROC|
+#;;;;;;;;;
+2900;@;SCHEDULING;schedule of schedule type '%1%' has started';;10;Info;true;|G1|;|SCHEDULINGPROC|
+2901;@;SCHEDULING;schedule of schedule type '%1%' has finished on time with a span of %2% calendar days;;95;Info;true;|G1|;|SCHEDULINGPROC|
+2902;@;SCHEDULING;schedule of schedule type '%1%' has finished ahead of time a span of %2% calendar days;;95;Info;true;|G1|;|SCHEDULINGPROC|
+2903;@;SCHEDULING;schedule of schedule type '%1%' has finished late with a span of %2% calendar days;;95;Info;true;|G1|;|SCHEDULINGPROC|
+#;;;;;;;;;
+# Schedule Milestones Validation;;;;;;;;;
+#;;;;;;;;;
+2300;@;SCHEDULING;value for schedule #%1%.%2% milestone '%3%' is faulty - no date value for date milestone';;90;Error;false;|R1|;|ENTRYVALIDATOR|
+2301;@;SCHEDULING;value for schedule #%1%.%2% date milestone '%3%' is faulty - date not in calendar %4%';;90;Error;false;|R1|;|ENTRYVALIDATOR|
+2302;@;SCHEDULING;milestone '%3%' in schedule #%1%.%2% with value '%4%' is prohibited in schedule type '%5%' - set to nothing;;40;Warning;false;|Y1|;|ENTRYVALIDATOR|
+2303;@;SCHEDULING;milestone '%3%' in schedule #%1%.%2% with value '%4%' is prohibited in schedule type '%5%';;90;Warning;false;|R1|;|ENTRYVALIDATOR|
+#;;;;;;;;;
+# DELIVERABLE TRACKING;;;;;;;;;
+#;;;;;;;;;
+3000;@;TRACKING;schedule  #%1%.%2% has postive gap of '%2' working days to target date '%3%';;10;Info;true;|G1|;|TRACKING|
+#3000;@;TRACKING;schedule  #%1%.%2% has started';;10;Info;true;|G1|;|TRACKING|
+3400;@;TRACKING;schedule  #%1%.%2% has negative gap of '%2' working days to target date '%3%';;90;Info;true;|R1|;|TRACKING|
+3450;@;TRACKING;schedule #%1%.%2% is not trackable - errors and mistakes found';;91;Info;true;|R2|;|TRACKING|

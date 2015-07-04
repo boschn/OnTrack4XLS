@@ -1,0 +1,14 @@
+# Customization for Sites
+#
+# --- BOMBARDIER TRANSPORTATION FUNCTIONAL DESIGN BASELINE ---
+#
+# Exchange IDs
+#
+# OUS1 = Site ID
+# DM1 = Domain ID
+# OUS2 = Calendar name for Site
+# OUS10 = Description for Site
+OUS1;DM1;OUS2;OUS10
+HEN;@;default;Hennigsdorf
+GOR;@;default;Görlitz
+BZ;@;default;Bautzen

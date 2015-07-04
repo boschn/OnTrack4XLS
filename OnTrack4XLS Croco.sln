@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "OnTrack4XLS Croco", "OnTrack4XLS Croco\OnTrack4XLS Croco.vbproj", "{11F042B1-6A68-404D-9155-CF913F6A2892}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "otAddinCommon", "otAddInCommon\otAddinCommon.vbproj", "{E5C80542-6D68-4520-8C16-BB033AF5C470}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "otBackEnd", "otBackEnd\otBackEnd\otBackEnd.vbproj", "{A46BDD7E-1A53-4982-A576-3AF4ED940BAB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{11F042B1-6A68-404D-9155-CF913F6A2892}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11F042B1-6A68-404D-9155-CF913F6A2892}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11F042B1-6A68-404D-9155-CF913F6A2892}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11F042B1-6A68-404D-9155-CF913F6A2892}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5C80542-6D68-4520-8C16-BB033AF5C470}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5C80542-6D68-4520-8C16-BB033AF5C470}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5C80542-6D68-4520-8C16-BB033AF5C470}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5C80542-6D68-4520-8C16-BB033AF5C470}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A46BDD7E-1A53-4982-A576-3AF4ED940BAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A46BDD7E-1A53-4982-A576-3AF4ED940BAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A46BDD7E-1A53-4982-A576-3AF4ED940BAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A46BDD7E-1A53-4982-A576-3AF4ED940BAB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

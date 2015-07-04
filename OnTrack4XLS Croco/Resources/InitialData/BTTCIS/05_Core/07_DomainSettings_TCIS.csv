@@ -1,0 +1,28 @@
+# Entries for DOMAIN SETTINGS
+#
+# --- Bombardier TCIS Global @ Settings ---
+#
+# Exchange IDs
+#
+#DM1	DOMAINSETTING	DOMAINID	3
+#DMS2	DOMAINSETTING	ID	3
+#DMS3	DOMAINSETTING	DESC	3
+#DMS4	DOMAINSETTING	VALUE	10
+#DMS5	DOMAINSETTING	DATATYPE	7
+DMS2;DMS1;DMS3;DMS4;DMS5
+DEPENDENCYSYNCHROMINOVERLAP;@;"in dependency synchronization an overlap of this calendar days is regardes as synchronized";7;7;
+DEFAULTWORKSPACE;@;"default workspace to be used";@;3;
+DEFAULTCALENDARNAME;@;"default calendar name to be used";default;3;
+DEFAULTTODAYLATENCY;@;"latency for comparing dates to be late in calendar days";-14;7;
+# this enables that the PDM Schedule is set for all Deliverables on XChange Create
+DEFAULTSCHEDULETYPEID;@;"default schedule type for new schedules";PDM;3;
+# this enables that the PropertySet of FVDS is set on XChange Create
+DEFAULTDELIVERABLETYPEID;@;"default deliverable type for new deliverables";FVDS;3;
+# this sets the autopublish to false
+AUTOPUBLISHTARGET;@;"if true the target will be published every time on changed";False;9;
+# Unique IDs for Deliverables TCIS
+DELIVERABLEUNIQUEENTRIES;@;"entries of the deliverable which will be checked on cloneing or persisting to be unique";|ID|DREV|CHREF|;2;
+# Related ObjectID to Deliverable ID to clone also
+DELIVERABLEONCLONINGCLONEALSO;@;"related objects of the deliverable which will be cloned also";|PROPERTYVALUELOT|;2;
+# entries of a deliverable to reset on cloneing
+DELIVERABLEONCLONINGRESETENTRIES;@;"entry names of a deliverable to reset on cloneing";|DREV|CHREF|;2;
