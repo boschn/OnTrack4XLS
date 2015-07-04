@@ -1,7 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\Antlr4.4.5-alpha002\build\Antlr4.props" Condition="Exists('..\..\packages\Antlr4.4.5-alpha002\build\Antlr4.props')" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -13,7 +11,9 @@
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
-    <NuGetPackageImportStamp>c65fb1c7</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>1804c7cf</NuGetPackageImportStamp>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,9 +49,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr4.Runtime">
-      <HintPath>..\..\packages\Antlr4.Runtime.4.5-alpha002\lib\net40-client\Antlr4.Runtime.dll</HintPath>
+      <HintPath>packages\Antlr4.Runtime.4.5-alpha002\lib\net40-client\Antlr4.Runtime.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Profile\Client\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -379,11 +382,11 @@
       <Project>{a46bdd7e-1a53-4982-a576-3af4ed940bab}</Project>
       <Name>otBackEnd</Name>
     </ProjectReference>
-    <ProjectReference Include="..\otBackEnd\otRulez\otIOCSV\otIOCSV.csproj">
+    <ProjectReference Include="..\otIOCSV\otIOCSV.csproj">
       <Project>{4208b73c-ac5f-489f-abe2-e92a1b3dc871}</Project>
       <Name>otIOCSV</Name>
     </ProjectReference>
-    <ProjectReference Include="..\otBackEnd\otRulez\otRulez\otRulez.csproj">
+    <ProjectReference Include="..\otRulez\otRulez\otRulez.csproj">
       <Project>{9178cced-ea77-491d-abea-ecf6b692b0e3}</Project>
       <Name>otRulez</Name>
     </ProjectReference>
@@ -391,17 +394,16 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="7389b3b2-f8ff-4a94-8f50-0daa8cf26623" />
+      <UserProperties ProjectLinkReference="7389b3b2-f8ff-4a94-8f50-0daa8cf26623" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\Antlr4.4.5-alpha002\build\Antlr4.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Antlr4.4.5-alpha002\build\Antlr4.props'))" />
-    <Error Condition="!Exists('..\..\packages\Antlr4.4.5-alpha002\build\Antlr4.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Antlr4.4.5-alpha002\build\Antlr4.targets'))" />
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
-  <Import Project="..\..\packages\Antlr4.4.5-alpha002\build\Antlr4.targets" Condition="Exists('..\..\packages\Antlr4.4.5-alpha002\build\Antlr4.targets')" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

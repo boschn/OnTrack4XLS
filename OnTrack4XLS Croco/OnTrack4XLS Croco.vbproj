@@ -27,12 +27,13 @@
     <RootNamespace>OnTrack4XLS_Croco</RootNamespace>
     <AssemblyName>OnTrack4XLS Croco</AssemblyName>
     <LoadBehavior>3</LoadBehavior>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DefineConstants>VSTO40</DefineConstants>
     <StartupObject>
     </StartupObject>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <BootstrapperComponentsLocation>HomeSite</BootstrapperComponentsLocation>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -157,6 +158,46 @@
     <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>False</Private>
     </Reference>
+    <Reference Include="Telerik.WinControls, Version=2014.2.715.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Telerik\UI for WinForms Q2 2014\Bin40\Telerik.WinControls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2014.2.715.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Telerik\UI for WinForms Q2 2014\Bin40\Telerik.WinControls.GridView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2013Light, Version=2014.2.715.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Telerik\UI for WinForms Q2 2014\Bin40\Telerik.WinControls.Themes.Office2013Light.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.TelerikMetroBlue, Version=2014.2.715.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Telerik\UI for WinForms Q2 2014\Bin40\Telerik.WinControls.Themes.TelerikMetroBlue.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2014.2.715.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Telerik\UI for WinForms Q2 2014\Bin40\Telerik.WinControls.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI.Design, Version=2014.2.715.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Telerik\UI for WinForms Q2 2014\Bin40\Telerik.WinControls.UI.Design.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikCommon, Version=2014.2.715.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Telerik\UI for WinForms Q2 2014\Bin40\TelerikCommon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikData, Version=2013.3.1016.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Telerik\RadControls for WinForms Q3 2013\Bin40\TelerikData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <!-- Visual Basic supports importing namespaces (equivalent to "using" statements in C#). -->
   <ItemGroup>
@@ -182,33 +223,34 @@
   -->
   <ItemGroup>
     <AppDesigner Include="My Project\" />
+    <Compile Include="Addin.vb" />
+    <Compile Include="modSettings.vb" />
+    <Compile Include="UIFormWorkDataAreas.Designer.vb">
+      <DependentUpon>UIFormWorkDataAreas.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UIFormWorkDataAreas.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="legacyClasses.vb" />
     <Compile Include="modGlobals.vb" />
-    <Compile Include="modParameterXLS.vb" />
-    <Compile Include="modQuicknDirty.vb" />
-    <Compile Include="modSettings.vb" />
-    <Compile Include="modXLSHelper.vb" />
     <Compile Include="modXLSMessageQueueFile.vb" />
+    <Compile Include="modParameterXLS.vb" />
     <Compile Include="modXLSXChangeMgr.vb" />
-    <Compile Include="Settings.vb" />
-    <Compile Include="ThisAddIn.vb">
-      <SubType>Code</SubType>
+    <Compile Include="modXLSHelper.vb" />
+    <Compile Include="UIWizardMQFFeed.Designer.vb">
+      <DependentUpon>UIWizardMQFFeed.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UIWizardMQFFeed.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIMQFDataModel.vb">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UIFormReplication.Designer.vb">
       <DependentUpon>UIFormReplication.vb</DependentUpon>
     </Compile>
-    <Compile Include="UIFormReplication.vb" />
-    <Compile Include="UIFormWorkDataAreas.Designer.vb">
-      <DependentUpon>UIFormWorkDataAreas.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UIFormWorkDataAreas.vb" />
-    <Compile Include="UIFormWorkXConfig.Designer.vb">
-      <DependentUpon>UIFormWorkXConfig.vb</DependentUpon>
-    </Compile>
-    <Compile Include="UIFormWorkXConfig.vb" />
-    <Compile Include="UIMessageBox.vb" />
-    <Compile Include="UIMQFDataModel.vb">
-      <SubType>Component</SubType>
+    <Compile Include="UIFormReplication.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="UIRibbon.Designer.vb">
       <DependentUpon>UIRibbon.vb</DependentUpon>
@@ -216,27 +258,85 @@
     <Compile Include="UIRibbon.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UIWizardMQFFeed.Designer.vb">
-      <DependentUpon>UIWizardMQFFeed.vb</DependentUpon>
+    <Compile Include="Settings.vb" />
+    <Compile Include="ThisAddIn.vb">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UIWizardMQFFeed.vb" />
-    <EmbeddedResource Include="UFMQFAdmin.resx" />
-    <EmbeddedResource Include="UIFormReplication.resx">
-      <DependentUpon>UIFormReplication.vb</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="UIFormWorkXConfig.Designer.vb">
+      <DependentUpon>UIFormWorkXConfig.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UIFormWorkXConfig.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <EmbeddedResource Include="UIFormWorkDataAreas.resx">
       <DependentUpon>UIFormWorkDataAreas.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UIFormWorkXConfig.resx">
-      <DependentUpon>UIFormWorkXConfig.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UIRibbon.resx">
-      <DependentUpon>UIRibbon.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIWizardMQFFeed.resx">
       <DependentUpon>UIWizardMQFFeed.vb</DependentUpon>
     </EmbeddedResource>
-    <None Include="OnTrack4XLS Croco_TemporaryKey.pfx" />
+    <EmbeddedResource Include="UIFormReplication.resx">
+      <DependentUpon>UIFormReplication.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIRibbon.resx">
+      <DependentUpon>UIRibbon.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIFormWorkXConfig.resx">
+      <DependentUpon>UIFormWorkXConfig.vb</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="OnTrack4XLS_TemporaryKey.pfx" />
+    <None Include="OnTrackTool_TemporaryKey.pfx" />
+    <Content Include="Resources\InitialData\Default\05_Core\05_ObjectCompoundEntries.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\InitialData\BTTCIS\05_Core\06_Domain_TCIS.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\InitialData\BTTCIS\05_Core\07_DomainSettings_TCIS.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\InitialData\BTTCIS\05_Core\08_ValidationObjectEntries_TCIS.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\InitialData\Default\05_Core\15_ObjectMessageTypes.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\InitialData\Default\05_Core\10_StatusItems.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\InitialData\BTTCIS\10_Commons\10_ValueLists_TCIS.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\InitialData\BTTCIS\10_Commons\15_ValueEntry_TCIS.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\InitialData\BTTCIS\10_Commons\20_Sites_TCIS.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\InitialData\BTTCIS\15_Properties\10_PropertySet_TCIS.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\InitialData\BTTCIS\15_Properties\20_Property_TCIS.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\InitialData\BTTCIS\20_Scheduling\10_MileStoneDefinitions_TCIS.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\InitialData\BTTCIS\20_Scheduling\20_ScheduleDefinition_TCIS.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\InitialData\BTTCIS\20_Scheduling\30_ScheduleMilestoneDefinitions_TCIS.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\InitialData\BTTCIS\30_Deliverables\10_DeliverableTypes_TCIS.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\InitialData\Default\60_XChange\10_Xoutline.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\otdbconfig.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="ThisAddIn.Designer.xml">
       <DependentUpon>ThisAddIn.vb</DependentUpon>
     </None>
@@ -264,6 +364,162 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\Actions-appointment-new-icon.png" />
+    <Content Include="Images\Actions-bookmark-new-icon.png" />
+    <Content Include="Images\Actions-configure-toolbars-icon.png" />
+    <Content Include="Images\Actions-document-decrypt-icon.png" />
+    <Content Include="Images\Actions-document-encrypt-icon.png" />
+    <Content Include="Images\Actions-games-solve-icon.png" />
+    <Content Include="Images\Actions-system-run-icon.png" />
+    <Content Include="Images\Actions-view-calendar-tasks-icon.png" />
+    <Content Include="Images\Actions-view-list-details-icon.png" />
+    <Content Include="Images\Actions-view-list-tree-icon.png" />
+    <Content Include="Images\add.png" />
+    <Content Include="Images\app.png" />
+    <Content Include="Images\applications.png" />
+    <Content Include="Images\ball_blue.png" />
+    <Content Include="Images\ball_green.png" />
+    <Content Include="Images\ball_red.png" />
+    <Content Include="Images\box.png" />
+    <Content Include="Images\bt_add.png" />
+    <Content Include="Images\bt_apply.png" />
+    <Content Include="Images\bt_backward.png" />
+    <Content Include="Images\bt_delete.png" />
+    <Content Include="Images\bt_eject.png" />
+    <Content Include="Images\bt_forward.png" />
+    <Content Include="Images\bt_pause.png" />
+    <Content Include="Images\bt_play.png" />
+    <Content Include="Images\bt_skip_backward.png" />
+    <Content Include="Images\bt_skip_forward.png" />
+    <Content Include="Images\bt_stop.png" />
+    <Content Include="Images\calculator.png" />
+    <Content Include="Images\calendar.png" />
+    <Content Include="Images\chart.png" />
+    <Content Include="Images\computer.png" />
+    <Content Include="Images\computer_group.png" />
+    <Content Include="Images\connect-icon.png" />
+    <Content Include="Images\contact.png" />
+    <Content Include="Images\copy.png" />
+    <Content Include="Images\cut.png" />
+    <Content Include="Images\data.png" />
+    <Content Include="Images\diagnostic.png" />
+    <Content Include="Images\disconnect-icon.png" />
+    <Content Include="Images\edit.png" />
+    <Content Include="Images\Excel-icon.png" />
+    <Content Include="Images\fasttrack.png" />
+    <Content Include="Images\favorits.png" />
+    <Content Include="Images\files.png" />
+    <Content Include="Images\find.png" />
+    <Content Include="Images\folder.png" />
+    <Content Include="Images\format_painter.png" />
+    <Content Include="Images\go-next.png" />
+    <Content Include="Images\go-previous.png" />
+    <Content Include="Images\help.png" />
+    <Content Include="Images\home.png" />
+    <Content Include="Images\image.png" />
+    <Content Include="Images\Magic-Excel-icon.png" />
+    <Content Include="Images\mail.png" />
+    <Content Include="Images\Microsoft-Office-Excel-icon.png" />
+    <Content Include="Images\Microsoft-Office-Project-icon.png" />
+    <Content Include="Images\notes.png" />
+    <Content Include="Images\Office-Apps-Excel-alt-1-Metro-icon.png" />
+    <Content Include="Images\Office-Apps-Excel-Metro-icon.png" />
+    <Content Include="Images\Office-Apps-Project-alt-1-Metro-icon.png" />
+    <Content Include="Images\Office-Apps-Project-Metro-icon.png" />
+    <Content Include="Images\OnTrackLarge.ico" />
+    <Content Include="Images\OnTrackSmall.ico" />
+    <Content Include="Images\OnTrackSmall.png" />
+    <Content Include="Images\options.png" />
+    <Content Include="Images\Other-excel-icon.png" />
+    <Content Include="Images\paste.png" />
+    <Content Include="Images\personal.png" />
+    <Content Include="Images\picture.png" />
+    <Content Include="Images\print.png" />
+    <Content Include="Images\Project-icon.png" />
+    <Content Include="Images\quit.png" />
+    <Content Include="Images\race-track-icon.png" />
+    <Content Include="Images\railway_tracks_icon.jpg" />
+    <Content Include="Images\redo.png" />
+    <Content Include="Images\save.png" />
+    <Content Include="Images\settings.png" />
+    <Content Include="Images\time.png" />
+    <Content Include="Images\undo.png" />
+    <Content Include="Images\user-login-icon.png" />
+    <Content Include="Images\user.png" />
+    <Content Include="Images\video.png" />
+    <None Include="Resources\super_mono_3d_part2_11.png" />
+    <None Include="Resources\mono_magic_wand_32_32.png" />
+    <None Include="Resources\mono_lightbulb_48_48.png" />
+    <None Include="Resources\mono_cog_48_48.png" />
+    <None Include="Resources\mono_doc_edit_32_32.png" />
+    <None Include="Resources\mono_doc_edit_48_48.png" />
+    <Content Include="Resources\progress_radar.gif" />
+    <None Include="Resources\wrench_plus_2_32x32.png" />
+    <None Include="Resources\plus.png" />
+    <None Include="Resources\minus.png" />
+    <None Include="Resources\twitter_2.png" />
+    <None Include="Resources\table.png" />
+    <None Include="Resources\school.png" />
+    <None Include="Resources\rail_metro_24_2x.png" />
+    <None Include="Resources\playback_reload.png" />
+    <None Include="Resources\pin_sq_down.png" />
+    <None Include="Resources\memory_module.png" />
+    <None Include="Resources\list_bullets.png" />
+    <None Include="Resources\doc_lines.png" />
+    <None Include="Resources\db.png" />
+    <None Include="Resources\database.png" />
+    <None Include="Resources\checkbox_unchecked.png" />
+    <None Include="Resources\cert.png" />
+    <None Include="Resources\business_contact.png" />
+    <None Include="Resources\business.png" />
+    <None Include="Resources\align_just.png" />
+    <None Include="Resources\3x3_grid.png" />
+    <None Include="Resources\wrench_plus.png" />
+    <None Include="Resources\Actions-system-run-icon32x32.png" />
+    <None Include="Resources\Actions-system-run-icon-64x64.jpg" />
+    <None Include="Resources\Actions-system-run-icon.png" />
+    <None Include="Resources\bt_add1.png" />
+    <None Include="Resources\setting_config.jpg" />
+    <None Include="Resources\box.png" />
+    <None Include="Resources\Actions-configure-toolbars-icon.png" />
+    <None Include="Resources\excel-replication-outbound_small.png" />
+    <None Include="Resources\excel-replication-inbound_small.png" />
+    <None Include="Resources\excel-replication_full_small.png" />
+    <None Include="Resources\excel-replication-outbound.png" />
+    <None Include="Resources\save.png" />
+    <None Include="Resources\excel-replication.png" />
+    <None Include="Resources\options.png" />
+    <None Include="Resources\bt_play.png" />
+    <None Include="Resources\files.png" />
+    <None Include="Resources\bt_add.png" />
+    <None Include="Resources\MessageQueueTube.png" />
+    <None Include="Resources\MarketSectorIcons_01_Red.png" />
+    <None Include="Resources\fasttrack.png" />
+    <None Include="Resources\bt_apply.png" />
+    <None Include="Resources\OnTrackLarge.png" />
+    <None Include="Resources\railway_tracks_icon.jpg" />
+    <None Include="Resources\connect-icon.png" />
+    <None Include="Resources\disconnect-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\otAddInCommon\otAddinCommon.vbproj">
+      <Project>{e5c80542-6d68-4520-8c16-bb033af5c470}</Project>
+      <Name>otAddinCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\otBackEnd\otBackEnd\otBackEnd.vbproj">
+      <Project>{a46bdd7e-1a53-4982-a576-3af4ed940bab}</Project>
+      <Name>otBackEnd</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\otIOCSV\otIOCSV.csproj">
+      <Project>{4208b73c-ac5f-489f-abe2-e92a1b3dc871}</Project>
+      <Name>otIOCSV</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\otRulez\otRulez\otRulez.csproj">
+      <Project>{9178cced-ea77-491d-abea-ecf6b692b0e3}</Project>
+      <Name>otRulez</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -397,11 +397,11 @@
     <None Include="Resources\video.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\otRulez\otIOCSV\otIOCSV.csproj">
+    <ProjectReference Include="..\..\otIOCSV\otIOCSV.csproj">
       <Project>{4208b73c-ac5f-489f-abe2-e92a1b3dc871}</Project>
       <Name>otIOCSV</Name>
     </ProjectReference>
-    <ProjectReference Include="..\otRulez\otRulez\otRulez.csproj">
+    <ProjectReference Include="..\..\otRulez\otRulez\otRulez.csproj">
       <Project>{9178cced-ea77-491d-abea-ecf6b692b0e3}</Project>
       <Name>otRulez</Name>
     </ProjectReference>

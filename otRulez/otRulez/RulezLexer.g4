@@ -1,4 +1,4 @@
-lexer grammar Rulez;
+lexer grammar RulezLexer;
 
 WS
 	:	' ' -> channel(HIDDEN)

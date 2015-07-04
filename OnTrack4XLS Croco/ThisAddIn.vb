@@ -4,6 +4,7 @@ Imports OnTrack.Core
 Imports OnTrack.AddIn
 Imports System.Reflection
 Imports OnTrack.Database
+Imports OnTrack
 
 ''' <summary>
 ''' Definition of the Add-In Object
@@ -85,7 +86,7 @@ Public Class ThisAddIn
             Return Me._ApplicationCompany
         End Get
         Set(value As String)
-            Me._ApplicationCompany = Value
+            Me._ApplicationCompany = value
         End Set
     End Property
 
@@ -108,7 +109,7 @@ Public Class ThisAddIn
             Return Me._ApplicationDescription
         End Get
         Set(value As String)
-            Me._ApplicationDescription = Value
+            Me._ApplicationDescription = value
         End Set
     End Property
 

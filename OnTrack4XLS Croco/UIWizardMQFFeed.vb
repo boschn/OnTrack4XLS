@@ -8,7 +8,8 @@ Imports Telerik.WinControls.UI
 Imports System.Data
 Imports OnTrack.Core
 Imports OnTrack.Database
-Imports OnTrack.XChange
+Imports OnTrack.Xchange
+Imports OnTrack
 
 '*********************
 '********************* Code-Behind the MQFFeedWizard
@@ -41,7 +42,7 @@ Public Class UIWizardMQFFeed
         ' This call is required by the designer.
         InitializeComponent()
 
-        
+
 
         ' Add any initialization after the InitializeComponent() call.
         Me.MQFWizard.CommandArea.NextButton.Enabled = False
@@ -237,7 +238,7 @@ Public Class UIWizardMQFFeed
         Else
             If String.IsNullOrWhiteSpace(_selectedDomainID) Then _selectedDomainID = CurrentSession.CurrentDomainID
 
-            If Not CurrentSession.RequestUserAccess(accessRequest:=otAccessRight.ReadUpdateData, domainID:=_selectedDomainID) Then
+            If Not CurrentSession.RequestUserAccess(accessRequest:=otAccessRight.ReadUpdateData, domainid:=_selectedDomainID) Then
                 Me.WelcomeStatusLabel.Text = "Could not get access right to OnTrack database domain '" & CStr(_selectedDomainID) & "' - operation aborted"
                 Me.MQFWizard.SelectedPage = Me.MQFWizard.Pages(0)
             End If
@@ -495,7 +496,7 @@ Public Class UIWizardMQFFeed
                 Me.WizardPage1.Header = "select the process button to feed the messages to the database"
                 Me.MQFWizard.NextButton.Enabled = False
             End If
-           
+
         End If
     End Sub
     ''' <summary>
@@ -573,8 +574,8 @@ Public Class UIWizardMQFFeed
     ''' <param name="e"></param>
     ''' <remarks></remarks>
     Private Sub RunPreProcess(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles _PreProcessWorker.DoWork
-       
-        e.Result = _MQFObject.Precheck(_PreProcessWorker, switchdomainid:=_selecteddomainid)
+
+        e.Result = _MQFObject.Precheck(_PreProcessWorker, switchDomainid:=_selectedDomainID)
     End Sub
 #End Region
 
@@ -1224,7 +1225,7 @@ Public Class UIWizardMQFFeed
 
             ''' page is write back to excel 
         ElseIf (Me.MQFWizard.SelectedPage Is Me.MQFWizard.Pages(2)) Then
-            
+
         End If
     End Sub
     ''' <summary>
@@ -1249,6 +1250,6 @@ Public Class UIWizardMQFFeed
     End Sub
 #End Region
 
-   
-   
+
+
 End Class

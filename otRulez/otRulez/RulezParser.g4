@@ -1,4 +1,4 @@
-parser grammar Rulez;
+parser grammar RulezParser;
 
 compileUnit
 	:	EOF
