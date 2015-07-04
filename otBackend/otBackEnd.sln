@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "otBackEnd", "otBackEnd\otBackEnd.vbproj", "{A46BDD7E-1A53-4982-A576-3AF4ED940BAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "otRulez", "otRulez\otRulez\otRulez.csproj", "{9178CCED-EA77-491D-ABEA-ECF6B692B0E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "otIOCSV", "otRulez\otIOCSV\otIOCSV.csproj", "{4208B73C-AC5F-489F-ABE2-E92A1B3DC871}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A46BDD7E-1A53-4982-A576-3AF4ED940BAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A46BDD7E-1A53-4982-A576-3AF4ED940BAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A46BDD7E-1A53-4982-A576-3AF4ED940BAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A46BDD7E-1A53-4982-A576-3AF4ED940BAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9178CCED-EA77-491D-ABEA-ECF6B692B0E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9178CCED-EA77-491D-ABEA-ECF6B692B0E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9178CCED-EA77-491D-ABEA-ECF6B692B0E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9178CCED-EA77-491D-ABEA-ECF6B692B0E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4208B73C-AC5F-489F-ABE2-E92A1B3DC871}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4208B73C-AC5F-489F-ABE2-E92A1B3DC871}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4208B73C-AC5F-489F-ABE2-E92A1B3DC871}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4208B73C-AC5F-489F-ABE2-E92A1B3DC871}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
