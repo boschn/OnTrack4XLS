@@ -5,6 +5,8 @@ Imports System.Windows.Forms
 Imports OnTrack.Commons
 Imports OnTrack.Core
 Imports OnTrack.UI
+Imports OnTrack
+
 Public Class OnTrackRibbon
 
     ''' <summary>
@@ -108,7 +110,7 @@ Public Class OnTrackRibbon
         If _MQFWizard IsNot Nothing Then _MQFWizard.Dispose()
         If _logForm IsNot Nothing Then _logForm.Dispose()
         If _replicationForm IsNot Nothing Then _replicationForm.Dispose()
-        If _explorerform IsNot Nothing Then _explorerform.dispose()
+        If _explorerForm IsNot Nothing Then _explorerForm.Dispose()
 
 
         '* switch all other stuff

@@ -16,7 +16,8 @@ Option Explicit On
 Option Strict On
 
 Imports System.Data
-Imports OnTrack.Xchange
+Imports OnTrack.XChange
+Imports OnTrack
 
 '************
 '************ MQFFeedWizardDataModel is a DataTable Representation of the MessageQueue (file)
@@ -38,7 +39,7 @@ Public Class UIMQFDataModel
         XEnvelope = 2
     End Enum
 
-    Private _messagequeue As Xchange.MessageQueue
+    Private _messagequeue As XChange.MessageQueue
     Private _isInitialized As Boolean = False
 
     Public Event PropertyChanged(sender As Object, e As ComponentModel.PropertyChangedEventArgs) Implements ComponentModel.INotifyPropertyChanged.PropertyChanged
@@ -95,7 +96,7 @@ Public Class UIMQFDataModel
     Public Function Initialize(Optional force As Boolean = False) As Boolean
         If Me.IsInitialized AndAlso Not force Then Return True
 
-        Dim aXConfig As Xchange.XChangeConfiguration = _messagequeue.XChangeConfig
+        Dim aXConfig As XChange.XChangeConfiguration = _messagequeue.XChangeConfig
 
         Dim aMQMessageIDColumn As DataColumn = New DataColumn(columnName:=ConstFNMessageID, dataType:=GetType(Long))
         aMQMessageIDColumn.ReadOnly = True
@@ -169,7 +170,7 @@ Public Class UIMQFDataModel
     Public Function GetStatusItemOf(messageno As Long) As Commons.StatusItem
         If _messagequeue Is Nothing Then Return Nothing
 
-        Dim aList As IList(Of MQMessage) = CType(_messagequeue.Messages.Where(Function(x) x.IDNO = messageno), Global.System.Collections.Generic.IList(Of Global.OnTrack.Xchange.MQMessage))
+        Dim aList As IList(Of MQMessage) = CType(_messagequeue.Messages.Where(Function(x) x.IDNO = messageno), Global.System.Collections.Generic.IList(Of Global.OnTrack.XChange.MQMessage))
         Return aList.First.Statusitem
     End Function
     ''' <summary>
@@ -227,7 +228,7 @@ Public Class UIMQFDataModel
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     ''' <remarks></remarks>
-    Public Sub OnMessagePrechecked(sender As Object, e As Xchange.MQMessage.EventArgs)
+    Public Sub OnMessagePrechecked(sender As Object, e As XChange.MQMessage.EventArgs)
         Dim msgid As Long = e.Mqmessage.IDNO
         Dim aRow As DataRow() = Me.Select(ConstFNMessageID & "=" & msgid.ToString)
         If aRow IsNot Nothing AndAlso aRow.Count > 0 Then
@@ -270,7 +271,7 @@ Public Class UIMQFDataModel
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     ''' <remarks></remarks>
-    Public Sub OnMessageProcessed(sender As Object, e As Xchange.MQMessage.EventArgs)
+    Public Sub OnMessageProcessed(sender As Object, e As XChange.MQMessage.EventArgs)
         Dim msgid As Long = e.Mqmessage.IDNO
         Dim aRow As DataRow() = Me.Select(ConstFNMessageID & "=" & msgid.ToString)
         If aRow IsNot Nothing AndAlso aRow.Count > 0 Then

@@ -18,6 +18,7 @@ Imports OnTrack.Core
 Imports OnTrack.Database
 Imports OnTrack.XChange
 Imports OnTrack.Commons
+Imports OnTrack
 
 '*********
 '********* CLASS XLSOTDBDataAreaStore defines a Store of DataAreas per Workbook which is connected to the
@@ -1585,13 +1586,13 @@ Module XLSXChangeMgr
 
 
             Else
-                
+
                 ''' count - aselection.rows.count is not getting the real number of rows bac
                 maximum = 0
                 For Each aRow As Range In aSelection.Rows
                     maximum += 1
                 Next
-               
+
                 ''' hack
                 ''' 
                 For Each aXObject As XChangeObject In dataarea.XConfig.XChangeobjects.ToList
